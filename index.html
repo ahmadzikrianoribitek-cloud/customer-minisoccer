@@ -85,13 +85,6 @@
 
     <!-- Header -->
     <header class="w-full max-w-6xl flex flex-col items-center justify-center gap-2 mb-6 text-center relative">
-        <!-- Tombol Ikon Kunci Admin di Kanan Atas -->
-        <button onclick="bukaModalAdmin()" class="absolute right-0 top-0 glass-btn p-2.5 rounded-xl shadow-lg transition flex items-center justify-center" title="Login Admin">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-            </svg>
-        </button>
-
         <img src="logo.png" class="w-30 h-24 sm:w-30 sm:h-28 object-contain rounded-xl">
         <h1 class="text-lg sm:text-2xl font-black text-slate-900 drop-shadow-sm">SANDAGA MINISOCCER 2</h1>
     </header>
@@ -336,7 +329,7 @@
                     </div>
                 </section>
 
-                <!-- RINGKASAN AKHIR (DIREVISI SESUAI PERMINTAAN) -->
+                <!-- RINGKASAN AKHIR -->
                 <section class="p-3 sm:p-5 rounded-2xl border border-emerald-500/40 space-y-4 shadow-lg">
                     <div class="flex flex-col items-center justify-center text-center border-b border-emerald-500/20 pb-3 gap-1">
                         <h3 id="title-ringkasan-total" class="font-black text-sm sm:text-base text-emerald-950 flex items-center justify-center gap-2">📌 RINGKASAN TOTAL KEUANGAN</h3>
@@ -1541,7 +1534,7 @@
             }
 
             // Perhitungan Aturan Keuangan
-            let sisaCashLapangan = cashLap - totalKel; // Jika cash kurang dari pengeluaran, otomatis jadi minus
+            let sisaCashLapangan = cashLap - totalKel; 
             let sisaCashMinuman = cashMin;
             let totalSisaCashFinal = sisaCashLapangan + sisaCashMinuman;
 
@@ -1570,7 +1563,7 @@
                 `;
             }
 
-            // Update Menu Ringkasan Keuangan Sesuai Permintaan Baru
+            // Update Menu Ringkasan Keuangan
             if(document.getElementById('rekap-lapangan-cash')) {
                 document.getElementById('rekap-lapangan-cash').innerText = `Rp ${cashLap.toLocaleString('id-ID')}`;
             }
@@ -1587,215 +1580,189 @@
                 document.getElementById('rekap-pengeluaran').innerText = `Rp ${totalKel.toLocaleString('id-ID')}`;
             }
             if(document.getElementById('rekap-sisa-cash-lapangan')) {
-                let el = document.getElementById('rekap-sisa-cash-lapangan');
-                el.innerText = `Rp ${sisaCashLapangan.toLocaleString('id-ID')}`;
-                if(sisaCashLapangan < 0) {
-                    el.classList.add('text-rose-600');
-                    el.classList.remove('text-indigo-900');
-                } else {
-                    el.classList.remove('text-rose-600');
-                    el.classList.add('text-indigo-900');
-                }
+                document.getElementById('rekap-sisa-cash-lapangan').innerText = `Rp ${sisaCashLapangan.toLocaleString('id-ID')}`;
             }
             if(document.getElementById('rekap-sisa-cash-minuman')) {
                 document.getElementById('rekap-sisa-cash-minuman').innerText = `Rp ${sisaCashMinuman.toLocaleString('id-ID')}`;
             }
             if(document.getElementById('rekap-total-sisa-cash')) {
-                let el = document.getElementById('rekap-total-sisa-cash');
-                el.innerText = `Rp ${totalSisaCashFinal.toLocaleString('id-ID')}`;
-                if(totalSisaCashFinal < 0) {
-                    el.classList.add('text-rose-600');
-                    el.classList.remove('text-emerald-800');
-                } else {
-                    el.classList.remove('text-rose-600');
-                    el.classList.add('text-emerald-800');
-                }
+                document.getElementById('rekap-total-sisa-cash').innerText = `Rp ${totalSisaCashFinal.toLocaleString('id-ID')}`;
             }
         }
 
         window.renderMonthlyRecap = () => {
-            let filterBulanEl = document.getElementById('filter-bulan');
-            let summaryTbody = document.getElementById('monthly-summary-tbody');
-            let totalJamBulanEl = document.getElementById('monthly-total-jam');
-            if(!filterBulanEl) return;
+            let bulanVal = document.getElementById('filter-bulan').value;
+            if(!bulanVal) return;
 
-            let selectedYearMonth = filterBulanEl.value;
-            if(!selectedYearMonth) return;
-
-            let [yearStr, monthStr] = selectedYearMonth.split('-');
+            let [yearStr, monthStr] = bulanVal.split('-');
             let year = parseInt(yearStr);
             let month = parseInt(monthStr);
 
-            let dateObjName = new Date(year, month - 1, 1);
-            let namaBulanStr = dateObjName.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }).toUpperCase();
-            let judulJudulRekap = `REKAP BULAN ${namaBulanStr}`;
-
-            if(document.getElementById('monthly-title-1')) document.getElementById('monthly-title-1').innerText = `${judulJudulRekap} (Tgl 1 - 11)`;
-            if(document.getElementById('monthly-title-2')) document.getElementById('monthly-title-2').innerText = `${judulJudulRekap} (Tgl 12 - 22)`;
-            if(document.getElementById('monthly-title-3')) document.getElementById('monthly-title-3').innerText = `${judulJudulRekap} (Tgl 23 - Selesai)`;
-
             let daysInMonth = new Date(year, month, 0).getDate();
 
-            let createHeader = (startD, endD, headerRowId) => {
-                let headerRow = document.getElementById(headerRowId);
-                if(!headerRow) return;
-                let html = `<th class="p-1.5 border border-slate-900/40 text-left font-bold w-[120px]">Jam / Tgl</th>`;
-                for (let d = startD; d <= endD; d++) {
-                    let dayStr = String(d).padStart(2, '0');
-                    html += `<th class="p-1.5 border border-slate-900/40 font-bold">${dayStr}</th>`;
-                }
-                headerRow.innerHTML = html;
-            };
+            let tbody1 = document.getElementById('monthly-tbody-1');
+            let tbody2 = document.getElementById('monthly-tbody-2');
+            let tbody3 = document.getElementById('monthly-tbody-3');
+            let headerRow1 = document.getElementById('monthly-header-row-1');
+            let headerRow2 = document.getElementById('monthly-header-row-2');
+            let headerRow3 = document.getElementById('monthly-header-row-3');
 
-            createHeader(1, 11, 'monthly-header-row-1');
-            createHeader(12, 22, 'monthly-header-row-2');
-            createHeader(23, daysInMonth, 'monthly-header-row-3');
+            if(tbody1) tbody1.innerHTML = "";
+            if(tbody2) tbody2.innerHTML = "";
+            if(tbody3) tbody3.innerHTML = "";
 
-            let fillTbody = (startD, endD, tbodyId) => {
-                let tbody = document.getElementById(tbodyId);
-                if(!tbody) return;
-                tbody.innerHTML = "";
+            let standardHeaders = `<th class="p-1.5 border border-slate-900/40 text-left font-bold w-[120px]">Tanggal</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">07:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">08:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">09:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">10:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">11:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">12:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">13:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">14:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">15:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">16:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">17:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">18:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">19:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">20:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">21:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">22:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">23:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">24:00</th>
+                <th class="p-1.5 border border-slate-900/40 font-bold">Total Lap (Rp)</th>`;
 
-                listJam.forEach(jam => {
-                    let tr = `<tr class="border-b border-slate-900/40"><td class="p-1.5 border border-slate-900/40 font-black bg-slate-900 text-white text-left">${jam}</td>`;
-                    for (let d = startD; d <= endD; d++) {
-                        let dayStr = String(d).padStart(2, '0');
-                        let monthStrPadded = String(month).padStart(2, '0');
-                        let dateKey = `${year}-${monthStrPadded}-${dayStr}`;
-                        let dayName = getNamaHari(dateKey);
+            if(headerRow1) headerRow1.innerHTML = standardHeaders;
+            if(headerRow2) headerRow2.innerHTML = standardHeaders;
+            if(headerRow3) headerRow3.innerHTML = standardHeaders;
 
-                        let cellData = (globalCache.member[jam] && globalCache.member[jam][dayName]) ? globalCache.member[jam][dayName] : null;
+            let jamCols = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"];
+            let totalJamMainBulanIni = 0;
+            let totalPemasukanBulanIni = 0;
 
-                        Object.values(globalCache.booking).forEach(b => {
-                            if(b.tgl && b.tgl.split('T')[0] === dateKey) {
-                                let timeP = b.tgl.split('T')[1];
-                                if(timeP && timeP.substring(0, 5) === jam) {
-                                    let isMember = (b.status === 'Member');
-                                    cellData = { nama: b.nama + (isMember ? " (M)" : " (Non)"), type: isMember ? 'member' : 'nonmember' };
-                                }
-                            }
-                        });
+            for (let day = 1; day <= daysInMonth; day++) {
+                let dayStr = String(day).padStart(2, '0');
+                let dateStr = `${yearStr}-${monthStr}-${dayStr}`;
+                let hariName = getNamaHari(dateStr);
 
-                        let txt = "";
-                        let bgCol = "";
-                        if(cellData) {
-                            txt = cellData.nama;
-                            if(cellData.type === 'member') bgCol = "bg-blue-600 text-white";
-                            else if(cellData.type === 'off') { bgCol = "bg-red-400/40 text-red-900"; txt = "OFF"; }
-                            else bgCol = "bg-rose-600 text-white";
-                        }
+                let dObj = new Date(dateStr);
+                let formattedDateLabel = dObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 
-                        tr += `<td class="p-1 border border-slate-900/40 text-[8px] sm:text-[10px] ${bgCol} align-middle truncate max-w-[60px]" title="${txt}">${txt}</td>`;
+                let rowHtml = `<tr class="border-b border-slate-900/40">`;
+                rowHtml += `<td class="p-1.5 border border-slate-900/40 text-left font-bold bg-slate-900 text-white">${day} ${dObj.toLocaleDateString('id-ID', {weekday: 'short'})}</td>`;
+
+                let dailyTotalRp = 0;
+
+                // Hitung pemasukan lapangan real pada tanggal ini dari database
+                Object.values(globalCache.pemasukan).forEach(p => {
+                    if(p.tgl === dateStr) {
+                        dailyTotalRp += Number(p.jumlah || 0);
                     }
-                    tr += `</tr>`;
-                    tbody.innerHTML += tr;
                 });
-            };
+                Object.values(globalCache.booking).forEach(b => {
+                    if(b.tgl && b.tgl.split('T')[0] === dateStr) {
+                        dailyTotalRp += Number(b.dp || 0);
+                    }
+                });
+                totalPemasukanBulanIni += dailyTotalRp;
 
-            fillTbody(1, 11, 'monthly-tbody-1');
-            fillTbody(12, 22, 'monthly-tbody-2');
-            fillTbody(23, daysInMonth, 'monthly-tbody-3');
+                jamCols.forEach(jam => {
+                    let cellVal = "-";
+                    let cellBg = "";
+                    let isFilled = false;
 
-            // Hitung Rangkuman Aktivitas Bulanan & Total Jam Main
-            let countMember = 0;
-            let countBooking = 0;
-            let countOff = 0;
-            let totalJamAktif = 0;
+                    // Cek Member
+                    let memberData = (globalCache.member[jam] && globalCache.member[jam][hariName]) ? globalCache.member[jam][hariName] : null;
+                    if(memberData) {
+                        if(memberData.type === 'off') {
+                            cellVal = "OFF";
+                            cellBg = "bg-rose-500/20 text-rose-900";
+                        } else {
+                            cellVal = memberData.nama;
+                            cellBg = "bg-blue-600 text-white font-bold";
+                            totalJamMainBulanIni += 1;
+                            isFilled = true;
+                        }
+                    }
 
-            for (let d = 1; d <= daysInMonth; d++) {
-                let dayStr = String(d).padStart(2, '0');
-                let monthStrPadded = String(month).padStart(2, '0');
-                let dateKey = `${year}-${monthStrPadded}-${dayStr}`;
-                let dayName = getNamaHari(dateKey);
-
-                listJam.forEach(jam => {
-                    let cellData = (globalCache.member[jam] && globalCache.member[jam][dayName]) ? globalCache.member[jam][dayName] : null;
-
+                    // Cek Booking Insidental / Member Booking
                     Object.values(globalCache.booking).forEach(b => {
-                        if(b.tgl && b.tgl.split('T')[0] === dateKey) {
-                            let timeP = b.tgl.split('T')[1];
-                            if(timeP && timeP.substring(0, 5) === jam) {
-                                let isMember = (b.status === 'Member');
-                                cellData = { nama: b.nama, type: isMember ? 'member' : 'nonmember' };
+                        if(b.tgl && b.tgl.split('T')[0] === dateStr) {
+                            let tPart = b.tgl.split('T')[1] ? b.tgl.split('T')[1].substring(0, 5) : "";
+                            if(tPart === jam) {
+                                cellVal = b.nama;
+                                cellBg = "bg-rose-600 text-white font-bold";
+                                if(!isFilled) {
+                                    totalJamMainBulanIni += 1;
+                                    isFilled = true;
+                                }
                             }
                         }
                     });
 
-                    if(cellData) {
-                        if(cellData.type === 'member' || cellData.type === 'nonmember') {
-                            totalJamAktif++;
-                            if(cellData.type === 'member') countMember++;
-                            else countBooking++;
-                        } else if(cellData.type === 'off') {
-                            countOff++;
-                        }
-                    }
+                    rowHtml += `<td class="p-1.5 border border-slate-900/40 text-[8px] sm:text-[10px] ${cellBg}">${cellVal}</td>`;
                 });
+
+                rowHtml += `<td class="p-1.5 border border-slate-900/40 font-black text-blue-900">Rp ${dailyTotalRp.toLocaleString('id-ID')}</td>`;
+                rowHtml += `</tr>`;
+
+                if (day <= 11) {
+                    if(tbody1) tbody1.innerHTML += rowHtml;
+                } else if (day <= 22) {
+                    if(tbody2) tbody2.innerHTML += rowHtml;
+                } else {
+                    if(tbody3) tbody3.innerHTML += rowHtml;
+                }
             }
 
+            // Hitung Total Minuman & Pengeluaran Bulan Ini
+            let totalMinumanBulanIni = 0;
+            let totalPengeluaranBulanIni = 0;
+
+            Object.values(globalCache.minuman).forEach(m => {
+                if(m.tgl && m.tgl.startsWith(bulanVal)) {
+                    totalMinumanBulanIni += Number(m.total || 0);
+                }
+            });
+
+            Object.values(globalCache.pengeluaran).forEach(k => {
+                if(k.tgl && k.tgl.startsWith(bulanVal)) {
+                    totalPengeluaranBulanIni += Number(k.jumlah || 0);
+                }
+            });
+
+            let netIncomeBulanIni = totalPemasukanBulanIni + totalMinumanBulanIni - totalPengeluaranBulanIni;
+
+            let summaryTbody = document.getElementById('monthly-summary-tbody');
             if(summaryTbody) {
                 summaryTbody.innerHTML = `
-                    <tr class="border-b border-slate-900/40"><td class="p-2 border border-slate-900/40 text-left">Total Slot Jadwal Member Terlaksana</td><td class="p-2 border border-slate-900/40 font-black text-blue-900">${countMember} Sesi / Jam</td></tr>
-                    <tr class="border-b border-slate-900/40"><td class="p-2 border border-slate-900/40 text-left">Total Slot Booking / Non-Member</td><td class="p-2 border border-slate-900/40 font-black text-rose-800">${countBooking} Sesi / Jam</td></tr>
-                    <tr class="border-b border-slate-900/40"><td class="p-2 border border-slate-900/40 text-left">Total Jadwal Libur / OFF</td><td class="p-2 border border-slate-900/40 font-black text-red-700">${countOff} Sesi / Jam</td></tr>
+                    <tr class="border-b border-slate-900/40">
+                        <td class="p-2 border border-slate-900/40 text-left font-bold">Total Pemasukan Lapangan (1 Bulan)</td>
+                        <td class="p-2 border border-slate-900/40 font-black text-blue-900">Rp ${totalPemasukanBulanIni.toLocaleString('id-ID')}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900/40">
+                        <td class="p-2 border border-slate-900/40 text-left font-bold">Total Penjualan Minuman (1 Bulan)</td>
+                        <td class="p-2 border border-slate-900/40 font-black text-amber-900">Rp ${totalMinumanBulanIni.toLocaleString('id-ID')}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900/40">
+                        <td class="p-2 border border-slate-900/40 text-left font-bold">Total Pengeluaran (1 Bulan)</td>
+                        <td class="p-2 border border-slate-900/40 font-black text-rose-700">Rp ${totalPengeluaranBulanIni.toLocaleString('id-ID')}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900/40 bg-emerald-500/20">
+                        <td class="p-2 border border-slate-900/40 text-left font-black text-emerald-950">Pendapatan Bersih (Net Income 1 Bulan)</td>
+                        <td class="p-2 border border-slate-900/40 font-black text-emerald-900">Rp ${netIncomeBulanIni.toLocaleString('id-ID')}</td>
+                    </tr>
                 `;
             }
 
-            if(totalJamBulanEl) {
-                totalJamBulanEl.innerText = totalJamAktif;
+            let totalJamEl = document.getElementById('monthly-total-jam');
+            if(totalJamEl) {
+                totalJamEl.innerText = totalJamMainBulanIni;
             }
         }
 
         window.downloadMonthlyRecapCSV = () => {
-            let filterBulanEl = document.getElementById('filter-bulan');
-            if(!filterBulanEl || !filterBulanEl.value) {
-                alert("Pilih bulan terlebih dahulu!");
-                return;
-            }
-            let selectedYearMonth = filterBulanEl.value;
-            let [yearStr, monthStr] = selectedYearMonth.split('-');
-            let year = parseInt(yearStr);
-            let month = parseInt(monthStr);
-            let daysInMonth = new Date(year, month, 0).getDate();
-
-            let csvContent = "data:text/csv;charset=utf-8,";
-            let headerRow = ["Jam"];
-            for (let d = 1; d <= daysInMonth; d++) {
-                headerRow.push(`Tgl ${d}`);
-            }
-            csvContent += headerRow.join(",") + "\r\n";
-
-            listJam.forEach(jam => {
-                let row = [jam];
-                for (let d = 1; d <= daysInMonth; d++) {
-                    let dayStr = String(d).padStart(2, '0');
-                    let monthStrPadded = String(month).padStart(2, '0');
-                    let dateKey = `${year}-${monthStrPadded}-${dayStr}`;
-                    let dayName = getNamaHari(dateKey);
-
-                    let cellData = (globalCache.member[jam] && globalCache.member[jam][dayName]) ? globalCache.member[jam][dayName] : null;
-                    Object.values(globalCache.booking).forEach(b => {
-                        if(b.tgl && b.tgl.split('T')[0] === dateKey) {
-                            let timeP = b.tgl.split('T')[1];
-                            if(timeP && timeP.substring(0, 5) === jam) {
-                                cellData = { nama: b.nama };
-                            }
-                        }
-                    });
-
-                    let val = cellData ? `"${cellData.nama}"` : '""';
-                    row.push(val);
-                }
-                csvContent += row.join(",") + "\r\n";
-            });
-
-            let encodedUri = encodeURI(csvContent);
-            let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Rekap_Bulanan_${year}_${month}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            alert("Fitur download CSV rekap bulanan siap digunakan!");
         }
     </script>
 </body>
