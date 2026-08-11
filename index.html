@@ -352,6 +352,872 @@ body {
 }
 </style>
 
+
+<style>
+/* CUSTOMER BOOKING — PREMIUM UX REFRESH
+   Visual/static only. Existing JS, IDs, onclick and form behavior are preserved. */
+
+body { background-color:#eaf5ff; }
+
+body > header {
+    position:relative;
+    z-index:2;
+    margin-bottom:1.25rem !important;
+}
+body > header::before {
+    content:"";
+    position:absolute;
+    inset:.1rem 18% .2rem;
+    background:rgba(255,255,255,.38);
+    border:1px solid rgba(255,255,255,.55);
+    border-radius:2rem;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 14px 35px rgba(30,64,175,.08);
+    z-index:-1;
+}
+body > header img { filter:drop-shadow(0 10px 18px rgba(15,23,42,.16)); }
+body > header h1 {
+    letter-spacing:.08em;
+    color:#102a68 !important;
+    text-shadow:0 2px 8px rgba(255,255,255,.8);
+}
+
+#page-home {
+    width:min(100%,760px);
+    margin:0 auto;
+    padding:clamp(1rem,3vw,1.5rem) !important;
+    background:rgba(255,255,255,.88) !important;
+    border:1px solid rgba(255,255,255,.95) !important;
+    border-radius:1.75rem !important;
+    box-shadow:0 28px 70px rgba(15,23,42,.16),0 8px 25px rgba(37,99,235,.08) !important;
+    overflow:visible !important;
+}
+#page-home::before {
+    height:5px;
+    margin:calc(clamp(1rem,3vw,1.5rem) * -1) calc(clamp(1rem,3vw,1.5rem) * -1) 1.15rem;
+    border-radius:1.75rem 1.75rem 0 0;
+    background:linear-gradient(90deg,#2563eb,#4f46e5 50%,#06b6d4);
+}
+#page-home h2 {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:58px;
+    padding:.9rem 3.5rem .9rem 1rem !important;
+    background:linear-gradient(135deg,#0b1d49,#173b8f 58%,#2563eb) !important;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:1.2rem !important;
+    box-shadow:0 16px 30px rgba(23,59,143,.22);
+    letter-spacing:.08em;
+}
+#page-home h2::before {
+    content:"⚽";
+    position:absolute;
+    left:1rem;
+    top:50%;
+    transform:translateY(-50%);
+    width:36px;height:36px;
+    display:grid;place-items:center;
+    border-radius:11px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    font-size:1rem;
+}
+#page-home h2::after {
+    right:1rem;
+    width:36px;height:36px;
+    border-radius:11px;
+}
+#page-home > p {
+    margin:.8rem auto .55rem !important;
+    max-width:560px;
+    color:#475569 !important;
+    font-size:.72rem !important;
+    line-height:1.55;
+}
+.customer-booking-steps {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    margin:.45rem auto 1.15rem;
+    max-width:420px;
+}
+.customer-step {
+    display:flex;
+    align-items:center;
+    gap:.35rem;
+    color:#64748b;
+    font-size:.58rem;
+    font-weight:950;
+    letter-spacing:.06em;
+}
+.customer-step span {
+    width:25px;height:25px;
+    display:grid;place-items:center;
+    border-radius:999px;
+    background:#e2e8f0;
+    color:#475569;
+    border:1px solid #cbd5e1;
+}
+.customer-step.active { color:#1e40af; }
+.customer-step.active span {
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 5px 12px rgba(37,99,235,.22);
+}
+.customer-step-line {
+    width:34px;height:1px;
+    background:linear-gradient(90deg,#bfdbfe,#cbd5e1);
+}
+
+#page-home form { gap:.75rem; }
+#page-home form > div.grid,
+#page-home form > div:not(.grid):not(.pt-2) {
+    padding:.9rem !important;
+    background:rgba(255,255,255,.96) !important;
+    border:1px solid #e2e8f0 !important;
+    border-radius:1.1rem !important;
+    box-shadow:0 8px 22px rgba(15,23,42,.055) !important;
+}
+#page-home label {
+    display:block;
+    margin-bottom:.35rem !important;
+    color:#172554 !important;
+    font-size:.68rem !important;
+    font-weight:950 !important;
+    text-transform:uppercase;
+    letter-spacing:.045em;
+}
+#page-home .glass-input {
+    min-height:48px !important;
+    padding:.72rem .85rem !important;
+    background:#f8fbff !important;
+    border:1.5px solid #cbd5e1 !important;
+    border-radius:.9rem !important;
+    color:#0f172a !important;
+    font-size:.78rem !important;
+    box-shadow:inset 0 1px 2px rgba(15,23,42,.02);
+}
+#page-home .glass-input:hover { border-color:#93c5fd !important; }
+#page-home .glass-input:focus {
+    border-color:#2563eb !important;
+    box-shadow:0 0 0 4px rgba(37,99,235,.10) !important;
+    background:#fff !important;
+}
+#page-home #cust-tanggal,
+#page-home #cust-jam {
+    background:linear-gradient(180deg,#eff6ff,#f8fbff) !important;
+    border-color:#93c5fd !important;
+}
+#page-home #cust-nama { background:#fff !important; }
+
+#page-home .payment-method-label {
+    margin-bottom:.6rem;
+    align-items:center;
+}
+#page-home .payment-method-hint {
+    color:#64748b;
+    font-size:.61rem;
+    font-weight:750;
+}
+#page-home .payment-select-badge {
+    padding:.38rem .62rem;
+    color:#1e40af;
+    background:#eff6ff;
+    border-color:#bfdbfe;
+}
+#page-home #cust-metode {
+    min-height:96px !important;
+    padding:.4rem !important;
+    border:1.5px solid #bfdbfe !important;
+    border-radius:1rem !important;
+    background:#f8fbff !important;
+    box-shadow:0 7px 18px rgba(37,99,235,.06);
+}
+#page-home #cust-metode option {
+    padding:13px 14px;
+    border-radius:.75rem;
+    color:#0f172a;
+    background:#fff;
+    font-weight:950;
+}
+#page-home #cust-metode option:checked {
+    background:#dbeafe;
+    color:#1e3a8a;
+}
+#page-home .payment-choice { border-radius:.8rem; }
+
+#page-home form > .pt-2 { padding-top:.25rem !important; }
+#page-home form > .pt-2 button {
+    min-height:56px !important;
+    border-radius:1rem !important;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8 55%,#4f46e5) !important;
+    box-shadow:0 16px 30px rgba(37,99,235,.25) !important;
+    font-size:.76rem !important;
+    letter-spacing:.06em;
+}
+#page-home form > .pt-2 button::before {
+    content:"⚽";
+    margin-right:.5rem;
+}
+
+#modal-admin .glass-panel { border-radius:1.35rem !important; }
+
+@media (max-width:640px) {
+    body { padding:.7rem !important; padding-top:.8rem !important; }
+    body > header { margin-bottom:.85rem !important; }
+    body > header::before { inset:.1rem 4% .1rem; border-radius:1.5rem; }
+    body > header img { width:88px !important; height:76px !important; }
+    body > header h1 { font-size:1rem !important; letter-spacing:.065em; }
+    #page-home { padding:.8rem !important; border-radius:1.25rem !important; }
+    #page-home::before {
+        margin:-.8rem -.8rem .9rem;
+        border-radius:1.25rem 1.25rem 0 0;
+    }
+    #page-home h2 {
+        min-height:54px;
+        padding:.8rem 3rem !important;
+        font-size:.92rem !important;
+    }
+    #page-home h2::before,
+    #page-home h2::after {
+        width:32px;height:32px;border-radius:10px;font-size:.9rem;
+    }
+    #page-home h2::before { left:.7rem; }
+    #page-home h2::after { right:.7rem; }
+    #page-home > p { font-size:.66rem !important; margin-bottom:.5rem !important; }
+    .customer-booking-steps { gap:.35rem; margin-bottom:.9rem; }
+    .customer-step { font-size:.5rem; gap:.25rem; }
+    .customer-step span { width:23px;height:23px; }
+    .customer-step-line { width:22px; }
+    #page-home form > div.grid,
+    #page-home form > div:not(.grid):not(.pt-2) {
+        padding:.7rem !important;
+        border-radius:.95rem !important;
+    }
+    #page-home .glass-input { min-height:47px !important; font-size:.74rem !important; }
+    #page-home #cust-metode { min-height:88px !important; }
+    #page-home #cust-metode option { padding:11px 10px; font-size:.7rem; }
+    #page-home form > .pt-2 button { min-height:54px !important; font-size:.7rem !important; }
+}
+</style>
+
+
+<style>
+/* MOBILE POLISH — customer booking, visual only */
+@media (max-width: 640px) {
+    html {
+        font-size: 16px;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        width: 100%;
+        min-width: 0 !important;
+        padding: .5rem !important;
+        padding-bottom: 1rem !important;
+        overflow-x: hidden !important;
+    }
+
+    body > header {
+        width: 100% !important;
+        margin: 0 auto .65rem !important;
+        padding: .7rem .5rem .55rem !important;
+    }
+
+    body > header::before {
+        inset: 0 !important;
+        border-radius: 1.25rem !important;
+    }
+
+    body > header img {
+        width: 72px !important;
+        height: 62px !important;
+        margin-bottom: .15rem !important;
+    }
+
+    body > header h1 {
+        font-size: .88rem !important;
+        line-height: 1.15 !important;
+        letter-spacing: .045em !important;
+        margin: 0 !important;
+    }
+
+    #page-home {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: .65rem !important;
+        border-radius: 1.15rem !important;
+        box-shadow: 0 18px 45px rgba(15,23,42,.13) !important;
+    }
+
+    #page-home::before {
+        height: 4px !important;
+        margin: -.65rem -.65rem .7rem !important;
+        border-radius: 1.15rem 1.15rem 0 0 !important;
+    }
+
+    #page-home h2 {
+        min-height: 48px !important;
+        margin-bottom: .55rem !important;
+        padding: .65rem 2.65rem !important;
+        border-radius: .9rem !important;
+        font-size: .82rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: .055em !important;
+    }
+
+    #page-home h2::before,
+    #page-home h2::after {
+        width: 29px !important;
+        height: 29px !important;
+        border-radius: 8px !important;
+    }
+
+    #page-home h2::before { left: .55rem !important; }
+    #page-home h2::after { right: .55rem !important; }
+
+    #page-home > p {
+        margin: .35rem .45rem .55rem !important;
+        font-size: .61rem !important;
+        line-height: 1.45 !important;
+    }
+
+    .customer-booking-steps {
+        width: 100%;
+        gap: .22rem !important;
+        margin: .35rem auto .75rem !important;
+    }
+
+    .customer-step {
+        gap: .22rem !important;
+        font-size: .44rem !important;
+        letter-spacing: .035em !important;
+    }
+
+    .customer-step span {
+        width: 21px !important;
+        height: 21px !important;
+        font-size: .55rem !important;
+    }
+
+    .customer-step-line {
+        flex: 1;
+        max-width: 28px;
+    }
+
+    #page-home form {
+        gap: .55rem !important;
+    }
+
+    #page-home form > div.grid,
+    #page-home form > div:not(.grid):not(.pt-2) {
+        padding: .62rem !important;
+        border-radius: .82rem !important;
+        box-shadow: 0 5px 15px rgba(15,23,42,.045) !important;
+    }
+
+    #page-home label {
+        margin-bottom: .28rem !important;
+        font-size: .59rem !important;
+        letter-spacing: .035em !important;
+    }
+
+    #page-home .glass-input {
+        width: 100% !important;
+        min-height: 45px !important;
+        height: 45px !important;
+        padding: .62rem .7rem !important;
+        border-radius: .72rem !important;
+        font-size: .7rem !important;
+    }
+
+    /* Make the two-column date/time area fit comfortably */
+    #page-home form > div.grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: .5rem !important;
+    }
+
+    /* Payment selector stays easy to use without becoming oversized */
+    #page-home #cust-metode {
+        width: 100% !important;
+        min-height: 82px !important;
+        padding: .25rem !important;
+        border-radius: .78rem !important;
+        font-size: .68rem !important;
+    }
+
+    #page-home #cust-metode option {
+        padding: 9px 8px !important;
+        font-size: .67rem !important;
+    }
+
+    #page-home form > .pt-2 {
+        padding-top: .05rem !important;
+        position: sticky;
+        bottom: .45rem;
+        z-index: 10;
+    }
+
+    #page-home form > .pt-2 button {
+        width: 100% !important;
+        min-height: 52px !important;
+        padding: .65rem .8rem !important;
+        border-radius: .85rem !important;
+        font-size: .68rem !important;
+        letter-spacing: .045em !important;
+        box-shadow: 0 12px 25px rgba(37,99,235,.28) !important;
+    }
+
+    /* Prevent iOS/Android browser zoom when focusing small inputs */
+    #page-home input,
+    #page-home select,
+    #page-home button,
+    #page-home textarea {
+        font-size: 16px !important;
+    }
+
+    #page-home label,
+    .customer-step,
+    #page-home > p {
+        font-size: max(.58rem, 10px) !important;
+    }
+}
+
+@media (max-width: 380px) {
+    body {
+        padding: .35rem !important;
+    }
+
+    body > header {
+        padding: .55rem .4rem .45rem !important;
+    }
+
+    body > header img {
+        width: 64px !important;
+        height: 55px !important;
+    }
+
+    body > header h1 {
+        font-size: .78rem !important;
+    }
+
+    #page-home {
+        padding: .5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #page-home::before {
+        margin: -.5rem -.5rem .55rem !important;
+    }
+
+    #page-home h2 {
+        min-height: 45px !important;
+        padding: .6rem 2.35rem !important;
+        font-size: .75rem !important;
+    }
+
+    #page-home h2::before,
+    #page-home h2::after {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    #page-home form > div.grid,
+    #page-home form > div:not(.grid):not(.pt-2) {
+        padding: .52rem !important;
+    }
+
+    #page-home .glass-input {
+        min-height: 43px !important;
+        height: 43px !important;
+    }
+
+    #page-home form > .pt-2 button {
+        min-height: 50px !important;
+    }
+}
+</style>
+
+
+<style>
+/* =========================================================
+   COLORFUL CUSTOMER UI
+   Inspired by the supplied blue/green/orange/pink reference.
+   Visual only — no JS, IDs, onclick or application logic changed.
+   ========================================================= */
+
+:root {
+    --sandaga-blue:#2563eb;
+    --sandaga-indigo:#3730a3;
+    --sandaga-cyan:#06b6d4;
+    --sandaga-green:#10b981;
+    --sandaga-orange:#f59e0b;
+    --sandaga-pink:#ec4899;
+    --sandaga-ink:#0f172a;
+}
+
+/* More vibrant but still soft background */
+body {
+    background-color:#dff2ff !important;
+    background-image:
+        linear-gradient(135deg, rgba(255,255,255,.18), rgba(37,99,235,.08)),
+        url('latar.png') !important;
+    background-size:cover !important;
+    background-position:center !important;
+    background-attachment:fixed !important;
+}
+
+/* Premium colorful brand header */
+body > header {
+    padding: .25rem 1rem .8rem;
+}
+
+body > header img {
+    width:104px !important;
+    height:88px !important;
+    padding:.25rem;
+    background:rgba(255,255,255,.52);
+    border:1px solid rgba(255,255,255,.75);
+    border-radius:24px !important;
+    box-shadow:0 16px 35px rgba(30,64,175,.18);
+}
+
+body > header h1 {
+    color:#0b1d49 !important;
+    font-size:clamp(1rem,3vw,1.55rem) !important;
+    font-weight:950 !important;
+    letter-spacing:.055em !important;
+    text-shadow:0 2px 10px rgba(255,255,255,.95);
+}
+
+/* Main booking card */
+#page-home {
+    position:relative;
+    background:rgba(255,255,255,.93) !important;
+    border:1px solid rgba(255,255,255,.98) !important;
+    border-radius:28px !important;
+    box-shadow:
+        0 30px 75px rgba(15,23,42,.16),
+        0 8px 25px rgba(37,99,235,.10) !important;
+}
+
+#page-home::after {
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    width:120px;
+    height:120px;
+    background:
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.55) 0 4px, transparent 5px),
+        radial-gradient(circle at 40% 55%, rgba(255,255,255,.35) 0 3px, transparent 4px),
+        linear-gradient(135deg, rgba(37,99,235,.13), rgba(6,182,212,.03));
+    border-radius:0 28px 0 100%;
+    pointer-events:none;
+}
+
+/* Blue hero title */
+#page-home h2 {
+    position:relative;
+    z-index:1;
+    justify-content:flex-start !important;
+    text-align:left !important;
+    min-height:100px !important;
+    padding:1.15rem 4.1rem 1.15rem 4.1rem !important;
+    color:#fff !important;
+    background:
+        radial-gradient(circle at 92% 15%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 83% 35%, rgba(255,255,255,.12) 0 3px, transparent 4px),
+        linear-gradient(135deg,#0b1d49 0%,#173b8f 48%,#2563eb 78%,#06b6d4 100%) !important;
+    border:0 !important;
+    border-radius:22px !important;
+    box-shadow:0 18px 34px rgba(37,99,235,.28) !important;
+    font-size:clamp(1.05rem,4vw,1.45rem) !important;
+    letter-spacing:.055em !important;
+}
+
+#page-home h2::before {
+    left:1rem !important;
+    width:48px !important;
+    height:48px !important;
+    border-radius:15px !important;
+    background:rgba(255,255,255,.14) !important;
+    border:1px solid rgba(255,255,255,.24) !important;
+    box-shadow:inset 0 1px rgba(255,255,255,.25);
+}
+
+#page-home h2::after {
+    right:1rem !important;
+    width:50px !important;
+    height:50px !important;
+    border-radius:16px !important;
+    background:rgba(255,255,255,.12) !important;
+    border:1px solid rgba(255,255,255,.2) !important;
+}
+
+/* Intro becomes a small premium subtitle */
+#page-home > p {
+    position:relative;
+    z-index:2;
+    max-width:600px;
+    margin:.85rem auto .35rem !important;
+    padding:.7rem 1rem;
+    border-radius:14px;
+    background:linear-gradient(90deg,#eff6ff,#f8fafc,#ecfeff);
+    border:1px solid #dbeafe;
+    color:#334155 !important;
+    box-shadow:0 7px 18px rgba(15,23,42,.045);
+}
+
+/* Stepper gets stronger color */
+.customer-booking-steps {
+    position:relative;
+    z-index:2;
+    padding:.55rem .75rem;
+    border-radius:18px;
+    background:linear-gradient(90deg,#eff6ff,#f5f3ff,#ecfeff);
+    border:1px solid #dbeafe;
+    box-shadow:0 7px 18px rgba(37,99,235,.06);
+}
+
+.customer-step.active span {
+    background:linear-gradient(135deg,#2563eb,#4f46e5) !important;
+}
+
+.customer-step:nth-child(5) span {
+    background:linear-gradient(135deg,#f59e0b,#f97316);
+    color:#fff;
+    border-color:transparent;
+}
+
+.customer-step:nth-child(3) span {
+    background:linear-gradient(135deg,#10b981,#059669);
+    color:#fff;
+    border-color:transparent;
+}
+
+/* Colorful form sections */
+#page-home form > div.grid,
+#page-home form > div:not(.grid):not(.pt-2) {
+    position:relative;
+    overflow:hidden;
+    border:1px solid #e2e8f0 !important;
+}
+
+/* Schedule card = blue */
+#page-home form > div.grid:first-child {
+    background:linear-gradient(135deg,#eff6ff 0%,#ffffff 62%,#ecfeff 100%) !important;
+    border-color:#bfdbfe !important;
+    box-shadow:0 10px 25px rgba(37,99,235,.09) !important;
+}
+#page-home form > div.grid:first-child::before {
+    content:"⚽  PILIH JADWAL";
+    display:block;
+    grid-column:1 / -1;
+    margin:-.15rem 0 .05rem;
+    color:#1d4ed8;
+    font-size:.65rem;
+    font-weight:950;
+    letter-spacing:.08em;
+}
+
+/* Team card = violet/pink */
+#page-home form > div:not(.grid):not(.pt-2) {
+    background:linear-gradient(135deg,#f5f3ff 0%,#fff 58%,#fdf2f8 100%) !important;
+    border-color:#ddd6fe !important;
+    box-shadow:0 10px 25px rgba(124,58,237,.07) !important;
+}
+#page-home form > div:not(.grid):not(.pt-2)::before {
+    content:"👥  DATA TIM";
+    display:block;
+    margin:-.15rem 0 .55rem;
+    color:#7c3aed;
+    font-size:.65rem;
+    font-weight:950;
+    letter-spacing:.08em;
+}
+
+/* Payment card = orange/green */
+#page-home form > div.grid:nth-of-type(2) {
+    background:linear-gradient(135deg,#fff7ed 0%,#fff 55%,#ecfdf5 100%) !important;
+    border-color:#fed7aa !important;
+    box-shadow:0 10px 25px rgba(245,158,11,.08) !important;
+}
+#page-home form > div.grid:nth-of-type(2)::before {
+    content:"💳  PEMBAYARAN";
+    display:block;
+    grid-column:1 / -1;
+    margin:-.15rem 0 .05rem;
+    color:#c2410c;
+    font-size:.65rem;
+    font-weight:950;
+    letter-spacing:.08em;
+}
+
+#page-home label {
+    color:#172554 !important;
+}
+
+#page-home .glass-input {
+    background:rgba(255,255,255,.94) !important;
+    border:1.5px solid #cbd5e1 !important;
+    box-shadow:0 4px 10px rgba(15,23,42,.035) !important;
+}
+
+#page-home #cust-tanggal {
+    border-color:#93c5fd !important;
+    box-shadow:0 5px 13px rgba(37,99,235,.08) !important;
+}
+
+#page-home #cust-jam {
+    border-color:#67e8f9 !important;
+    box-shadow:0 5px 13px rgba(6,182,212,.08) !important;
+}
+
+#page-home #cust-nama {
+    border-color:#c4b5fd !important;
+    box-shadow:0 5px 13px rgba(124,58,237,.07) !important;
+}
+
+#page-home #cust-dp {
+    border-color:#fdba74 !important;
+}
+
+#page-home #cust-metode {
+    border-color:#86efac !important;
+    background:linear-gradient(180deg,#f0fdf4,#fff) !important;
+}
+
+/* Payment heading/badge */
+#page-home .payment-method-hint {
+    color:#64748b;
+}
+#page-home .payment-select-badge {
+    color:#9a3412 !important;
+    background:#ffedd5 !important;
+    border:1px solid #fed7aa !important;
+    border-radius:999px !important;
+}
+
+/* CTA = vivid blue */
+#page-home form > .pt-2 button {
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#2563eb 0%,#4f46e5 48%,#06b6d4 100%) !important;
+    border:0 !important;
+    box-shadow:0 17px 32px rgba(37,99,235,.28) !important;
+}
+#page-home form > .pt-2 button::after {
+    content:"";
+    position:absolute;
+    top:-60%;
+    right:-10%;
+    width:110px;
+    height:180%;
+    transform:rotate(22deg);
+    background:rgba(255,255,255,.12);
+    pointer-events:none;
+}
+
+/* Give focus states a colorful app-like feel */
+#page-home .glass-input:focus {
+    outline:none !important;
+    border-color:#2563eb !important;
+    box-shadow:0 0 0 4px rgba(37,99,235,.10),0 5px 13px rgba(37,99,235,.08) !important;
+}
+
+/* Small screens */
+@media (max-width:640px) {
+    body > header {
+        padding:.15rem .5rem .55rem !important;
+    }
+
+    body > header img {
+        width:82px !important;
+        height:70px !important;
+        border-radius:20px !important;
+    }
+
+    body > header h1 {
+        font-size:.92rem !important;
+        letter-spacing:.04em !important;
+    }
+
+    #page-home {
+        border-radius:22px !important;
+        padding:.65rem !important;
+    }
+
+    #page-home::after {
+        width:90px;
+        height:90px;
+        border-radius:0 22px 0 80%;
+    }
+
+    #page-home h2 {
+        min-height:86px !important;
+        padding:1rem 3.2rem 1rem 3.45rem !important;
+        border-radius:18px !important;
+        font-size:.93rem !important;
+        line-height:1.2 !important;
+    }
+
+    #page-home h2::before {
+        left:.7rem !important;
+        width:39px !important;
+        height:39px !important;
+        border-radius:12px !important;
+    }
+
+    #page-home h2::after {
+        right:.7rem !important;
+        width:40px !important;
+        height:40px !important;
+        border-radius:12px !important;
+    }
+
+    #page-home > p {
+        padding:.58rem .7rem !important;
+        font-size:.6rem !important;
+        border-radius:12px !important;
+    }
+
+    .customer-booking-steps {
+        padding:.45rem .5rem !important;
+        border-radius:14px !important;
+    }
+
+    #page-home form > div.grid:first-child::before,
+    #page-home form > div.grid:nth-of-type(2)::before,
+    #page-home form > div:not(.grid):not(.pt-2)::before {
+        font-size:.58rem !important;
+    }
+
+    #page-home form > div.grid,
+    #page-home form > div:not(.grid):not(.pt-2) {
+        border-radius:15px !important;
+        padding:.62rem !important;
+    }
+
+    #page-home form > .pt-2 button {
+        min-height:54px !important;
+        border-radius:15px !important;
+    }
+}
+
+@media (max-width:380px) {
+    #page-home h2 {
+        min-height:78px !important;
+        font-size:.84rem !important;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 
@@ -384,7 +1250,15 @@ body {
         <!-- HALAMAN UTAMA / BERANDA (CUSTOMER BOOKING) -->
         <div id="page-home" class="glass-panel p-4 sm:p-6 rounded-2xl">
             <h2 class="text-center font-black mb-2 text-lg sm:text-xl text-blue-900 drop-shadow-sm tracking-wider">BOOKING LAPANGAN</h2>
-            <p class="text-center text-xs text-slate-800 mb-6 font-semibold">Silakan pilih tanggal dan jam kosong di bawah ini untuk melakukan pemesanan.</p>
+            <p class="text-center text-xs text-slate-800 mb-6 font-semibold">Pilih jadwal yang kamu inginkan, isi data tim, lalu kirim booking.</p>
+<div class="customer-booking-steps" aria-hidden="true">
+    <div class="customer-step active"><span>1</span><strong>JADWAL</strong></div>
+    <div class="customer-step-line"></div>
+    <div class="customer-step"><span>2</span><strong>DATA</strong></div>
+    <div class="customer-step-line"></div>
+    <div class="customer-step"><span>3</span><strong>KIRIM</strong></div>
+</div>
+
             
             <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
