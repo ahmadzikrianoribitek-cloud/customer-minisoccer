@@ -79,7 +79,252 @@
             border-color: rgba(255, 255, 255, 0.6);
             box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.3);
         }
-    </style>
+    
+        /* Metode pembayaran customer — VISUAL ONLY */
+        .payment-method-label { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.45rem; }
+        .payment-method-hint { margin:.18rem 0 0; color:#64748b; font-size:.58rem; line-height:1.25; font-weight:700; }
+        .payment-select-badge { flex:0 0 auto; padding:.34rem .55rem; border-radius:999px; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; font-size:.55rem; font-weight:950; letter-spacing:.04em; box-shadow:0 3px 10px rgba(37,99,235,.08); }
+        .payment-select-wrap { position:relative; }
+        .payment-select-wrap::after { content:'⌄'; position:absolute; right:.85rem; top:50%; transform:translateY(-54%); color:#1e40af; font-size:1rem; font-weight:950; pointer-events:none; }
+        #cust-metode { appearance:none; -webkit-appearance:none; padding-right:2.3rem !important; border:1.5px solid #93c5fd !important; background:#f8fbff !important; box-shadow:0 6px 18px rgba(37,99,235,.08); cursor:pointer; transition:border-color .2s ease, box-shadow .2s ease; }
+        #cust-metode:hover, #cust-metode:focus { border-color:#2563eb !important; box-shadow:0 0 0 3px rgba(37,99,235,.10), 0 8px 22px rgba(37,99,235,.10); outline:none; }
+        .payment-choice-guide { display:flex; gap:.45rem; flex-wrap:wrap; margin-top:.5rem; }
+        .payment-choice { display:inline-flex; align-items:center; gap:.25rem; padding:.32rem .55rem; border-radius:8px; font-size:.56rem; font-weight:900; border:1px solid; }
+        .payment-choice-qris { color:#0369a1; background:#e0f2fe; border-color:#7dd3fc; }
+        .payment-choice-transfer { color:#6d28d9; background:#f3e8ff; border-color:#d8b4fe; }
+        @media (max-width:640px) { .payment-method-label { align-items:flex-start; } .payment-select-badge { font-size:.5rem; } .payment-method-hint { font-size:.54rem; } }
+</style>
+
+<style>
+/* =========================================================
+   CUSTOMER WEB — MODERN PREMIUM
+   VISUAL ONLY: tidak mengubah id, onclick, form, atau JS.
+   Mengikuti bahasa desain beranda admin modern.
+   ========================================================= */
+
+body {
+    color: #0f172a;
+}
+
+#page-home {
+    background: rgba(248,250,252,.96) !important;
+    border: 1px solid rgba(255,255,255,.9) !important;
+    box-shadow: 0 24px 70px rgba(15,23,42,.20) !important;
+    border-radius: 1.5rem !important;
+    overflow: hidden;
+    position: relative;
+}
+
+#page-home::before {
+    content: "";
+    display: block;
+    height: 4px;
+    margin: -1rem -1rem 1.15rem;
+    background: linear-gradient(90deg,#2563eb 0%,#4f46e5 48%,#06b6d4 100%);
+}
+
+#page-home h2 {
+    margin: 0;
+    padding: 1rem 1.15rem;
+    border-radius: 1.15rem;
+    background: linear-gradient(135deg,#0f172a 0%,#172554 58%,#1d4ed8 100%);
+    color: #fff !important;
+    font-size: clamp(1rem,3vw,1.35rem) !important;
+    letter-spacing: .04em;
+    box-shadow: 0 14px 30px rgba(15,23,42,.18);
+    position: relative;
+    overflow: hidden;
+}
+
+#page-home h2::after {
+    content: "⚽";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    font-size: 1.1rem;
+}
+
+#page-home > p {
+    margin: .85rem auto 1.15rem !important;
+    max-width: 680px;
+    padding: .65rem .8rem;
+    color: #475569 !important;
+    font-size: .72rem !important;
+    font-weight: 700 !important;
+    line-height: 1.45;
+    text-align: center;
+}
+
+#page-home form {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+#page-home form > div {
+    margin: 0 !important;
+}
+
+/* Setiap kelompok input menjadi card clean */
+#page-home form > div:not(.pt-2),
+#page-home form > div.grid {
+    padding: .75rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    box-shadow: 0 7px 20px rgba(15,23,42,.055);
+}
+
+#page-home form > div.grid > div:not(.hidden),
+#page-home form > div:not(.grid):not(.pt-2) {
+    min-width: 0;
+}
+
+#page-home label {
+    color: #0f172a !important;
+    font-size: .68rem !important;
+    font-weight: 900 !important;
+    letter-spacing: .01em;
+}
+
+#page-home .glass-input {
+    margin-top: .28rem;
+    min-height: 43px;
+    padding: .65rem .75rem !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: .85rem !important;
+    box-shadow: inset 0 1px 2px rgba(15,23,42,.025);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#page-home .glass-input:focus {
+    outline: none;
+    background: #fff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+#page-home .glass-input::placeholder {
+    color: #64748b !important;
+}
+
+#page-home .glass-input option {
+    background: #fff;
+    color: #0f172a;
+}
+
+#page-home form > .pt-2 {
+    padding-top: .15rem !important;
+}
+
+#page-home form > .pt-2 button {
+    min-height: 48px;
+    border: 0 !important;
+    border-radius: .95rem !important;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8 58%,#4338ca) !important;
+    box-shadow: 0 12px 25px rgba(37,99,235,.22) !important;
+    font-size: .72rem !important;
+    font-weight: 950 !important;
+    letter-spacing: .05em;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+#page-home form > .pt-2 button:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.08);
+    box-shadow: 0 16px 30px rgba(37,99,235,.28) !important;
+}
+
+#page-home form > .pt-2 button:active {
+    transform: translateY(0);
+}
+
+/* Tampilan tanggal & jam lebih menonjol */
+#page-home #cust-tanggal,
+#page-home #cust-jam {
+    border-color: #bfdbfe !important;
+    background: #eff6ff !important;
+}
+
+#page-home #cust-tanggal:focus,
+#page-home #cust-jam:focus {
+    border-color: #2563eb !important;
+    background: #fff !important;
+}
+
+/* Password admin modal tetap senada */
+#modal-admin .glass-panel {
+    background: #fff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 24px 60px rgba(15,23,42,.22) !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+#modal-admin .glass-input {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Responsif */
+@media (max-width: 640px) {
+    #page-home {
+        padding: .8rem !important;
+        border-radius: 1.2rem !important;
+    }
+
+    #page-home::before {
+        margin: -.8rem -.8rem .85rem;
+    }
+
+    #page-home h2 {
+        padding: .85rem .8rem;
+        padding-right: 3.2rem;
+        font-size: 1rem !important;
+    }
+
+    #page-home h2::after {
+        right: .65rem;
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+        font-size: .95rem;
+    }
+
+    #page-home > p {
+        font-size: .67rem !important;
+        margin-bottom: .85rem !important;
+    }
+
+    #page-home form > div.grid,
+    #page-home form > div:not(.pt-2) {
+        padding: .65rem;
+        border-radius: .9rem;
+    }
+
+    #page-home .glass-input {
+        min-height: 42px;
+        font-size: .75rem !important;
+    }
+
+    #page-home form > .pt-2 button {
+        min-height: 46px;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 
@@ -151,11 +396,23 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Metode Pembayaran DP</label>
-                        <select id="cust-metode" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                            <option value="QRIS">QRIS</option>
-                            <option value="Transfer">Transfer</option>
-                        </select>
+                        <div class="payment-method-label">
+                            <div>
+                                <label class="block text-xs font-black text-slate-900">Pilih Metode Pembayaran DP</label>
+                                <p class="payment-method-hint">Klik kolom di bawah untuk memilih metode pembayaran</p>
+                            </div>
+                            <span class="payment-select-badge">⌄ PILIH</span>
+                        </div>
+                        <div class="payment-select-wrap">
+                            <select id="cust-metode" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
+                                <option value="QRIS">💳 QRIS</option>
+                                <option value="Transfer">🏦 Transfer</option>
+                            </select>
+                        </div>
+                        <div class="payment-choice-guide" aria-hidden="true">
+                            <span class="payment-choice payment-choice-qris">💳 QRIS</span>
+                            <span class="payment-choice payment-choice-transfer">🏦 Transfer</span>
+                        </div>
                     </div>
                 </div>
 
