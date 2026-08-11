@@ -116,11 +116,14 @@
             
             <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Pilih Tanggal Main</label>
+                    <div class="hidden" aria-hidden="true">
+                        <input type="hidden" id="cust-tanggal-booking">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold mb-1 text-slate-900">Tanggal Main</label>
                         <input type="date" id="cust-tanggal" onchange="loadJamKosongCustomer()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                     </div>
-                    <div>
+                    <div class="sm:col-span-2">
                         <label class="block text-xs font-bold mb-1 text-slate-900">Pilih Jam Kosong</label>
                         <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                             <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
@@ -735,12 +738,22 @@
             }
         }
 
+        function formatTanggalSingkat(tgl) {
+            if(!tgl) return '';
+            let parts = tgl.split('-');
+            if(parts.length !== 3) return tgl;
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+
         function setDefaultDates() {
             let todayStr = getLocalDateString();
             let todayYearMonth = todayStr.substring(0, 7);
             if(document.getElementById('filter-tanggal')) document.getElementById('filter-tanggal').value = todayStr;
             if(document.getElementById('filter-bulan')) document.getElementById('filter-bulan').value = todayYearMonth;
             if(document.getElementById('b-tanggal')) document.getElementById('b-tanggal').value = todayStr;
+            if(document.getElementById('cust-tanggal-booking')) {
+                document.getElementById('cust-tanggal-booking').value = formatTanggalSingkat(todayStr);
+            }
             if(document.getElementById('cust-tanggal')) {
                 document.getElementById('cust-tanggal').value = todayStr;
                 loadJamKosongCustomer();
@@ -860,6 +873,10 @@
         window.submitCustomerBooking = async (e) => {
             e.preventDefault();
             let tglInput = document.getElementById('cust-tanggal').value;
+            // Tanggal booking dan tanggal DP otomatis mengikuti tanggal saat customer melakukan input.
+            // Tanggal DP tidak ditampilkan di web customer, tetapi tetap disimpan agar sinkron dengan web admin.
+            let tglBooking = getLocalDateString();
+            let tglDp = tglBooking;
             let jamInput = document.getElementById('cust-jam').value;
             let namaTim = document.getElementById('cust-nama').value;
             let dpValue = document.getElementById('cust-dp').value;
@@ -875,6 +892,8 @@
                 status: "Non-Member",
                 nama: namaTim,
                 tgl: gabungTglJam,
+                tglBooking: tglBooking,
+                tglDp: Number(dpValue || 0) > 0 ? tglDp : '',
                 dp: dpValue,
                 metode: metodeVal,
                 timestamp: Date.now()
