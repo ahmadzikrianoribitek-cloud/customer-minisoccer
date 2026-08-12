@@ -2372,6 +2372,10 @@ main{
 }
 #page-home .customer-image-menu-item{
     display:block!important;
+    position:relative!important;
+    min-height:0!important;
+    height:auto!important;
+    max-height:none!important;
     width:100%!important;
     min-width:0!important;
     margin:0!important;
@@ -2417,11 +2421,71 @@ main{
     }
 }
 @media(max-width:640px){
-    #page-home .customer-image-menu{
-        grid-template-columns:1fr!important;
-        max-width:360px!important;
-        gap:16px!important;
+    /* Tampilan menu utama lebih ringkas dan nyaman untuk layar HP */
+    #page-home{
+        padding:12px!important;
     }
+    #page-home .customer-home-hero{
+        padding:14px 15px!important;
+        margin-bottom:14px!important;
+        border-radius:18px!important;
+    }
+    #page-home .customer-home-hero h2{
+        font-size:clamp(.92rem,4.2vw,1.12rem)!important;
+        line-height:1.25!important;
+        text-align:center!important;
+        width:100%!important;
+        margin:0!important;
+    }
+    #page-home .customer-image-menu{
+        grid-template-columns:repeat(2,minmax(0,1fr))!important;
+        max-width:390px!important;
+        gap:11px!important;
+        padding:0 2px!important;
+    }
+    #page-home .customer-image-menu-item{
+        border-radius:14px!important;
+    }
+    #page-home .customer-image-menu-item img{
+        aspect-ratio:299/353!important;
+        border-radius:14px!important;
+    }
+    #page-home .customer-image-menu-item:last-child{
+        grid-column:1 / -1!important;
+        width:calc(50% - 5.5px)!important;
+        justify-self:center!important;
+    }
+}
+
+@media(max-width:360px){
+    #page-home{padding:10px!important}
+    #page-home .customer-image-menu{gap:8px!important}
+    #page-home .customer-image-menu-item,#page-home .customer-image-menu-item img{border-radius:12px!important}
+    #page-home .customer-home-hero{padding:12px!important}
+    #page-home .customer-home-hero h2{font-size:.88rem!important}
+}
+</style>
+
+<style id="customer-menu-frame-fix-v14">
+/* Tombol menu hanya menjadi wadah transparan; visual berasal langsung dari gambar referensi. */
+#page-home .customer-image-menu-item,
+#page-home .customer-image-menu-item:hover,
+#page-home .customer-image-menu-item:active,
+#page-home .customer-image-menu-item:focus,
+#page-home .customer-image-menu-item:focus-visible {
+    min-height:0!important;
+    height:auto!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    outline:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+}
+#page-home .customer-image-menu-item::before,
+#page-home .customer-image-menu-item::after {
+    display:none!important;
+    content:none!important;
 }
 </style>
 
@@ -3858,6 +3922,231 @@ body:has(#page-customer-booking:not(.hidden))
 @media(max-width:380px){#booking-schedule-grid-wrap .schedule-grid-off-holder{min-height:17px!important;max-height:19px!important;}#booking-schedule-grid-wrap .schedule-grid-off-stamp{max-height:16px!important;}}
 
 </style>
+
+<style id="customer-mobile-logo-v16">
+@media (max-width:640px){
+  header.w-full.max-w-6xl > img[src="logo.png"]{width:170px!important;height:155px!important;max-width:55vw!important;object-fit:contain!important;border-radius:0!important;}
+  header.w-full.max-w-6xl{gap:4px!important;margin-bottom:14px!important;}
+  header.w-full.max-w-6xl h1{font-size:1.28rem!important;line-height:1.15!important;}
+}
+#page-home .customer-image-menu-item,#page-home .customer-image-menu-item:hover,#page-home .customer-image-menu-item:active,#page-home .customer-image-menu-item:focus,#page-home .customer-image-menu-item:focus-visible{background:transparent!important;border:0!important;box-shadow:none!important;outline:none!important;padding:0!important;margin:0!important;}
+</style>
+
+<style id="customer-image-menu-final-transparent-v17">
+/* FINAL: kartu tombol gambar benar-benar transparan. Semua warna berasal dari file gambar. */
+#page-home .customer-image-menu > .customer-image-menu-item,
+#page-home .customer-image-menu > .customer-image-menu-item:hover,
+#page-home .customer-image-menu > .customer-image-menu-item:active,
+#page-home .customer-image-menu > .customer-image-menu-item:focus,
+#page-home .customer-image-menu > .customer-image-menu-item:focus-visible {
+    position: relative !important;
+    display: block !important;
+    min-height: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    color: transparent !important;
+    text-align: initial !important;
+    flex: none !important;
+    transform: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+#page-home .customer-image-menu > .customer-image-menu-item:hover {
+    filter: none !important;
+}
+#page-home .customer-image-menu > .customer-image-menu-item::before,
+#page-home .customer-image-menu > .customer-image-menu-item::after {
+    content: none !important;
+    display: none !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+#page-home .customer-image-menu > .customer-image-menu-item img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    background-image: none !important;
+}
+</style>
+
+<style id="customer-booking-navy-theme">
+/* TEMA NAVY - MENU BOOKING CUSTOMER */
+#page-customer-booking.customer-booking-page {
+  background: linear-gradient(145deg, #0b1220 0%, #0f172a 45%, #172554 100%) !important;
+  border: 1px solid rgba(148,163,184,.28) !important;
+  box-shadow: 0 24px 70px rgba(2,6,23,.30) !important;
+  color: #f8fafc !important;
+}
+#page-customer-booking .customer-page-head {
+  border-bottom-color: rgba(148,163,184,.25) !important;
+}
+#page-customer-booking .customer-page-head span { color: #93c5fd !important; }
+#page-customer-booking .customer-page-head h2 { color: #ffffff !important; }
+#page-customer-booking .customer-page-head button {
+  background: rgba(255,255,255,.10) !important;
+  border-color: rgba(255,255,255,.20) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+#page-customer-booking .customer-page-intro { color: #cbd5e1 !important; }
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2) {
+  background: rgba(15,23,42,.58) !important;
+  border-color: rgba(148,163,184,.24) !important;
+  box-shadow: 0 12px 30px rgba(2,6,23,.18) !important;
+}
+#page-customer-booking label,
+#page-customer-booking .payment-method-label label {
+  color: #e2e8f0 !important;
+}
+#page-customer-booking .payment-method-hint,
+#page-customer-booking #customer-status-hint { color: #94a3b8 !important; }
+#page-customer-booking .glass-input {
+  background: rgba(248,250,252,.98) !important;
+  border-color: #475569 !important;
+  color: #0f172a !important;
+}
+#page-customer-booking .glass-input:focus {
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 4px rgba(96,165,250,.16) !important;
+}
+#page-customer-booking .payment-select-badge {
+  background: #1e3a8a !important;
+  color: #dbeafe !important;
+  border-color: #3b82f6 !important;
+}
+#page-customer-booking .customer-payment-info {
+  background: rgba(2,6,23,.28) !important;
+  border-color: rgba(148,163,184,.22) !important;
+}
+#page-customer-booking .payment-info-title,
+#page-customer-booking .payment-info-label { color: #e2e8f0 !important; }
+#page-customer-booking .payment-info-card {
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(148,163,184,.20) !important;
+}
+#page-customer-booking .payment-account-number { color: #ffffff !important; }
+#page-customer-booking .payment-small-btn {
+  background: #1e3a8a !important;
+  color: #fff !important;
+  border-color: #3b82f6 !important;
+}
+#page-customer-booking form > .pt-2 button {
+  background: linear-gradient(135deg, #1e3a8a 0%, #172554 55%, #0f172a 100%) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 14px 30px rgba(15,23,42,.35) !important;
+}
+</style>
+<style>
+/* FINAL CUSTOMER BOOKING CLEANUP */
+#page-customer-booking .customer-page-head > div { width: 100%; text-align: center; }
+#page-customer-booking .customer-page-head h2 { width: 100%; text-align: center; margin: 0; }
+#page-customer-booking .payment-method-label { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; }
+#page-customer-booking .payment-method-hint,
+#page-customer-booking .payment-select-badge { display: none !important; }
+</style>
+
+<style id="customer-dp-payment-align-final">
+/* FINAL: DP dan Metode Pembayaran benar-benar sejajar */
+#page-customer-booking form > div.grid:has(#cust-dp){
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    align-items:start !important;
+    column-gap:1rem !important;
+    row-gap:.9rem !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info){
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    min-width:0 !important;
+    margin:0 !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) > label,
+#page-customer-booking form > div.grid:has(#cust-dp) .payment-method-label{
+    height:18px !important;
+    min-height:18px !important;
+    margin:0 0 7px !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    line-height:1 !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) .payment-method-label > div{
+    width:100% !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) .payment-select-wrap{
+    width:100% !important;
+    margin:0 !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) #cust-dp,
+#page-customer-booking form > div.grid:has(#cust-dp) #cust-metode{
+    width:100% !important;
+    height:52px !important;
+    min-height:52px !important;
+    box-sizing:border-box !important;
+    margin:0 !important;
+}
+#page-customer-booking form > div.grid:has(#cust-dp) #customer-payment-info{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    margin:0 !important;
+}
+@media(max-width:640px){
+    #page-customer-booking form > div.grid:has(#cust-dp){
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+        column-gap:.75rem !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-dp) #cust-dp,
+    #page-customer-booking form > div.grid:has(#cust-dp) #cust-metode{
+        height:52px !important;
+        min-height:52px !important;
+    }
+}
+@media(max-width:380px){
+    #page-customer-booking form > div.grid:has(#cust-dp){
+        column-gap:.55rem !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-dp) #cust-dp,
+    #page-customer-booking form > div.grid:has(#cust-dp) #cust-metode{
+        height:50px !important;
+        min-height:50px !important;
+        font-size:.7rem !important;
+    }
+}
+</style>
+
+<style id="customer-price-simple-title">
+#page-customer-price .customer-page-head {
+  position: relative !important;
+  justify-content: center !important;
+}
+#page-customer-price .customer-price-page-title {
+  width: 100% !important;
+  text-align: center !important;
+}
+#page-customer-price .customer-price-page-title h2 {
+  margin: 0 !important;
+  text-align: center !important;
+}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -3893,7 +4182,7 @@ body:has(#page-customer-booking:not(.hidden))
 
     <!-- Header -->
     <header class="w-full max-w-6xl flex flex-col items-center justify-center gap-2 mb-6 text-center relative">
-        <img src="logo.png" class="w-30 h-24 sm:w-30 sm:h-28 object-contain rounded-xl">
+        <img src="logo.png" class="w-30 h-24 sm:w-30 sm:h-28 object-contain">
         <h1 class="text-lg sm:text-2xl font-black text-slate-900 drop-shadow-sm">SANDAGA MINISOCCER 2</h1>
     </header>
 
@@ -3919,7 +4208,7 @@ body:has(#page-customer-booking:not(.hidden))
 
         <!-- HALAMAN UTAMA / BERANDA (CUSTOMER BOOKING) -->
         <div id="page-home" class="p-4 sm:p-6 customer-home-dashboard">
-    <div class="customer-home-hero"><h2>APLIKASI KHUSUS UNTUK CUSTOMER BOOKING LAPANGAN DI SANDAGA MINISOCCER 2 KANDANGAN</h2></div>
+    <div class="customer-home-hero"><h2>BOOKING LAPANGAN DENGAN MUDAH DAN CEPAT</h2></div>
 
     <section class="customer-menu-section">
         <div class="customer-menu-grid customer-image-menu">
@@ -3927,7 +4216,7 @@ body:has(#page-customer-booking:not(.hidden))
                 <img src="lihatjadwal.png" alt="Lihat Jadwal">
             </button>
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-price')" aria-label="Lihat Harga">
-                <img src="lihat harga.png" alt="Lihat Harga">
+                <img src="lihatharga.png" alt="Lihat Harga">
             </button>
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-booking')" aria-label="Booking Lapangan">
                 <img src="booking.png" alt="Booking Lapangan">
@@ -3939,7 +4228,7 @@ body:has(#page-customer-booking:not(.hidden))
         <!-- HALAMAN HARGA CUSTOMER -->
 <div id="page-customer-price" class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page">
     <div class="customer-page-head">
-        <div><span>INFORMASI CUSTOMER</span><h2>💰 LIHAT HARGA</h2></div>
+        <div class="customer-price-page-title"><h2>💰 LIHAT HARGA</h2></div>
         <button type="button" onclick="showPage('home')"></button>
     </div>
     <div class="customer-price-card" aria-label="Daftar harga lapangan">
@@ -3985,8 +4274,7 @@ body:has(#page-customer-booking:not(.hidden))
             <div class="customer-price-row"><span>18.00–24.00</span><span>Rp 400.000</span><span class="member-price">Rp 350.000</span></div>
         </div>
     </div>
-    <p class="customer-price-note">💙 Harga Member mendapat potongan <b>Rp 50.000/jam</b>. Harga di atas mengikuti aturan perhitungan harga pada web admin.</p>
-    <div id="customer-selected-price" class="customer-selected-price">
+        <div id="customer-selected-price" class="customer-selected-price">
         <span>Estimasi harga slot yang dipilih</span>
         <strong id="customer-selected-price-value">Rp 0</strong>
     </div>
@@ -3996,11 +4284,10 @@ body:has(#page-customer-booking:not(.hidden))
         <!-- HALAMAN BOOKING CUSTOMER -->
 <div id="page-customer-booking" class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page customer-booking-page">
     <div class="customer-page-head">
-        <div><span>RESERVASI LAPANGAN</span><h2> BOOKING LAPANGAN</h2></div>
+        <div class="w-full text-center"><h2>BOOKING LAPANGAN</h2></div>
         <button type="button" onclick="showPage('home')"></button>
     </div>
-    <p class="customer-page-intro">Pilih tanggal dan jam yang tersedia, isi data tim, lalu kirim booking seperti menu booking customer sebelumnya.</p>
-    <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
+        <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="hidden" aria-hidden="true">
                         <input type="hidden" id="cust-tanggal-booking">
@@ -4049,9 +4336,7 @@ body:has(#page-customer-booking:not(.hidden))
                         <div class="payment-method-label">
                             <div>
                                 <label class="block text-xs font-black text-slate-900">Metode Pembayaran</label>
-                                <p class="payment-method-hint">Pilih metode pembayaran yang tersedia.</p>
-                            </div>
-                            <span class="payment-select-badge">PILIH</span>
+                                                            </div>
                         </div>
                         <div class="payment-select-wrap">
                             <select id="cust-metode" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required aria-label="Pilih metode pembayaran DP">
@@ -4063,7 +4348,7 @@ body:has(#page-customer-booking:not(.hidden))
                     </div>
 
                     <!-- Informasi pembayaran full-width tepat di bawah DP + Metode Pembayaran -->
-                    <div id="customer-payment-info" class="customer-payment-info">
+                    <div id="customer-payment-info" class="customer-payment-info sm:col-span-2 w-full">
                         <div class="payment-info-title">💳 Informasi Pembayaran</div>
                         <div id="payment-transfer-card" class="payment-info-card hidden">
                             <div class="payment-info-label">🏦 Nomor Rekening Transfer</div>
@@ -6443,5 +6728,183 @@ window.renderTabelBooking = () => {
 }
 </style>
 
+
+<style id="customer-home-final-polish">
+/* Final home layout: logo/judul lebih menonjol + 3 tombol sejajar di semua ukuran */
+body > header{
+  margin-bottom: 1rem !important;
+  gap: .35rem !important;
+  padding-top: .35rem !important;
+  padding-bottom: .55rem !important;
+}
+body > header img{
+  width: 150px !important;
+  height: 125px !important;
+  max-width: 42vw !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+}
+body > header h1{
+  margin: 0 !important;
+  font-size: clamp(1.25rem, 4vw, 2rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: .02em !important;
+  font-weight: 950 !important;
+}
+#page-home .customer-home-hero{
+  padding: .85rem 1rem !important;
+  margin-bottom: 1rem !important;
+  border-radius: 1rem !important;
+}
+#page-home .customer-home-hero h2{
+  font-size: clamp(.78rem, 2vw, 1.05rem) !important;
+  line-height: 1.3 !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+#page-home .customer-menu-grid{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+  gap: clamp(.45rem, 1.4vw, 1rem) !important;
+  width: 100% !important;
+  max-width: 1150px !important;
+  margin: 0 auto !important;
+  align-items: start !important;
+}
+#page-home .customer-menu-grid > *{
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+  cursor: pointer !important;
+}
+#page-home .customer-menu-grid > *:hover,
+#page-home .customer-menu-grid > *:focus,
+#page-home .customer-menu-grid > *:active{
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+#page-home .customer-menu-grid > * img{
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+/* Hilangkan seluruh dekorasi CSS lama yang mungkin menempel pada tombol */
+#page-home .customer-menu-grid > *::before,
+#page-home .customer-menu-grid > *::after,
+#page-home .customer-menu-grid > * a::before,
+#page-home .customer-menu-grid > * a::after,
+#page-home .customer-menu-grid > * button::before,
+#page-home .customer-menu-grid > * button::after{
+  display: none !important;
+  content: none !important;
+}
+#page-home .customer-menu-grid > * [class*="icon"],
+#page-home .customer-menu-grid > * .menu-icon,
+#page-home .customer-menu-grid > * .customer-menu-icon,
+#page-home .customer-menu-grid > * h3,
+#page-home .customer-menu-grid > * h4,
+#page-home .customer-menu-grid > * p,
+#page-home .customer-menu-grid > * .customer-menu-copy,
+#page-home .customer-menu-grid > * .customer-menu-arrow,
+#page-home .customer-menu-grid > * a,
+#page-home .customer-menu-grid > * button:not(.customer-image-menu-item){
+  /* gambar referensi menjadi satu-satunya visual tombol */
+}
+@media(max-width:640px){
+  body > header img{
+    width: 118px !important;
+    height: 100px !important;
+    max-width: 34vw !important;
+  }
+  body > header h1{
+    font-size: clamp(1.05rem, 5vw, 1.45rem) !important;
+  }
+  #page-home{
+    padding: .8rem !important;
+  }
+  #page-home .customer-home-hero{
+    padding: .7rem .55rem !important;
+    margin-bottom: .75rem !important;
+  }
+  #page-home .customer-home-hero h2{
+    font-size: clamp(.62rem, 2.6vw, .82rem) !important;
+  }
+  #page-home .customer-menu-grid{
+    gap: .4rem !important;
+  }
+}
+@media(max-width:380px){
+  body > header img{
+    width: 100px !important;
+    height: 86px !important;
+  }
+  body > header h1{
+    font-size: 1rem !important;
+  }
+  #page-home .customer-menu-grid{gap:.3rem !important;}
+}
+</style>
+
+<style id="customer-home-final-v18">
+/* FINAL HOME: logo tanpa frame/dekorasi + copy hero baru + nama file harga diperbaiki */
+body > header img[src="logo.png"],
+header.w-full.max-w-6xl > img[src="logo.png"] {
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+}
+#page-home .customer-home-hero {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: .35rem 0 !important;
+}
+#page-home .customer-home-hero h2 {
+  color: #0f172a !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+@media (max-width: 640px) {
+  body > header img[src="logo.png"],
+  header.w-full.max-w-6xl > img[src="logo.png"] {
+    width: 185px !important;
+    height: 170px !important;
+    max-width: 62vw !important;
+    border-radius: 0 !important;
+  }
+  body > header { margin-bottom: 10px !important; }
+  body > header h1 { font-size: 1.4rem !important; line-height: 1.1 !important; }
+  #page-home .customer-home-hero h2 {
+    font-size: clamp(.9rem, 4vw, 1.15rem) !important;
+    line-height: 1.2 !important;
+  }
+}
+</style>
 </body>
 </html>
