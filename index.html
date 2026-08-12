@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOKING LAPANGAN</title>
+    <title>SANDAGA MINISOCCER 2 - Dashboard & Jadwal</title>
 
     <!-- Penghubung Manifest untuk Android/Chrome -->
     <link rel="manifest" href="manifest.json">
@@ -120,6 +120,34 @@
             #cust-metode { min-height:78px; }
             #cust-metode option { font-size:.72rem; padding:11px 9px; }
         }
+</style>
+
+<style id="customer-price-list-style">
+/* DAFTAR HARGA CUSTOMER — mengikuti aturan harga dari web admin */
+.customer-price-card{margin:0 auto 1rem;padding:.9rem;background:linear-gradient(135deg,#eff6ff 0%,#fff 52%,#ecfeff 100%);border:1px solid #bfdbfe;border-radius:1.1rem;box-shadow:0 8px 22px rgba(37,99,235,.08)}
+.customer-price-head{display:flex;align-items:center;justify-content:space-between;gap:.65rem;margin-bottom:.7rem}
+.customer-price-title{margin:0;color:#13224f;font-size:.85rem;font-weight:950;letter-spacing:.04em}
+.customer-price-badge{flex:0 0 auto;padding:.3rem .55rem;border-radius:999px;background:#dbeafe;color:#1e3a8a;border:1px solid #93c5fd;font-size:.55rem;font-weight:950}
+.customer-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
+.customer-price-group{background:rgba(255,255,255,.92);border:1px solid #dbeafe;border-radius:.85rem;overflow:hidden}
+.customer-price-group h4{margin:0;padding:.5rem .6rem;color:#fff;background:linear-gradient(135deg,#1d4ed8,#4338ca);font-size:.62rem;font-weight:950;letter-spacing:.04em}
+.customer-price-label{padding:.35rem .55rem;background:#f8fafc;color:#64748b;font-size:.49rem;font-weight:950;text-transform:uppercase;letter-spacing:.03em}
+.customer-price-row{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:.25rem;align-items:center;padding:.43rem .55rem;border-top:1px solid #e2e8f0;font-size:.56rem;font-weight:850;color:#334155}
+.customer-price-row span:nth-child(2),.customer-price-row span:nth-child(3){text-align:right}
+.customer-price-row .member-price{color:#1d4ed8}
+.customer-price-note{margin:.65rem 0 0;color:#64748b;font-size:.54rem;line-height:1.45;font-weight:750}
+.customer-selected-price{display:none;margin-top:.65rem;padding:.65rem .75rem;border:1px solid #93c5fd;border-radius:.85rem;background:#eff6ff;color:#1e3a8a;font-size:.62rem;font-weight:900}
+.customer-selected-price.show{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.customer-selected-price strong{font-size:.82rem;color:#1d4ed8}
+@media(max-width:640px){
+ .customer-price-card{padding:.65rem;margin-bottom:.7rem;border-radius:.9rem}
+ .customer-price-title{font-size:.72rem}.customer-price-badge{font-size:.48rem}
+ .customer-price-grid{grid-template-columns:1fr;gap:.45rem}
+ .customer-price-row{padding:.38rem .45rem;font-size:.52rem}
+ .customer-price-label{font-size:.45rem}.customer-price-note{font-size:.49rem}
+ .customer-selected-price{font-size:.55rem;padding:.55rem .6rem}
+ .customer-selected-price strong{font-size:.72rem}
+}
 </style>
 
 <style>
@@ -1586,7 +1614,27 @@ main{
 }
 </style>
 
-</head>
+<style id="customer-payment-info-fullwidth-fix">
+/* Informasi pembayaran full-width, tepat di bawah DP + Metode Pembayaran */
+#page-home #customer-payment-info{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    box-sizing:border-box !important;
+    margin-top:.15rem !important;
+}
+#page-home #customer-payment-info .payment-info-title{
+    font-size:.7rem !important;
+    margin-bottom:.6rem !important;
+}
+#page-home #customer-payment-info .payment-info-card{
+    width:100% !important;
+    box-sizing:border-box !important;
+}
+@media(max-width:640px){
+    #page-home #customer-payment-info{margin-top:.1rem !important;}
+}
+</style>
+<style id="customer-payment-info-style">.customer-payment-info{margin-top:.65rem;padding:.75rem;border-radius:1rem;background:linear-gradient(135deg,#f8fafc,#eff6ff);border:1px solid #cbd5e1;box-shadow:0 6px 18px rgba(15,23,42,.06)}.payment-info-title{font-size:.62rem;font-weight:950;color:#172554;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}.payment-info-card{padding:.65rem;border-radius:.8rem;background:#fff;border:1px solid #e2e8f0;margin-top:.45rem}.payment-info-card.hidden{display:none}.payment-info-label{font-size:.55rem;font-weight:950;color:#64748b;text-transform:uppercase}.payment-account{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.25rem}.payment-account-number{font-size:.9rem;font-weight:950;color:#1e3a8a;letter-spacing:.06em}.payment-small-btn{border:0;border-radius:.65rem;padding:.45rem .6rem;background:#2563eb;color:#fff;font-size:.55rem;font-weight:950;cursor:pointer}.qris-preview{display:block;width:min(260px,100%);margin:.55rem auto;border-radius:.75rem;border:1px solid #cbd5e1;background:#fff}.qris-actions{display:flex;gap:.45rem;justify-content:center;flex-wrap:wrap}.qris-download{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:.7rem;padding:.55rem .8rem;background:linear-gradient(135deg,#059669,#10b981);color:#fff;font-size:.58rem;font-weight:950;box-shadow:0 7px 16px rgba(16,185,129,.18)}@media(max-width:640px){.customer-payment-info{padding:.6rem}.payment-account-number{font-size:.78rem}.qris-preview{width:min(230px,100%)}}</style></head>
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 
     <!-- Header -->
@@ -1628,6 +1676,44 @@ main{
 </div>
 
             
+<div class="customer-price-card" aria-label="Daftar harga lapangan">
+    <div class="customer-price-head">
+        <h3 class="customer-price-title">💰 DAFTAR HARGA LAPANGAN</h3>
+        <span class="customer-price-badge">PER 1 JAM</span>
+    </div>
+    <div class="customer-price-grid">
+        <div class="customer-price-group">
+            <h4>📅 SENIN – KAMIS</h4>
+            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-row"><span>07.00–09.00</span><span>Rp 200.000</span><span class="member-price">Rp 150.000</span></div>
+            <div class="customer-price-row"><span>10.00–14.00</span><span>Rp 250.000</span><span class="member-price">Rp 200.000</span></div>
+            <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
+            <div class="customer-price-row"><span>18.00–24.00</span><span>Rp 350.000</span><span class="member-price">Rp 300.000</span></div>
+        </div>
+        <div class="customer-price-group">
+            <h4>📅 JUMAT</h4>
+            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-row"><span>07.00–09.00</span><span>Rp 200.000</span><span class="member-price">Rp 150.000</span></div>
+            <div class="customer-price-row"><span>10.00–14.00</span><span>Rp 250.000</span><span class="member-price">Rp 200.000</span></div>
+            <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
+            <div class="customer-price-row"><span>18.00–19.00</span><span>Rp 350.000</span><span class="member-price">Rp 300.000</span></div>
+            <div class="customer-price-row"><span>20.00–24.00</span><span>Rp 400.000</span><span class="member-price">Rp 350.000</span></div>
+        </div>
+        <div class="customer-price-group">
+            <h4>📅 SABTU – MINGGU</h4>
+            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-row"><span>07.00–14.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
+            <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 350.000</span><span class="member-price">Rp 300.000</span></div>
+            <div class="customer-price-row"><span>18.00–24.00</span><span>Rp 400.000</span><span class="member-price">Rp 350.000</span></div>
+        </div>
+    </div>
+    <p class="customer-price-note">💙 Harga Member mendapat potongan <b>Rp 50.000/jam</b>. Harga di atas mengikuti aturan perhitungan harga pada web admin.</p>
+    <div id="customer-selected-price" class="customer-selected-price">
+        <span>Estimasi harga slot yang dipilih</span>
+        <strong id="customer-selected-price-value">Rp 0</strong>
+    </div>
+</div>
+
             <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="hidden" aria-hidden="true">
@@ -1635,11 +1721,11 @@ main{
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold mb-1 text-slate-900">Tanggal Main</label>
-                        <input type="date" id="cust-tanggal" onchange="loadJamKosongCustomer()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
+                        <input type="date" id="cust-tanggal" onchange="loadJamKosongCustomer(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold mb-1 text-slate-900">Pilih Jam Kosong</label>
-                        <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
+                        <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice()" required>
                             <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
                         </select>
                     </div>
@@ -1678,6 +1764,26 @@ main{
                                 <option value="QRIS">💳  QRIS</option>
                                 <option value="Transfer">🏦  Transfer</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <!-- Informasi pembayaran full-width tepat di bawah DP + Metode Pembayaran -->
+                    <div id="customer-payment-info" class="customer-payment-info">
+                        <div class="payment-info-title">💳 Informasi Pembayaran</div>
+                        <div id="payment-transfer-card" class="payment-info-card hidden">
+                            <div class="payment-info-label">🏦 Nomor Rekening Transfer</div>
+                            <div class="payment-account">
+                                <span class="payment-account-number">7340198877</span>
+                                <button type="button" class="payment-small-btn" onclick="salinRekeningCustomer()">📋 Salin</button>
+                            </div>
+                            <div style="margin-top:.25rem;font-size:.5rem;color:#64748b;font-weight:700">Pastikan nama tujuan rekening sesuai informasi dari pengelola.</div>
+                        </div>
+                        <div id="payment-qris-card" class="payment-info-card hidden">
+                            <div class="payment-info-label">📱 Pembayaran QRIS</div>
+                            <img src="qris.png" alt="QRIS Sandaga Minisoccer" class="qris-preview" loading="lazy">
+                            <div class="qris-actions">
+                                <a class="qris-download" href="qris.png" download="qris-sandaga-minisoccer.png">⬇️ Unduh QRIS</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2347,13 +2453,69 @@ main{
             return days[d.getDay()];
         }
 
+        // Harga customer mengikuti persis aturan getHargaLapangan() pada web admin.
+        function getHargaLapanganCustomer(tanggalStr, jamStr, status = 'Non-Member') {
+            if(!tanggalStr || !jamStr) return 0;
+            const d = new Date(tanggalStr + 'T00:00:00');
+            if(isNaN(d.getTime())) return 0;
+            const hari = d.getDay();
+            const jam = parseInt(String(jamStr).substring(0, 2), 10);
+            let harga = 0;
+
+            if(hari >= 1 && hari <= 5) {
+                if(jam >= 7 && jam <= 9) harga = 200000;
+                else if(jam >= 10 && jam <= 14) harga = 250000;
+                else if(jam >= 15 && jam <= 17) harga = 300000;
+
+                if(hari >= 1 && hari <= 4) {
+                    if(jam >= 18 && jam <= 24) harga = 350000;
+                } else if(hari === 5) {
+                    if(jam >= 18 && jam <= 19) harga = 350000;
+                    else if(jam >= 20 && jam <= 24) harga = 400000;
+                }
+            } else {
+                if(jam >= 7 && jam <= 14) harga = 300000;
+                else if(jam >= 15 && jam <= 17) harga = 350000;
+                else if(jam >= 18 && jam <= 24) harga = 400000;
+            }
+
+            if(String(status || '').toLowerCase() === 'member' && harga > 0) {
+                harga = Math.max(0, harga - 50000);
+            }
+            return harga;
+        }
+
+        function formatRupiahCustomer(nominal) {
+            return 'Rp ' + Number(nominal || 0).toLocaleString('id-ID');
+        }
+
+        function updateCustomerSelectedPrice() {
+            const tgl = document.getElementById('cust-tanggal')?.value || '';
+            const jam = document.getElementById('cust-jam')?.value || '';
+            const box = document.getElementById('customer-selected-price');
+            const value = document.getElementById('customer-selected-price-value');
+            if(!box || !value) return;
+
+            const harga = getHargaLapanganCustomer(tgl, jam, 'Non-Member');
+            if(tgl && jam && harga > 0) {
+                value.textContent = formatRupiahCustomer(harga);
+                box.classList.add('show');
+            } else {
+                value.textContent = 'Rp 0';
+                box.classList.remove('show');
+            }
+        }
+
         window.loadJamKosongCustomer = () => {
             let tglInput = document.getElementById('cust-tanggal').value;
             let selectJam = document.getElementById('cust-jam');
             if(!selectJam) return;
             selectJam.innerHTML = `<option value="">-- Pilih Jam Kosong --</option>`;
 
-            if(!tglInput) return;
+            if(!tglInput) {
+                updateCustomerSelectedPrice();
+                return;
+            }
 
             let hariName = getNamaHari(tglInput);
             let jamTerisi = new Set();
@@ -2391,7 +2553,14 @@ main{
                 opt.text = "-- Maaf, Semua Jadwal di Tanggal Ini Sudah Penuh --";
                 selectJam.appendChild(opt);
             }
+
+            updateCustomerSelectedPrice();
         }
+
+        
+        window.updateCustomerPaymentInfo = () => { const metode=document.getElementById('cust-metode')?.value||''; document.getElementById('payment-transfer-card')?.classList.toggle('hidden',metode!=='Transfer'); document.getElementById('payment-qris-card')?.classList.toggle('hidden',metode!=='QRIS'); };
+        window.salinRekeningCustomer = async () => { const nomor='7340198877'; try { await navigator.clipboard.writeText(nomor); alert('Nomor rekening berhasil disalin: '+nomor); } catch(e) { alert('Nomor rekening: '+nomor); } };
+        document.addEventListener('DOMContentLoaded',()=>{const metode=document.getElementById('cust-metode'); if(metode){metode.addEventListener('change',updateCustomerPaymentInfo);updateCustomerPaymentInfo();}});
 
         window.submitCustomerBooking = async (e) => {
             e.preventDefault();
