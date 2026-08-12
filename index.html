@@ -131,9 +131,11 @@
 .customer-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
 .customer-price-group{background:rgba(255,255,255,.92);border:1px solid #dbeafe;border-radius:.85rem;overflow:hidden}
 .customer-price-group h4{margin:0;padding:.5rem .6rem;color:#fff;background:linear-gradient(135deg,#1d4ed8,#4338ca);font-size:.62rem;font-weight:950;letter-spacing:.04em}
-.customer-price-label{padding:.35rem .55rem;background:#f8fafc;color:#64748b;font-size:.49rem;font-weight:950;text-transform:uppercase;letter-spacing:.03em}
+.customer-price-label{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:.25rem;align-items:center;padding:.35rem .55rem;background:#f8fafc;color:#64748b;font-size:.49rem;font-weight:950;text-transform:uppercase;letter-spacing:.03em}
+.customer-price-label span:nth-child(2),.customer-price-label span:nth-child(3){text-align:right}
 .customer-price-row{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:.25rem;align-items:center;padding:.43rem .55rem;border-top:1px solid #e2e8f0;font-size:.56rem;font-weight:850;color:#334155}
 .customer-price-row span:nth-child(2),.customer-price-row span:nth-child(3){text-align:right}
+.customer-price-label span,.customer-price-row span{min-width:0;white-space:nowrap}
 .customer-price-row .member-price{color:#1d4ed8}
 .customer-price-note{margin:.65rem 0 0;color:#64748b;font-size:.54rem;line-height:1.45;font-weight:750}
 .customer-selected-price{display:none;margin-top:.65rem;padding:.65rem .75rem;border:1px solid #93c5fd;border-radius:.85rem;background:#eff6ff;color:#1e3a8a;font-size:.62rem;font-weight:900}
@@ -1684,7 +1686,11 @@ main{
     <div class="customer-price-grid">
         <div class="customer-price-group">
             <h4>📅 SENIN – KAMIS</h4>
-            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-label">
+    <span>Jam</span>
+    <span>Non-Member</span>
+    <span>Member</span>
+</div>
             <div class="customer-price-row"><span>07.00–09.00</span><span>Rp 200.000</span><span class="member-price">Rp 150.000</span></div>
             <div class="customer-price-row"><span>10.00–14.00</span><span>Rp 250.000</span><span class="member-price">Rp 200.000</span></div>
             <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
@@ -1692,7 +1698,11 @@ main{
         </div>
         <div class="customer-price-group">
             <h4>📅 JUMAT</h4>
-            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-label">
+    <span>Jam</span>
+    <span>Non-Member</span>
+    <span>Member</span>
+</div>
             <div class="customer-price-row"><span>07.00–09.00</span><span>Rp 200.000</span><span class="member-price">Rp 150.000</span></div>
             <div class="customer-price-row"><span>10.00–14.00</span><span>Rp 250.000</span><span class="member-price">Rp 200.000</span></div>
             <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
@@ -1701,7 +1711,11 @@ main{
         </div>
         <div class="customer-price-group">
             <h4>📅 SABTU – MINGGU</h4>
-            <div class="customer-price-label">Jam &nbsp; | &nbsp; Non-Member &nbsp; | &nbsp; Member</div>
+            <div class="customer-price-label">
+    <span>Jam</span>
+    <span>Non-Member</span>
+    <span>Member</span>
+</div>
             <div class="customer-price-row"><span>07.00–14.00</span><span>Rp 300.000</span><span class="member-price">Rp 250.000</span></div>
             <div class="customer-price-row"><span>15.00–17.00</span><span>Rp 350.000</span><span class="member-price">Rp 300.000</span></div>
             <div class="customer-price-row"><span>18.00–24.00</span><span>Rp 400.000</span><span class="member-price">Rp 350.000</span></div>
@@ -3893,6 +3907,14 @@ main{
     #page-home {
         margin-bottom: 0 !important;
     }
+}
+
+/* Semua teks pada list harga rata tengah */
+.customer-price-label,
+.customer-price-label span,
+.customer-price-row,
+.customer-price-row span {
+    text-align: center !important;
 }
 </style>
 
