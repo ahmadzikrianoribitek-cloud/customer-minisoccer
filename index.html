@@ -3602,5 +3602,130 @@ main{
 }
 </style>
 
+
+<style id="mobile-final-height-and-space-fix">
+@media (max-width: 640px) {
+    /* Jangan biarkan native select menentukan tinggi sendiri */
+    #page-home #cust-dp,
+    #page-home #cust-metode {
+        display: block !important;
+        width: 100% !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 0 .65rem !important;
+        line-height: 42px !important;
+        border-width: 2px !important;
+        border-radius: 12px !important;
+    }
+
+    #page-home #cust-metode {
+        appearance: auto !important;
+        -webkit-appearance: auto !important;
+        background: #fff !important;
+        vertical-align: middle !important;
+    }
+
+    #page-home #cust-metode:invalid {
+        color: transparent !important;
+    }
+
+    #page-home #cust-metode option {
+        line-height: normal !important;
+        color: #0f172a !important;
+        background: #fff !important;
+    }
+
+    /* Pembayaran: kedua kolom benar-benar sama tinggi */
+    #page-home form > div.grid:nth-of-type(3) {
+        align-items: end !important;
+    }
+
+    #page-home form > div.grid:nth-of-type(3) > div {
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+    }
+
+    #page-home form > div.grid:nth-of-type(3) > div > label,
+    #page-home form > div.grid:nth-of-type(3) .payment-method-label {
+        height: 15px !important;
+        min-height: 15px !important;
+        margin: 0 0 4px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    #page-home form > div.grid:nth-of-type(3) > div > #cust-dp,
+    #page-home form > div.grid:nth-of-type(3) > div > .payment-select-wrap {
+        height: 42px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+    }
+
+    #page-home .payment-select-wrap {
+        width: 100% !important;
+        position: relative !important;
+        display: block !important;
+    }
+
+    #page-home .payment-select-wrap #cust-metode {
+        width: 100% !important;
+    }
+
+    /* Kurangi ruang kosong bawah dan rapatkan keseluruhan form */
+    body {
+        min-height: auto !important;
+        height: auto !important;
+        padding-bottom: 0 !important;
+    }
+
+    #page-home {
+        margin-bottom: .2rem !important;
+        padding-bottom: .45rem !important;
+    }
+
+    #page-home form {
+        margin-bottom: 0 !important;
+        gap: .3rem !important;
+    }
+
+    #page-home form > div:not(.pt-2),
+    #page-home form > div.grid {
+        padding-top: .35rem !important;
+        padding-bottom: .35rem !important;
+    }
+
+    #page-home form > .pt-2 {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    #page-home form > .pt-2 button {
+        height: 42px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+    }
+
+    /* Sisakan ruang bawah seminimal mungkin */
+    body > main,
+    main {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 640px) and (min-height: 800px) {
+    /* Layar HP tinggi: gunakan ruang kosong dengan memperbesar sedikit
+       form, bukan meninggalkan area kosong besar di bawah. */
+    #page-home {
+        margin-bottom: 0 !important;
+    }
+}
+</style>
+
 </body>
 </html>
