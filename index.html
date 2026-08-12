@@ -4147,6 +4147,50 @@ body:has(#page-customer-booking:not(.hidden))
   text-align: center !important;
 }
 </style>
+
+<style id="customer-menu-three-columns-final-v18">
+/* FINAL: menu utama customer selalu 3 tombol sejajar, termasuk HP. */
+#page-home .customer-image-menu {
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:clamp(6px,2.2vw,20px) !important;
+    width:100% !important;
+    max-width:940px !important;
+    margin:0 auto !important;
+    padding:0 !important;
+}
+#page-home .customer-image-menu-item,
+#page-home .customer-image-menu-item:last-child {
+    grid-column:auto !important;
+    width:100% !important;
+    justify-self:stretch !important;
+}
+#page-home .customer-image-menu-item img {
+    width:100% !important;
+    height:auto !important;
+    display:block !important;
+}
+@media (max-width:640px) {
+    #page-home .customer-image-menu {
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        gap:6px !important;
+        max-width:none !important;
+        padding:0 !important;
+    }
+    #page-home .customer-image-menu-item,
+    #page-home .customer-image-menu-item:last-child {
+        grid-column:auto !important;
+        width:100% !important;
+        justify-self:stretch !important;
+    }
+}
+@media (max-width:360px) {
+    #page-home .customer-image-menu {
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        gap:4px !important;
+    }
+}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
