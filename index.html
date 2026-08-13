@@ -5574,66 +5574,89 @@ body > header h1 {
             return n;
         };
 
-        window.pilihSparringCustomer = async (key, nomorTim) => {
-            const item = globalCache.sparring?.[key];
-            if(!item || item.status === 'matched' || !item.timA){
-                alert('Tim tersebut sudah tidak tersedia untuk dipilih.');
-                renderCustomerSparring();
-                return;
-            }
+        window.pilihSparringCustomer = async (key, rawPhone) => {
+    const item = (globalCache.sparring || {})[key];
+    if (!item) {
+        alert('Data tim yang dipilih tidak ditemukan.');
+        return;
+    }
 
-            // Buka tab kosong sejak awal klik agar browser tidak memblokir WhatsApp setelah proses Firebase selesai.
-            const waWindow = window.open('about:blank', '_blank');
+    // Minta nama tim yang ingin mencari lawan
+    const namaTimKita = prompt('Masukkan nama tim Anda:');
+    if (namaTimKita === null) return; // user menekan Batal
 
-            const namaTim = prompt(`Masukkan nama tim Anda untuk menjadi lawan ${item.timA}:`);
-            if(!namaTim || !namaTim.trim()){
-                if(waWindow && !waWindow.closed) waWindow.close();
-                return;
-            }
+    const namaBersih = namaTimKita.trim();
+    if (!namaBersih) {
+        alert('Nama tim wajib diisi.');
+        return;
+    }
 
-            const timB = namaTim.trim();
-            if(timB.toLowerCase() === String(item.timA).trim().toLowerCase()){
-                if(waWindow && !waWindow.closed) waWindow.close();
-                alert('Nama tim Anda tidak boleh sama dengan tim yang dipilih.');
-                return;
-            }
+    // Ambil nomor HP dari data utama atau catatan
+    let phone = String(rawPhone || item.noHp || '').trim();
+    if (!phone) {
+        const match = String(item.catatan || '').match(
+            /(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i
+        );
+        phone = match ? String(match[1]).trim() : '';
+    }
 
-            const wa = normalisasiNomorWhatsAppCustomer(nomorTim);
-            if(!wa || wa.length < 10){
-                if(waWindow && !waWindow.closed) waWindow.close();
-                alert('Nomor WhatsApp tim tersebut belum tersedia.');
-                return;
-            }
+    if (!phone) {
+        alert('Nomor WhatsApp tim ini belum tersedia.');
+        return;
+    }
 
-            try{
-                await update(ref(db, 'sparring/' + key), {
-                    tanggal: item.tanggal || '',
-                    jam: item.jam || '',
-                    timA: item.timA,
-                    timB,
-                    status: 'matched',
-                    noHp: item.noHp || nomorTim || '',
-                    catatan: item.catatan || '',
-                    timestamp: Date.now()
-                });
+    // Normalisasi nomor Indonesia
+    phone = phone.replace(/[^\d+]/g, '');
+    if (phone.startsWith('+')) {
+        phone = phone.substring(1);
+    } else if (phone.startsWith('0')) {
+        phone = '62' + phone.substring(1);
+    } else if (!phone.startsWith('62')) {
+        phone = '62' + phone;
+    }
 
-                const tanggal = item.tanggal ? item.tanggal.split('-').reverse().join('/') : '-';
-                const pesan = `Halo ${item.timA}, saya ${timB}. Saya melihat tim Anda sedang mencari lawan sparring di Sandaga Minisoccer.\n\nSaya memilih tim Anda sebagai lawan sparring.\nTanggal: ${tanggal}\nJam: ${item.jam || '-'}\n\nApakah kita bisa konfirmasi sparringnya?`;
-                const url = `https://wa.me/${wa}?text=${encodeURIComponent(pesan)}`;
+    const tanggal = item.tanggal
+        ? item.tanggal.split('-').reverse().join('/')
+        : '-';
+    const jam = item.jam || '-';
+    const namaTimLawan = String(item.timA || '').trim() || 'Tim Anda';
 
-                if(waWindow && !waWindow.closed){
-                    waWindow.location.href = url;
-                } else {
-                    window.location.href = url;
-                }
+    const pesan =
+        `Halo kak, saya dari tim *${namaBersih}*.%0A%0A` +
+        `Saya melihat tim *${namaTimLawan}* sedang mencari lawan sparring.%0A%0A` +
+        `📅 Tanggal: ${tanggal}%0A` +
+        `⏰ Jam: ${jam}%0A%0A` +
+        `Apakah masih tersedia untuk sparring?`;
 
-                renderCustomerSparring();
-            }catch(error){
-                console.error(error);
-                if(waWindow && !waWindow.closed) waWindow.close();
-                alert('Gagal memilih tim sparring: ' + error.message);
-            }
-        };
+    const waUrl = `https://wa.me/${phone}?text=${pesan}`;
+
+    // Buka WhatsApp terlebih dahulu agar tidak terblokir popup browser
+    window.open(waUrl, '_blank');
+
+    // Tandai sebagai sudah dipilih setelah WhatsApp dibuka
+    try {
+        if (typeof db !== 'undefined' && typeof ref === 'function' && typeof update === 'function') {
+            await update(ref(db, `sparring/${key}`), {
+                status: 'matched',
+                timB: namaBersih,
+                noHpB: phone
+            });
+        }
+
+        if (globalCache.sparring && globalCache.sparring[key]) {
+            globalCache.sparring[key].status = 'matched';
+            globalCache.sparring[key].timB = namaBersih;
+            globalCache.sparring[key].noHpB = phone;
+        }
+
+        if (typeof renderCustomerSparring === 'function') {
+            renderCustomerSparring();
+        }
+    } catch (error) {
+        console.error('Gagal memperbarui status sparring:', error);
+        // WhatsApp tetap sudah terbuka, jadi jangan mengganggu user.
+    }
+};
 
         window.escapeHtmlCustomerSparring = (value) => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
 
