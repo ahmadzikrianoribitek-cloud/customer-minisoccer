@@ -4661,7 +4661,7 @@ body > header h1 {
         <!-- HALAMAN SPARRING CUSTOMER -->
 <div class="sub-menu-modern glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-sparring">
     <div class="customer-page-head">
-        <div class="w-full text-center"><h2>⚽ SPARRING</h2></div>
+        <div class="w-full text-center"><h2>⚽ SPARING</h2></div>
         <button type="button" onclick="showPage('home')"></button>
     </div>
     <p class="text-center text-xs sm:text-sm font-semibold text-slate-700 mb-4">Daftar tim yang sedang mencari lawan</p>
@@ -8059,6 +8059,264 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
     .customer-sparring-modal-save {
         order: -1;
     }
+}
+</style>
+
+
+<style id="background-responsive-final">
+/* FINAL BACKGROUND RESPONSIVE
+   Desktop: latardekstop.png
+   HP: latar.png
+*/
+html {
+    min-height: 100%;
+    background: transparent !important;
+}
+
+body {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+}
+
+/* DESKTOP / LAPTOP */
+@media (min-width: 641px) {
+    body,
+    body.sub-menu-active {
+        background-image: url('latardekstop.png') !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+    }
+}
+
+/* HP */
+@media (max-width: 640px) {
+    body,
+    body.sub-menu-active {
+        background-image: url('latar.png') !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+    }
+}
+</style>
+
+
+<style id="all-customer-submenus-glass-final">
+/* =========================================================
+   GLASS EFFECT - SEMUA SUB MENU CUSTOMER
+   Warna asli komponen dipertahankan.
+   Yang diubah hanya transparansi, blur, border dan shadow.
+   ========================================================= */
+
+.sub-menu-modern,
+.sub-menu-modern.glass-panel,
+.customer-content-page {
+    position: relative !important;
+    overflow: hidden !important;
+
+    /* transparansi kaca */
+    background: rgba(255,255,255,.16) !important;
+
+    /* efek kaca */
+    -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+    backdrop-filter: blur(22px) saturate(145%) !important;
+
+    /* tepi kaca */
+    border: 1px solid rgba(255,255,255,.38) !important;
+    box-shadow:
+        0 20px 55px rgba(15,23,42,.14),
+        inset 0 1px 0 rgba(255,255,255,.48),
+        inset 0 -1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* Kilau tipis khas kaca di bagian atas */
+.sub-menu-modern::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 4% !important;
+    right: 4% !important;
+    height: 1px !important;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.72),
+        transparent
+    ) !important;
+    pointer-events: none !important;
+    z-index: 20 !important;
+}
+
+/* Jangan sampai efek kaca mengubah warna tulisan */
+.sub-menu-modern h1,
+.sub-menu-modern h2,
+.sub-menu-modern h3,
+.sub-menu-modern h4,
+.sub-menu-modern p,
+.sub-menu-modern label,
+.sub-menu-modern span,
+.sub-menu-modern td,
+.sub-menu-modern th {
+    opacity: 1 !important;
+}
+
+/* Kartu/section di dalam submenu ikut terasa seperti kaca,
+   tetapi warna asli masing-masing tetap dipertahankan melalui
+   background semi-transparan, bukan diganti warna baru. */
+.sub-menu-modern > .glass-panel,
+.sub-menu-modern .customer-page-head,
+.sub-menu-modern .customer-payment-info,
+.sub-menu-modern .payment-info-card,
+.sub-menu-modern .customer-sparring-card,
+.sub-menu-modern .customer-schedule-card {
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+}
+
+/* Form dan kotak input: tetap memakai warna/tema yang sudah ada,
+   hanya diberi efek kaca tipis. */
+.sub-menu-modern form,
+.sub-menu-modern .p-3.rounded-xl,
+.sub-menu-modern .p-4.rounded-xl,
+.sub-menu-modern .p-5.rounded-xl,
+.sub-menu-modern .p-6.rounded-xl {
+    -webkit-backdrop-filter: blur(12px) saturate(135%) !important;
+    backdrop-filter: blur(12px) saturate(135%) !important;
+}
+
+/* Tabel tetap mempertahankan warna header dan isi,
+   tetapi area pembungkusnya mendapat efek kaca. */
+.sub-menu-modern #booking-schedule-grid-wrap,
+.sub-menu-modern #customer-payment-info {
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+}
+
+/* Hover submenu tetap halus, tanpa mengganti warna */
+.sub-menu-modern {
+    transition:
+        box-shadow .25s ease,
+        border-color .25s ease,
+        background-color .25s ease !important;
+}
+
+/* HP: blur sedikit dikurangi supaya tetap ringan */
+@media (max-width: 640px) {
+    .sub-menu-modern,
+    .sub-menu-modern.glass-panel,
+    .customer-content-page {
+        -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+        backdrop-filter: blur(16px) saturate(140%) !important;
+        box-shadow:
+            0 14px 35px rgba(15,23,42,.12),
+            inset 0 1px 0 rgba(255,255,255,.42) !important;
+        border-radius: 1.15rem !important;
+    }
+}
+</style>
+
+
+<style id="sparing-purple-theme-final">
+/* =========================================================
+   TEMA SPARING - UNGU
+   Khusus halaman #page-customer-sparring
+   ========================================================= */
+
+#page-customer-sparring {
+    --sparing-purple-1: #a21caf;
+    --sparing-purple-2: #7e22ce;
+    --sparing-purple-3: #6d28d9;
+    --sparing-purple-dark: #581c87;
+    --sparing-purple-soft: rgba(168,85,247,.16);
+    --sparing-purple-border: rgba(216,180,254,.48);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(162,28,175,.72) 0%,
+            rgba(126,34,206,.68) 48%,
+            rgba(109,40,217,.72) 100%
+        ) !important;
+
+    border-color: rgba(233,213,255,.52) !important;
+
+    box-shadow:
+        0 20px 55px rgba(88,28,135,.24),
+        inset 0 1px 0 rgba(255,255,255,.48),
+        inset 0 -1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* Judul dan deskripsi mengikuti tema ungu */
+#page-customer-sparring .customer-page-head h2,
+#page-customer-sparring > p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 7px rgba(58,16,82,.25);
+}
+
+/* Area daftar tim */
+#page-customer-sparring #customer-sparring-list {
+    position: relative;
+}
+
+/* Kartu tim sparing */
+#page-customer-sparring #customer-sparring-list > *,
+#page-customer-sparring .customer-sparring-card {
+    border-color: var(--sparing-purple-border) !important;
+}
+
+/* Tombol aksi di halaman sparing */
+#page-customer-sparring button,
+#page-customer-sparring a {
+    border-color: rgba(255,255,255,.42) !important;
+}
+
+/* Tombol pilih tim: ungu senada tombol SPARING di halaman utama */
+#page-customer-sparring .choose-sparing-btn,
+#page-customer-sparring .pilih-sparring-btn,
+#page-customer-sparring button[onclick*="pilihSparringCustomer"] {
+    background: linear-gradient(
+        135deg,
+        #c026d3 0%,
+        #a21caf 45%,
+        #7e22ce 100%
+    ) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.46) !important;
+    box-shadow:
+        0 9px 22px rgba(88,28,135,.24),
+        inset 0 1px 0 rgba(255,255,255,.28) !important;
+}
+
+/* Input/filter pada sparing tetap mudah dibaca */
+#page-customer-sparring input,
+#page-customer-sparring select {
+    border-color: rgba(255,255,255,.46) !important;
+    box-shadow:
+        0 5px 15px rgba(88,28,135,.12),
+        inset 0 1px 0 rgba(255,255,255,.30) !important;
+}
+
+/* Empty/loading state */
+#page-customer-sparring #customer-sparring-list .text-slate-500,
+#page-customer-sparring #customer-sparring-list .text-slate-600 {
+    color: rgba(255,255,255,.88) !important;
+}
+
+/* Efek highlight kaca tetap ada, tetapi berwarna netral */
+#page-customer-sparring::before {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.72),
+        transparent
+    ) !important;
 }
 </style>
 
