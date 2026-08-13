@@ -4396,6 +4396,81 @@ body > header h1 {
 .payment-account-owner{color:#0f172a !important;font-size:.72rem !important;font-weight:950 !important;opacity:1 !important;text-shadow:none !important;}
 #page-customer-booking .payment-account-owner{color:#172554 !important;}
 </style>
+
+<style id="remove-arrowed-inner-frames-v2">
+/* =========================================================
+   HILANGKAN FRAME YANG DITUNJUK PANAH
+   - SPARING: frame strip di belakang judul SPARING
+   - HARGA: frame hijau pembungkus judul + daftar harga
+   Kartu jadwal/harga di dalamnya tetap dipertahankan.
+   ========================================================= */
+
+/* SPARING — hilangkan frame khusus header/judul */
+#page-customer-sparring .customer-page-head {
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Hilangkan garis/dekorasi header jika berasal dari pseudo-element */
+#page-customer-sparring .customer-page-head::before,
+#page-customer-sparring .customer-page-head::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* HARGA — hilangkan frame luar yang membungkus judul daftar harga
+   dan tiga kartu harga. Kartu per hari tetap ada. */
+#page-customer-price .customer-price-card {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Pastikan frame kartu harga harian tetap tampil */
+#page-customer-price .customer-price-group {
+    border: 1px solid rgba(255,255,255,.52) !important;
+}
+</style>
+
+
+<style id="remove-price-green-frame-v3">
+/* HARGA — hilangkan frame hijau besar yang ditunjuk panah.
+   Yang dihilangkan adalah frame halaman #page-customer-price,
+   sedangkan 3 kartu harga di dalamnya tetap dipertahankan. */
+#page-customer-price {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Hilangkan juga efek garis/kilau yang ikut membentuk frame luar */
+#page-customer-price::before,
+#page-customer-price::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Frame/kartu harga per hari tetap dipertahankan */
+#page-customer-price .customer-price-group {
+    border: 1px solid rgba(255,255,255,.52) !important;
+}
+</style>
+
+
+<style id="customer-booking-duration-v1">
+#page-customer-booking #cust-durasi {
+    width: 100%;
+}
+</style>
+
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -4558,9 +4633,16 @@ body > header h1 {
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold mb-1 text-slate-900">Pilih Jam Kosong</label>
-                        <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice()" required>
+                        <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice(); updateCustomerDurationOptions()" required>
                             <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
                         </select>
+
+                        <label class="block text-xs font-bold mb-1 mt-3 text-slate-900">Durasi Booking</label>
+                        <p class="text-[11px] font-semibold text-slate-600 mb-1">Pilih berapa jam lapangan yang mau dibooking.</p>
+                        <select id="cust-durasi" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice()" required>
+                            <option value="1">Booking 1 Jam</option>
+                        </select>
+
                         <div id="customer-booking-selected-price" class="customer-booking-selected-price" aria-live="polite">
                             <div class="customer-booking-selected-price-label">💰 Estimasi Harga Lapangan</div>
                             <strong id="customer-booking-selected-price-value">Rp 0</strong>
@@ -4570,7 +4652,7 @@ body > header h1 {
 
                 <div>
                     <label class="block text-xs font-bold mb-1 text-slate-900">Status Pemesan</label>
-                    <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerJamPrices(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
+                    <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerJamPrices(); updateCustomerDurationOptions(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                         <option value="Non-Member" selected>Non-Member</option>
                         <option value="Member">Member</option>
                     </select>
@@ -5391,39 +5473,101 @@ body > header h1 {
             return 'Rp ' + Number(nominal || 0).toLocaleString('id-ID');
         }
 
+        function getCustomerBookingHours(startJam, durasi) {
+            const startIndex = listJam.indexOf(startJam);
+            const jumlahJam = Number(durasi || 1);
+            if(startIndex < 0 || jumlahJam < 1) return [];
+
+            return listJam.slice(startIndex, startIndex + jumlahJam);
+        }
+
+        function getCustomerBookingTotal(tgl, startJam, durasi, status) {
+            const hours = getCustomerBookingHours(startJam, durasi);
+            if(hours.length !== Number(durasi || 1)) return 0;
+
+            return hours.reduce((total, jam) => {
+                return total + getHargaLapanganCustomer(tgl, jam, status);
+            }, 0);
+        }
+
         function updateCustomerSelectedPrice() {
             const tgl = document.getElementById('cust-tanggal')?.value || '';
             const jam = document.getElementById('cust-jam')?.value || '';
+            const durasi = Number(document.getElementById('cust-durasi')?.value || 1);
             const priceBox = document.getElementById('customer-selected-price');
             const priceValue = document.getElementById('customer-selected-price-value');
             const bookingBox = document.getElementById('customer-booking-selected-price');
             const bookingValue = document.getElementById('customer-booking-selected-price-value');
 
             const status = document.getElementById('cust-status')?.value || 'Non-Member';
-            const harga = getHargaLapanganCustomer(tgl, jam, status);
+            const harga = getCustomerBookingTotal(tgl, jam, durasi, status);
             const show = !!(tgl && jam && harga > 0);
             const formatted = formatRupiahCustomer(harga);
 
-            // Estimasi harga di halaman Harga (jika sedang digunakan).
             if(priceBox && priceValue) {
                 priceValue.textContent = formatted;
                 priceBox.classList.toggle('show', show);
             }
 
-            // Estimasi harga di halaman Booking: muncul setelah tanggal + jam dipilih.
             if(bookingBox && bookingValue) {
                 bookingValue.textContent = formatted;
                 bookingBox.classList.toggle('show', show);
             }
         }
 
+        window.updateCustomerDurationOptions = () => {
+            const tglInput = document.getElementById('cust-tanggal')?.value || '';
+            const selectJam = document.getElementById('cust-jam');
+            const selectDurasi = document.getElementById('cust-durasi');
+            if(!selectDurasi) return;
+
+            const startJam = selectJam?.value || '';
+            const availableHours = window.__customerAvailableHours || new Set();
+
+            selectDurasi.innerHTML = '';
+
+            if(!tglInput || !startJam || !availableHours.has(startJam)) {
+                selectDurasi.innerHTML = '<option value="1">Booking 1 Jam</option>';
+                updateCustomerSelectedPrice();
+                return;
+            }
+
+            const startIndex = listJam.indexOf(startJam);
+            let maxDurasi = 0;
+
+            for(let i = startIndex; i < listJam.length; i++) {
+                if(!availableHours.has(listJam[i])) break;
+                maxDurasi++;
+            }
+
+            // Maksimal sampai 6 jam agar pilihan tetap ringkas; bisa memilih 1 jam, 2 jam, 3 jam, dst.
+            maxDurasi = Math.max(1, Math.min(maxDurasi, 6));
+
+            for(let i = 1; i <= maxDurasi; i++) {
+                const total = getCustomerBookingTotal(
+                    tglInput,
+                    startJam,
+                    i,
+                    document.getElementById('cust-status')?.value || 'Non-Member'
+                );
+                const opt = document.createElement('option');
+                opt.value = String(i);
+                opt.textContent = `Booking ${i} Jam — ${formatRupiahCustomer(total)}`;
+                selectDurasi.appendChild(opt);
+            }
+
+            updateCustomerSelectedPrice();
+        };
+
         window.loadJamKosongCustomer = () => {
             let tglInput = document.getElementById('cust-tanggal').value;
             let selectJam = document.getElementById('cust-jam');
             if(!selectJam) return;
             selectJam.innerHTML = `<option value="">-- Pilih Jam Kosong --</option>`;
+            window.__customerAvailableHours = new Set();
 
             if(!tglInput) {
+                updateCustomerDurationOptions();
                 updateCustomerSelectedPrice();
                 return;
             }
@@ -5433,24 +5577,37 @@ body > header h1 {
 
             listJam.forEach(jam => {
                 let cellData = (globalCache.member[jam] && globalCache.member[jam][hariName]) ? globalCache.member[jam][hariName] : null;
-                if(cellData) {
-                    jamTerisi.add(jam);
-                }
+                if(cellData) jamTerisi.add(jam);
             });
 
             Object.values(globalCache.booking).forEach(b => {
                 if(b.tgl && b.tgl.split('T')[0] === tglInput) {
-                    let timePart = b.tgl.split('T')[1];
-                    if(timePart) {
-                        jamTerisi.add(timePart.substring(0, 5));
+                    const timePart = b.tgl.split('T')[1];
+                    if(!timePart) return;
+
+                    const startJam = timePart.substring(0, 5);
+                    const durasi = Math.max(1, Number(b.durasi || 1));
+                    const startIndex = listJam.indexOf(startJam);
+
+                    if(startIndex >= 0) {
+                        for(let i = startIndex; i < startIndex + durasi && i < listJam.length; i++) {
+                            jamTerisi.add(listJam[i]);
+                        }
+                    } else {
+                        jamTerisi.add(startJam);
                     }
                 }
             });
 
+            // Jam 18:00 memang OFF pada jadwal lapangan, jadi jangan ditawarkan.
+            if(listJam.includes('18:00')) jamTerisi.add('18:00');
+
             let jamKosongDitemukan = false;
             const status = document.getElementById('cust-status')?.value || 'Non-Member';
+
             listJam.forEach(jam => {
                 if(!jamTerisi.has(jam)) {
+                    window.__customerAvailableHours.add(jam);
                     let opt = document.createElement('option');
                     opt.value = jam;
                     const harga = getHargaLapanganCustomer(tglInput, jam, status);
@@ -5467,10 +5624,10 @@ body > header h1 {
                 selectJam.appendChild(opt);
             }
 
+            updateCustomerDurationOptions();
             updateCustomerSelectedPrice();
-        }
+        };
 
-        
         window.updateCustomerJamPrices = () => {
             const tglInput = document.getElementById('cust-tanggal')?.value || '';
             const selectJam = document.getElementById('cust-jam');
@@ -5774,6 +5931,7 @@ body > header h1 {
             let tglBooking = getLocalDateString();
             let tglDp = tglBooking;
             let jamInput = document.getElementById('cust-jam').value;
+            let durasi = Number(document.getElementById('cust-durasi')?.value || 1);
             let namaTim = document.getElementById('cust-nama').value.trim();
             let noHp = document.getElementById('cust-hp').value.trim();
             let mintaSparring = document.getElementById('cust-minta-sparring')?.value || 'Tidak';
@@ -5801,12 +5959,53 @@ body > header h1 {
                 return;
             }
 
+            const bookingHours = getCustomerBookingHours(jamInput, durasi);
+            if(bookingHours.length !== durasi) {
+                alert("Durasi booking tidak tersedia sampai selesai. Silakan pilih jam mulai atau durasi lain.");
+                return;
+            }
+
+            const jamTerisiUntukValidasi = new Set();
+            const hariNameBooking = getNamaHari(tglInput);
+
+            listJam.forEach(jam => {
+                const cellData = (globalCache.member[jam] && globalCache.member[jam][hariNameBooking])
+                    ? globalCache.member[jam][hariNameBooking]
+                    : null;
+                if(cellData) jamTerisiUntukValidasi.add(jam);
+            });
+
+            Object.values(globalCache.booking).forEach(b => {
+                if(b.tgl && b.tgl.split('T')[0] === tglInput) {
+                    const timePart = b.tgl.split('T')[1];
+                    if(!timePart) return;
+                    const existingStart = timePart.substring(0, 5);
+                    const existingDuration = Math.max(1, Number(b.durasi || 1));
+                    const idx = listJam.indexOf(existingStart);
+                    if(idx >= 0) {
+                        for(let i = idx; i < idx + existingDuration && i < listJam.length; i++) {
+                            jamTerisiUntukValidasi.add(listJam[i]);
+                        }
+                    }
+                }
+            });
+
+            if(listJam.includes('18:00')) jamTerisiUntukValidasi.add('18:00');
+
+            if(bookingHours.some(jam => jamTerisiUntukValidasi.has(jam))) {
+                alert("Salah satu jam dalam durasi yang dipilih sudah terisi. Silakan pilih jam mulai atau durasi lain.");
+                loadJamKosongCustomer();
+                return;
+            }
+
             let gabungTglJam = tglInput + "T" + jamInput;
             let data = {
                 status: statusVal,
                 nama: namaTim,
                 noHp,
                 tgl: gabungTglJam,
+                durasi: durasi,
+                jamSelesai: bookingHours[bookingHours.length - 1],
                 tglBooking: tglBooking,
                 tglDp: Number(dpValue || 0) > 0 ? tglDp : '',
                 dp: dpValue,
@@ -5983,7 +6182,11 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
             Object.values(globalCache.booking).forEach(b => {
                 if(b.tgl && b.tgl.split('T')[0] === tglInput) {
                     let timePart = b.tgl.split('T')[1] ? b.tgl.split('T')[1].substring(0, 5) : "00:00";
-                    timBertanding.push({ nama: b.nama + " (Booking)", jam: timePart });
+                    timBertanding.push({
+                        nama: b.nama + " (Booking)",
+                        jam: timePart,
+                        durasi: Math.max(1, Number(b.durasi || 1))
+                    });
                 }
             });
 
@@ -5992,7 +6195,7 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                     let opt = document.createElement('option');
                     opt.value = t.nama;
                     opt.setAttribute('data-jam', t.jam);
-                    opt.text = `${t.nama} (${t.jam})`;
+                    opt.text = `${t.nama} (${t.jam}${t.durasi > 1 ? ` — ${t.durasi} jam` : ''})`;
                     selectTim.appendChild(opt);
                 });
             } else {
@@ -6302,15 +6505,24 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                     if(timePart) {
                         let jamFormat = timePart.substring(0, 5);
                         let hariName = getNamaHari(datePart);
-                        
+
                         if(currentWeekDates[hariName] && currentWeekDates[hariName].dateStr === datePart) {
-                            if(!matrix[jamFormat]) matrix[jamFormat] = {};
-                            let isMemberBooking = (b.status === 'Member');
-                            matrix[jamFormat][hariName] = { 
-                                nama: b.nama, 
-                                type: isMemberBooking ? 'member' : 'nonmember',
-                                bookingKey: Object.keys(globalCache.booking).find(k => globalCache.booking[k] === b) || ''
-                            };
+                            const startIndex = listJam.indexOf(jamFormat);
+                            const durasiBooking = Math.max(1, Number(b.durasi || 1));
+                            const isMemberBooking = (b.status === 'Member');
+                            const bookingKey = Object.keys(globalCache.booking).find(k => globalCache.booking[k] === b) || '';
+
+                            if(startIndex >= 0) {
+                                for(let i = startIndex; i < startIndex + durasiBooking && i < listJam.length; i++) {
+                                    const jamTerpakai = listJam[i];
+                                    if(!matrix[jamTerpakai]) matrix[jamTerpakai] = {};
+                                    matrix[jamTerpakai][hariName] = {
+                                        nama: b.nama,
+                                        type: isMemberBooking ? 'member' : 'nonmember',
+                                        bookingKey
+                                    };
+                                }
+                            }
                         }
                     }
                 }
@@ -6436,15 +6648,24 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                     if(timePart) {
                         let jamFormat = timePart.substring(0, 5);
                         let hariName = getNamaHari(datePart);
-                        
+
                         if(currentWeekDates[hariName] && currentWeekDates[hariName].dateStr === datePart) {
-                            if(!matrix[jamFormat]) matrix[jamFormat] = {};
-                            let isMemberBooking = (b.status === 'Member');
-                            matrix[jamFormat][hariName] = { 
-                                nama: b.nama, 
-                                type: isMemberBooking ? 'member' : 'nonmember',
-                                bookingKey: Object.keys(globalCache.booking).find(k => globalCache.booking[k] === b) || ''
-                            };
+                            const startIndex = listJam.indexOf(jamFormat);
+                            const durasiBooking = Math.max(1, Number(b.durasi || 1));
+                            const isMemberBooking = (b.status === 'Member');
+                            const bookingKey = Object.keys(globalCache.booking).find(k => globalCache.booking[k] === b) || '';
+
+                            if(startIndex >= 0) {
+                                for(let i = startIndex; i < startIndex + durasiBooking && i < listJam.length; i++) {
+                                    const jamTerpakai = listJam[i];
+                                    if(!matrix[jamTerpakai]) matrix[jamTerpakai] = {};
+                                    matrix[jamTerpakai][hariName] = {
+                                        nama: b.nama,
+                                        type: isMemberBooking ? 'member' : 'nonmember',
+                                        bookingKey
+                                    };
+                                }
+                            }
                         }
                     }
                 }
@@ -6835,12 +7056,18 @@ window.renderTabelBooking = () => {
                     Object.values(globalCache.booking).forEach(b => {
                         if(b.tgl && b.tgl.split('T')[0] === dateStr) {
                             let tPart = b.tgl.split('T')[1] ? b.tgl.split('T')[1].substring(0, 5) : "";
-                            if(tPart === jam) {
-                                cellVal = b.nama;
-                                cellBg = "bg-rose-600 text-white font-bold";
-                                if(!isFilled) {
-                                    totalJamMainBulanIni += 1;
-                                    isFilled = true;
+                            const startIndex = listJam.indexOf(tPart);
+                            const durasiBooking = Math.max(1, Number(b.durasi || 1));
+
+                            if(startIndex >= 0) {
+                                const occupiedHours = listJam.slice(startIndex, startIndex + durasiBooking);
+                                if(occupiedHours.includes(jam)) {
+                                    cellVal = b.nama;
+                                    cellBg = "bg-rose-600 text-white font-bold";
+                                    if(!isFilled) {
+                                        totalJamMainBulanIni += 1;
+                                        isFilled = true;
+                                    }
                                 }
                             }
                         }
@@ -7863,6 +8090,44 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
     .customer-sparring-meta { font-size:.61rem; }
 }
 </style>
+
+<style id="remove-marked-header-frames-final">
+/* HILANGKAN FRAME YANG DITANDAI PADA HALAMAN SPARING */
+#page-customer-sparring .customer-page-head,
+#page-customer-sparring .customer-page-head > div {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+}
+#page-customer-sparring .customer-page-head {
+    padding: 0 !important;
+    margin-bottom: .75rem !important;
+}
+
+/* HILANGKAN FRAME LUAR YANG DITANDAI PADA DAFTAR HARGA,
+   TETAP PERTAHANKAN KARTU HARGA PER HARI DI DALAMNYA */
+#page-customer-price .customer-price-card {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+#page-customer-price .customer-price-head {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+</style>
+
 </body>
 
 <style id="customer-home-desktop-buttons-final">
