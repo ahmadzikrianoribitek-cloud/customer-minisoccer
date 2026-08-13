@@ -5546,8 +5546,12 @@ body > header h1 {
     list.innerHTML = entries.map(([key,item]) => {
         const tanggal = item.tanggal ? item.tanggal.split('-').reverse().join('/') : '-';
         const jam = item.jam || '-';
-        const catatan = item.catatan
-            ? `<div class="text-[11px] text-slate-600 mt-2">${escapeHtmlCustomerSparring(item.catatan)}</div>`
+        const catatanText = String(item.catatan || '').trim();
+        const catatanLower = catatanText.toLowerCase();
+        const catatan = catatanText &&
+            catatanLower !== 'belum ada lawan' &&
+            catatanLower !== 'belum dapat lawan'
+            ? `<div class="text-[11px] text-slate-600 mt-2">${escapeHtmlCustomerSparring(catatanText)}</div>`
             : '';
         const rawPhone = String(item.noHp || '').trim() ||
             ((String(item.catatan || '').match(/(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i) || [,''])[1] || '').trim();
@@ -8320,6 +8324,307 @@ body {
 }
 </style>
 
+
+<style id="sparing-pastel-glass-final">
+/* =========================================================
+   SPARING — PASTEL PURPLE GLASS
+   Ungu dibuat lebih lembut, tidak mencolok, dengan efek kaca.
+   ========================================================= */
+
+#page-customer-sparring {
+    /* ungu pastel lembut */
+    background:
+        linear-gradient(
+            135deg,
+            rgba(221,214,254,.68) 0%,
+            rgba(233,213,255,.62) 48%,
+            rgba(216,180,254,.58) 100%
+        ) !important;
+
+    -webkit-backdrop-filter: blur(24px) saturate(125%) !important;
+    backdrop-filter: blur(24px) saturate(125%) !important;
+
+    border: 1px solid rgba(255,255,255,.58) !important;
+
+    box-shadow:
+        0 20px 55px rgba(88,28,135,.13),
+        inset 0 1px 0 rgba(255,255,255,.72),
+        inset 0 -1px 0 rgba(255,255,255,.16) !important;
+
+    color: #4c1d95 !important;
+}
+
+/* Lapisan kilau kaca */
+#page-customer-sparring::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,.24) 0%,
+            rgba(255,255,255,.06) 30%,
+            transparent 55%
+        ) !important;
+}
+
+/* Isi tetap berada di atas lapisan kaca */
+#page-customer-sparring > * {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Judul */
+#page-customer-sparring .customer-page-head h2 {
+    color: #5b21b6 !important;
+    text-shadow: 0 1px 4px rgba(255,255,255,.65) !important;
+}
+
+/* Deskripsi */
+#page-customer-sparring > p {
+    color: #6d28d9 !important;
+    text-shadow: 0 1px 3px rgba(255,255,255,.55) !important;
+}
+
+/* Kartu daftar tim: putih transparan seperti kaca,
+   sehingga ungu pastel di belakang masih terlihat */
+#page-customer-sparring #customer-sparring-list > *,
+#page-customer-sparring .customer-sparring-card {
+    background: rgba(255,255,255,.34) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(120%) !important;
+    backdrop-filter: blur(15px) saturate(120%) !important;
+
+    border: 1px solid rgba(255,255,255,.52) !important;
+
+    box-shadow:
+        0 9px 25px rgba(76,29,149,.10),
+        inset 0 1px 0 rgba(255,255,255,.58) !important;
+
+    color: #4c1d95 !important;
+}
+
+/* Jangan membuat kartu terlalu gelap saat hover */
+#page-customer-sparring #customer-sparring-list > *:hover,
+#page-customer-sparring .customer-sparring-card:hover {
+    background: rgba(255,255,255,.42) !important;
+    border-color: rgba(255,255,255,.68) !important;
+    box-shadow:
+        0 12px 30px rgba(76,29,149,.13),
+        inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+/* Tombol Pilih Tim Ini — ungu pastel, bukan ungu pekat */
+#page-customer-sparring button[onclick*="pilihSparringCustomer"],
+#page-customer-sparring .choose-sparing-btn,
+#page-customer-sparring .pilih-sparring-btn {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(196,181,253,.92),
+            rgba(167,139,250,.90)
+        ) !important;
+
+    color: #4c1d95 !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+
+    box-shadow:
+        0 7px 18px rgba(91,33,182,.13),
+        inset 0 1px 0 rgba(255,255,255,.68) !important;
+}
+
+/* Input / filter kaca */
+#page-customer-sparring input,
+#page-customer-sparring select {
+    background: rgba(255,255,255,.40) !important;
+    color: #4c1d95 !important;
+    border: 1px solid rgba(255,255,255,.62) !important;
+
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.58),
+        0 5px 15px rgba(76,29,149,.07) !important;
+}
+
+/* Teks data tetap terbaca */
+#page-customer-sparring #customer-sparring-list strong,
+#page-customer-sparring #customer-sparring-list b {
+    color: #4c1d95 !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    #page-customer-sparring {
+        -webkit-backdrop-filter: blur(18px) saturate(120%) !important;
+        backdrop-filter: blur(18px) saturate(120%) !important;
+    }
+
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card {
+        -webkit-backdrop-filter: blur(12px) saturate(115%) !important;
+        backdrop-filter: blur(12px) saturate(115%) !important;
+    }
+}
+</style>
+
+
+<style id="remove-sparing-white-circle-final">
+/* Hilangkan lingkaran/tombol putih kosong di sebelah kanan judul SPARING */
+#page-customer-sparring .customer-page-head > button,
+#page-customer-sparring .customer-page-head button[onclick*="showPage('home')"] {
+    display: none !important;
+}
+
+/* Pastikan header hanya menampilkan judul di tengah */
+#page-customer-sparring .customer-page-head {
+    position: relative !important;
+}
+
+#page-customer-sparring .customer-page-head > div {
+    width: 100% !important;
+}
+</style>
+
+
+<style id="booking-orange-glass-final">
+/* =========================================================
+   BOOKING — ORANGE GLASS
+   Mempertahankan warna oranye, tetapi dibuat transparan,
+   glossy, dan lebih terasa seperti kaca.
+   ========================================================= */
+
+#page-customer-booking {
+    position: relative !important;
+    overflow: hidden !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,237,213,.42) 0%,
+            rgba(255,196,120,.34) 45%,
+            rgba(249,115,22,.32) 100%
+        ) !important;
+
+    -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+    backdrop-filter: blur(24px) saturate(135%) !important;
+
+    border: 1px solid rgba(255,255,255,.55) !important;
+
+    box-shadow:
+        0 20px 55px rgba(194,65,12,.14),
+        inset 0 1px 0 rgba(255,255,255,.72),
+        inset 0 -1px 0 rgba(255,255,255,.15) !important;
+}
+
+/* Pantulan cahaya kaca */
+#page-customer-booking::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,.32) 0%,
+            rgba(255,255,255,.10) 25%,
+            transparent 52%
+        ) !important;
+}
+
+/* Semua isi berada di atas efek kaca */
+#page-customer-booking > * {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Header booking */
+#page-customer-booking h2,
+#page-customer-booking .customer-page-head h2 {
+    text-shadow: 0 1px 5px rgba(124,45,18,.18);
+}
+
+/* Form/kartu di dalam booking: kaca transparan,
+   tetapi warna komponen aslinya tetap dipertahankan */
+#page-customer-booking form,
+#page-customer-booking .p-3.rounded-xl,
+#page-customer-booking .p-4.rounded-xl,
+#page-customer-booking .p-5.rounded-xl,
+#page-customer-booking .p-6.rounded-xl {
+    background: rgba(255,255,255,.28) !important;
+
+    -webkit-backdrop-filter: blur(15px) saturate(125%) !important;
+    backdrop-filter: blur(15px) saturate(125%) !important;
+
+    border-color: rgba(255,255,255,.48) !important;
+
+    box-shadow:
+        0 8px 24px rgba(124,45,18,.08),
+        inset 0 1px 0 rgba(255,255,255,.58) !important;
+}
+
+/* Input */
+#page-customer-booking input,
+#page-customer-booking select,
+#page-customer-booking textarea {
+    background: rgba(255,255,255,.38) !important;
+    border-color: rgba(255,255,255,.60) !important;
+
+    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.60),
+        0 4px 12px rgba(124,45,18,.06) !important;
+}
+
+/* Tombol utama tetap oranye, tetapi glossy */
+#page-customer-booking button[type="submit"],
+#page-customer-booking button.bg-orange-600,
+#page-customer-booking button.bg-orange-700 {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(251,146,60,.88),
+            rgba(234,88,12,.84)
+        ) !important;
+
+    border: 1px solid rgba(255,255,255,.52) !important;
+
+    box-shadow:
+        0 8px 20px rgba(194,65,12,.16),
+        inset 0 1px 0 rgba(255,255,255,.52) !important;
+}
+
+/* Kartu pembayaran/QRIS ikut terasa kaca */
+#page-customer-booking .payment-info-card,
+#page-customer-booking .customer-payment-info {
+    background: rgba(255,255,255,.28) !important;
+
+    -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
+    backdrop-filter: blur(14px) saturate(125%) !important;
+
+    border-color: rgba(255,255,255,.50) !important;
+
+    box-shadow:
+        0 8px 24px rgba(124,45,18,.08),
+        inset 0 1px 0 rgba(255,255,255,.58) !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    #page-customer-booking {
+        -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+        backdrop-filter: blur(18px) saturate(125%) !important;
+    }
+}
+</style>
+
 </html><style id="home-mobile-vertical-buttons-v16">
 @media (max-width: 640px){
   /* Hanya halaman awal: desktop tidak tersentuh */
@@ -8577,3 +8882,95 @@ main {
     #page-home .customer-image-menu { gap: 10px !important; }
 }
 </style>
+
+
+<style id="remove-second-booking-frame">
+/* Hapus frame besar KEDUA (wrapper <form>) di halaman Booking.
+   Frame utama/oranye tetap, kartu-kartu kecil di dalam form tetap. */
+#page-customer-booking form {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Jangan mengubah kartu-kartu kecil di dalam form. */
+#page-customer-booking form > div {
+    position: relative;
+    z-index: 1;
+}
+</style>
+
+
+<style id="customer-price-remove-second-frame-v2">
+/* HARGA — hilangkan frame hijau besar pembungkus jadwal */
+#page-customer-price .customer-price-card {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Desktop: 3 jadwal berjajar ke samping */
+#page-customer-price .customer-price-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: .75rem !important;
+}
+
+/* HP: 3 jadwal berjajar ke bawah */
+@media (max-width: 640px) {
+    #page-customer-price .customer-price-card {
+        padding: 0 !important;
+    }
+
+    #page-customer-price .customer-price-grid {
+        grid-template-columns: 1fr !important;
+        gap: .65rem !important;
+    }
+}
+</style>
+
+
+<style id="customer-sparring-readable-text-v1">
+/* SPARRING — tingkatkan kontras tulisan agar tidak menyatu dengan background kaca */
+#page-customer-sparring .customer-sparring-meta {
+    color: #243b2a !important;
+    text-shadow: none !important;
+}
+
+#page-customer-sparring .customer-sparring-meta > span {
+    color: #243b2a !important;
+    background: rgba(255,255,255,.72) !important;
+    border-color: rgba(42,92,48,.20) !important;
+}
+
+#page-customer-sparring .customer-sparring-meta .customer-sparring-status {
+    color: #6b4a00 !important;
+    background: rgba(255,239,170,.88) !important;
+    border-color: rgba(180,130,20,.30) !important;
+}
+
+#page-customer-sparring .customer-sparring-team {
+    color: #173b20 !important;
+    text-shadow: 0 1px 1px rgba(255,255,255,.45) !important;
+}
+
+#page-customer-sparring .customer-sparring-vs {
+    color: #245c31 !important;
+}
+
+#page-customer-sparring .customer-sparring-vs span {
+    color: #40564a !important;
+}
+</style>
+
+
+<style id="customer-sparring-meta-centered-v1">
+/* Posisikan tanggal, jam, dan status MENCARI LAWAN di tengah kartu */
+#page-customer-sparring .customer-sparring-meta {
+    justify-content: center !important;
+    width: 100% !important;
+}
+</style>
+
