@@ -8974,3 +8974,253 @@ main {
 }
 </style>
 
+
+
+<style id="final-mobile-submenu-glass-polish">
+/* =========================================================
+   FINAL MOBILE POLISH
+   - Semua submenu lebih lega di kiri/kanan pada HP
+   - HARGA & BOOKING mengikuti efek kaca seperti JADWAL/SPARING
+   - Visual only: tidak mengubah ID, JS, onclick, value, atau logic
+   ========================================================= */
+
+/* Semua submenu customer: satu standar kaca */
+#page-customer-price,
+#page-customer-booking,
+#page-customer-schedule,
+#page-customer-sparring {
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: visible !important;
+    -webkit-backdrop-filter: blur(22px) saturate(140%) !important;
+    backdrop-filter: blur(22px) saturate(140%) !important;
+    border: 1px solid rgba(255,255,255,.48) !important;
+    box-shadow:
+        0 20px 55px rgba(15,23,42,.14),
+        inset 0 1px 0 rgba(255,255,255,.58),
+        inset 0 -1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* Kilau kaca halus untuk Harga & Booking */
+#page-customer-price::before,
+#page-customer-booking::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 4% !important;
+    right: 4% !important;
+    height: 1px !important;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.78),
+        transparent
+    ) !important;
+    pointer-events: none !important;
+    z-index: 20 !important;
+}
+
+/* HARGA — ubah dari kartu hijau solid menjadi pastel glass */
+#page-customer-price {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(219,244,213,.68) 0%,
+            rgba(236,250,232,.48) 48%,
+            rgba(255,255,255,.38) 100%
+        ) !important;
+    border-color: rgba(255,255,255,.58) !important;
+    color: #315c32 !important;
+}
+
+#page-customer-price .customer-price-card {
+    background: rgba(255,255,255,.16) !important;
+    border: 1px solid rgba(255,255,255,.52) !important;
+    box-shadow:
+        0 10px 28px rgba(35,110,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.55) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+    backdrop-filter: blur(16px) saturate(135%) !important;
+}
+
+#page-customer-price .customer-price-group {
+    background: rgba(255,255,255,.48) !important;
+    border: 1px solid rgba(255,255,255,.58) !important;
+    box-shadow:
+        0 8px 20px rgba(35,110,42,.08),
+        inset 0 1px 0 rgba(255,255,255,.55) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
+    backdrop-filter: blur(12px) saturate(130%) !important;
+}
+
+#page-customer-price .customer-price-label {
+    background: rgba(255,255,255,.34) !important;
+    border-bottom: 1px solid rgba(255,255,255,.40) !important;
+}
+
+#page-customer-price .customer-price-row {
+    background: rgba(255,255,255,.14) !important;
+    border-top-color: rgba(255,255,255,.40) !important;
+}
+
+/* BOOKING — ganti oranye solid menjadi orange glass */
+#page-customer-booking.customer-booking-page {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(253,159,46,.68) 0%,
+            rgba(251,143,27,.54) 48%,
+            rgba(244,127,18,.48) 100%
+        ) !important;
+    border-color: rgba(255,255,255,.52) !important;
+    box-shadow:
+        0 20px 55px rgba(194,92,5,.18),
+        inset 0 1px 0 rgba(255,255,255,.58),
+        inset 0 -1px 0 rgba(255,255,255,.10) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(135%) !important;
+    backdrop-filter: blur(22px) saturate(135%) !important;
+}
+
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2) {
+    background: rgba(255,255,255,.14) !important;
+    border: 1px solid rgba(255,255,255,.40) !important;
+    box-shadow:
+        0 10px 26px rgba(190,82,0,.10),
+        inset 0 1px 0 rgba(255,255,255,.42) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+    backdrop-filter: blur(14px) saturate(130%) !important;
+}
+
+#page-customer-booking .customer-payment-info,
+#page-customer-booking .payment-info-card,
+#page-customer-booking .customer-booking-selected-price {
+    background: rgba(255,255,255,.16) !important;
+    border-color: rgba(255,255,255,.42) !important;
+    box-shadow:
+        0 8px 22px rgba(190,82,0,.10),
+        inset 0 1px 0 rgba(255,255,255,.45) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+    backdrop-filter: blur(14px) saturate(130%) !important;
+}
+
+/* Input booking tetap jelas, tetapi ikut punya nuansa kaca */
+#page-customer-booking .glass-input,
+#page-customer-price .glass-input {
+    background: rgba(255,255,255,.42) !important;
+    border-color: rgba(255,255,255,.62) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.58),
+        0 5px 15px rgba(15,23,42,.07) !important;
+}
+
+/* Jangan biarkan konten melebar sampai menyentuh frame */
+#page-customer-price > *,
+#page-customer-booking > *,
+#page-customer-schedule > *,
+#page-customer-sparring > * {
+    min-width: 0 !important;
+}
+
+@media (max-width: 640px) {
+    /* Beri ruang luar kiri/kanan khusus saat submenu aktif */
+    body:has(#page-home.hidden) {
+        padding-left: .7rem !important;
+        padding-right: .7rem !important;
+    }
+
+    body:has(#page-home.hidden) > header {
+        width: calc(100% - .2rem) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    body:has(#page-home.hidden) main {
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Frame submenu tidak menempel ke tepi layar */
+    #page-customer-price,
+    #page-customer-booking,
+    #page-customer-schedule,
+    #page-customer-sparring {
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: .9rem !important;
+        border-radius: 1.15rem !important;
+    }
+
+    /* Isi judul/deskripsi tidak terlalu mepet */
+    #page-customer-price .customer-page-head,
+    #page-customer-booking .customer-page-head,
+    #page-customer-schedule > .flex,
+    #page-customer-sparring .customer-page-head,
+    #page-customer-price > p,
+    #page-customer-booking > p,
+    #page-customer-schedule > p,
+    #page-customer-sparring > p {
+        margin-left: .15rem !important;
+        margin-right: .15rem !important;
+    }
+
+    /* Jarak isi daftar harga */
+    #page-customer-price .customer-price-card {
+        padding: .8rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #page-customer-price .customer-price-grid {
+        gap: .7rem !important;
+    }
+
+    #page-customer-price .customer-price-group {
+        border-radius: .9rem !important;
+    }
+
+    /* Jarak isi form booking */
+    #page-customer-booking form {
+        padding-left: .05rem !important;
+        padding-right: .05rem !important;
+    }
+
+    #page-customer-booking form > div.grid,
+    #page-customer-booking form > div:not(.grid):not(.pt-2) {
+        padding: .72rem !important;
+        border-radius: .9rem !important;
+    }
+
+    #page-customer-booking .customer-payment-info {
+        border-radius: .9rem !important;
+    }
+}
+
+@media (max-width: 380px) {
+    body:has(#page-home.hidden) {
+        padding-left: .55rem !important;
+        padding-right: .55rem !important;
+    }
+
+    #page-customer-price,
+    #page-customer-booking,
+    #page-customer-schedule,
+    #page-customer-sparring {
+        padding: .75rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #page-customer-price .customer-price-card {
+        padding: .68rem !important;
+    }
+
+    #page-customer-booking form > div.grid,
+    #page-customer-booking form > div:not(.grid):not(.pt-2) {
+        padding: .62rem !important;
+    }
+}
+</style>
