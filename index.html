@@ -2421,48 +2421,68 @@ main{
     }
 }
 @media(max-width:640px){
-    /* Tampilan menu utama lebih ringkas dan nyaman untuk layar HP */
+    /* HOME SAJA — dibuat lebih padat dan proporsional di HP.
+       Logo/header sub-menu tidak ikut berubah karena selector memakai #page-home. */
+    body:has(#page-home:not(.hidden)) > header{
+        margin-bottom:12px!important;
+        gap:4px!important;
+    }
+    body:has(#page-home:not(.hidden)) > header img{
+        width:128px!important;
+        height:112px!important;
+    }
+    body:has(#page-home:not(.hidden)) > header h1{
+        font-size:clamp(1.35rem,6.2vw,1.8rem)!important;
+        line-height:1.1!important;
+        margin:0!important;
+    }
+
     #page-home{
-        padding:12px!important;
+        padding:8px 10px 12px!important;
     }
     #page-home .customer-home-hero{
-        padding:14px 15px!important;
-        margin-bottom:14px!important;
+        padding:12px 14px!important;
+        margin-bottom:11px!important;
         border-radius:18px!important;
     }
     #page-home .customer-home-hero h2{
-        font-size:clamp(.92rem,4.2vw,1.12rem)!important;
-        line-height:1.25!important;
+        font-size:clamp(1rem,4.8vw,1.25rem)!important;
+        line-height:1.2!important;
         text-align:center!important;
         width:100%!important;
         margin:0!important;
     }
     #page-home .customer-image-menu{
-        grid-template-columns:repeat(2,minmax(0,1fr))!important;
-        max-width:390px!important;
-        gap:11px!important;
-        padding:0 2px!important;
+        grid-template-columns:repeat(3,minmax(0,1fr))!important;
+        max-width:none!important;
+        width:100%!important;
+        gap:8px!important;
+        padding:0!important;
     }
-    #page-home .customer-image-menu-item{
-        border-radius:14px!important;
+    #page-home .customer-image-menu-item,
+    #page-home .customer-image-menu-item img{
+        border-radius:12px!important;
     }
     #page-home .customer-image-menu-item img{
+        width:100%!important;
         aspect-ratio:299/353!important;
-        border-radius:14px!important;
-    }
-    #page-home .customer-image-menu-item:last-child{
-        grid-column:1 / -1!important;
-        width:calc(50% - 5.5px)!important;
-        justify-self:center!important;
     }
 }
 
 @media(max-width:360px){
-    #page-home{padding:10px!important}
-    #page-home .customer-image-menu{gap:8px!important}
-    #page-home .customer-image-menu-item,#page-home .customer-image-menu-item img{border-radius:12px!important}
-    #page-home .customer-home-hero{padding:12px!important}
-    #page-home .customer-home-hero h2{font-size:.88rem!important}
+    body:has(#page-home:not(.hidden)) > header img{
+        width:120px!important;
+        height:106px!important;
+    }
+    body:has(#page-home:not(.hidden)) > header h1{
+        font-size:1.25rem!important;
+    }
+    #page-home{padding:7px 8px 10px!important}
+    #page-home .customer-image-menu{gap:6px!important}
+    #page-home .customer-image-menu-item,
+    #page-home .customer-image-menu-item img{border-radius:10px!important}
+    #page-home .customer-home-hero{padding:10px 11px!important}
+    #page-home .customer-home-hero h2{font-size:1rem!important}
 }
 </style>
 
@@ -4191,6 +4211,80 @@ body:has(#page-customer-booking:not(.hidden))
     }
 }
 </style>
+
+<style id="customer-home-desktop-spacing-v23">
+/* DESKTOP SAJA — merapikan jarak header, subjudul, dan 3 tombol.
+   Tidak menyentuh layout HP maupun halaman sub-menu. */
+@media (min-width: 901px) {
+    body:has(#page-home:not(.hidden)) > header {
+        margin-bottom: 14px !important;
+        gap: 4px !important;
+    }
+
+    body:has(#page-home:not(.hidden)) > header img {
+        margin-bottom: 0 !important;
+    }
+
+    body:has(#page-home:not(.hidden)) > header h1 {
+        margin: 0 !important;
+        line-height: 1.08 !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    #page-home > .customer-home-hero,
+    #page-home .customer-home-hero {
+        padding: 0 0 18px !important;
+        margin: 0 !important;
+    }
+
+    #page-home .customer-home-hero h2 {
+        margin: 0 auto !important;
+        line-height: 1.1 !important;
+    }
+
+    #page-home .customer-image-menu {
+        gap: 20px !important;
+        margin-top: 0 !important;
+    }
+}
+</style>
+
+<style id="customer-home-mobile-spacing-v24">
+/* HP SAJA: samakan jarak header -> subjudul -> tombol. Desktop tidak disentuh. */
+@media (max-width: 640px) {
+    body:has(#page-home:not(.hidden)) > header {
+        margin-bottom: 18px !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-top: 0 !important;
+    }
+
+    #page-home .customer-home-hero {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 18px !important;
+    }
+
+    #page-home .customer-home-hero h2 {
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 360px) {
+    body:has(#page-home:not(.hidden)) > header {
+        margin-bottom: 16px !important;
+    }
+
+    #page-home .customer-home-hero {
+        margin-bottom: 16px !important;
+    }
+}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -4257,13 +4351,13 @@ body:has(#page-customer-booking:not(.hidden))
     <section class="customer-menu-section">
         <div class="customer-menu-grid customer-image-menu">
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-schedule')" aria-label="Lihat Jadwal">
-                <img src="lihatjadwal.png" alt="Lihat Jadwal">
+                <picture><source media="(max-width: 640px)" srcset="lihatjadwalhp.png"><img src="lihatjadwal.png" alt="Lihat Jadwal"></picture>
             </button>
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-price')" aria-label="Lihat Harga">
-                <img src="lihatharga.png" alt="Lihat Harga">
+                <picture><source media="(max-width: 640px)" srcset="lihathargahp.png"><img src="lihatharga.png" alt="Lihat Harga"></picture>
             </button>
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-booking')" aria-label="Booking Lapangan">
-                <img src="booking.png" alt="Booking Lapangan">
+                <picture><source media="(max-width: 640px)" srcset="bookinghp.png"><img src="booking.png" alt="Booking Lapangan"></picture>
             </button>
         </div>
     </section>
@@ -4345,12 +4439,16 @@ body:has(#page-customer-booking:not(.hidden))
                         <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice()" required>
                             <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
                         </select>
+                        <div id="customer-booking-selected-price" class="customer-booking-selected-price" aria-live="polite">
+                            <div class="customer-booking-selected-price-label">💰 Estimasi Harga Lapangan</div>
+                            <strong id="customer-booking-selected-price-value">Rp 0</strong>
+                        </div>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold mb-1 text-slate-900">Status Pemesan</label>
-                    <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
+                    <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerJamPrices(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                         <option value="Non-Member" selected>Non-Member</option>
                         <option value="Member">Member</option>
                     </select>
@@ -5141,18 +5239,26 @@ body:has(#page-customer-booking:not(.hidden))
         function updateCustomerSelectedPrice() {
             const tgl = document.getElementById('cust-tanggal')?.value || '';
             const jam = document.getElementById('cust-jam')?.value || '';
-            const box = document.getElementById('customer-selected-price');
-            const value = document.getElementById('customer-selected-price-value');
-            if(!box || !value) return;
+            const priceBox = document.getElementById('customer-selected-price');
+            const priceValue = document.getElementById('customer-selected-price-value');
+            const bookingBox = document.getElementById('customer-booking-selected-price');
+            const bookingValue = document.getElementById('customer-booking-selected-price-value');
 
             const status = document.getElementById('cust-status')?.value || 'Non-Member';
             const harga = getHargaLapanganCustomer(tgl, jam, status);
-            if(tgl && jam && harga > 0) {
-                value.textContent = formatRupiahCustomer(harga);
-                box.classList.add('show');
-            } else {
-                value.textContent = 'Rp 0';
-                box.classList.remove('show');
+            const show = !!(tgl && jam && harga > 0);
+            const formatted = formatRupiahCustomer(harga);
+
+            // Estimasi harga di halaman Harga (jika sedang digunakan).
+            if(priceBox && priceValue) {
+                priceValue.textContent = formatted;
+                priceBox.classList.toggle('show', show);
+            }
+
+            // Estimasi harga di halaman Booking: muncul setelah tanggal + jam dipilih.
+            if(bookingBox && bookingValue) {
+                bookingValue.textContent = formatted;
+                bookingBox.classList.toggle('show', show);
             }
         }
 
@@ -5187,11 +5293,13 @@ body:has(#page-customer-booking:not(.hidden))
             });
 
             let jamKosongDitemukan = false;
+            const status = document.getElementById('cust-status')?.value || 'Non-Member';
             listJam.forEach(jam => {
                 if(!jamTerisi.has(jam)) {
                     let opt = document.createElement('option');
                     opt.value = jam;
-                    opt.text = `${jam} WITA (Kosong)`;
+                    const harga = getHargaLapanganCustomer(tglInput, jam, status);
+                    opt.text = `${jam} WITA (Kosong) — ${formatRupiahCustomer(harga)}`;
                     selectJam.appendChild(opt);
                     jamKosongDitemukan = true;
                 }
@@ -5208,6 +5316,18 @@ body:has(#page-customer-booking:not(.hidden))
         }
 
         
+        window.updateCustomerJamPrices = () => {
+            const tglInput = document.getElementById('cust-tanggal')?.value || '';
+            const selectJam = document.getElementById('cust-jam');
+            const status = document.getElementById('cust-status')?.value || 'Non-Member';
+            if(!selectJam || !tglInput) return;
+            Array.from(selectJam.options).forEach(opt => {
+                if(!opt.value || opt.value === '') return;
+                const harga = getHargaLapanganCustomer(tglInput, opt.value, status);
+                opt.text = `${opt.value} WITA (Kosong) — ${formatRupiahCustomer(harga)}`;
+            });
+        };
+
         window.updateCustomerDpOptions = () => {
             const statusEl = document.getElementById('cust-status');
             const dpEl = document.getElementById('cust-dp');
@@ -7091,7 +7211,322 @@ header.w-full.max-w-6xl > img[src="logo.png"] {
   border-color: rgba(255,255,255,.88) !important;
   box-shadow: 0 14px 30px rgba(190,82,0,.25) !important;
 }
+
+/* ESTIMASI HARGA DI BOOKING — muncul setelah tanggal + jam dipilih */
+#page-customer-booking .customer-booking-selected-price {
+  display: none;
+  margin-top: .7rem;
+  padding: .8rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 14px;
+  background: rgba(255,255,255,.96) !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  box-shadow: 0 8px 20px rgba(190,82,0,.16) !important;
+  color: #9a4300 !important;
+}
+#page-customer-booking .customer-booking-selected-price.show {
+  display: flex;
+}
+#page-customer-booking .customer-booking-selected-price-label {
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .02em;
+  color: #9a4300 !important;
+}
+#page-customer-booking .customer-booking-selected-price strong {
+  font-size: 1.15rem;
+  font-weight: 950;
+  white-space: nowrap;
+  color: #e86f00 !important;
+}
+@media (max-width:640px){
+  #page-customer-booking .customer-booking-selected-price {
+    padding: .72rem .85rem;
+  }
+  #page-customer-booking .customer-booking-selected-price strong {
+    font-size: 1rem;
+  }
+}
 </style>
 
+
+<style id="home-mobile-button-reference-v17">
+@media (max-width:640px){
+  #page-home .customer-image-menu-item picture{display:block!important;width:100%!important;margin:0!important;padding:0!important;}
+  #page-home .customer-image-menu-item picture img{display:block!important;width:100%!important;height:auto!important;object-fit:contain!important;margin:0!important;}
+}
+</style>
+
+<style id="customer-soft-pastel-theme">
+/* ===== SOFT PASTEL THEME ===== */
+/* Harga: hijau pastel, tetap terasa hijau tetapi lebih lembut */
+#page-customer-price{
+  background: linear-gradient(145deg,#f2f8ef 0%,#e5f1df 50%,#d8ead1 100%) !important;
+  border-color: rgba(92,132,82,.22) !important;
+  box-shadow: 0 20px 55px rgba(72,105,64,.10) !important;
+}
+#page-customer-price .customer-price-card{
+  background: linear-gradient(145deg,#b9d9b0 0%,#afd2a6 50%,#a4cb9b 100%) !important;
+  border-color: rgba(255,255,255,.62) !important;
+  box-shadow: 0 10px 26px rgba(72,120,65,.14) !important;
+}
+#page-customer-price .customer-price-title,
+#page-customer-price .customer-price-head{
+  color:#315c32 !important;
+}
+#page-customer-price .customer-price-badge{
+  color:#4b754d !important;
+}
+#page-customer-price .customer-price-group h4{
+  background: linear-gradient(135deg,#8fbd86,#a8cda0) !important;
+  color:#fff !important;
+}
+#page-customer-price .customer-price-label{
+  background:#edf6ea !important;
+  color:#4d704e !important;
+  border-bottom-color:#d8e9d2 !important;
+}
+#page-customer-price .customer-price-row{
+  color:#334b35 !important;
+  border-top-color:#e2eee0 !important;
+}
+#page-customer-price .customer-price-row .member-price,
+#page-customer-price .customer-selected-price strong{
+  color:#4f8750 !important;
+}
+#page-customer-price .customer-selected-price{
+  background:rgba(255,255,255,.92) !important;
+  border-color:rgba(110,150,102,.20) !important;
+  color:#466347 !important;
+}
+
+/* Booking: oranye pastel, tidak terlalu menyala */
+#page-customer-booking.customer-booking-page{
+  background: linear-gradient(145deg,#f8d3a0 0%,#f4c38a 50%,#efb876 100%) !important;
+  border-color:rgba(255,255,255,.55) !important;
+  box-shadow:0 24px 70px rgba(170,105,45,.14) !important;
+}
+#page-customer-booking .customer-page-head span,
+#page-customer-booking .customer-page-head h2,
+#page-customer-booking label,
+#page-customer-booking .payment-method-label label{
+  color:#6b3f18 !important;
+}
+#page-customer-booking .customer-page-intro,
+#page-customer-booking .payment-method-hint,
+#page-customer-booking #customer-status-hint{
+  color:rgba(92,57,27,.72) !important;
+}
+#page-customer-booking .customer-page-head button{
+  background:rgba(255,255,255,.40) !important;
+  border-color:rgba(255,255,255,.62) !important;
+  color:#6b3f18 !important;
+}
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2){
+  background:rgba(255,255,255,.22) !important;
+  border-color:rgba(255,255,255,.46) !important;
+  box-shadow:0 12px 30px rgba(160,94,33,.08) !important;
+}
+#page-customer-booking .glass-input{
+  background:rgba(255,255,255,.96) !important;
+  border-color:rgba(255,255,255,.82) !important;
+  color:#4b341f !important;
+}
+#page-customer-booking .glass-input:focus{
+  border-color:#fff !important;
+  box-shadow:0 0 0 4px rgba(255,255,255,.28) !important;
+}
+#page-customer-booking .payment-select-badge,
+#page-customer-booking .payment-small-btn{
+  background:#d99a57 !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.52) !important;
+}
+#page-customer-booking .customer-payment-info{
+  background:rgba(255,255,255,.18) !important;
+  border-color:rgba(255,255,255,.42) !important;
+}
+#page-customer-booking .payment-info-title,
+#page-customer-booking .payment-info-label{
+  color:#6b3f18 !important;
+}
+#page-customer-booking .payment-info-card{
+  background:rgba(255,255,255,.24) !important;
+  border-color:rgba(255,255,255,.42) !important;
+}
+#page-customer-booking .payment-account-number{
+  color:#6b3f18 !important;
+}
+#page-customer-booking form > .pt-2 button{
+  background:linear-gradient(135deg,#fffdf9 0%,#fff7ed 100%) !important;
+  color:#c9792f !important;
+  border-color:rgba(255,255,255,.86) !important;
+  box-shadow:0 12px 26px rgba(160,94,33,.14) !important;
+}
+#page-customer-booking .customer-booking-selected-price{
+  background:rgba(255,255,255,.92) !important;
+  border-color:rgba(255,255,255,.82) !important;
+  box-shadow:0 8px 20px rgba(160,94,33,.10) !important;
+  color:#80501f !important;
+}
+#page-customer-booking .customer-booking-selected-price-label{
+  color:#80501f !important;
+}
+#page-customer-booking .customer-booking-selected-price strong{
+  color:#c9792f !important;
+}
+</style>
 </body>
-</html>
+</html><style id="home-mobile-vertical-buttons-v16">
+@media (max-width: 640px){
+  /* Hanya halaman awal: desktop tidak tersentuh */
+  #page-home .customer-image-menu{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    justify-content:center !important;
+    width:100% !important;
+    max-width:100% !important;
+    gap:14px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  #page-home .customer-image-menu-item,
+  #page-home .customer-image-menu a,
+  #page-home .customer-image-menu button{
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    outline:0 !important;
+  }
+  #page-home .customer-image-menu-item img,
+  #page-home .customer-image-menu img{
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    height:auto !important;
+    margin:0 !important;
+    object-fit:contain !important;
+  }
+}
+</style>
+
+<style id="home-mobile-natural-image-spacing-v18">
+/* HP SAJA: tombol vertikal mengikuti tinggi asli gambar, tanpa ruang kosong besar. */
+@media (max-width: 640px) {
+  #page-home {
+    height: auto !important;
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #page-home .customer-menu-section {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #page-home .customer-image-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #page-home .customer-image-menu-item {
+    flex: 0 0 auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  #page-home .customer-image-menu-item picture {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #page-home .customer-image-menu-item img,
+  #page-home .customer-image-menu-item picture img {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #page-home .customer-image-menu { gap: 10px !important; }
+}
+</style>
+
+<style id="home-mobile-subtitle-single-line-v19">
+@media (max-width:640px){
+  /* Hanya subjudul halaman awal: paksa tetap satu baris */
+  #page-home .customer-home-hero h2{
+    white-space: nowrap !important;
+    overflow: visible !important;
+    width: max-content !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: clamp(.68rem, 3vw, 1rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0 !important;
+  }
+}
+</style>
+
+<style id="background-latar-v22">
+/* V22 — latar.png memenuhi layar dan tetap diam saat scroll. Tidak mengubah elemen lain. */
+html {
+    min-height: 100%;
+    background: transparent !important;
+}
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+    background-color: transparent !important;
+    background-image: url('latar.png') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    background-origin: border-box !important;
+    background-clip: border-box !important;
+}
+main {
+    background: transparent !important;
+}
+</style>
