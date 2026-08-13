@@ -124,7 +124,7 @@
 
 <style id="customer-price-list-style">
 /* DAFTAR HARGA CUSTOMER — mengikuti aturan harga dari web admin */
-.customer-price-card{margin:0 auto 1rem;padding:.9rem;background:linear-gradient(135deg,#eff6ff 0%,#fff 52%,#ecfeff 100%);border:1px solid #bfdbfe;border-radius:1.1rem;box-shadow:0 8px 22px rgba(37,99,235,.08)}
+.customer-price-card{margin:0 auto 1rem;padding:0;background:transparent;border:none;border-radius:0;box-shadow:none}
 .customer-price-head{display:flex;align-items:center;justify-content:space-between;gap:.65rem;margin-bottom:.7rem}
 .customer-price-title{margin:0;color:#13224f;font-size:.85rem;font-weight:950;letter-spacing:.04em}
 .customer-price-badge{flex:0 0 auto;padding:.3rem .55rem;border-radius:999px;background:#dbeafe;color:#1e3a8a;border:1px solid #93c5fd;font-size:.55rem;font-weight:950}
@@ -4471,6 +4471,60 @@ body > header h1 {
 }
 </style>
 
+
+<style id="whatsapp-contact-mobile-fix">
+.hubungi-wa-btn, .hubungi-btn, button[data-wa], button[data-phone], a[data-wa], a[data-phone]{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:.4rem!important;box-sizing:border-box!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;min-height:42px;border-radius:12px!important;font-weight:950!important;cursor:pointer}
+@media(max-width:640px){.schedule-card,.customer-schedule-card,.today-schedule-list-modern>div{text-align:center!important}.schedule-card .hubungi-wa-btn,.schedule-card .hubungi-btn,.customer-schedule-card .hubungi-wa-btn,.customer-schedule-card .hubungi-btn,.today-schedule-list-modern .hubungi-wa-btn,.today-schedule-list-modern .hubungi-btn{width:min(100%,220px)!important;margin:10px auto!important}.schedule-card .flex,.customer-schedule-card .flex{justify-content:center!important;align-items:center!important}}
+</style>
+
+<style id="customer-home-mobile-balanced-spacing-v27">
+/* HOME HP — beri ruang atas & bawah yang seimbang agar menu tidak mepet tepi layar */
+@media (max-width: 640px) {
+    body {
+        padding-top: 18px !important;
+        padding-bottom: 24px !important;
+        box-sizing: border-box !important;
+    }
+
+    body:has(#page-home:not(.hidden)) {
+        padding-bottom: 28px !important;
+    }
+
+    body:has(#page-home:not(.hidden)) > main {
+        padding-bottom: 4px !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-bottom: 24px !important;
+    }
+
+    #page-home .customer-image-menu {
+        gap: 14px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    body:has(#page-home:not(.hidden)) {
+        padding-bottom: 24px !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-bottom: 20px !important;
+    }
+
+    #page-home .customer-image-menu {
+        gap: 12px !important;
+    }
+}
+</style>
+
+<style id="customer-home-hide-back-button-v27">
+/* Tombol kembali custom tidak tampil di halaman awal. */
+body:has(#page-home:not(.hidden)) > .customer-sticky-back {
+    display: none !important;
+}
+</style>
+
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -5385,8 +5439,74 @@ body > header h1 {
         });
 
         window.adminSessionActive = false;
+
+        // =========================================================
+        // NAVIGASI CUSTOMER + TOMBOL BACK HP
+        // Tombol kembali bawaan HP memakai history browser yang sama
+        // dengan tombol kembali custom di halaman customer.
+        // =========================================================
+        const CUSTOMER_HISTORY_PAGES = new Set([
+            'home',
+            'customer-schedule',
+            'customer-price',
+            'customer-booking',
+            'customer-sparring'
+        ]);
+
+        let customerHistoryReady = false;
+
+        function initCustomerBrowserHistory() {
+            if (customerHistoryReady) return;
+            customerHistoryReady = true;
+
+            const currentPage = document.querySelector('main > div:not(.hidden)');
+            const currentId = currentPage ? currentPage.id.replace(/^page-/, '') : 'home';
+
+            // Satu state awal agar Back HP bisa kembali dari submenu ke Home.
+            history.replaceState(
+                { sandagaCustomer: true, page: CUSTOMER_HISTORY_PAGES.has(currentId) ? currentId : 'home' },
+                '',
+                location.href
+            );
+
+            window.addEventListener('popstate', (event) => {
+                const state = event.state;
+                if (state && state.sandagaCustomer && CUSTOMER_HISTORY_PAGES.has(state.page)) {
+                    window.showPage(state.page, true);
+                } else {
+                    // Jika state tidak berasal dari navigasi customer, tetap
+                    // tampilkan Home agar perilakunya sama seperti tombol kembali.
+                    window.showPage('home', true);
+                }
+            });
+        }
+
         window.kembaliDariJadwal = () => showPage(window.adminSessionActive ? 'admin-dashboard' : 'home');
-        window.showPage = (id) => {
+
+        window.showPage = (id, fromBrowserBack = false) => {
+            const currentPage = document.querySelector('main > div:not(.hidden)');
+            const currentId = currentPage ? currentPage.id.replace(/^page-/, '') : '';
+            const isCustomerTarget = CUSTOMER_HISTORY_PAGES.has(id);
+            const isCustomerCurrent = CUSTOMER_HISTORY_PAGES.has(currentId);
+
+            // Klik tombol/menu customer membuat history baru.
+            // Saat Back HP / popstate, jangan membuat history baru lagi.
+            if (!fromBrowserBack && isCustomerTarget && currentId !== id) {
+                // Jika tombol kembali custom ditekan dari submenu, gunakan
+                // history.back() sehingga persis sama dengan Back bawaan HP.
+                if (id === 'home' && isCustomerCurrent && history.state?.sandagaCustomer) {
+                    history.back();
+                    return;
+                }
+
+                if (!customerHistoryReady) initCustomerBrowserHistory();
+                history.pushState(
+                    { sandagaCustomer: true, page: id },
+                    '',
+                    location.href
+                );
+            }
+
             document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
             const page = document.getElementById('page-' + id);
             if(!page) return;
@@ -5400,7 +5520,11 @@ body > header h1 {
             if(id === 'customer-schedule') { initCustomerPeriodeDropdown(); renderCustomerGridJadwal(); }
             if(id === 'customer-sparring') { renderCustomerSparring(); }
             if(id === 'booking-schedule') { renderGridJadwal(); }
-        }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCustomerBrowserHistory();
+        });
 
         // FUNGSI MODAL ADMIN PASSWORD
         window.bukaModalAdmin = () => {
@@ -5533,11 +5657,17 @@ body > header h1 {
             }
 
             const startIndex = listJam.indexOf(startJam);
-            let maxDurasi = 0;
-
-            for(let i = startIndex; i < listJam.length; i++) {
-                if(!availableHours.has(listJam[i])) break;
-                maxDurasi++;
+            let maxDurasi = 1;
+            if(startIndex>=0){
+              for(let d=2; d<=6 && startIndex+d-1<listJam.length; d++){
+                let ok=true;
+                for(let j=0;j<d;j++){
+                  const h=listJam[startIndex+j];
+                  if(h==='18:00'){ ok=false; break; }
+                  if(!availableHours.has(h)){ok=false;break;}
+                }
+                if(ok) maxDurasi=d; else break;
+              }
             }
 
             // Maksimal sampai 6 jam agar pilihan tetap ringkas; bisa memilih 1 jam, 2 jam, 3 jam, dst.
@@ -5703,13 +5833,9 @@ body > header h1 {
     list.innerHTML = entries.map(([key,item]) => {
         const tanggal = item.tanggal ? item.tanggal.split('-').reverse().join('/') : '-';
         const jam = item.jam || '-';
-        const catatanText = String(item.catatan || '').trim();
-        const catatanLower = catatanText.toLowerCase();
-        const catatan = catatanText &&
-            catatanLower !== 'belum ada lawan' &&
-            catatanLower !== 'belum dapat lawan'
-            ? `<div class="text-[11px] text-slate-600 mt-2">${escapeHtmlCustomerSparring(catatanText)}</div>`
-            : '';
+        // Catatan internal tidak ditampilkan di daftar customer.
+        // Data tetap disimpan agar fungsi Hubungi tetap dapat mengambil nomor WA.
+        const catatan = '';
         const rawPhone = String(item.noHp || '').trim() ||
             ((String(item.catatan || '').match(/(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i) || [,''])[1] || '').trim();
 
@@ -5755,6 +5881,50 @@ body > header h1 {
             else if(n) n = '62' + n;
             return n;
         };
+
+        window.normalisasiNomorWhatsAppHubungi = (nomor) => {
+            let n=String(nomor||'').trim().replace(/[^0-9+]/g,'');
+            if(!n) return '';
+            if(n.startsWith('+62')) return n.substring(1);
+            if(n.startsWith('62')) return n;
+            if(n.startsWith('0')) return '62'+n.substring(1);
+            return '62'+n;
+        };
+
+        window.bukaWhatsAppHubungi = (nomor,namaTim='') => {
+            const phone=window.normalisasiNomorWhatsAppHubungi(nomor);
+            if(!phone || phone==='62'){ alert('Nomor WhatsApp tim belum tersedia.'); return false; }
+            const nama=String(namaTim||'tim tersebut').trim();
+            const pesan=`Halo kak 👋, saya ingin menghubungi tim *${nama}* terkait jadwal booking.`;
+            window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
+            return true;
+        };
+
+        document.addEventListener('click',(event)=>{
+            const btn=event.target.closest('.hubungi-wa-btn,.hubungi-btn,[data-wa],[data-phone]');
+            if(!btn) return;
+            const raw=btn.dataset.wa||btn.dataset.phone||btn.getAttribute('data-wa')||btn.getAttribute('data-phone')||'';
+            if(!raw) return;
+            event.preventDefault();
+            const card=btn.closest('.schedule-card,.customer-schedule-card,[data-booking-key]');
+            const nama=btn.dataset.nama||btn.dataset.team||card?.dataset?.nama||card?.querySelector('[data-team-name]')?.textContent?.trim()||'';
+            window.bukaWhatsAppHubungi(raw,nama);
+        });
+
+        // Fallback: jika tombol Hubungi dibuat dinamis tanpa data-phone, ambil nomor 08/62 dari kartu.
+        document.addEventListener('click',(event)=>{
+            const btn=event.target.closest('button,a');
+            if(!btn || !/hubungi/i.test(btn.textContent||'')) return;
+            if(btn.dataset.wa || btn.dataset.phone) return;
+            const card=btn.closest('.schedule-card,.customer-schedule-card,[data-booking-key],article,section,div');
+            const text=card?.innerText||'';
+            const match=text.match(/(?:WA|WhatsApp|No\.? HP|Nomor HP)?\s*[:\-]?\s*(\+?62[0-9\s-]{8,}|0[8-9][0-9\s-]{8,})/i);
+            if(!match) return;
+            event.preventDefault();
+            const nama=card?.dataset?.nama||card?.querySelector('[data-team-name]')?.textContent?.trim()||'';
+            window.bukaWhatsAppHubungi(match[1],nama);
+        },true);
+
 
         window.normalisasiNomorWhatsAppCustomer = (nomor) => {
             let n = String(nomor || '').trim().replace(/[^0-9+]/g, '');
@@ -8128,6 +8298,28 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
 }
 </style>
 
+
+<style id="booking-schedule-mobile-spacing-v4">
+/* V4 — HP: seimbangkan jarak logo/judul dengan jarak judul ke frame Booking Schedule. */
+@media (max-width: 640px) {
+    /* Hanya halaman Booking Schedule, halaman lain tidak ikut berubah. */
+    #page-customer-schedule {
+        margin-top: -20px !important;
+    }
+
+    /* Sedikit rapikan ruang atas frame agar jaraknya konsisten. */
+    #page-customer-schedule {
+        padding-top: .9rem !important;
+    }
+}
+
+@media (max-width: 380px) {
+    #page-customer-schedule {
+        margin-top: -18px !important;
+    }
+}
+</style>
+
 </body>
 
 <style id="customer-home-desktop-buttons-final">
@@ -9502,3 +9694,5 @@ main {
     }
 }
 </style>
+
+<style>#page-customer-price .customer-price-card{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;border-radius:0!important;}#page-customer-price .customer-price-inner{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;}</style>
