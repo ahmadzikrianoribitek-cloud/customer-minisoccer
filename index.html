@@ -4478,8 +4478,8 @@ body > header h1 {
             <button type="button" class="customer-image-menu-item" onclick="showPage('customer-booking')" aria-label="Booking Lapangan">
                 <picture><source media="(max-width: 640px)" srcset="bookinghp.png"><img src="booking.png" alt="Booking Lapangan"></picture>
             </button>
-            <button type="button" class="customer-image-menu-item" onclick="showPage('customer-sparring')" aria-label="Sparring">
-                <picture><source media="(max-width: 640px)" srcset="sparinghp.png"><img src="sparing.png" alt="Sparring"></picture>
+            <button type="button" class="customer-image-menu-item" onclick="showPage('customer-sparring')" aria-label="Sparing">
+                <picture><source media="(max-width: 640px)" srcset="sparinghp.png"><img src="sparing.png" alt="Sparing"></picture>
             </button>
         </div>
     </section>
@@ -4588,10 +4588,10 @@ body > header h1 {
                         <input type="tel" id="cust-hp" inputmode="tel" autocomplete="tel" placeholder="Contoh: 081234567890" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Minta Carikan Lawan Sparring?</label>
+                        <label class="block text-xs font-bold mb-1 text-slate-900">Minta Carikan Lawan Sparing?</label>
                         <select id="cust-minta-sparring" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
                             <option value="Tidak" selected>Tidak</option>
-                            <option value="Ya">Ya, carikan lawan sparring</option>
+                            <option value="Ya">Ya, carikan lawan sparing</option>
                         </select>
                     </div>
                 </div>
@@ -4666,7 +4666,7 @@ body > header h1 {
     </div>
     <p class="text-center text-xs sm:text-sm font-semibold text-slate-700 mb-4">Daftar tim yang sedang mencari lawan</p>
     <div id="customer-sparring-list" class="space-y-3">
-        <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparring...</div>
+        <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparing...</div>
     </div>
 </div>
 
@@ -5129,7 +5129,7 @@ body > header h1 {
                         </select>
                     </div>
                     <div class="p-3 rounded-xl border border-emerald-500/40 space-y-2 bg-white/30">
-                        <label class="block text-xs font-black text-emerald-950">Pembayaran Tim 2 (Opsional / Sparring)</label>
+                        <label class="block text-xs font-black text-emerald-950">Pembayaran Tim 2 (Opsional / Sparing)</label>
                         <input type="number" id="in-jumlah-2" placeholder="Nominal (Rp)" class="w-full p-2 rounded text-sm glass-input font-bold">
                         <select id="in-metode-2" class="w-full p-2 rounded text-sm glass-input font-bold">
                             <option value="Cash">Cash</option><option value="QRIS">QRIS</option><option value="Transfer">Transfer</option>
@@ -5624,7 +5624,7 @@ body > header h1 {
             <div class="customer-sparring-modal-backdrop"></div>
             <div class="customer-sparring-modal-box" role="dialog" aria-modal="true" aria-labelledby="customer-sparring-modal-title">
                 <div class="customer-sparring-modal-icon">⚽</div>
-                <div id="customer-sparring-modal-title" class="customer-sparring-modal-title">Pilih Tim untuk Sparring</div>
+                <div id="customer-sparring-modal-title" class="customer-sparring-modal-title">Pilih Tim untuk Sparing</div>
                 <div class="customer-sparring-modal-desc">
                     Masukkan nama tim kamu. Setelah disimpan, WhatsApp tim yang sedang mencari lawan akan otomatis dibuka.
                 </div>
@@ -5694,14 +5694,14 @@ body > header h1 {
             const namaTimLawan = String(currentItem.timA || '').trim() || 'Tim yang mencari lawan';
 
             const pesan = [
-                `Halo kak, saya dari tim *${namaBersih}*.`,
+                `Halo kak 👋, saya dari tim *${namaBersih}*.`,
                 ``,
-                `Saya melihat tim *${namaTimLawan}* sedang mencari lawan sparring.`,
+                `Saya lihat tim *${namaTimLawan}* lagi cari lawan sparing.`,
                 ``,
                 `📅 Tanggal: ${tanggal}`,
                 `⏰ Jam: ${jam}`,
                 ``,
-                `Apakah masih tersedia untuk sparring?`
+                `Kalau masih tersedia, boleh sparing bareng tim kami ya kak? 😊`
             ].join('\n');
 
             const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
@@ -5845,8 +5845,21 @@ body > header h1 {
                 // Format Pesan WhatsApp
                 let formattedDp = Number(dpValue).toLocaleString('id-ID');
                 let formattedTanggal = formatTanggalFull(tglInput);
-                let sparringText = mintaSparring === 'Ya' ? ', sekaligus minta dicarikan lawan sparring' : '';
-                let pesanWa = `Permisi min, mau konfirmasi booking ${statusVal} dari ${namaTim} untuk hari ${formattedTanggal} jam ${jamInput}, DP Rp${formattedDp} dengan metode pembayaran ${metodeVal}, nomor HP ${noHp}${sparringText}`;
+                let sparringText = mintaSparring === 'Ya'
+                    ? `
+⚽ Sekalian mau minta dicarikan lawan sparing ya, min.`
+                    : '';
+
+                let pesanWa = `Halo min 👋
+Mau konfirmasi booking dari *${namaTim}* ya.
+
+📅 Hari/tanggal: ${formattedTanggal}
+⏰ Jam main: ${jamInput}
+💰 DP: Rp${formattedDp}
+💳 Metode pembayaran: ${metodeVal}
+📱 No. HP/WA: ${noHp}${sparringText}
+
+Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                 
                 // Nomor WhatsApp Admin
                 let nomorAdmin = "6285124057148"; 
