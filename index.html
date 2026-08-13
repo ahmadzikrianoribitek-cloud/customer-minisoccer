@@ -5527,134 +5527,236 @@ body > header h1 {
         document.addEventListener('DOMContentLoaded',()=>{updateCustomerDpOptions(); const metode=document.getElementById('cust-metode'); if(metode){metode.addEventListener('change',updateCustomerPaymentInfo);updateCustomerPaymentInfo();}});
 
         window.renderCustomerSparring = () => {
-            const list = document.getElementById('customer-sparring-list');
-            if(!list) return;
-            const entries = Object.entries(globalCache.sparring || {})
-                .map(([key,item]) => [key,item || {}])
-                .filter(([key,item]) => item.status !== 'matched' && item.timA)
-                .sort((a,b) => String(a[1].tanggal || '').localeCompare(String(b[1].tanggal || '')) || String(a[1].jam || '').localeCompare(String(b[1].jam || '')));
+    const list = document.getElementById('customer-sparring-list');
+    if(!list) return;
 
-            if(!entries.length){
-                list.innerHTML = '<div class="rounded-2xl bg-white/55 border border-white/70 p-6 text-center font-bold text-slate-600 backdrop-blur-md">Belum ada tim yang sedang mencari lawan.</div>';
+    const entries = Object.entries(globalCache.sparring || {})
+        .map(([key,item]) => [key,item || {}])
+        .filter(([key,item]) => item.status !== 'matched' && item.timA)
+        .sort((a,b) =>
+            String(a[1].tanggal || '').localeCompare(String(b[1].tanggal || '')) ||
+            String(a[1].jam || '').localeCompare(String(b[1].jam || ''))
+        );
+
+    if(!entries.length){
+        list.innerHTML = '<div class="rounded-2xl bg-white/55 border border-white/70 p-6 text-center font-bold text-slate-600 backdrop-blur-md">Belum ada tim yang sedang mencari lawan.</div>';
+        return;
+    }
+
+    list.innerHTML = entries.map(([key,item]) => {
+        const tanggal = item.tanggal ? item.tanggal.split('-').reverse().join('/') : '-';
+        const jam = item.jam || '-';
+        const catatan = item.catatan
+            ? `<div class="text-[11px] text-slate-600 mt-2">${escapeHtmlCustomerSparring(item.catatan)}</div>`
+            : '';
+        const rawPhone = String(item.noHp || '').trim() ||
+            ((String(item.catatan || '').match(/(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i) || [,''])[1] || '').trim();
+
+        return `<div class="customer-sparring-card">
+            <div class="customer-sparring-meta">
+                <span>📅 ${tanggal}</span>
+                <span>⏰ ${escapeHtmlCustomerSparring(jam)}</span>
+                <span class="customer-sparring-status">⌛ MENCARI LAWAN</span>
+            </div>
+            <div class="customer-sparring-team">${escapeHtmlCustomerSparring(item.timA)}</div>
+            <div class="customer-sparring-vs">VS <span>Belum ada lawan</span></div>
+            ${catatan}
+            <div class="customer-sparring-actions">
+                <button type="button"
+                    class="customer-sparring-select"
+                    data-sparring-key="${escapeHtmlCustomerSparring(key)}"
+                    data-sparring-phone="${escapeHtmlCustomerSparring(rawPhone)}">
+                    ⚽ Pilih Tim Ini
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+
+    // Event delegation: tombol tetap berfungsi walaupun kartu dibuat ulang secara dinamis.
+    if(!list.dataset.sparringClickBound){
+        list.addEventListener('click', (event) => {
+            const button = event.target.closest('.customer-sparring-select');
+            if(!button) return;
+            event.preventDefault();
+            const key = button.dataset.sparringKey || '';
+            const phone = button.dataset.sparringPhone || '';
+            window.pilihSparringCustomer(key, phone);
+        });
+        list.dataset.sparringClickBound = '1';
+    }
+};
+
+        window.normalisasiNomorWhatsAppCustomer = (nomor) => {
+            let n = String(nomor || '').trim().replace(/[^0-9+]/g, '');
+            if(n.startsWith('+62')) n = n.substring(1);
+            else if(n.startsWith('62')) n = n;
+            else if(n.startsWith('0')) n = '62' + n.substring(1);
+            else if(n) n = '62' + n;
+            return n;
+        };
+
+        window.normalisasiNomorWhatsAppCustomer = (nomor) => {
+            let n = String(nomor || '').trim().replace(/[^0-9+]/g, '');
+            if(n.startsWith('+62')) n = n.substring(1);
+            else if(n.startsWith('62')) n = n;
+            else if(n.startsWith('0')) n = '62' + n.substring(1);
+            else if(n) n = '62' + n;
+            return n;
+        };
+
+        window.pilihSparringCustomer = (key, rawPhone) => {
+    const item = (globalCache.sparring || {})[key];
+    if (!item) {
+        alert('Data tim yang dipilih tidak ditemukan. Silakan refresh halaman.');
+        return;
+    }
+
+    // Buat popup custom sekali saja.
+    let modal = document.getElementById('customer-sparring-name-modal');
+    if(!modal){
+        modal = document.createElement('div');
+        modal.id = 'customer-sparring-name-modal';
+        modal.innerHTML = `
+            <div class="customer-sparring-modal-backdrop"></div>
+            <div class="customer-sparring-modal-box" role="dialog" aria-modal="true" aria-labelledby="customer-sparring-modal-title">
+                <div class="customer-sparring-modal-icon">⚽</div>
+                <div id="customer-sparring-modal-title" class="customer-sparring-modal-title">Pilih Tim untuk Sparring</div>
+                <div class="customer-sparring-modal-desc">
+                    Masukkan nama tim kamu. Setelah disimpan, WhatsApp tim yang sedang mencari lawan akan otomatis dibuka.
+                </div>
+                <label class="customer-sparring-modal-label" for="customer-sparring-team-name">Nama Tim</label>
+                <input id="customer-sparring-team-name"
+                    class="customer-sparring-modal-input"
+                    type="text"
+                    autocomplete="organization"
+                    maxlength="60"
+                    placeholder="Contoh: Sandaga FC">
+                <div class="customer-sparring-modal-actions">
+                    <button type="button" id="customer-sparring-modal-cancel" class="customer-sparring-modal-cancel">Batal</button>
+                    <button type="button" id="customer-sparring-modal-save" class="customer-sparring-modal-save">Simpan & Buka WhatsApp</button>
+                </div>
+            </div>`;
+        document.body.appendChild(modal);
+
+        const closeModal = () => {
+            modal.classList.remove('is-open');
+            const input = document.getElementById('customer-sparring-team-name');
+            if(input) input.value = '';
+        };
+
+        modal.querySelector('.customer-sparring-modal-backdrop').addEventListener('click', closeModal);
+        document.getElementById('customer-sparring-modal-cancel').addEventListener('click', closeModal);
+
+        document.getElementById('customer-sparring-modal-save').addEventListener('click', async () => {
+            const currentKey = modal.dataset.key || '';
+            const currentPhone = modal.dataset.phone || '';
+            const currentItem = (globalCache.sparring || {})[currentKey];
+
+            const input = document.getElementById('customer-sparring-team-name');
+            const namaBersih = String(input?.value || '').trim();
+
+            if(!namaBersih){
+                input?.focus();
+                alert('Nama tim wajib diisi.');
                 return;
             }
 
-            list.innerHTML = entries.map(([key,item]) => {
-                const tanggal = item.tanggal ? item.tanggal.split('-').reverse().join('/') : '-';
-                const jam = item.jam || '-';
-                const catatan = item.catatan ? `<div class="text-[11px] text-slate-600 mt-2">${escapeHtmlCustomerSparring(item.catatan)}</div>` : '';
-                const rawPhone = String(item.noHp || '').trim() || ((String(item.catatan || '').match(/(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i) || [,''])[1] || '').trim();
-                return `<div class="customer-sparring-card">
-                    <div class="customer-sparring-meta"><span>📅 ${tanggal}</span><span>⏰ ${escapeHtmlCustomerSparring(jam)}</span><span class="customer-sparring-status">⌛ MENCARI LAWAN</span></div>
-                    <div class="customer-sparring-team">${escapeHtmlCustomerSparring(item.timA)}</div>
-                    <div class="customer-sparring-vs">VS <span>Belum ada lawan</span></div>
-                    ${catatan}
-                    <div class="customer-sparring-actions">
-                        <button type="button" class="customer-sparring-select" onclick="pilihSparringCustomer('${key}', ${JSON.stringify(rawPhone)})">⚽ Pilih Tim Ini</button>
-                    </div>
-                </div>`;
-            }).join('');
-        };
+            if(!currentItem){
+                alert('Data tim sudah tidak tersedia. Silakan refresh halaman.');
+                closeModal();
+                return;
+            }
 
-        window.normalisasiNomorWhatsAppCustomer = (nomor) => {
-            let n = String(nomor || '').trim().replace(/[^0-9+]/g, '');
-            if(n.startsWith('+62')) n = n.substring(1);
-            else if(n.startsWith('62')) n = n;
-            else if(n.startsWith('0')) n = '62' + n.substring(1);
-            else if(n) n = '62' + n;
-            return n;
-        };
+            // Ambil nomor WhatsApp tim yang sedang mencari lawan.
+            let phone = String(currentPhone || currentItem.noHp || '').trim();
+            if(!phone){
+                const match = String(currentItem.catatan || '').match(
+                    /(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i
+                );
+                phone = match ? String(match[1]).trim() : '';
+            }
 
-        window.normalisasiNomorWhatsAppCustomer = (nomor) => {
-            let n = String(nomor || '').trim().replace(/[^0-9+]/g, '');
-            if(n.startsWith('+62')) n = n.substring(1);
-            else if(n.startsWith('62')) n = n;
-            else if(n.startsWith('0')) n = '62' + n.substring(1);
-            else if(n) n = '62' + n;
-            return n;
-        };
+            phone = window.normalisasiNomorWhatsAppCustomer(phone);
 
-        window.pilihSparringCustomer = async (key, rawPhone) => {
-    const item = (globalCache.sparring || {})[key];
-    if (!item) {
-        alert('Data tim yang dipilih tidak ditemukan.');
-        return;
+            if(!phone){
+                alert('Nomor WhatsApp tim yang mencari lawan belum tersedia.');
+                return;
+            }
+
+            const tanggal = currentItem.tanggal
+                ? currentItem.tanggal.split('-').reverse().join('/')
+                : '-';
+            const jam = currentItem.jam || '-';
+            const namaTimLawan = String(currentItem.timA || '').trim() || 'Tim yang mencari lawan';
+
+            const pesan = [
+                `Halo kak, saya dari tim *${namaBersih}*.`,
+                ``,
+                `Saya melihat tim *${namaTimLawan}* sedang mencari lawan sparring.`,
+                ``,
+                `📅 Tanggal: ${tanggal}`,
+                `⏰ Jam: ${jam}`,
+                ``,
+                `Apakah masih tersedia untuk sparring?`
+            ].join('\n');
+
+            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
+
+            const saveButton = document.getElementById('customer-sparring-modal-save');
+            if(saveButton){
+                saveButton.disabled = true;
+                saveButton.textContent = 'Menyimpan...';
+            }
+
+            try {
+                // Simpan pasangan ke Firebase terlebih dahulu.
+                await update(ref(db, `sparring/${currentKey}`), {
+                    status: 'matched',
+                    timB: namaBersih,
+                    noHpB: phone,
+                    matchedAt: Date.now()
+                });
+
+                // Sinkronkan cache lokal supaya kartu langsung hilang dari daftar.
+                if(globalCache.sparring && globalCache.sparring[currentKey]){
+                    globalCache.sparring[currentKey].status = 'matched';
+                    globalCache.sparring[currentKey].timB = namaBersih;
+                    globalCache.sparring[currentKey].noHpB = phone;
+                    globalCache.sparring[currentKey].matchedAt = Date.now();
+                }
+
+                closeModal();
+                window.renderCustomerSparring();
+
+                // Setelah tersimpan, langsung arahkan ke WhatsApp tim A.
+                window.location.href = waUrl;
+            } catch(error) {
+                console.error('Gagal menyimpan pasangan sparring:', error);
+                if(saveButton){
+                    saveButton.disabled = false;
+                    saveButton.textContent = 'Simpan & Buka WhatsApp';
+                }
+                alert('Gagal menyimpan pilihan tim. Silakan coba lagi.');
+            }
+        });
+
+        document.getElementById('customer-sparring-team-name').addEventListener('keydown', (event) => {
+            if(event.key === 'Enter'){
+                event.preventDefault();
+                document.getElementById('customer-sparring-modal-save').click();
+            }
+            if(event.key === 'Escape') closeModal();
+        });
     }
 
-    // Minta nama tim yang ingin mencari lawan
-    const namaTimKita = prompt('Masukkan nama tim Anda:');
-    if (namaTimKita === null) return; // user menekan Batal
+    modal.dataset.key = key;
+    modal.dataset.phone = rawPhone || item.noHp || '';
+    modal.classList.add('is-open');
 
-    const namaBersih = namaTimKita.trim();
-    if (!namaBersih) {
-        alert('Nama tim wajib diisi.');
-        return;
-    }
-
-    // Ambil nomor HP dari data utama atau catatan
-    let phone = String(rawPhone || item.noHp || '').trim();
-    if (!phone) {
-        const match = String(item.catatan || '').match(
-            /(?:No\.?\s*HP|Nomor HP|WhatsApp)\s*:\s*([+0-9\s-]+)/i
-        );
-        phone = match ? String(match[1]).trim() : '';
-    }
-
-    if (!phone) {
-        alert('Nomor WhatsApp tim ini belum tersedia.');
-        return;
-    }
-
-    // Normalisasi nomor Indonesia
-    phone = phone.replace(/[^\d+]/g, '');
-    if (phone.startsWith('+')) {
-        phone = phone.substring(1);
-    } else if (phone.startsWith('0')) {
-        phone = '62' + phone.substring(1);
-    } else if (!phone.startsWith('62')) {
-        phone = '62' + phone;
-    }
-
-    const tanggal = item.tanggal
-        ? item.tanggal.split('-').reverse().join('/')
-        : '-';
-    const jam = item.jam || '-';
-    const namaTimLawan = String(item.timA || '').trim() || 'Tim Anda';
-
-    const pesan =
-        `Halo kak, saya dari tim *${namaBersih}*.%0A%0A` +
-        `Saya melihat tim *${namaTimLawan}* sedang mencari lawan sparring.%0A%0A` +
-        `📅 Tanggal: ${tanggal}%0A` +
-        `⏰ Jam: ${jam}%0A%0A` +
-        `Apakah masih tersedia untuk sparring?`;
-
-    const waUrl = `https://wa.me/${phone}?text=${pesan}`;
-
-    // Buka WhatsApp terlebih dahulu agar tidak terblokir popup browser
-    window.open(waUrl, '_blank');
-
-    // Tandai sebagai sudah dipilih setelah WhatsApp dibuka
-    try {
-        if (typeof db !== 'undefined' && typeof ref === 'function' && typeof update === 'function') {
-            await update(ref(db, `sparring/${key}`), {
-                status: 'matched',
-                timB: namaBersih,
-                noHpB: phone
-            });
-        }
-
-        if (globalCache.sparring && globalCache.sparring[key]) {
-            globalCache.sparring[key].status = 'matched';
-            globalCache.sparring[key].timB = namaBersih;
-            globalCache.sparring[key].noHpB = phone;
-        }
-
-        if (typeof renderCustomerSparring === 'function') {
-            renderCustomerSparring();
-        }
-    } catch (error) {
-        console.error('Gagal memperbarui status sparring:', error);
-        // WhatsApp tetap sudah terbuka, jadi jangan mengganggu user.
+    const input = document.getElementById('customer-sparring-team-name');
+    if(input){
+        input.value = '';
+        setTimeout(() => input.focus(), 80);
     }
 };
 
@@ -7745,6 +7847,221 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
 }
 </style>
 </body>
+
+<style id="customer-home-desktop-buttons-final">
+/* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
+   HP tidak disentuh oleh aturan ini. */
+@media (min-width: 901px) {
+    #page-home .customer-image-menu {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        width: 100% !important;
+        max-width: 1500px !important;
+        gap: clamp(18px, 2vw, 30px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #page-home .customer-image-menu-item,
+    #page-home .customer-image-menu-item picture,
+    #page-home .customer-image-menu-item img {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    #page-home .customer-image-menu-item img {
+        height: auto !important;
+        aspect-ratio: 299 / 353 !important;
+        object-fit: contain !important;
+    }
+}
+
+/* Layar laptop sedang: tetap lebih besar, tetapi tidak terlalu memenuhi layar. */
+@media (min-width: 901px) and (max-width: 1200px) {
+    #page-home .customer-image-menu {
+        max-width: 1100px !important;
+        gap: 16px !important;
+    }
+}
+
+/* Desktop besar: beri sedikit ruang agar 4 tombol terlihat lega. */
+@media (min-width: 1400px) {
+    #page-home .customer-image-menu {
+        max-width: 1500px !important;
+        gap: 26px !important;
+    }
+}
+</style>
+
+
+<style id="customer-home-desktop-size-final-v2">
+/* DESKTOP FINAL:
+   Lebarkan area halaman utama agar 4 kartu benar-benar besar.
+   Hanya berlaku saat halaman HOME aktif. */
+@media (min-width: 901px) {
+    main:has(#page-home:not(.hidden)) {
+        max-width: 1600px !important;
+        width: calc(100vw - 48px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #page-home {
+        width: 100% !important;
+        max-width: none !important;
+        padding-left: clamp(20px, 3vw, 52px) !important;
+        padding-right: clamp(20px, 3vw, 52px) !important;
+    }
+
+    #page-home .customer-image-menu {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        width: 100% !important;
+        max-width: 1500px !important;
+        gap: clamp(18px, 2.1vw, 34px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #page-home .customer-image-menu-item,
+    #page-home .customer-image-menu-item picture,
+    #page-home .customer-image-menu-item img {
+        width: 100% !important;
+        max-width: none !important;
+    }
+}
+
+/* Desktop besar */
+@media (min-width: 1400px) {
+    main:has(#page-home:not(.hidden)) {
+        max-width: 1650px !important;
+        width: calc(100vw - 36px) !important;
+    }
+
+    #page-home .customer-image-menu {
+        max-width: 1560px !important;
+        gap: 28px !important;
+    }
+}
+
+/* Popup nama tim untuk tombol Pilih Tim Ini */
+#customer-sparring-name-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+#customer-sparring-name-modal.is-open {
+    display: flex;
+}
+.customer-sparring-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15,23,42,.55);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+.customer-sparring-modal-box {
+    position: relative;
+    z-index: 1;
+    width: min(460px, 100%);
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.96);
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 24px 70px rgba(15,23,42,.30);
+}
+.customer-sparring-modal-icon {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 12px;
+    border-radius: 16px;
+    background: #f3e8ff;
+    font-size: 27px;
+}
+.customer-sparring-modal-title {
+    color: #0f172a;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 950;
+}
+.customer-sparring-modal-desc {
+    margin: 8px auto 18px;
+    max-width: 390px;
+    color: #64748b;
+    text-align: center;
+    font-size: .72rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+.customer-sparring-modal-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: .72rem;
+    font-weight: 900;
+}
+.customer-sparring-modal-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 13px;
+    background: #fff;
+    color: #0f172a;
+    font-size: .85rem;
+    font-weight: 700;
+    outline: none;
+}
+.customer-sparring-modal-input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 0 4px rgba(168,85,247,.12);
+}
+.customer-sparring-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.45fr;
+    gap: 9px;
+    margin-top: 16px;
+}
+.customer-sparring-modal-actions button {
+    min-height: 44px;
+    border-radius: 12px;
+    border: 0;
+    font-size: .72rem;
+    font-weight: 950;
+    cursor: pointer;
+}
+.customer-sparring-modal-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+.customer-sparring-modal-save {
+    background: linear-gradient(135deg,#a21caf,#7e22ce);
+    color: #fff;
+    box-shadow: 0 9px 22px rgba(126,34,206,.22);
+}
+.customer-sparring-modal-save:disabled {
+    opacity: .65;
+    cursor: wait;
+}
+@media(max-width:640px){
+    .customer-sparring-modal-box {
+        padding: 20px 16px;
+        border-radius: 20px;
+    }
+    .customer-sparring-modal-actions {
+        grid-template-columns: 1fr;
+    }
+    .customer-sparring-modal-save {
+        order: -1;
+    }
+}
+</style>
+
 </html><style id="home-mobile-vertical-buttons-v16">
 @media (max-width: 640px){
   /* Hanya halaman awal: desktop tidak tersentuh */
