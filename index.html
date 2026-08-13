@@ -7625,3 +7625,46 @@ main {
     background: transparent !important;
 }
 </style>
+
+<style id="mobile-logo-size-final-v27">
+/* V27 — KHUSUS HP: logo halaman awal +50%, logo sub-menu diperkecil.
+   Desktop tidak diubah. */
+@media (max-width: 640px) {
+  /* HALAMAN AWAL */
+  body:has(#page-home:not(.hidden)) > header img,
+  body:has(#page-home:not(.hidden)) > header img[src="logo.png"],
+  body:has(#page-home:not(.hidden)) > header.w-full.max-w-6xl > img[src="logo.png"] {
+    width: 278px !important;
+    height: 255px !important;
+    max-width: 78vw !important;
+    object-fit: contain !important;
+  }
+
+  /* SUB-MENU: Jadwal, Harga, dan Booking */
+  body:has(#page-home.hidden) > header img,
+  body:has(#page-home.hidden) > header img[src="logo.png"],
+  body:has(#page-home.hidden) > header.w-full.max-w-6xl > img[src="logo.png"] {
+    width: 92px !important;
+    height: 82px !important;
+    max-width: 30vw !important;
+    object-fit: contain !important;
+  }
+
+  /* HP sangat kecil */
+  @media (max-width: 380px) {
+    body:has(#page-home:not(.hidden)) > header img,
+    body:has(#page-home:not(.hidden)) > header img[src="logo.png"] {
+      width: 250px !important;
+      height: 230px !important;
+      max-width: 78vw !important;
+    }
+
+    body:has(#page-home.hidden) > header img,
+    body:has(#page-home.hidden) > header img[src="logo.png"] {
+      width: 82px !important;
+      height: 73px !important;
+      max-width: 28vw !important;
+    }
+  }
+}
+</style>
