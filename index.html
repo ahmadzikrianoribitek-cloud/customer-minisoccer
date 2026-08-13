@@ -4285,6 +4285,101 @@ body:has(#page-customer-booking:not(.hidden))
     }
 }
 </style>
+
+<style id="customer-home-spacing-final-v25">
+/* HOME — spacing final: jarak judul → subjudul → tombol dibuat konsisten.
+   Hanya halaman awal yang disentuh. Sub-menu tidak berubah. */
+
+/* Desktop: hilangkan jarak tambahan dari main/space-y dan padding home */
+@media (min-width: 641px) {
+    body:has(#page-home:not(.hidden)) > header {
+        margin-bottom: 24px !important;
+    }
+
+    body:has(#page-home:not(.hidden)) > main {
+        margin-top: 0 !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-top: 0 !important;
+        padding-bottom: 12px !important;
+    }
+
+    #page-home .customer-home-hero {
+        padding: 0 !important;
+        margin: 0 0 24px !important;
+    }
+
+    #page-home .customer-home-hero h2 {
+        margin: 0 auto !important;
+    }
+}
+
+/* HP: aturan spacing yang sama secara visual */
+@media (max-width: 640px) {
+    body:has(#page-home:not(.hidden)) > header {
+        margin-bottom: 24px !important;
+    }
+
+    body:has(#page-home:not(.hidden)) > main {
+        margin-top: 0 !important;
+    }
+
+    #page-home.customer-home-dashboard {
+        padding-top: 0 !important;
+        padding-bottom: 10px !important;
+    }
+
+    #page-home .customer-home-hero {
+        padding: 0 !important;
+        margin: 0 0 24px !important;
+    }
+
+    #page-home .customer-home-hero h2 {
+        margin: 0 auto !important;
+    }
+}
+</style>
+
+
+<style id="home-v26-no-subtitle-no-header-frame">
+/* V26: halaman awal saja — hapus subjudul dan semua frame header/logo */
+body > header {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+body > header::before {
+  display: none !important;
+  content: none !important;
+}
+body > header img,
+body > header img[src="logo.png"],
+header.w-full.max-w-6xl > img[src="logo.png"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  filter: none !important;
+}
+body > header h1 {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+#page-home .customer-home-hero {
+  display: none !important;
+}
+</style>
+
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -4346,7 +4441,7 @@ body:has(#page-customer-booking:not(.hidden))
 
         <!-- HALAMAN UTAMA / BERANDA (CUSTOMER BOOKING) -->
         <div id="page-home" class="p-4 sm:p-6 customer-home-dashboard">
-    <div class="customer-home-hero"><h2>BOOKING LAPANGAN DENGAN MUDAH DAN CEPAT</h2></div>
+    
 
     <section class="customer-menu-section">
         <div class="customer-menu-grid customer-image-menu">
