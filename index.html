@@ -4769,7 +4769,7 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
                                 <img src="logobsi.png" alt="Bank Syariah Indonesia" class="payment-bank-logo" onerror="this.style.display='none'">
                                 <div>
                                     <div class="payment-info-label">🏦 Rekening Transfer BSI</div>
-                                    <div class="payment-account-owner">a.n. Yuyun Mardiani</div>
+                                    <div class="payment-account-owner">a.n. Yuyun Mardiati</div>
                                 </div>
                             </div>
                             <div class="payment-account">
@@ -4819,21 +4819,7 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 </div>
 </div>
 <div class="shadow-2xl rounded-xl border border-white/30 mb-4 overflow-hidden relative" id="booking-schedule-grid-wrap">
-<table class="w-full text-center border-collapse text-[6px] sm:text-[10px] bg-white/20 backdrop-blur-md table-fixed border-slate-900/40">
-<thead>
-<tr class="bg-slate-900 text-white font-bold text-center" id="customer-header-tabel-jadwal">
-<th class="p-0.5 sm:p-2 border border-slate-900/40 w-7 sm:w-20 text-center"><svg class="w-4 h-4 sm:w-6 sm:h-6 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"></path></svg></th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Sen</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Sel</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Rab</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Kam</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Jum</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Sab</th>
-<th class="p-0.5 sm:p-2 border border-slate-900/40 text-center">Min</th>
-</tr>
-</thead>
-<tbody class="font-bold text-slate-900 text-center" id="customer-grid-jadwal-gabung"></tbody>
-</table>
+    <div id="customer-booking-schedule-periods" class="customer-booking-schedule-periods"></div>
 </div>
 <div class="schedule-legend flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-bold mt-4 p-3 rounded-2xl">
 <span class="schedule-legend-title font-black px-2">Keterangan</span>
@@ -5551,6 +5537,8 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         }
 
         // FUNGSI CUSTOMER BOOKING SINKRON JADWAL KOSONG & WHATSAPP
+        // Sumber ketersediaan harus mengikuti sumber yang dipakai BOOKING SCHEDULE
+        // admin: MEMBER aktif/libur + BOOKING aktual. Slot 18:00 tetap OFF.
         const listJam = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"];
         const listHariKey = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
         let globalCache = { member: {}, booking: {}, sparring: {}, pemasukan: {}, minuman: {}, pengeluaran: {} };
@@ -5559,6 +5547,30 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
             let days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             let d = new Date(dateStr);
             return days[d.getDay()];
+        }
+
+        // Samakan aturan tanggal member dengan BOOKING SCHEDULE admin.
+        // Jadwal member tidak dianggap terisi jika belum mulai, sudah berhenti,
+        // atau tanggal tersebut ditandai libur/pengecualian.
+        function isCustomerMemberActiveOnDate(member, dateStr) {
+            if(!member || !dateStr) return false;
+            const mulai = String(member.mulai || '');
+            const berhenti = String(member.berhenti || '');
+            if(mulai && dateStr < mulai) return false;
+            if(berhenti && dateStr >= berhenti) return false;
+            return true;
+        }
+
+        function isCustomerMemberLiburOnDate(member, dateStr) {
+            if(!member || !dateStr) return false;
+            const daftarLibur = member.liburTanggal || {};
+            if(Array.isArray(daftarLibur)) return daftarLibur.includes(dateStr);
+            return daftarLibur[dateStr] === true;
+        }
+
+        function isCustomerMemberScheduledOnDate(member, dateStr) {
+            return isCustomerMemberActiveOnDate(member, dateStr)
+                && !isCustomerMemberLiburOnDate(member, dateStr);
         }
 
         // Harga customer mengikuti persis aturan getHargaLapangan() pada web admin.
@@ -5690,9 +5702,10 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         };
 
         window.loadJamKosongCustomer = () => {
-            let tglInput = document.getElementById('cust-tanggal').value;
-            let selectJam = document.getElementById('cust-jam');
+            const tglInput = document.getElementById('cust-tanggal')?.value || '';
+            const selectJam = document.getElementById('cust-jam');
             if(!selectJam) return;
+
             selectJam.innerHTML = `<option value="">-- Pilih Jam Kosong --</option>`;
             window.__customerAvailableHours = new Set();
 
@@ -5702,53 +5715,80 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
                 return;
             }
 
-            let hariName = getNamaHari(tglInput);
-            let jamTerisi = new Set();
+            const hariName = getNamaHari(tglInput);
+            const jamTerisi = new Set();
 
+            // 1) MEMBER: harus mengikuti BOOKING SCHEDULE admin secara persis.
+            // Jangan menganggap cell member selalu terisi: cek mulai, berhenti,
+            // dan libur tanggal terlebih dahulu.
             listJam.forEach(jam => {
-                let cellData = (globalCache.member[jam] && globalCache.member[jam][hariName]) ? globalCache.member[jam][hariName] : null;
-                if(cellData) jamTerisi.add(jam);
-            });
+                const cellData = (globalCache.member?.[jam]?.[hariName]) || null;
 
-            Object.values(globalCache.booking).forEach(b => {
-                if(b.tgl && b.tgl.split('T')[0] === tglInput) {
-                    const timePart = b.tgl.split('T')[1];
-                    if(!timePart) return;
-
-                    const startJam = timePart.substring(0, 5);
-                    const durasi = Math.max(1, Number(b.durasi || 1));
-                    const startIndex = listJam.indexOf(startJam);
-
-                    if(startIndex >= 0) {
-                        for(let i = startIndex; i < startIndex + durasi && i < listJam.length; i++) {
-                            jamTerisi.add(listJam[i]);
-                        }
-                    } else {
-                        jamTerisi.add(startJam);
-                    }
+                if(
+                    cellData &&
+                    cellData.nama &&
+                    String(cellData.nama).trim().toUpperCase() !== 'OFF' &&
+                    isCustomerMemberScheduledOnDate(cellData, tglInput)
+                ) {
+                    jamTerisi.add(jam);
                 }
             });
 
-            // Jam 18:00 memang OFF pada jadwal lapangan, jadi jangan ditawarkan.
+            // 2) BOOKING: satu booking bisa memakai beberapa jam sesuai durasi.
+            // Ini sama dengan pengisian slot pada BOOKING SCHEDULE admin.
+            Object.values(globalCache.booking || {}).forEach(b => {
+                if(!b?.tgl) return;
+
+                const parts = String(b.tgl).split('T');
+                const datePart = parts[0] || '';
+                const timePart = parts[1] || '';
+                if(datePart !== tglInput || !timePart) return;
+
+                const startJam = timePart.substring(0, 5);
+                const durasi = Math.max(1, Number(b.durasi || 1));
+                const startIndex = listJam.indexOf(startJam);
+
+                if(startIndex >= 0) {
+                    for(
+                        let i = startIndex;
+                        i < startIndex + durasi && i < listJam.length;
+                        i++
+                    ) {
+                        jamTerisi.add(listJam[i]);
+                    }
+                } else {
+                    // Jaga-jaga jika ada data booking lama dengan jam
+                    // yang belum ada di listJam.
+                    jamTerisi.add(startJam);
+                }
+            });
+
+            // 3) 18:00 adalah OFF tetap, sehingga tidak pernah ditawarkan.
             if(listJam.includes('18:00')) jamTerisi.add('18:00');
 
             let jamKosongDitemukan = false;
             const status = document.getElementById('cust-status')?.value || 'Non-Member';
 
             listJam.forEach(jam => {
-                if(!jamTerisi.has(jam)) {
-                    window.__customerAvailableHours.add(jam);
-                    let opt = document.createElement('option');
-                    opt.value = jam;
-                    const harga = getHargaLapanganCustomer(tglInput, jam, status);
-                    opt.text = `${jam} WITA (Kosong) — ${formatRupiahCustomer(harga)}`;
-                    selectJam.appendChild(opt);
-                    jamKosongDitemukan = true;
-                }
+                if(jamTerisi.has(jam)) return;
+
+                // Harga 0 berarti slot berada di luar aturan harga lapangan.
+                // Jangan memasukkannya ke dropdown agar customer hanya melihat
+                // slot yang benar-benar valid untuk booking.
+                const harga = getHargaLapanganCustomer(tglInput, jam, status);
+                if(harga <= 0) return;
+
+                window.__customerAvailableHours.add(jam);
+
+                const opt = document.createElement('option');
+                opt.value = jam;
+                opt.text = `${jam} WITA (Kosong) — ${formatRupiahCustomer(harga)}`;
+                selectJam.appendChild(opt);
+                jamKosongDitemukan = true;
             });
 
             if(!jamKosongDitemukan) {
-                let opt = document.createElement('option');
+                const opt = document.createElement('option');
                 opt.value = "";
                 opt.text = "-- Maaf, Semua Jadwal di Tanggal Ini Sudah Penuh --";
                 selectJam.appendChild(opt);
@@ -6597,159 +6637,249 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
             return isMemberActiveOnDate(member, dateStr) && !isMemberLiburOnDate(member, dateStr);
         }
         function initCustomerPeriodeDropdown() {
-            const selectEl=document.getElementById('customer-filter-periode-jadwal'); if(!selectEl) return;
-            selectEl.innerHTML=''; const today=new Date();
-            for(let i=-8;i<=8;i++){
-                const d=new Date(today); d.setDate(today.getDate()+i*7);
-                const day=d.getDay(); const diff=d.getDate()-day+(day===0?-6:1); const monday=new Date(new Date(d).setDate(diff));
-                const sunday=new Date(new Date(monday).setDate(monday.getDate()+6));
-                const opt=document.createElement('option'); opt.value=getLocalDateString(monday); opt.text=`${monday.toLocaleDateString('id-ID',{day:'numeric',month:'short'})} s.d. ${sunday.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}`;
-                if(i===0) opt.selected=true; selectEl.appendChild(opt);
+            const selectEl = document.getElementById('customer-filter-periode-jadwal');
+            if(!selectEl) return;
+            selectEl.innerHTML = '';
+
+            // SAMA PERSIS dengan logika periode Booking Schedule Admin:
+            // berbasis minggu Senin-Minggu, tetapi dipotong setiap pergantian bulan.
+            // Contoh Agustus 2026: 24–30 Agustus | 31 Agustus | 1–6 September | 7–13 September.
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const periods = [];
+            const seen = new Set();
+
+            for(let i = -12; i <= 12; i++) {
+                const anchor = new Date(today);
+                anchor.setDate(today.getDate() + (i * 7));
+                const dayOfWeek = anchor.getDay();
+                const diffToMonday = anchor.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+                const monday = new Date(anchor);
+                monday.setDate(diffToMonday);
+                monday.setHours(0,0,0,0);
+
+                let cursor = new Date(monday);
+                for(let offset = 0; offset < 7;) {
+                    const segmentStart = new Date(cursor);
+                    const monthKey = `${cursor.getFullYear()}-${String(cursor.getMonth()+1).padStart(2,'0')}`;
+                    let segmentEnd = new Date(cursor);
+
+                    while(offset < 6) {
+                        const next = new Date(segmentEnd);
+                        next.setDate(next.getDate() + 1);
+                        const nextMonthKey = `${next.getFullYear()}-${String(next.getMonth()+1).padStart(2,'0')}`;
+                        if(nextMonthKey !== monthKey) break;
+                        segmentEnd = next;
+                        offset++;
+                    }
+
+                    const startStr = getLocalDateString(segmentStart);
+                    const endStr = getLocalDateString(segmentEnd);
+                    const key = `${startStr}|${endStr}`;
+                    if(!seen.has(key)) {
+                        seen.add(key);
+                        periods.push({
+                            start:startStr,
+                            end:endStr,
+                            monthKey,
+                            startDate:new Date(segmentStart),
+                            endDate:new Date(segmentEnd)
+                        });
+                    }
+
+                    cursor = new Date(segmentEnd);
+                    cursor.setDate(cursor.getDate() + 1);
+                    offset++;
+                }
             }
+
+            // Hanya bulan berjalan dan bulan berikutnya.
+            const currentMonthKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
+            const nextMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+            const nextMonthKey = `${nextMonthDate.getFullYear()}-${String(nextMonthDate.getMonth()+1).padStart(2,'0')}`;
+            const allowedMonthKeys = new Set([currentMonthKey, nextMonthKey]);
+
+            const filteredPeriods = periods
+                .filter(period => allowedMonthKeys.has(period.monthKey))
+                .sort((a,b) => a.start.localeCompare(b.start));
+
+            const monthName = d => d.toLocaleDateString('id-ID',{month:'long'});
+            const formatPeriod = period => {
+                const s = period.startDate;
+                const e = period.endDate;
+                if(period.start === period.end) return `${s.getDate()} ${monthName(s)} ${s.getFullYear()}`;
+                return `${s.getDate()} s.d. ${e.getDate()} ${monthName(e)} ${e.getFullYear()}`;
+            };
+
+            filteredPeriods.forEach(period => {
+                const opt = document.createElement('option');
+                opt.value = period.start;
+                opt.dataset.periodStart = period.start;
+                opt.dataset.periodEnd = period.end;
+                opt.dataset.monthKey = period.monthKey;
+                opt.textContent = formatPeriod(period);
+                selectEl.appendChild(opt);
+            });
+
+            const todayStr = getLocalDateString(today);
+            const current = filteredPeriods.find(p => todayStr >= p.start && todayStr <= p.end);
+            if(current) selectEl.value = current.start;
         }
+
         window.renderCustomerGridJadwal = () => {
-            let gridTbody = document.getElementById('customer-grid-jadwal-gabung');
-            let headerTr = document.getElementById('customer-header-tabel-jadwal');
-            if(!gridTbody) return;
-            gridTbody.innerHTML = "";
+            const wrap = document.getElementById('customer-booking-schedule-periods');
+            if(!wrap) return;
+            wrap.innerHTML = '';
 
-            let selectPeriode = document.getElementById('customer-filter-periode-jadwal');
-            let mondayStrVal = selectPeriode ? selectPeriode.value : "";
-            let monday = mondayStrVal ? new Date(mondayStrVal) : new Date();
+            const selectPeriode = document.getElementById('customer-filter-periode-jadwal');
+            const selectedOption = selectPeriode?.options?.[selectPeriode.selectedIndex];
+            const selectedStartStr = selectedOption?.dataset?.periodStart || selectPeriode?.value || '';
+            const selectedEndStr = selectedOption?.dataset?.periodEnd || selectedStartStr;
+            const activeStart = new Date(selectedStartStr + 'T00:00:00');
+            const activeEnd = new Date(selectedEndStr + 'T00:00:00');
+            if(Number.isNaN(activeStart.getTime()) || Number.isNaN(activeEnd.getTime())) return;
+            activeStart.setHours(0,0,0,0);
+            activeEnd.setHours(0,0,0,0);
 
-            let currentWeekDates = {};
-            let headerHtml = `<th class="p-0.5 sm:p-2 border border-slate-900/40 w-7 sm:w-20 text-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-6 sm:h-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg></th>`;
+            // Periode selalu merupakan potongan kalender Senin-Minggu,
+            // tetapi dropdown sudah dipisah tepat di batas pergantian bulan.
+            // Jadi contoh 31 Agustus akan tampil sebagai periode tersendiri,
+            // sementara 1-6 September menjadi periode berikutnya.
+            const dayOfWeek = activeStart.getDay();
+            const diffToMonday = activeStart.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+            const monday = new Date(activeStart);
+            monday.setDate(diffToMonday);
+            monday.setHours(0,0,0,0);
 
-            let formatDateShort = { day: 'numeric', month: 'numeric' };
-
-            let listHariMapping = [
-                { nama: 'Senin', offset: 0 }, { nama: 'Selasa', offset: 1 }, { nama: 'Rabu', offset: 2 },
-                { nama: 'Kamis', offset: 3 }, { nama: 'Jumat', offset: 4 }, { nama: 'Sabtu', offset: 5 }, { nama: 'Minggu', offset: 6 }
+            const listHariMapping = [
+                {nama:'Senin',offset:0},{nama:'Selasa',offset:1},{nama:'Rabu',offset:2},
+                {nama:'Kamis',offset:3},{nama:'Jumat',offset:4},{nama:'Sabtu',offset:5},{nama:'Minggu',offset:6}
             ];
-
-            let nowTime = new Date();
+            const nowTime = new Date();
             nowTime.setHours(0,0,0,0);
 
-            listHariMapping.forEach((h, idx) => {
-                let d = new Date(monday);
-                d.setDate(monday.getDate() + h.offset);
-                let dateStringFormatted = getLocalDateString(d);
-                currentWeekDates[h.nama] = { dateStr: dateStringFormatted, fullDate: new Date(d.getTime()) };
-
-                let labelTgl = d.toLocaleDateString('id-ID', formatDateShort);
-
-                let tempDate = new Date(d);
-                tempDate.setHours(0,0,0,0);
-                let isFullDayPassed = tempDate < nowTime;
-                // Penanda DONE ditampilkan langsung di dalam grid, bukan di header hari.
-                let badgeDone = "";
-
-                headerHtml += `<th class="p-0.5 sm:p-2 border border-slate-900/40 align-middle text-center">
-                    <div class="text-[8px] sm:text-xs font-black uppercase tracking-wider text-center">${h.nama}</div>
-                    <div class="text-[7px] sm:text-[11px] text-yellow-300 bg-slate-900 px-1 py-0.5 rounded font-black mt-0.5 text-center">${labelTgl}</div>
-                    ${badgeDone}
-                </th>`;
+            const weekDates = listHariMapping.map(h => {
+                const d = new Date(monday);
+                d.setDate(monday.getDate()+h.offset);
+                d.setHours(0,0,0,0);
+                return {
+                    ...h,
+                    date:d,
+                    dateStr:getLocalDateString(d),
+                    monthKey:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,
+                    monthName:d.toLocaleDateString('id-ID',{month:'long'}),
+                    year:d.getFullYear()
+                };
             });
 
-            headerTr.innerHTML = headerHtml;
+            const isActiveDate = dateStr => dateStr >= selectedStartStr && dateStr <= selectedEndStr;
 
-            // Bentuk matrix member berdasarkan tanggal masing-masing hari.
-            // Dengan ini member baru tidak muncul sebelum tanggal mulai dan member berhenti
-            // tidak muncul lagi mulai tanggal berhenti, tanpa menghapus histori tanggal sebelumnya.
-            let matrix = {};
-            listHariKey.forEach(hari => {
-                const dateStr = currentWeekDates[hari] ? currentWeekDates[hari].dateStr : '';
-                listJam.forEach(jam => {
-                    const cell = (globalCache.member[jam] && globalCache.member[jam][hari]) ? globalCache.member[jam][hari] : null;
-                    if(cell && cell.nama && isMemberScheduledOnDate(cell, dateStr)) {
-                        if(!matrix[jam]) matrix[jam] = {};
-                        matrix[jam][hari] = { ...cell };
-                    }
-                });
-            });
+            // Tanggal di luar periode aktif selalu menjadi satu blok berurutan
+            // di awal atau akhir minggu, lalu diberi stempel bulan sebelumnya/berikutnya.
+            const inactiveIndices = weekDates
+                .map((d,i) => (!isActiveDate(d.dateStr) ? i : -1))
+                .filter(i => i >= 0);
+            const adjacentStartIndex = inactiveIndices.length ? inactiveIndices[0] : -1;
+            const adjacentColSpan = inactiveIndices.length;
+            const inactiveDates = inactiveIndices.map(i => weekDates[i]);
+            const inactiveCount = inactiveIndices.length;
+            const adjacentIsNextMonth = inactiveCount > 0 && inactiveDates[0].date > activeEnd;
+            const adjacentStampSrc = inactiveCount > 0
+                ? (adjacentIsNextMonth ? 'bulanselanjutnya.png' : 'bulansebelumnya.png')
+                : '';
+            const adjacentStampAlt = inactiveCount > 0
+                ? (adjacentIsNextMonth ? 'Bulan selanjutnya' : 'Bulan sebelumnya')
+                : '';
 
-            Object.values(globalCache.booking).forEach(b => {
-                if(b.tgl) {
-                    let datePart = b.tgl.split('T')[0];
-                    let timePart = b.tgl.split('T')[1];
-                    if(timePart) {
-                        let jamFormat = timePart.substring(0, 5);
-                        let hariName = getNamaHari(datePart);
-
-                        if(currentWeekDates[hariName] && currentWeekDates[hariName].dateStr === datePart) {
-                            const startIndex = listJam.indexOf(jamFormat);
-                            const durasiBooking = Math.max(1, Number(b.durasi || 1));
-                            const isMemberBooking = (b.status === 'Member');
-                            const bookingKey = Object.keys(globalCache.booking).find(k => globalCache.booking[k] === b) || '';
-
-                            if(startIndex >= 0) {
-                                for(let i = startIndex; i < startIndex + durasiBooking && i < listJam.length; i++) {
-                                    const jamTerpakai = listJam[i];
-                                    if(!matrix[jamTerpakai]) matrix[jamTerpakai] = {};
-                                    matrix[jamTerpakai][hariName] = {
-                                        nama: b.nama,
-                                        type: isMemberBooking ? 'member' : 'nonmember',
-                                        bookingKey
-                                    };
-                                }
-                            }
-                        }
-                    }
+            // Booking aktual: satu booking bisa mengisi beberapa slot sesuai durasi.
+            const bookingBySlot = {};
+            Object.entries(globalCache.booking || {}).forEach(([bookingKey,b]) => {
+                if(!b || !b.tgl) return;
+                const datePart = String(b.tgl).split('T')[0];
+                const timePart = String(b.tgl).split('T')[1] || '';
+                const jamFormat = timePart.substring(0,5);
+                if(!datePart || !jamFormat || !isActiveDate(datePart)) return;
+                const startIndex = listJam.indexOf(jamFormat);
+                if(startIndex < 0) return;
+                const durasi = Math.max(1,Number(b.durasi || 1));
+                const type = b.status === 'Member' ? 'member' : 'nonmember';
+                for(let i=startIndex;i<startIndex+durasi && i<listJam.length;i++) {
+                    bookingBySlot[`${datePart}|${listJam[i]}`] = {nama:b.nama,type,bookingKey};
                 }
             });
 
-            listJam.forEach((jam, rowIndex) => {
-                let tr = `<tr class="border-b border-slate-900/40 h-7 sm:h-14 text-center">`;
-                tr += `<td class="p-0.5 sm:p-2 border border-slate-900/40 font-black bg-slate-900 text-white text-[8px] sm:text-sm text-center">${jam}</td>`;
+            const tableWrap = document.createElement('div');
+            tableWrap.className = 'customer-booking-single-week-table-wrap';
+            tableWrap.style.position = 'relative';
+            tableWrap.style.overflow = 'hidden';
 
-                listHariKey.forEach(hari => {
-                    const tanggalKolom = currentWeekDates[hari] ? currentWeekDates[hari].fullDate : null;
-                    const hariSudahLewat = tanggalKolom ? tanggalKolom < nowTime : false;
+            // Header tetap menampilkan seluruh Senin-Minggu beserta tanggal aslinya.
+            // Area bulan lain hanya dikosongkan di isi tabel dan diberi SATU stempel.
+            const allHeader = weekDates.map(h => `
+                <th class="p-0.5 sm:p-2 border border-slate-900/40 align-middle text-center">
+                    <div class="text-[8px] sm:text-xs font-black uppercase tracking-wider">${h.nama}</div>
+                    <div class="text-[7px] sm:text-[11px] text-yellow-300 bg-slate-900 px-1 py-0.5 rounded font-black mt-0.5">${h.date.toLocaleDateString('id-ID',{day:'numeric',month:'numeric'})}</div>
+                </th>`).join('');
 
-                    // DONE untuk hari yang sudah lewat: tetap render isi sel normal,
-                    // lalu tambahkan satu strip visual selebar 50% kolom di dalam sel.
-                    // Dengan begitu nama tim/booking tetap terlihat di sisi kiri/kanan strip.
-                    let cellData = (matrix[jam] && matrix[jam][hari]) ? matrix[jam][hari] : null;
-                    let bgClass = "border border-slate-900/40 text-slate-900 text-center";
-                    let textVal = "";
+            tableWrap.innerHTML = `<table class="w-full text-center border-collapse text-[6px] sm:text-[10px] bg-white/20 backdrop-blur-md table-fixed border-slate-900/40">
+                <thead><tr class="bg-slate-900 text-white font-bold text-center">
+                    <th class="p-0.5 sm:p-2 border border-slate-900/40 w-7 sm:w-20 text-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-6 sm:h-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg></th>
+                    ${allHeader}
+                </tr></thead><tbody class="font-bold text-slate-900 text-center"></tbody></table>`;
 
-                    if(jam === '18:00') {
-                        // Jam 18 tetap menjadi slot OFF, tetapi tampil menggunakan
-                        // referensi gambar off.png agar lebih jelas dan elegan.
-                        bgClass = "bg-slate-950 border-2 border-red-700 text-red-500 font-black text-center";
-                        textVal = `<span class="schedule-grid-off-holder">
-                            <img src="off.png" alt="OFF" class="schedule-grid-off-stamp" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-                            <span class="hidden items-center justify-center text-red-500 font-black text-[9px] sm:text-xs tracking-widest">OFF</span>
-                        </span>`;
-                    } else if(cellData) {
-                        if(cellData.type === 'member') {
-                            textVal = `<span class="schedule-grid-team-holder schedule-grid-team-member">${cellData.nama}</span>`;
-                            bgClass = "bg-blue-50 border border-blue-200 text-slate-900 font-black shadow-inner text-center";
-                        } else if(cellData.type === 'off') {
-                            bgClass = "bg-red-500/20 border border-slate-900/40 border-dashed text-red-900 font-black shadow-lg text-center";
-                            textVal = `<span class="schedule-grid-off-holder">
-                                <img src="off.png" alt="OFF" class="schedule-grid-off-stamp" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-                                <span class="hidden items-center justify-center text-red-900 font-black text-[9px] sm:text-xs tracking-widest">OFF</span>
-                            </span>`;
-                        } else {
-                            textVal = `<span class="schedule-grid-team-holder schedule-grid-team-nonmember">${cellData.nama}</span>`;
-                            bgClass = "bg-rose-50 border border-rose-200 text-slate-900 font-black shadow-inner text-center";
-                        }
+            const tbody = tableWrap.querySelector('tbody');
+            listJam.forEach((jam,rowIndex) => {
+                let tr = `<tr class="border-b border-slate-900/40 h-7 sm:h-14 text-center"><td class="p-0.5 sm:p-2 border border-slate-900/40 font-black bg-slate-900 text-white text-[8px] sm:text-sm text-center">${jam}</td>`;
+
+                weekDates.forEach((day,dayIndex) => {
+                    // Blok bulan tetangga dibuat satu sel colspan + rowspan,
+                    // persis seperti pola Booking Schedule admin.
+                    if(inactiveCount > 0 && dayIndex === adjacentStartIndex && rowIndex === 0) {
+                        tr += `<td colspan="${adjacentColSpan}" rowspan="${listJam.length}"
+                            class="customer-adjacent-month-cell p-0 text-center align-middle overflow-hidden">
+                            <div class="customer-adjacent-month-inner">
+                                <img src="${adjacentStampSrc}" alt="${adjacentStampAlt}"
+                                     class="customer-adjacent-month-stamp"
+                                     onerror="this.style.display='none';">
+                            </div>
+                        </td>`;
                     }
 
-                    tr += `<td class="p-0.5 sm:p-1 ${bgClass} align-middle h-7 sm:h-14 overflow-hidden text-center relative">
-                        <div class="flex items-center justify-center h-full text-[6px] sm:text-[10px] text-center leading-tight line-clamp-2 font-black relative z-[2]">${textVal}</div>
-                        ${hariSudahLewat ? `
-                        <div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1/2 bg-blue-400/90 text-white pointer-events-none z-[3] flex items-center justify-center overflow-hidden">
-                            <span class="font-black text-[7px] sm:text-[10px] leading-none whitespace-nowrap tracking-wide" style="transform:rotate(-90deg); transform-origin:center;">• DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE •</span>
-                        </div>` : ''}
-                    </td>`;
-                });
-                tr += `</tr>`;
-                gridTbody.innerHTML += tr;
-            });
-        }
+                    // Semua tanggal yang sudah tercakup oleh sel colspan tidak dibuat lagi.
+                    if(inactiveIndices.includes(dayIndex)) return;
 
+                    const activeDate = isActiveDate(day.dateStr);
+                    let cellData = null;
+                    const memberCell = (globalCache.member[jam] && globalCache.member[jam][day.nama]) ? globalCache.member[jam][day.nama] : null;
+                    if(memberCell && memberCell.nama && isMemberScheduledOnDate(memberCell,day.dateStr)) {
+                        cellData = {...memberCell,type:'member'};
+                    }
+                    const bookingData = bookingBySlot[`${day.dateStr}|${jam}`];
+                    if(bookingData) cellData = bookingData;
+
+                    const hariSudahLewat = activeDate && day.date < nowTime;
+                    let bgClass = 'border border-slate-900/40 text-slate-900 text-center';
+                    let textVal = '';
+                    if(jam === '18:00') {
+                        bgClass='bg-slate-950 border-2 border-red-700 text-red-500 font-black text-center';
+                        textVal=`<span class="schedule-grid-off-holder"><img src="off.png" alt="OFF" class="schedule-grid-off-stamp" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"><span class="hidden items-center justify-center text-red-500 font-black text-[9px] sm:text-xs tracking-widest">OFF</span></span>`;
+                    } else if(cellData) {
+                        if(cellData.type==='member') {
+                            textVal=`<span class="schedule-grid-team-holder schedule-grid-team-member">${cellData.nama}</span>`;
+                            bgClass='bg-blue-50 border border-blue-200 text-slate-900 font-black shadow-inner text-center';
+                        } else {
+                            textVal=`<span class="schedule-grid-team-holder schedule-grid-team-nonmember">${cellData.nama}</span>`;
+                            bgClass='bg-rose-50 border border-rose-200 text-slate-900 font-black shadow-inner text-center';
+                        }
+                    }
+                    tr += `<td class="p-0.5 sm:p-1 ${bgClass} align-middle h-7 sm:h-14 overflow-hidden text-center relative"><div class="flex items-center justify-center h-full text-[6px] sm:text-[10px] text-center leading-tight line-clamp-2 font-black relative z-[2]">${textVal}</div>${hariSudahLewat?`<div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1/2 bg-blue-400/90 text-white pointer-events-none z-[3] flex items-center justify-center overflow-hidden"><span class="font-black text-[7px] sm:text-[10px] leading-none whitespace-nowrap tracking-wide" style="transform:rotate(-90deg);transform-origin:center;">• DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE • DONE •</span></div>`:''}</td>`;
+                });
+
+                tr += '</tr>';
+                tbody.insertAdjacentHTML('beforeend',tr);
+            });
+            wrap.appendChild(tableWrap);
+        };
         window.renderGridJadwal = () => {
             let gridTbody = document.getElementById('grid-jadwal-gabung');
             let headerTr = document.getElementById('header-tabel-jadwal');
@@ -8320,6 +8450,18 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
 }
 </style>
 
+
+<style id="customer-booking-schedule-month-boundary">
+/* CUSTOMER — mengikuti pola Booking Schedule admin untuk batas pergantian bulan. */
+#customer-booking-schedule-periods{display:block!important;width:100%!important;}
+#customer-booking-schedule-periods .customer-booking-single-week-table-wrap{width:100%!important;position:relative!important;overflow:hidden!important;border-radius:16px!important;background:rgba(255,255,255,.12)!important;}
+#customer-booking-schedule-periods .customer-booking-single-week-table-wrap>table{position:relative!important;z-index:2!important;width:100%!important;}
+.customer-adjacent-month-cell{background:transparent!important;vertical-align:middle!important;padding:0!important;}
+.customer-adjacent-month-inner{width:100%!important;height:100%!important;min-height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:8px!important;background:transparent!important;}
+.customer-adjacent-month-stamp{display:block!important;width:min(72%,300px)!important;max-width:72%!important;max-height:72%!important;height:auto!important;object-fit:contain!important;margin:auto!important;opacity:.48!important;user-select:none!important;pointer-events:none!important;}
+@media(max-width:640px){.customer-adjacent-month-inner{padding:5px!important}.customer-adjacent-month-stamp{width:84%!important;max-width:84%!important;max-height:68%!important;opacity:.44!important;}}
+@media(max-width:380px){.customer-adjacent-month-inner{padding:3px!important}.customer-adjacent-month-stamp{width:90%!important;max-width:90%!important;max-height:62%!important;opacity:.40!important;}}
+</style>
 </body>
 
 <style id="customer-home-desktop-buttons-final">
