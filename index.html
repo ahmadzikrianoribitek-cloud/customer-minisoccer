@@ -6664,48 +6664,83 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
             if(!selectDurasi) return;
 
             const startJam = selectJam?.value || '';
-            const availableHours = window.__customerAvailableHours || new Set();
+            const status = document.getElementById('cust-status')?.value || 'Non-Member';
+            const previousValue = selectDurasi.value || '1';
 
             selectDurasi.innerHTML = '';
 
-            if(!tglInput || !startJam || !availableHours.has(startJam)) {
-                selectDurasi.innerHTML = '<option value="1">Booking 1 Jam</option>';
+            if(!tglInput || !startJam) {
+                const opt = document.createElement('option');
+                opt.value = '1';
+                opt.textContent = 'Booking 1 Jam';
+                selectDurasi.appendChild(opt);
                 updateCustomerSelectedPrice();
                 return;
             }
 
+            /*
+             * SUMBER KEBENARAN DURASI:
+             * #cust-jam berisi SEMUA jam yang benar-benar kosong pada tanggal
+             * yang dipilih. Jadi jangan memakai state/cache lain untuk menentukan
+             * 2/3/4 jam.
+             *
+             * Contoh dropdown jam:
+             * 07:00, 08:00, 09:00, 10:00, 11:00
+             *
+             * Jika memilih 07:00 -> durasi 1,2,3,4,5,6 jam tersedia
+             * (dibatasi maksimal 6 jam seperti aturan sebelumnya).
+             * Jika 09:00 sudah terisi -> memilih 07:00 hanya sampai 2 jam.
+             */
+            const availableHours = new Set(
+                Array.from(selectJam.options || [])
+                    .map(opt => String(opt.value || '').trim())
+                    .filter(Boolean)
+            );
+
             const startIndex = listJam.indexOf(startJam);
             let maxDurasi = 1;
-            if(startIndex>=0){
-              for(let d=2; d<=6 && startIndex+d-1<listJam.length; d++){
-                let ok=true;
-                for(let j=0;j<d;j++){
-                  const h=listJam[startIndex+j];
-                  if(h==='18:00'){ ok=false; break; }
-                  if(!availableHours.has(h)){ok=false;break;}
+
+            if(startIndex >= 0 && availableHours.has(startJam)) {
+                for(let d = 2; d <= 6; d++) {
+                    const nextIndex = startIndex + d - 1;
+                    if(nextIndex >= listJam.length) break;
+
+                    let semuaKosong = true;
+                    for(let j = 0; j < d; j++) {
+                        const jam = listJam[startIndex + j];
+
+                        // 18:00 memang OFF dan tidak boleh dilewati.
+                        if(jam === '18:00' || !availableHours.has(jam)) {
+                            semuaKosong = false;
+                            break;
+                        }
+                    }
+
+                    if(!semuaKosong) break;
+                    maxDurasi = d;
                 }
-                if(ok) maxDurasi=d; else break;
-              }
             }
 
-            // Maksimal sampai 6 jam agar pilihan tetap ringkas; bisa memilih 1 jam, 2 jam, 3 jam, dst.
             maxDurasi = Math.max(1, Math.min(maxDurasi, 6));
 
             for(let i = 1; i <= maxDurasi; i++) {
-                const total = getCustomerBookingTotal(
-                    tglInput,
-                    startJam,
-                    i,
-                    document.getElementById('cust-status')?.value || 'Non-Member'
-                );
+                const total = getCustomerBookingTotal(tglInput, startJam, i, status);
                 const opt = document.createElement('option');
                 opt.value = String(i);
                 opt.textContent = `Booking ${i} Jam — ${formatRupiahCustomer(total)}`;
                 selectDurasi.appendChild(opt);
             }
 
+            // Pertahankan pilihan durasi sebelumnya jika masih valid.
+            if(Array.from(selectDurasi.options).some(opt => opt.value === previousValue)) {
+                selectDurasi.value = previousValue;
+            } else {
+                selectDurasi.value = '1';
+            }
+
             updateCustomerSelectedPrice();
         };
+
 
         window.loadJamKosongCustomer = () => {
             const tglInput = document.getElementById('cust-tanggal')?.value || '';
@@ -13430,3 +13465,393 @@ html body #page-customer-booking input::placeholder {
   }
 }
 </style>
+
+<style id="booking-remove-inner-frame-final-v2">
+/* =========================================================
+   FINAL V2 — HILANGKAN FRAME DALAM PADA INPUT BOOKING
+   Penyebab ditemukan pada CSS lama:
+   #page-customer-booking .glass-input:not(...) masih memberi
+   background, border, shadow, dan radius kepada input di dalam
+   .booking-glass-card.
+
+   Hasil yang diinginkan:
+   OUTER .booking-glass-card = SATU-SATUNYA FRAME
+   INPUT/SELECT DI DALAM = 100% TRANSPARAN, TANPA FRAME
+   ========================================================= */
+
+/* Semua kontrol langsung di dalam card Booking wajib transparan.
+   Selector dibuat sengaja sangat spesifik agar mengalahkan CSS lama. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input.glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select.glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select.sparring-select {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+
+    /* INI YANG MENGHILANGKAN FRAME DALAM */
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: transparent !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+
+    /* Jangan buat layer kaca kedua di dalam card */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    transform: none !important;
+
+    color: #163d2b !important;
+    font-size: .9rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+/* Input nama + WhatsApp secara eksplisit: tidak boleh punya frame */
+html body #page-customer-booking #cust-nama,
+html body #page-customer-booking #cust-hp {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    outline: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Semua select Booking juga harus polos di dalam card */
+html body #page-customer-booking #cust-jam,
+html body #page-customer-booking #cust-durasi,
+html body #page-customer-booking #cust-status,
+html body #page-customer-booking #cust-minta-sparring,
+html body #page-customer-booking #cust-dp,
+html body #page-customer-booking #cust-metode {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    outline: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Placeholder tidak membuat kotak tambahan */
+html body #page-customer-booking #cust-nama::placeholder,
+html body #page-customer-booking #cust-hp::placeholder {
+    background: transparent !important;
+    color: #64748b !important;
+    opacity: 1 !important;
+    text-align: center !important;
+}
+
+/* Pseudo-element input/select tidak boleh menggambar garis */
+html body #page-customer-booking .booking-glass-card > input::before,
+html body #page-customer-booking .booking-glass-card > input::after,
+html body #page-customer-booking .booking-glass-card > select::before,
+html body #page-customer-booking .booking-glass-card > select::after {
+    content: none !important;
+    display: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Frame hanya milik card luarnya */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+
+/* Khusus sparing tetap satu card, select-nya menyatu dengan card */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card > #cust-minta-sparring {
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+@media (max-width:640px) {
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+        border-radius: 20px !important;
+    }
+
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input.glass-input,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select.glass-input,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input {
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
+</style>
+
+<style id="booking-bottom-nav-card-visibility-fix">
+/*
+  MOBILE ONLY — card yang masih berada di area belakang bottom navigation
+  tidak ikut terlihat/tertindih.
+
+  Aturan:
+  - Jika bagian bawah card masih melewati batas atas bottom nav -> card disembunyikan.
+  - Setelah seluruh card sudah berada di atas bottom nav -> card ditampilkan lagi.
+  - visibility:hidden dipakai supaya tinggi/layout halaman TIDAK berubah dan tidak
+    menyebabkan halaman melompat saat scroll.
+*/
+@media (max-width: 640px) {
+  #page-customer-booking .booking-bottom-nav-covered {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+</style>
+
+<script id="booking-bottom-nav-card-visibility-fix-script">
+(function(){
+  let rafId = 0;
+
+  function updateBookingCardsAgainstBottomNav(){
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(function(){
+      const page = document.getElementById('page-customer-booking');
+      const nav = document.getElementById('customer-bottom-nav');
+      if (!page || !nav) return;
+
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+      const pageVisible = !page.classList.contains('hidden');
+
+      const cards = page.querySelectorAll(
+        'form.customer-booking-clean-form > .booking-glass-card'
+      );
+
+      /* Desktop atau halaman Booking sedang tidak aktif:
+         jangan sembunyikan apa pun. */
+      if (!isMobile || !pageVisible) {
+        cards.forEach(card => card.classList.remove('booking-bottom-nav-covered'));
+        return;
+      }
+
+      const navRect = nav.getBoundingClientRect();
+
+      /* Jika nav sedang tidak terlihat, semua card normal. */
+      if (navRect.height <= 0 || navRect.bottom <= 0 || navRect.top >= window.innerHeight) {
+        cards.forEach(card => card.classList.remove('booking-bottom-nav-covered'));
+        return;
+      }
+
+      const navTop = navRect.top;
+
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+
+        /* Card dianggap "tertutup" jika bagian bawahnya masih masuk
+           ke area bottom navigation. Card baru muncul setelah seluruh
+           permukaannya berada di atas nav. */
+        const coveredByBottomNav = rect.bottom > navTop + 1;
+
+        card.classList.toggle(
+          'booking-bottom-nav-covered',
+          coveredByBottomNav
+        );
+      });
+    });
+  }
+
+  window.updateBookingCardsAgainstBottomNav = updateBookingCardsAgainstBottomNav;
+
+  document.addEventListener('DOMContentLoaded', function(){
+    updateBookingCardsAgainstBottomNav();
+
+    window.addEventListener('scroll', updateBookingCardsAgainstBottomNav, {passive:true});
+    window.addEventListener('resize', updateBookingCardsAgainstBottomNav, {passive:true});
+    window.addEventListener('orientationchange', updateBookingCardsAgainstBottomNav, {passive:true});
+
+    /* Background/image/layout selesai loading bisa mengubah posisi card. */
+    window.addEventListener('load', updateBookingCardsAgainstBottomNav);
+
+    /* Pantau perubahan ukuran/isi form agar posisi card selalu akurat,
+       misalnya saat pilihan pembayaran menampilkan informasi tambahan. */
+    if (window.ResizeObserver) {
+      const page = document.getElementById('page-customer-booking');
+      if (page) {
+        const ro = new ResizeObserver(updateBookingCardsAgainstBottomNav);
+        ro.observe(page);
+      }
+    }
+  });
+})();
+</script>
+
+
+<style id="booking-final-inner-frame-and-dropdown-design-fix">
+/* FINAL DESIGN ONLY — jangan ubah logic dropdown/durasi.
+   Semua kontrol di dalam card dibuat benar-benar transparan.
+   Frame yang terlihat hanya frame .booking-glass-card. */
+
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+
+/* Semua input/select Booking: transparan, tanpa kaca kedua */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > textarea,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .sparring-select,
+html body #page-customer-booking #cust-tanggal,
+html body #page-customer-booking #cust-jam,
+html body #page-customer-booking #cust-durasi,
+html body #page-customer-booking #cust-status,
+html body #page-customer-booking #cust-nama,
+html body #page-customer-booking #cust-hp,
+html body #page-customer-booking #cust-minta-sparring,
+html body #page-customer-booking #cust-dp,
+html body #page-customer-booking #cust-metode {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Jangan sampai wrapper/label di dalam card membuat garis kedua */
+html body #page-customer-booking .booking-glass-card > div,
+html body #page-customer-booking .booking-glass-card > span,
+html body #page-customer-booking .booking-glass-card > p,
+html body #page-customer-booking .booking-glass-card > label {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Hilangkan pseudo-element pembentuk frame */
+html body #page-customer-booking .booking-glass-card::before,
+html body #page-customer-booking .booking-glass-card::after,
+html body #page-customer-booking .booking-glass-card > *::before,
+html body #page-customer-booking .booking-glass-card > *::after {
+  content: none !important;
+  display: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ===============================
+   DROPDOWN — DESAIN SAJA
+   Logic pilihan jam/durasi tetap utuh.
+   =============================== */
+html body #page-customer-booking #cust-jam,
+html body #page-customer-booking #cust-durasi,
+html body #page-customer-booking #cust-status,
+html body #page-customer-booking #cust-minta-sparring,
+html body #page-customer-booking #cust-dp,
+html body #page-customer-booking #cust-metode {
+  color: #163d2b !important;
+  -webkit-text-fill-color: #163d2b !important;
+  font-weight: 950 !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  opacity: 1 !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  cursor: pointer !important;
+}
+
+/* Opsi native dropdown agar teks tidak putih */
+html body #page-customer-booking #cust-jam option,
+html body #page-customer-booking #cust-durasi option,
+html body #page-customer-booking #cust-status option,
+html body #page-customer-booking #cust-minta-sparring option,
+html body #page-customer-booking #cust-dp option,
+html body #page-customer-booking #cust-metode option {
+  color: #163d2b !important;
+  background: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* Khusus jam: teks utama jangan pernah putih */
+html body #page-customer-booking #cust-jam,
+html body #page-customer-booking #cust-jam:focus {
+  color: #163d2b !important;
+  -webkit-text-fill-color: #163d2b !important;
+  text-shadow: none !important;
+}
+
+/* Placeholder/input */
+html body #page-customer-booking #cust-nama::placeholder,
+html body #page-customer-booking #cust-hp::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #64748b !important;
+}
+
+/* Fokus tidak boleh menciptakan frame */
+html body #page-customer-booking .booking-glass-card input:focus,
+html body #page-customer-booking .booking-glass-card select:focus,
+html body #page-customer-booking .booking-glass-card textarea:focus {
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Date display tetap berada di dalam satu frame */
+html body #page-customer-booking .booking-date-card #customer-date-display {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Info pembayaran tidak ikut menjadi frame luar */
+html body #page-customer-booking #customer-payment-info,
+html body #page-customer-booking .booking-submit-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+</style>
+
+
