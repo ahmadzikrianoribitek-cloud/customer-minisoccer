@@ -4540,6 +4540,780 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 }
 </style>
 
+<style id="customer-submenu-no-explanation-final">
+/* SUBMENU CUSTOMER — langsung ke isi menu.
+   Penjelasan umum tetap hanya tampil di HOME. */
+#page-customer-sparring > p,
+#page-customer-booking .booking-duration-hint {
+    display:none !important;
+}
+</style>
+
+<style id="customer-booking-simple-glass-v2">
+/* =========================================================
+   BOOKING — SIMPLE GLASS, TANPA FRAME BESAR
+   Setiap bagian berdiri sendiri seperti kartu Sparing.
+   Logic / ID / fungsi form tidak diubah.
+   ========================================================= */
+
+/* Hilangkan frame besar halaman Booking */
+#page-customer-booking {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    color: #172554 !important;
+}
+
+#page-customer-booking::before,
+#page-customer-booking::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Header tanpa panel */
+#page-customer-booking .customer-page-head {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 0 16px !important;
+}
+
+#page-customer-booking .customer-page-head h2 {
+    color: #312e81 !important;
+    font-size: 1.05rem !important;
+    font-weight: 950 !important;
+}
+
+/* Form transparan; kartu dibuat pada setiap bagian utama */
+#page-customer-booking form {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+/* Setiap blok utama = kartu glass mandiri */
+#page-customer-booking form > div {
+    box-sizing: border-box !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.46), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 12px 30px rgba(76,29,149,.10),
+        inset 0 1px 0 rgba(255,255,255,.72) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    padding: 14px !important;
+}
+
+/* Jangan beri frame kedua pada grid pembayaran */
+#page-customer-booking form > div.grid {
+    background: linear-gradient(135deg, rgba(255,255,255,.46), rgba(255,255,255,.22)) !important;
+}
+
+/* Input/select sederhana */
+#page-customer-booking .glass-input {
+    background: rgba(255,255,255,.72) !important;
+    border: 1px solid rgba(148,163,184,.28) !important;
+    color: #172554 !important;
+    border-radius: 14px !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
+    min-height: 46px !important;
+}
+
+#page-customer-booking .glass-input:focus {
+    border-color: rgba(99,102,241,.55) !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.12) !important;
+}
+
+/* Tanggal: tulisan Tanggal Main langsung berada DI DALAM kolom */
+#page-customer-booking .booking-date-field {
+    position: relative !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+#page-customer-booking .booking-date-field .booking-field-label {
+    position: absolute !important;
+    left: 14px !important;
+    top: 8px !important;
+    z-index: 2 !important;
+    margin: 0 !important;
+    color: #475569 !important;
+    font-size: .66rem !important;
+    font-weight: 900 !important;
+    pointer-events: none !important;
+}
+
+#page-customer-booking .booking-date-field #cust-tanggal {
+    width: 100% !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    padding: 22px 13px 6px !important;
+    border: 0 !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.76) !important;
+    box-shadow: none !important;
+}
+
+/* Jam + durasi: dua pilihan ringkas */
+#page-customer-booking .booking-time-field {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-customer-booking .booking-time-field > .booking-field-label {
+    display: none !important;
+}
+
+#page-customer-booking .booking-time-field #cust-jam,
+#page-customer-booking .booking-time-field #cust-durasi {
+    margin: 0 !important;
+}
+
+#page-customer-booking .booking-time-field .booking-duration-label {
+    display: none !important;
+}
+
+/* Sembunyikan label panjang supaya form lebih bersih; placeholder/value tetap jelas */
+#page-customer-booking form > div:not(.booking-date-field) > label,
+#page-customer-booking form > div:not(.booking-date-field) .payment-method-label > div > label {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+#page-customer-booking #customer-status-hint {
+    display: none !important;
+}
+
+/* Nama / status / kontak tetap ringkas */
+#page-customer-booking #cust-nama,
+#page-customer-booking #cust-hp {
+    min-height: 46px !important;
+}
+
+/* Grid status/nama dan kontak tetap satu kartu tetapi rapat */
+#page-customer-booking form > div:not(.pt-2) {
+    margin: 0 !important;
+}
+
+/* Payment info: kartu kecil mandiri, tidak ada frame besar tambahan */
+#page-customer-booking #customer-payment-info {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+#page-customer-booking #customer-payment-info .payment-info-title {
+    display: none !important;
+}
+
+#page-customer-booking #customer-payment-info .payment-info-card {
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.50) !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+    box-shadow: 0 10px 25px rgba(76,29,149,.08), inset 0 1px 0 rgba(255,255,255,.72) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+}
+
+/* Tombol kirim sebagai kartu/tombol mandiri */
+#page-customer-booking form > .pt-2 {
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-customer-booking form > .pt-2 button {
+    min-height: 48px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, #6366f1, #4338ca) !important;
+    border: 1px solid rgba(255,255,255,.45) !important;
+    box-shadow: 0 12px 25px rgba(67,56,202,.22) !important;
+}
+
+@media(max-width:640px){
+    #page-customer-booking form > div {
+        border-radius: 18px !important;
+        padding: 12px !important;
+    }
+
+    #page-customer-booking .booking-time-field {
+        grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+        gap: 8px !important;
+    }
+
+    #page-customer-booking .glass-input {
+        min-height: 44px !important;
+        font-size: .78rem !important;
+    }
+}
+
+@media(max-width:380px){
+    #page-customer-booking .booking-time-field {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+<style id="customer-booking-glass-final-v3">
+/* =========================================================
+   BOOKING FINAL — TANPA FRAME LUAR, SEMUA FIELD BERDIRI SENDIRI
+   ========================================================= */
+#page-customer-booking.customer-booking-page,
+#page-customer-booking.glass-panel,
+#page-customer-booking.customer-content-page {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+#page-customer-booking::before,
+#page-customer-booking::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Judul berdiri sendiri, tanpa panel */
+#page-customer-booking .customer-page-head {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 16px !important;
+}
+#page-customer-booking .customer-page-head h2 {
+    color: #163d2b !important;
+    text-shadow: 0 2px 8px rgba(255,255,255,.65) !important;
+    font-size: 1.08rem !important;
+}
+
+#page-customer-booking form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Jadikan wrapper grid transparan agar anak-anaknya menjadi kartu sendiri */
+#page-customer-booking form > div.grid:first-child,
+#page-customer-booking form > div.grid:has(#cust-hp),
+#page-customer-booking form > div.grid:has(#cust-dp) {
+    display: contents !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Semua blok utama menjadi kartu kaca mandiri */
+#page-customer-booking form > div:not(.pt-2):not(.booking-time-field),
+#page-customer-booking .booking-date-field,
+#page-customer-booking #cust-jam,
+#page-customer-booking #cust-durasi,
+#page-customer-booking form > div.grid:has(#cust-hp) > div,
+#page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+    box-sizing: border-box !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 14px 34px rgba(30,64,175,.10),
+        inset 0 1px 0 rgba(255,255,255,.80),
+        inset 0 -1px 0 rgba(255,255,255,.18) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    padding: 13px !important;
+    margin: 0 !important;
+}
+
+/* Tanggal: label + tanggal langsung berada di dalam satu kolom */
+#page-customer-booking .booking-date-field {
+    position: relative !important;
+    min-height: 72px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+#page-customer-booking .booking-date-field .booking-field-label {
+    position: absolute !important;
+    top: 9px !important;
+    left: 15px !important;
+    z-index: 2 !important;
+    color: #475569 !important;
+    font-size: .66rem !important;
+    font-weight: 950 !important;
+    pointer-events: none !important;
+}
+#page-customer-booking .booking-date-field #cust-tanggal {
+    width: 100% !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    padding: 28px 14px 6px !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 950 !important;
+}
+
+/* Jam & durasi menjadi dua kartu sendiri */
+#page-customer-booking .booking-time-field {
+    display: contents !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+#page-customer-booking .booking-time-field .booking-field-label,
+#page-customer-booking .booking-time-field .booking-duration-label {
+    display: none !important;
+}
+#page-customer-booking .booking-time-field #cust-jam,
+#page-customer-booking .booking-time-field #cust-durasi {
+    width: 100% !important;
+    min-height: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+    padding: 10px 13px !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.52), rgba(255,255,255,.25)) !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.78) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    color: #163d2b !important;
+    font-weight: 900 !important;
+}
+#page-customer-booking .customer-booking-selected-price {
+    display: none !important;
+}
+
+/* Status pemesan */
+#page-customer-booking #cust-status {
+    min-height: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+}
+
+/* Nama tim */
+#page-customer-booking #cust-nama {
+    min-height: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+}
+
+/* Kontak + sparing masing-masing kartu */
+#page-customer-booking form > div.grid:has(#cust-hp) > div {
+    width: 100% !important;
+}
+#page-customer-booking #cust-hp,
+#page-customer-booking #cust-minta-sparring,
+#page-customer-booking #cust-dp,
+#page-customer-booking #cust-metode {
+    min-height: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+}
+
+/* Hilangkan label panjang, nilai/placeholder tetap terlihat */
+#page-customer-booking form > div:not(.pt-2) > label,
+#page-customer-booking form > div.grid:has(#cust-hp) label,
+#page-customer-booking form > div.grid:has(#cust-dp) label,
+#page-customer-booking .payment-method-label {
+    display: none !important;
+}
+
+/* Input di dalam kartu: transparan supaya kartu luarnya yang terlihat */
+#page-customer-booking .glass-input:not(#cust-tanggal):not(#cust-jam):not(#cust-durasi) {
+    background: rgba(255,255,255,.38) !important;
+    border: 1px solid rgba(255,255,255,.48) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.58) !important;
+    border-radius: 15px !important;
+    color: #163d2b !important;
+}
+
+/* Pembayaran: DP dan metode juga kartu terpisah */
+#page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+    padding: 13px !important;
+}
+#page-customer-booking #customer-payment-info {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+#page-customer-booking #customer-payment-info .payment-info-title {
+    display: none !important;
+}
+#page-customer-booking #customer-payment-info .payment-info-card {
+    background: rgba(255,255,255,.40) !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 25px rgba(30,64,175,.08), inset 0 1px 0 rgba(255,255,255,.76) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+}
+
+/* Tombol pembayaran */
+#page-customer-booking form > .pt-2 {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+#page-customer-booking form > .pt-2 button {
+    width: 100% !important;
+    min-height: 54px !important;
+    border-radius: 18px !important;
+    background: linear-gradient(135deg,#2563eb,#06b6d4) !important;
+    border: 1px solid rgba(255,255,255,.55) !important;
+    box-shadow: 0 14px 30px rgba(37,99,235,.22), inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+
+@media (min-width: 641px) {
+    #page-customer-booking form > div.grid:has(#cust-hp) > div,
+    #page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+        width: 100% !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-hp),
+    #page-customer-booking form > div.grid:has(#cust-dp) {
+        display: grid !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 12px !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-hp) > div,
+    #page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+        display: block !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-dp) #customer-payment-info {
+        grid-column: 1 / -1 !important;
+    }
+}
+
+@media (max-width: 640px) {
+    #page-customer-booking form > div.grid:has(#cust-hp),
+    #page-customer-booking form > div.grid:has(#cust-dp) {
+        display: grid !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 10px !important;
+    }
+    #page-customer-booking form > div.grid:has(#cust-hp) > div,
+    #page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+        min-width: 0 !important;
+    }
+}
+
+@media (max-width: 380px) {
+    #page-customer-booking form > div.grid:has(#cust-hp),
+    #page-customer-booking form > div.grid:has(#cust-dp) {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+
+
+<style id="booking-final-single-glass-v9">
+/* =========================================================
+   BOOKING V9 — SATU CARD KACA PER FIELD
+   Hilangkan card ganda pada Jam s/d Metode
+   ========================================================= */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) {
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  height:88px !important;
+  min-height:88px !important;
+  box-sizing:border-box !important;
+  padding:0 18px !important;
+  margin:0 !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.48),rgba(255,255,255,.22)) !important;
+  border:1px solid rgba(255,255,255,.78) !important;
+  border-radius:20px !important;
+  box-shadow:0 12px 28px rgba(15,23,42,.09),inset 0 1px 0 rgba(255,255,255,.75) !important;
+  backdrop-filter:blur(20px) saturate(135%) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(135%) !important;
+  overflow:hidden !important;
+}
+
+/* Label tidak dibuat menjadi elemen visual kedua. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) > label {
+  display:none !important;
+}
+
+/* Semua kontrol langsung menyatu dengan card, tanpa background/frame kedua. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) .glass-input {
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:0 8px !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:none !important;
+  box-shadow:none !important;
+  color:#173b2b !important;
+  font-size:.9rem !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  text-align-last:center !important;
+  appearance:auto !important;
+  -webkit-appearance:auto !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) > input::placeholder {
+  color:#64748b !important;
+  opacity:1 !important;
+  text-align:center !important;
+}
+
+/* Hilangkan styling khusus lama yang membuat select menjadi card kedua. */
+html body #page-customer-booking #cust-jam,
+html body #page-customer-booking #cust-durasi,
+html body #page-customer-booking #cust-status,
+html body #page-customer-booking #cust-minta-sparring,
+html body #page-customer-booking #cust-dp,
+html body #page-customer-booking #cust-metode {
+  min-height:0 !important;
+  height:100% !important;
+  padding:0 8px !important;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+
+/* Harga estimasi tidak membuat tinggi/card tambahan. */
+html body #page-customer-booking #customer-booking-selected-price {
+  display:none !important;
+}
+
+/* Hint status tetap bukan card. */
+html body #page-customer-booking #customer-status-hint {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+/* Pilihan metode memakai teks baru. */
+html body #page-customer-booking #cust-metode option[value=""] {
+  font-weight:900 !important;
+}
+
+/* Konsisten di desktop dan mobile. */
+@media (max-width:640px) {
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card:not(.booking-date-card) {
+    height:88px !important;
+    min-height:88px !important;
+    border-radius:20px !important;
+  }
+}
+</style>
+
+<style id="booking-single-frame-v10">
+/* =========================================================
+   BOOKING V10 — SINGLE FRAME, SAMA SEPERTI CARD TANGGAL
+   Tidak ada frame/card kedua di dalam field.
+   ========================================================= */
+html body #page-customer-booking,
+html body #page-customer-booking.customer-content-page,
+html body #page-customer-booking.customer-booking-page,
+html body #page-customer-booking.glass-panel,
+html body #page-customer-booking form.customer-booking-clean-form {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+html body #page-customer-booking::before,
+html body #page-customer-booking::after,
+html body #page-customer-booking form.customer-booking-clean-form::before,
+html body #page-customer-booking form.customer-booking-clean-form::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Semua field booking = SATU-SATUNYA frame yang terlihat. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    box-sizing: border-box !important;
+    padding: 0 16px !important;
+    margin: 0 0 12px !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    overflow: hidden !important;
+}
+
+/* Hilangkan SEMUA visual frame dari elemen di dalam card. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > *,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .glass-input {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Label lama tidak menjadi frame/teks kedua. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > label {
+    display: none !important;
+}
+
+/* Input dan select tampil sebagai teks langsung di dalam satu card. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .glass-input {
+    width: 100% !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    color: #163d2b !important;
+    font-size: .9rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+    text-align: center !important;
+}
+
+/* Select native tidak lagi menggambar kotak/rounded kedua. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .sparring-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    cursor: pointer !important;
+}
+
+/* Tanggal dibuat identik dengan card lain. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card {
+    height: 72px !important;
+    min-height: 72px !important;
+    padding: 0 16px !important;
+    border-radius: 20px !important;
+}
+
+html body #page-customer-booking .booking-date-card #customer-date-display {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    color: #163d2b !important;
+    font-size: .9rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+    pointer-events: none !important;
+}
+
+html body #page-customer-booking .booking-date-card #cust-tanggal {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 3 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+}
+
+/* Jangan biarkan hint/status membuat frame tambahan. */
+html body #page-customer-booking #customer-status-hint,
+html body #page-customer-booking #customer-booking-selected-price,
+html body #page-customer-booking .customer-booking-selected-price {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Semua field tambahan/wrapper di form tetap transparan. */
+html body #page-customer-booking form.customer-booking-clean-form > div:not(.booking-glass-card),
+html body #page-customer-booking form.customer-booking-clean-form > .booking-payment-card,
+html body #page-customer-booking form.customer-booking-clean-form > #customer-payment-info {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+}
+
+@media (max-width:640px) {
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card {
+        height: 72px !important;
+        min-height: 72px !important;
+        border-radius: 20px !important;
+        margin-bottom: 12px !important;
+    }
+}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -4652,122 +5426,121 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         <div class="w-full text-center"><h2>BOOKING LAPANGAN</h2></div>
         <button type="button" onclick="showPage('home')"></button>
     </div>
-        <form onsubmit="submitCustomerBooking(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="hidden" aria-hidden="true">
-                        <input type="hidden" id="cust-tanggal-booking">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Tanggal Main</label>
-                        <input type="date" id="cust-tanggal" onchange="loadJamKosongCustomer(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Pilih Jam Kosong</label>
-                        <select id="cust-jam" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice(); updateCustomerDurationOptions()" required>
-                            <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
-                        </select>
+        <form onsubmit="submitCustomerBooking(event)" class="customer-booking-clean-form">
+    <input type="hidden" id="cust-tanggal-booking">
 
-                        <label class="block text-xs font-bold mb-1 mt-3 text-slate-900">Durasi Booking</label>
-                        <p class="text-[11px] font-semibold text-slate-600 mb-1">Pilih berapa jam lapangan yang mau dibooking.</p>
-                        <select id="cust-durasi" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" onchange="updateCustomerSelectedPrice()" required>
-                            <option value="1">Booking 1 Jam</option>
-                        </select>
+    <!-- Tanggal Main -->
+    <div class="booking-glass-card booking-date-card">
+        <label for="cust-tanggal">📅 Tanggal Main</label>
+        <span id="customer-date-display" class="customer-date-display" aria-hidden="true">Pilih tanggal main disini</span>
+        <input type="date" id="cust-tanggal" onchange="updateCustomerDateDisplay(); loadJamKosongCustomer(); updateCustomerSelectedPrice()" class="glass-input" required aria-label="Pilih tanggal main">
+    </div>
 
-                        <div id="customer-booking-selected-price" class="customer-booking-selected-price" aria-live="polite">
-                            <div class="customer-booking-selected-price-label">💰 Estimasi Harga Lapangan</div>
-                            <strong id="customer-booking-selected-price-value">Rp 0</strong>
-                        </div>
-                    </div>
-                </div>
+    <!-- Jam -->
+    <div class="booking-glass-card">
+        <label for="cust-jam">⏰ Pilih Jam</label>
+        <select id="cust-jam" class="glass-input" onchange="updateCustomerSelectedPrice(); updateCustomerDurationOptions()" required>
+            <option value="">Pilih Jam Kosong</option>
+        </select>
+    </div>
 
+    <!-- Durasi -->
+    <div class="booking-glass-card">
+        <label for="cust-durasi">⏱ Durasi Booking</label>
+        <select id="cust-durasi" class="glass-input" onchange="updateCustomerSelectedPrice()" required>
+            <option value="1">Booking 1 Jam</option>
+        </select>
+        <div id="customer-booking-selected-price" class="customer-booking-selected-price" aria-live="polite" style="display:none!important">
+            <div class="customer-booking-selected-price-label">💰 Estimasi Harga Lapangan</div>
+            <strong id="customer-booking-selected-price-value">Rp 0</strong>
+        </div>
+    </div>
+
+    <!-- Status Pemesan -->
+    <div class="booking-glass-card">
+        <label for="cust-status">👤 Status Pemesan</label>
+        <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerJamPrices(); updateCustomerDurationOptions(); updateCustomerSelectedPrice()" class="glass-input" required>
+            <option value="Non-Member" selected>Non-Member</option>
+            <option value="Member">Member</option>
+        </select>
+    </div>
+
+    <!-- Nama Tim -->
+    <div class="booking-glass-card">
+        <label for="cust-nama">⚽ Nama Tim / Pemesan</label>
+        <input type="text" id="cust-nama" placeholder="Masukkan nama tim / pemesan" class="glass-input" required>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="booking-glass-card">
+        <label for="cust-hp">📱 Nomor HP / WhatsApp</label>
+        <input type="tel" id="cust-hp" inputmode="tel" autocomplete="tel" placeholder="Masukkan nomor WhatsApp" class="glass-input" required>
+    </div>
+
+    <!-- Cari Lawan Sparing -->
+    <div class="booking-glass-card booking-sparing-card">
+        <select id="cust-minta-sparring" class="glass-input sparring-select" required aria-label="Cari Lawan Sparing">
+            <option value="" selected disabled>⚽ Cari Lawan Sparing? — Klik di sini</option>
+            <option value="Tidak">Tidak</option>
+            <option value="Ya">Ya, carikan lawan</option>
+        </select>
+    </div>
+
+    <!-- DP -->
+    <div class="booking-glass-card">
+        <label for="cust-dp">💳 DP (Uang Muka)</label>
+        <select id="cust-dp" class="glass-input" required>
+            <option value="">Pilih DP</option>
+            <option value="100000">Rp 100.000</option>
+            <option value="150000">Rp 150.000</option>
+            <option value="200000">Rp 200.000</option>
+            <option value="250000">Rp 250.000</option>
+            <option value="300000">Rp 300.000</option>
+            <option value="350000">Rp 350.000</option>
+            <option value="400000">Rp 400.000</option>
+        </select>
+    </div>
+
+    <!-- Metode Pembayaran -->
+    <div class="booking-glass-card">
+        <label for="cust-metode">💰 Metode Pembayaran</label>
+        <select id="cust-metode" class="glass-input" required aria-label="Pilih metode pembayaran DP">
+            <option value="" selected disabled>Pilih Metode Pembayaran</option>
+            <option value="QRIS">💳 QRIS</option>
+            <option value="Transfer">🏦 Transfer</option>
+        </select>
+    </div>
+
+    <!-- Informasi pembayaran tetap muncul hanya saat metode dipilih -->
+    <div id="customer-payment-info" class="customer-payment-info booking-payment-card">
+        <div class="payment-info-title">💳 Informasi Pembayaran</div>
+        <div id="payment-transfer-card" class="payment-info-card hidden">
+            <div class="payment-bank-head">
+                <img src="logobsi.png" alt="Bank Syariah Indonesia" class="payment-bank-logo" onerror="this.style.display='none'">
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-900">Status Pemesan</label>
-                    <select id="cust-status" onchange="updateCustomerDpOptions(); updateCustomerJamPrices(); updateCustomerDurationOptions(); updateCustomerSelectedPrice()" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                        <option value="Non-Member" selected>Non-Member</option>
-                        <option value="Member">Member</option>
-                    </select>
-                    <p id="customer-status-hint" class="mt-1 text-[11px] text-slate-600 font-semibold">Non-Member: minimal DP Rp 100.000.</p>
+                    <div class="payment-info-label">🏦 Rekening Transfer BSI</div>
+                    <div class="payment-account-owner">a.n. Yuyun Mardiati</div>
                 </div>
+            </div>
+            <div class="payment-account">
+                <span class="payment-account-number">7340198877</span>
+                <button type="button" class="payment-small-btn" onclick="salinRekeningCustomer()">📋 Salin</button>
+            </div>
+            <div style="margin-top:.25rem;font-size:.5rem;color:#64748b;font-weight:700">Pastikan nomor rekening dan nama tujuan sesuai informasi dari pengelola.</div>
+        </div>
+        <div id="payment-qris-card" class="payment-info-card hidden">
+            <div class="payment-info-label">📱 Pembayaran QRIS</div>
+            <img src="qris.png" alt="QRIS Sandaga Minisoccer" class="qris-preview" loading="lazy">
+            <div class="qris-actions">
+                <a class="qris-download" href="qris.png" download="qris-sandaga-minisoccer.png">⬇️ Unduh QRIS</a>
+            </div>
+        </div>
+    </div>
 
-                <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-900">Nama Tim / Pemesan</label>
-                    <input type="text" id="cust-nama" placeholder="Contoh: Sandaga FC" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Nomor HP / WhatsApp</label>
-                        <input type="tel" id="cust-hp" inputmode="tel" autocomplete="tel" placeholder="Contoh: 081234567890" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">Minta Carikan Lawan Sparing?</label>
-                        <select id="cust-minta-sparring" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                            <option value="Tidak" selected>Tidak</option>
-                            <option value="Ya">Ya, carikan lawan sparing</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold mb-1 text-slate-900">DP</label>
-                        <select id="cust-dp" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required>
-                            <option value="">-- Pilih Nominal DP --</option>
-                            <option value="100000">Rp 100.000</option>
-                            <option value="150000">Rp 150.000</option>
-                            <option value="200000">Rp 200.000</option>
-                            <option value="250000">Rp 250.000</option>
-                            <option value="300000">Rp 300.000</option>
-                            <option value="350000">Rp 350.000</option>
-                            <option value="400000">Rp 400.000</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="payment-method-label">
-                            <div>
-                                <label class="block text-xs font-black text-slate-900">Metode Pembayaran</label>
-                                                            </div>
-                        </div>
-                        <div class="payment-select-wrap">
-                            <select id="cust-metode" class="w-full p-2.5 rounded-xl text-sm glass-input font-bold" required aria-label="Pilih metode pembayaran DP">
-                                <option value="" selected disabled></option>
-                                <option value="QRIS">💳  QRIS</option>
-                                <option value="Transfer">🏦  Transfer</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Informasi pembayaran full-width tepat di bawah DP + Metode Pembayaran -->
-                    <div id="customer-payment-info" class="customer-payment-info sm:col-span-2 w-full">
-                        <div class="payment-info-title">💳 Informasi Pembayaran</div>
-                        <div id="payment-transfer-card" class="payment-info-card hidden">
-                            <div class="payment-bank-head">
-                                <img src="logobsi.png" alt="Bank Syariah Indonesia" class="payment-bank-logo" onerror="this.style.display='none'">
-                                <div>
-                                    <div class="payment-info-label">🏦 Rekening Transfer BSI</div>
-                                    <div class="payment-account-owner">a.n. Yuyun Mardiati</div>
-                                </div>
-                            </div>
-                            <div class="payment-account">
-                                <span class="payment-account-number">7340198877</span>
-                                <button type="button" class="payment-small-btn" onclick="salinRekeningCustomer()">📋 Salin</button>
-                            </div>
-                            <div style="margin-top:.25rem;font-size:.5rem;color:#64748b;font-weight:700">Pastikan nomor rekening dan nama tujuan sesuai informasi dari pengelola.</div>
-                        </div>
-                        <div id="payment-qris-card" class="payment-info-card hidden">
-                            <div class="payment-info-label">📱 Pembayaran QRIS</div>
-                            <img src="qris.png" alt="QRIS Sandaga Minisoccer" class="qris-preview" loading="lazy">
-                            <div class="qris-actions">
-                                <a class="qris-download" href="qris.png" download="qris-sandaga-minisoccer.png">⬇️ Unduh QRIS</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-2">
-                    <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white p-3 rounded-xl text-sm font-bold shadow-lg border border-blue-500/50 uppercase tracking-wider transition">Kirim Booking Sekarang</button>
-                </div>
-            </form>
+    <div class="booking-submit-wrap">
+        <button type="submit" class="booking-submit-btn">🔒 Lanjut ke Pembayaran</button>
+    </div>
+</form>
 </div>
 
         <!-- HALAMAN SPARRING CUSTOMER -->
@@ -4776,7 +5549,6 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         <div class="w-full text-center"><h2>⚽ SPARING</h2></div>
         <button type="button" onclick="showPage('home')"></button>
     </div>
-    <p class="text-center text-xs sm:text-sm font-semibold text-slate-700 mb-4">Daftar tim yang sedang mencari lawan</p>
     <div id="customer-sparring-list" class="space-y-3">
         <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparing...</div>
     </div>
@@ -5380,8 +6152,13 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
                 document.getElementById('cust-tanggal-booking').value = formatTanggalSingkat(todayStr);
             }
             if(document.getElementById('cust-tanggal')) {
-                document.getElementById('cust-tanggal').value = todayStr;
-                loadJamKosongCustomer();
+                // Booking customer: tanggal sengaja dikosongkan agar pengguna memilih tanggal main sendiri.
+                document.getElementById('cust-tanggal').value = '';
+                updateCustomerDateDisplay();
+                const jamEl = document.getElementById('cust-jam');
+                if(jamEl) {
+                    jamEl.innerHTML = '<option value="">Pilih Jam Kosong</option>';
+                }
             }
             if(document.getElementById('in-tgl')) {
                 document.getElementById('in-tgl').value = todayStr;
@@ -6117,6 +6894,10 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         window.submitCustomerBooking = async (e) => {
             e.preventDefault();
             let tglInput = document.getElementById('cust-tanggal').value;
+            if(!tglInput) {
+                alert('Silakan pilih tanggal main terlebih dahulu.');
+                return;
+            }
             // Tanggal booking dan tanggal DP otomatis mengikuti tanggal saat customer melakukan input.
             // Tanggal DP tidak ditampilkan di web customer, tetapi tetap disimpan agar sinkron dengan web admin.
             let tglBooking = getLocalDateString();
@@ -8889,6 +9670,974 @@ body:not(:has(#page-home:not(.hidden))):not(:has(#page-customer-schedule:not(.hi
 }
 </style>
 
+
+
+
+<style id="booking-glass-standalone-v4">
+/* =========================================================
+   BOOKING V4 — BENAR-BENAR TANPA FRAME GANDA
+   Setiap field = satu kartu kaca mandiri.
+   ========================================================= */
+#page-customer-booking,
+#page-customer-booking.customer-content-page,
+#page-customer-booking.glass-panel {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#page-customer-booking::before,
+#page-customer-booking::after { display:none !important; content:none !important; }
+
+#page-customer-booking .customer-page-head {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 14px !important;
+  margin: 0 !important;
+}
+#page-customer-booking .customer-page-head h2 {
+  color:#3f2a18 !important;
+  text-shadow:none !important;
+}
+
+#page-customer-booking form.customer-booking-clean-form {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:14px !important;
+  width:100% !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+/* Override every old generic form-wrapper rule. */
+#page-customer-booking form.customer-booking-clean-form > div,
+#page-customer-booking form.customer-booking-clean-form > div.grid,
+#page-customer-booking form.customer-booking-clean-form > div:not(.pt-2) {
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+/* The ONLY visible panel for each field. */
+#page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:6px !important;
+  width:100% !important;
+  min-height:68px !important;
+  box-sizing:border-box !important;
+  padding:12px 16px !important;
+  margin:0 !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.48),rgba(255,255,255,.22)) !important;
+  border:1px solid rgba(255,255,255,.78) !important;
+  border-radius:20px !important;
+  box-shadow:0 12px 28px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.75) !important;
+  backdrop-filter:blur(20px) saturate(135%) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(135%) !important;
+  overflow:visible !important;
+}
+
+/* Remove the second visual box around inputs/selects. */
+#page-customer-booking .booking-glass-card .glass-input,
+#page-customer-booking .booking-glass-card input,
+#page-customer-booking .booking-glass-card select {
+  width:100% !important;
+  min-height:38px !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  outline:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  color:#173b2b !important;
+  font-size:.88rem !important;
+  font-weight:900 !important;
+}
+#page-customer-booking .booking-glass-card .glass-input:focus,
+#page-customer-booking .booking-glass-card input:focus,
+#page-customer-booking .booking-glass-card select:focus {
+  background:transparent !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+#page-customer-booking .booking-glass-card label {
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#334155 !important;
+  font-size:.66rem !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+}
+
+/* Cards without a visible label stay compact and readable. */
+#page-customer-booking .booking-sparing-card {
+  min-height:68px !important;
+  justify-content:center !important;
+}
+#page-customer-booking .booking-sparing-card .sparring-select {
+  cursor:pointer !important;
+  color:#173b2b !important;
+}
+#page-customer-booking .booking-sparing-card .sparring-select option[value=""] {
+  color:#173b2b !important;
+  font-weight:950 !important;
+}
+
+/* Keep the native calendar control visible without creating another box. */
+#page-customer-booking input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity:.8 !important;
+  cursor:pointer !important;
+}
+
+#page-customer-booking #customer-status-hint {
+  display:block !important;
+  margin:0 !important;
+  color:#64748b !important;
+  font-size:.58rem !important;
+  font-weight:700 !important;
+}
+
+#page-customer-booking .booking-payment-card {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+#page-customer-booking .booking-payment-card:has(.payment-info-card:not(.hidden)) {
+  display:block !important;
+}
+
+#page-customer-booking .booking-submit-wrap {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+#page-customer-booking .booking-submit-btn {
+  width:100% !important;
+  min-height:52px !important;
+  border-radius:18px !important;
+}
+
+@media(max-width:640px){
+  #page-customer-booking form.customer-booking-clean-form { gap:10px !important; }
+  #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+    min-height:64px !important;
+    padding:12px 14px !important;
+    border-radius:18px !important;
+  }
+}
+</style>
+
+
+<style id="booking-no-wrapper-v5">
+/* =========================================================
+   BOOKING V5 — BENAR-BENAR TANPA FRAME PEMBUNGKUS
+   Setiap field = satu-satunya card kaca yang terlihat.
+   ========================================================= */
+
+/* Hilangkan seluruh panel/page wrapper */
+html body #page-customer-booking,
+html body #page-customer-booking.glass-panel,
+html body #page-customer-booking.customer-content-page,
+html body #page-customer-booking.customer-booking-page {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+}
+
+html body #page-customer-booking::before,
+html body #page-customer-booking::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Form juga 100% transparan */
+html body #page-customer-booking form.customer-booking-clean-form,
+html body #page-customer-booking form.customer-booking-clean-form > div,
+html body #page-customer-booking form.customer-booking-clean-form > div.grid,
+html body #page-customer-booking form.customer-booking-clean-form > div.pt-2 {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Header hanya teks, tanpa frame */
+html body #page-customer-booking .customer-page-head {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 0 14px !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+html body #page-customer-booking .customer-page-head h2 {
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+/* Setiap card benar-benar berdiri sendiri */
+html body #page-customer-booking .booking-glass-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 15px 18px !important;
+    margin: 0 !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.50), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 14px 32px rgba(30,64,175,.10),
+        inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    overflow: hidden !important;
+}
+
+/* Tidak boleh ada card kedua di dalam card */
+html body #page-customer-booking .booking-glass-card > .glass-input,
+html body #page-customer-booking .booking-glass-card > input,
+html body #page-customer-booking .booking-glass-card > select {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-align: center !important;
+    color: #163d2b !important;
+    font-weight: 900 !important;
+}
+
+/* Semua tulisan rata tengah */
+html body #page-customer-booking .booking-glass-card label,
+html body #page-customer-booking .booking-glass-card .booking-field-label,
+html body #page-customer-booking .booking-glass-card p,
+html body #page-customer-booking .booking-glass-card input,
+html body #page-customer-booking .booking-glass-card select,
+html body #page-customer-booking .booking-glass-card option {
+    text-align: center !important;
+}
+
+/* Tanggal dibuat sama persis seperti card lainnya */
+html body #page-customer-booking .booking-date-card,
+html body #page-customer-booking .booking-date-field {
+    min-height: 62px !important;
+    height: auto !important;
+    padding: 15px 18px !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.50), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 14px 32px rgba(30,64,175,.10),
+        inset 0 1px 0 rgba(255,255,255,.82) !important;
+    overflow: hidden !important;
+}
+
+html body #page-customer-booking .booking-date-card label,
+html body #page-customer-booking .booking-date-field label,
+html body #page-customer-booking .booking-date-field .booking-field-label {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 4px !important;
+    padding: 0 !important;
+    color: #334155 !important;
+    font-size: .72rem !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+}
+
+html body #page-customer-booking .booking-date-card #cust-tanggal,
+html body #page-customer-booking .booking-date-field #cust-tanggal {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #163d2b !important;
+    font-size: .9rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+}
+
+/* Jam dan durasi tetap card mandiri */
+html body #page-customer-booking .booking-time-field {
+    display: contents !important;
+}
+html body #page-customer-booking .booking-time-field #cust-jam,
+html body #page-customer-booking .booking-time-field #cust-durasi {
+    width: 100% !important;
+    min-height: 58px !important;
+    height: 58px !important;
+    padding: 0 15px !important;
+    margin: 0 !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.50), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 14px 32px rgba(30,64,175,.10), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    text-align: center !important;
+}
+
+/* Hilangkan label lama agar tidak membuat tampilan bertumpuk */
+html body #page-customer-booking form.customer-booking-clean-form .booking-glass-card > label {
+    font-size: .72rem !important;
+    line-height: 1.2 !important;
+}
+
+/* Placeholder juga tengah */
+html body #page-customer-booking .booking-glass-card input::placeholder {
+    text-align: center !important;
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+/* Status hint tetap bisa muncul tetapi tengah */
+html body #page-customer-booking #customer-status-hint {
+    width: 100% !important;
+    text-align: center !important;
+    margin: 3px 0 0 !important;
+}
+
+/* Grid lama tidak boleh terlihat sebagai frame */
+html body #page-customer-booking form > div.grid:has(#cust-hp),
+html body #page-customer-booking form > div.grid:has(#cust-dp) {
+    display: contents !important;
+}
+
+/* Anak-anaknya menjadi card sendiri */
+html body #page-customer-booking form > div.grid:has(#cust-hp) > div,
+html body #page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 15px 18px !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.50), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 14px 32px rgba(30,64,175,.10), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+}
+
+/* Payment info tetap transparan sampai benar-benar diperlukan */
+html body #page-customer-booking #customer-payment-info {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+@media (max-width: 640px) {
+    html body #page-customer-booking .booking-glass-card,
+    html body #page-customer-booking .booking-date-card,
+    html body #page-customer-booking .booking-date-field,
+    html body #page-customer-booking form > div.grid:has(#cust-hp) > div,
+    html body #page-customer-booking form > div.grid:has(#cust-dp) > div:not(#customer-payment-info) {
+        border-radius: 18px !important;
+        padding: 13px 15px !important;
+    }
+}
+</style>
+
+
+<style id="customer-booking-v8-final-clean">
+/* V8 — hanya card kaca pada input/select; wrapper luar sepenuhnya transparan */
+#page-customer-booking form > .booking-glass-card,
+#page-customer-booking form > .booking-date-card {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+    position: relative !important;
+}
+
+/* Satu standar untuk SEMUA card input */
+#page-customer-booking form > .booking-glass-card > .glass-input,
+#page-customer-booking form > .booking-date-card > .glass-input {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 64px !important;
+    height: 64px !important;
+    margin: 0 !important;
+    padding: 0 18px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,.78) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+    box-shadow: 0 12px 30px rgba(30,64,175,.10), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+#page-customer-booking form > .booking-glass-card > .glass-input:focus,
+#page-customer-booking form > .booking-date-card > .glass-input:focus {
+    outline: none !important;
+    border-color: rgba(255,255,255,.95) !important;
+    box-shadow: 0 12px 30px rgba(30,64,175,.12), 0 0 0 3px rgba(255,255,255,.20), inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+/* Label lama tidak diperlukan karena petunjuk berada di dalam card */
+#page-customer-booking form > .booking-glass-card > label,
+#page-customer-booking form > .booking-date-card > label {
+    display: none !important;
+}
+
+/* Hilangkan keterangan Non-Member */
+#page-customer-booking #customer-status-hint {
+    display: none !important;
+}
+
+/* Tanggal: card-nya adalah input date itu sendiri */
+#page-customer-booking .booking-date-card {
+    min-height: 64px !important;
+}
+#page-customer-booking .booking-date-card #cust-tanggal {
+    position: relative !important;
+    z-index: 2 !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    caret-color: transparent !important;
+    cursor: pointer !important;
+}
+#page-customer-booking .booking-date-card #cust-tanggal::-webkit-calendar-picker-indicator {
+    opacity: .9 !important;
+    cursor: pointer !important;
+    filter: none !important;
+}
+#page-customer-booking .customer-date-display {
+    position: absolute !important;
+    inset: 0 50px 0 18px !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+}
+
+/* Select juga benar-benar hanya satu card */
+#page-customer-booking select.glass-input {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+}
+
+@media (max-width:640px){
+    #page-customer-booking form > .booking-glass-card > .glass-input,
+    #page-customer-booking form > .booking-date-card > .glass-input {
+        min-height: 60px !important;
+        height: 60px !important;
+        border-radius: 20px !important;
+    }
+    #page-customer-booking .booking-date-card { min-height:60px !important; }
+    #page-customer-booking .customer-date-display { font-size:.78rem !important; }
+}
+</style>
+<script id="customer-booking-v8-date-script">
+(function(){
+    function formatCustomerChosenDate(value){
+        if(!value) return 'Pilih tanggal main disini';
+        const d = new Date(value + 'T00:00:00');
+        if(Number.isNaN(d.getTime())) return 'Pilih tanggal main disini';
+        return d.toLocaleDateString('id-ID', {
+            weekday:'long', day:'2-digit', month:'long', year:'numeric'
+        });
+    }
+    window.updateCustomerDateDisplay = function(){
+        const input = document.getElementById('cust-tanggal');
+        const display = document.getElementById('customer-date-display');
+        if(!input || !display) return;
+        display.textContent = formatCustomerChosenDate(input.value);
+    };
+    document.addEventListener('DOMContentLoaded', function(){
+        updateCustomerDateDisplay();
+    });
+})();
+</script>
+
+
+<style id="booking-single-frame-final-v11">
+/* V11 — HANYA SATU FRAME: wrapper/card saja. Semua control di dalamnya benar-benar transparan. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card {
+  position: relative !important;
+  width: 100% !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  padding: 0 18px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+  box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+  overflow: hidden !important;
+}
+
+/* Label hanya teks, bukan kotak. */
+html body #page-customer-booking .booking-glass-card > label,
+html body #page-customer-booking .booking-date-card > label {
+  display: none !important;
+}
+
+/* Semua input/select adalah isi transparan — tidak boleh punya frame sendiri. */
+html body #page-customer-booking .booking-glass-card > input,
+html body #page-customer-booking .booking-glass-card > select,
+html body #page-customer-booking .booking-glass-card > .glass-input,
+html body #page-customer-booking .booking-date-card > #cust-tanggal,
+html body #page-customer-booking .booking-date-card > .glass-input,
+html body #page-customer-booking .booking-sparing-card > select,
+html body #page-customer-booking .booking-time-field #cust-jam,
+html body #page-customer-booking .booking-time-field #cust-durasi {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  color: #163d2b !important;
+  font-size: .84rem !important;
+  font-weight: 950 !important;
+}
+
+/* Hilangkan frame native/fokus browser. */
+html body #page-customer-booking .booking-glass-card > input:focus,
+html body #page-customer-booking .booking-glass-card > select:focus,
+html body #page-customer-booking .booking-glass-card .glass-input:focus,
+html body #page-customer-booking .booking-date-card #cust-tanggal:focus {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Placeholder tetap menjadi teks di tengah card. */
+html body #page-customer-booking .booking-glass-card input::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+  text-align: center !important;
+}
+
+/* Tampilan tanggal berada di atas input transparan. */
+html body #page-customer-booking .booking-date-card #customer-date-display {
+  position: absolute !important;
+  inset: 0 50px 0 18px !important;
+  z-index: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+  color: #163d2b !important;
+  font-size: .84rem !important;
+  font-weight: 950 !important;
+  text-align: center !important;
+}
+
+/* Ikon kalender tetap terlihat tanpa membuat input menjadi frame kedua. */
+html body #page-customer-booking .booking-date-card #cust-tanggal::-webkit-calendar-picker-indicator {
+  opacity: .9 !important;
+  cursor: pointer !important;
+  filter: none !important;
+}
+
+/* Dropdown tetap berfungsi ketika card diklik. */
+html body #page-customer-booking .booking-glass-card select,
+html body #page-customer-booking .booking-sparing-card select {
+  cursor: pointer !important;
+}
+
+/* Hilangkan elemen informasi kecil yang sebelumnya terlihat sebagai garis/frame tambahan. */
+html body #page-customer-booking #customer-status-hint,
+html body #page-customer-booking .customer-booking-selected-price {
+  display: none !important;
+}
+
+@media (max-width:640px){
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card {
+    height: 72px !important;
+    min-height: 72px !important;
+    border-radius: 20px !important;
+  }
+}
+</style>
+
+<style id="booking-single-frame-v12-final">
+/* V12 FINAL — satu frame saja per field, sama seperti kartu tanggal */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 20px !important;
+}
+
+/* Matikan SELURUH frame milik elemen di dalam card. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .sparring-select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .sparring-select {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  text-align: center !important;
+  text-align-last: center !important;
+}
+
+/* Wrapper internal yang mungkin masih memberi frame juga dimatikan. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > div,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > span,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > p {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* Khusus jam/durasi: jangan pernah menggambar card kedua. */
+html body #page-customer-booking .booking-time-field #cust-jam,
+html body #page-customer-booking .booking-time-field #cust-durasi,
+html body #page-customer-booking .booking-time-field > select,
+html body #page-customer-booking .booking-time-field .glass-input {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  height: 48px !important;
+  min-height: 48px !important;
+}
+
+/* Hilangkan pseudo-element yang dapat membuat garis/frame tambahan. */
+html body #page-customer-booking .booking-glass-card::before,
+html body #page-customer-booking .booking-glass-card::after,
+html body #page-customer-booking .booking-glass-card > input::before,
+html body #page-customer-booking .booking-glass-card > input::after,
+html body #page-customer-booking .booking-glass-card > select::before,
+html body #page-customer-booking .booking-glass-card > select::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Label tidak membuat kotak/frame tambahan. */
+html body #page-customer-booking .booking-glass-card > label,
+html body #page-customer-booking .booking-glass-card > .booking-field-label {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Card tetap satu-satunya permukaan kaca. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+  backdrop-filter: blur(18px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+}
+
+/* Tanggal tetap sebagai satu card, sama dengan field lain. */
+html body #page-customer-booking .booking-date-card #cust-tanggal {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  height: 48px !important;
+  min-height: 48px !important;
+}
+
+@media (max-width:640px){
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+  html body #page-customer-booking .booking-date-card {
+    border-radius:20px !important;
+  }
+}
+</style>
+
+
+<style id="booking-remove-inner-frames-final">
+/* =========================================================
+   BOOKING — FINAL SINGLE FRAME CLEANUP
+   Hanya satu frame kaca untuk setiap field.
+   Input/select di dalam card dibuat transparan tanpa frame kedua.
+   Logic, ID, value, onchange, dan struktur JS tidak diubah.
+   ========================================================= */
+
+/* Input & select tidak boleh menggambar frame kedua */
+html body #page-customer-booking form.customer-booking-clean-form
+> .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form
+> .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form
+> .booking-date-card > #cust-tanggal,
+html body #page-customer-booking form.customer-booking-clean-form
+> .booking-date-card > .glass-input,
+html body #page-customer-booking .booking-glass-card > .glass-input,
+html body #page-customer-booking .booking-sparing-card > select {
+    width: 100% !important;
+    min-height: 0 !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+
+    background: transparent !important;
+    background-image: none !important;
+
+    border: 0 !important;
+    border-width: 0 !important;
+    border-color: transparent !important;
+    border-radius: 0 !important;
+
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    color: #163d2b !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+/* Placeholder juga tanpa kotak/frame */
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > input::placeholder {
+    background: transparent !important;
+    color: #64748b !important;
+    opacity: 1 !important;
+    text-align: center !important;
+}
+
+/* Select tetap memiliki fungsi dropdown dan panah native */
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > select,
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-sparing-card > select {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+    cursor: pointer !important;
+}
+
+/* Saat fokus tetap tidak muncul frame kedua */
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > input:focus,
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > select:focus,
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-date-card > #cust-tanggal:focus {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Tanggal tetap memakai satu card luar */
+html body #page-customer-booking .booking-date-card {
+    padding: 10px 16px !important;
+    overflow: hidden !important;
+}
+
+html body #page-customer-booking .booking-date-card #cust-tanggal {
+    height: 48px !important;
+    min-height: 48px !important;
+}
+
+/* Tampilan tanggal custom tetap berada di dalam card */
+html body #page-customer-booking .booking-date-card
+.customer-date-display {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+}
+
+/* Semua elemen tambahan kecil tidak boleh membuat garis/frame */
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > span,
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card > p {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Pastikan CARD LUAR tetap menjadi satu-satunya frame */
+html body #page-customer-booking
+form.customer-booking-clean-form
+> .booking-glass-card {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.48),
+        rgba(255,255,255,.24)
+    ) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 12px 28px rgba(30,64,175,.09),
+        inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+}
+
+/* HP — tetap satu frame dan lebih clean */
+@media (max-width: 640px) {
+    html body #page-customer-booking
+    form.customer-booking-clean-form
+    > .booking-glass-card,
+    html body #page-customer-booking
+    form.customer-booking-clean-form
+    > .booking-date-card {
+        min-height: 68px !important;
+        height: 68px !important;
+        padding: 10px 14px !important;
+        border-radius: 20px !important;
+    }
+
+    html body #page-customer-booking
+    form.customer-booking-clean-form
+    > .booking-glass-card > input,
+    html body #page-customer-booking
+    form.customer-booking-clean-form
+    > .booking-glass-card > select,
+    html body #page-customer-booking
+    form.customer-booking-clean-form
+    > .booking-date-card > #cust-tanggal {
+        height: 48px !important;
+        min-height: 48px !important;
+        padding: 0 8px !important;
+    }
+}
+</style>
+
 </body>
 
 <style id="customer-home-desktop-buttons-final">
@@ -10304,5 +12053,732 @@ main {
         transform:scale(1.3)!important;
         opacity:.46!important;
     }
+}
+</style>
+
+<style id="sparring-standalone-glass-cards-final">
+/* =========================================================
+   FINAL SPARRING
+   - Frame besar halaman DIHILANGKAN
+   - Setiap tim berdiri sebagai glass card sendiri
+   - Struktur & fungsi JavaScript tidak diubah
+   ========================================================= */
+
+/* Halaman Sparing menjadi area transparan, bukan kartu besar */
+#page-customer-sparring {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 980px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#page-customer-sparring::before,
+#page-customer-sparring::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Judul tetap berada di atas kartu */
+#page-customer-sparring .customer-page-head {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: .25rem 0 1rem !important;
+    margin: 0 !important;
+}
+
+#page-customer-sparring .customer-page-head h2 {
+    color: #5b21b6 !important;
+    text-shadow: 0 2px 8px rgba(91,33,182,.12) !important;
+    margin: 0 !important;
+}
+
+/* Area daftar benar-benar transparan */
+#page-customer-sparring #customer-sparring-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* KARTU TIM — berdiri sendiri */
+#page-customer-sparring #customer-sparring-list > *,
+#page-customer-sparring .customer-sparring-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 20px 22px !important;
+    border-radius: 24px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.48) 0%,
+            rgba(255,255,255,.27) 48%,
+            rgba(221,214,254,.28) 100%
+        ) !important;
+
+    border: 1px solid rgba(255,255,255,.72) !important;
+
+    box-shadow:
+        0 18px 42px rgba(76,29,149,.12),
+        inset 0 1px 0 rgba(255,255,255,.82),
+        inset 0 -1px 0 rgba(255,255,255,.20) !important;
+
+    backdrop-filter: blur(24px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(145%) !important;
+
+    color: #173b20 !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* Kilau tipis di bagian atas kartu */
+#page-customer-sparring #customer-sparring-list > *::before,
+#page-customer-sparring .customer-sparring-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 7% !important;
+    right: 7% !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent) !important;
+    pointer-events: none !important;
+}
+
+/* Jangan ada frame/card tambahan di dalam kartu tim */
+#page-customer-sparring .customer-sparring-card > div {
+    background: transparent !important;
+}
+
+/* Meta tanggal, jam, status */
+#page-customer-sparring .customer-sparring-meta {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+#page-customer-sparring .customer-sparring-meta > span {
+    background: rgba(255,255,255,.70) !important;
+    border: 1px solid rgba(255,255,255,.75) !important;
+    box-shadow: 0 5px 14px rgba(76,29,149,.06), inset 0 1px 0 rgba(255,255,255,.75) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Status mencari lawan */
+#page-customer-sparring .customer-sparring-meta .customer-sparring-status {
+    background: rgba(255,239,170,.88) !important;
+    color: #6b4a00 !important;
+    border-color: rgba(234,179,8,.38) !important;
+}
+
+/* Nama tim dan VS */
+#page-customer-sparring .customer-sparring-team {
+    color: #173b20 !important;
+    text-shadow: 0 1px 2px rgba(255,255,255,.55) !important;
+}
+
+#page-customer-sparring .customer-sparring-vs {
+    color: #245c31 !important;
+}
+
+#page-customer-sparring .customer-sparring-vs span {
+    color: #40564a !important;
+}
+
+/* Tombol Pilih Tim — tetap kartu kaca terpisah */
+#page-customer-sparring button[onclick*="pilihSparringCustomer"],
+#page-customer-sparring .choose-sparing-btn,
+#page-customer-sparring .pilih-sparring-btn {
+    width: 100% !important;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.86),
+            rgba(239,246,255,.68)
+        ) !important;
+    color: #17304f !important;
+    border: 1px solid rgba(255,255,255,.80) !important;
+    border-radius: 17px !important;
+    box-shadow:
+        0 8px 22px rgba(76,29,149,.09),
+        inset 0 1px 0 rgba(255,255,255,.90) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+}
+
+#page-customer-sparring button[onclick*="pilihSparringCustomer"]:hover,
+#page-customer-sparring .choose-sparing-btn:hover,
+#page-customer-sparring .pilih-sparring-btn:hover {
+    background: rgba(255,255,255,.94) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Hilangkan deskripsi jika masih ada dari versi lama */
+#page-customer-sparring > p {
+    display: none !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    #page-customer-sparring {
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    #page-customer-sparring .customer-page-head {
+        padding-top: .15rem !important;
+        padding-bottom: .8rem !important;
+    }
+
+    #page-customer-sparring #customer-sparring-list {
+        gap: 12px !important;
+    }
+
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card {
+        padding: 16px 14px !important;
+        border-radius: 20px !important;
+    }
+}
+
+</style>
+
+<style id="booking-booking-final-clean">
+/* FINAL BOOKING CLEAN GLASS */
+#page-customer-booking{
+  background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0!important;max-width:none!important;
+}
+#page-customer-booking::before,#page-customer-booking::after{display:none!important}
+#page-customer-booking .customer-page-head{
+  background:transparent!important;border:0!important;box-shadow:none!important;padding:0 0 14px!important;margin:0!important;
+}
+#page-customer-booking .customer-page-head button{display:none!important}
+#page-customer-booking .customer-page-head h2{color:#3f2a18!important;font-weight:950!important}
+#page-customer-booking form.customer-booking-clean-form{
+  display:flex!important;flex-direction:column!important;gap:12px!important;padding:0!important;margin:0!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+}
+/* remove ALL old wrapper/card backgrounds */
+#page-customer-booking form.customer-booking-clean-form > *,
+#page-customer-booking form.customer-booking-clean-form > div,
+#page-customer-booking form.customer-booking-clean-form > div.grid,
+#page-customer-booking form.customer-booking-clean-form > div.pt-2{
+  box-sizing:border-box!important;
+}
+/* Each actual field is the only visible card */
+#page-customer-booking .booking-glass-card{
+  display:flex!important;flex-direction:column!important;gap:7px!important;width:100%!important;
+  padding:14px 17px!important;margin:0!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.43),rgba(255,255,255,.18))!important;
+  border:1px solid rgba(255,255,255,.82)!important;border-radius:21px!important;
+  box-shadow:0 14px 32px rgba(76,29,149,.10),inset 0 1px 0 rgba(255,255,255,.78)!important;
+  backdrop-filter:blur(20px) saturate(135%)!important;-webkit-backdrop-filter:blur(20px) saturate(135%)!important;
+}
+#page-customer-booking .booking-glass-card label{
+  display:block!important;margin:0!important;padding:0!important;
+  color:#334155!important;font-size:.72rem!important;font-weight:900!important;
+  text-transform:none!important;letter-spacing:0!important;
+}
+#page-customer-booking .booking-glass-card .glass-input{
+  display:block!important;width:100%!important;min-height:40px!important;height:auto!important;
+  margin:0!important;padding:0!important;background:transparent!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;outline:none!important;
+  color:#173b2b!important;font-size:.9rem!important;font-weight:900!important;
+}
+#page-customer-booking .booking-glass-card .glass-input:focus{
+  background:transparent!important;border:0!important;box-shadow:none!important;outline:none!important;
+}
+#page-customer-booking .booking-glass-card input[type=date]{color-scheme:light}
+#page-customer-booking .booking-glass-card input::placeholder{color:#64748b!important;opacity:1!important}
+#page-customer-booking #customer-status-hint{display:block!important;margin:0!important;color:#64748b!important;font-size:.6rem!important;font-weight:700!important}
+/* Sparring: explanation stays INSIDE the card; dropdown appears only when clicked */
+#page-customer-booking .booking-sparing-card label{display:block!important}
+#page-customer-booking #cust-minta-sparring{cursor:pointer!important}
+/* no old payment wrapper/frame */
+#page-customer-booking .booking-payment-card{display:none!important;margin:0!important;padding:14px 17px!important}
+#page-customer-booking .booking-payment-card:has(.payment-info-card:not(.hidden)){display:block!important}
+#page-customer-booking .booking-submit-wrap{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+#page-customer-booking .booking-submit-btn{
+  width:100%!important;min-height:52px!important;border-radius:18px!important;
+  border:1px solid rgba(255,255,255,.55)!important;background:linear-gradient(135deg,#2563eb,#06b6d4)!important;
+  color:#fff!important;box-shadow:0 14px 28px rgba(37,99,235,.22)!important;
+  font-size:.76rem!important;font-weight:950!important;text-transform:uppercase!important;
+}
+/* Hide estimate card entirely */
+#page-customer-booking #customer-booking-selected-price{display:none!important}
+@media(max-width:640px){
+  #page-customer-booking form.customer-booking-clean-form{gap:10px!important}
+  #page-customer-booking .booking-glass-card{padding:13px 15px!important;border-radius:19px!important}
+}
+</style>
+
+<style id="customer-booking-uniform-glass-v6">
+/* =========================================================
+   BOOKING V6 — SATU FRAME PER CARD, SEMUA SERAGAM
+   - wrapper luar benar-benar transparan
+   - setiap .booking-glass-card = satu-satunya frame
+   - input/select di dalamnya transparan tanpa frame kedua
+   - tanggal dibuat identik dengan card lainnya
+   ========================================================= */
+
+#page-customer-booking,
+#page-customer-booking.customer-booking-page,
+#page-customer-booking.customer-content-page,
+#page-customer-booking.glass-panel,
+#page-customer-booking.sub-menu-modern {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+}
+
+#page-customer-booking::before,
+#page-customer-booking::after {
+    content: none !important;
+    display: none !important;
+}
+
+#page-customer-booking form,
+#page-customer-booking .customer-booking-clean-form {
+    background: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 12px !important;
+}
+
+/* Matikan seluruh frame dari wrapper lama */
+#page-customer-booking form > div:not(.booking-glass-card):not(.booking-submit-wrap),
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div.booking-payment-card {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* SEMUA CARD: satu ukuran, satu radius, satu efek kaca */
+#page-customer-booking .booking-glass-card {
+    width: 100% !important;
+    min-height: 72px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    padding: 10px 14px !important;
+    margin: 0 !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,.78) !important;
+    background: linear-gradient(135deg,
+        rgba(255,255,255,.48),
+        rgba(255,255,255,.25)) !important;
+    box-shadow:
+        0 12px 28px rgba(30,64,175,.09),
+        inset 0 1px 0 rgba(255,255,255,.82),
+        inset 0 -1px 0 rgba(255,255,255,.16) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    overflow: hidden !important;
+}
+
+/* Hapus frame kedua dari SEMUA input/select */
+#page-customer-booking .booking-glass-card > .glass-input,
+#page-customer-booking .booking-glass-card > input,
+#page-customer-booking .booking-glass-card > select,
+#page-customer-booking .booking-glass-card .glass-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+#page-customer-booking .booking-glass-card > .glass-input:focus,
+#page-customer-booking .booking-glass-card .glass-input:focus {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Label bila masih ada dibuat menyatu dan rata tengah */
+#page-customer-booking .booking-glass-card > label,
+#page-customer-booking .booking-glass-card > .booking-field-label {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+    text-align: center !important;
+    color: #163d2b !important;
+    font-size: .72rem !important;
+    line-height: 1.2 !important;
+    font-weight: 950 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+/* Tanggal SAMA PERSIS dengan card lain: tidak ada label terpisah / frame kedua */
+#page-customer-booking .booking-date-card,
+#page-customer-booking .booking-date-field {
+    min-height: 72px !important;
+    height: 72px !important;
+    padding: 10px 14px !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+}
+
+#page-customer-booking .booking-date-card > label,
+#page-customer-booking .booking-date-field .booking-field-label {
+    display: none !important;
+}
+
+#page-customer-booking .booking-date-card #cust-tanggal,
+#page-customer-booking .booking-date-field #cust-tanggal {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 8px 10px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 950 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+/* Jam dan durasi: wrapper juga transparan, masing-masing card sendiri */
+#page-customer-booking .booking-time-field {
+    display: contents !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+#page-customer-booking .booking-time-field > .booking-field-label,
+#page-customer-booking .booking-time-field > .booking-duration-label {
+    display: none !important;
+}
+
+#page-customer-booking .booking-time-field #cust-jam,
+#page-customer-booking .booking-time-field #cust-durasi {
+    width: 100% !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,.78) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.25)) !important;
+    box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    color: #163d2b !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+/* Hint status jangan membuat frame/strip tambahan */
+#page-customer-booking #customer-status-hint {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: #64748b !important;
+    font-size: .58rem !important;
+    font-weight: 800 !important;
+}
+
+/* Payment info hanya muncul bila dibutuhkan */
+#page-customer-booking #customer-payment-info {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Tombol submit bukan wrapper ber-frame */
+#page-customer-booking .booking-submit-wrap {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-booking form { gap: 10px !important; }
+    #page-customer-booking .booking-glass-card,
+    #page-customer-booking .booking-date-card,
+    #page-customer-booking .booking-date-field,
+    #page-customer-booking .booking-time-field #cust-jam,
+    #page-customer-booking .booking-time-field #cust-durasi {
+        min-height: 68px !important;
+        height: 68px !important;
+        border-radius: 20px !important;
+    }
+    #page-customer-booking .booking-glass-card > .glass-input,
+    #page-customer-booking .booking-date-card #cust-tanggal,
+    #page-customer-booking .booking-date-field #cust-tanggal {
+        height: 48px !important;
+        min-height: 48px !important;
+    }
+}
+</style>
+
+<style id="booking-glass-single-card-v7">
+/* =========================================================
+   BOOKING V7 — BENAR-BENAR SATU CARD SAJA PER FIELD
+   Mengalahkan seluruh CSS lama yang membuat frame ganda.
+   ========================================================= */
+
+html body #page-customer-booking,
+html body #page-customer-booking.glass-panel,
+html body #page-customer-booking.customer-content-page,
+html body #page-customer-booking.customer-booking-page,
+html body #page-customer-booking.sub-menu-modern {
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 12px !important;
+}
+
+/* Semua wrapper langsung dibuat TRANSPARAN.
+   Hanya elemen .booking-glass-card yang boleh terlihat. */
+html body #page-customer-booking form.customer-booking-clean-form > div:not(.booking-glass-card),
+html body #page-customer-booking form.customer-booking-clean-form > div.grid,
+html body #page-customer-booking form.customer-booking-clean-form > div.pt-2,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-submit-wrap,
+html body #page-customer-booking form.customer-booking-clean-form > #customer-payment-info {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Semua field = SATU bentuk yang sama */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card {
+  width: 100% !important;
+  min-height: 72px !important;
+  height: 72px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 16px !important;
+  margin: 0 !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+  backdrop-filter: blur(18px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+  overflow: hidden !important;
+}
+
+/* Tidak ada frame kedua di dalam card */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking .booking-glass-card .glass-input,
+html body #page-customer-booking .booking-date-card #cust-tanggal,
+html body #page-customer-booking .booking-date-field #cust-tanggal {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  color: #163d2b !important;
+  font-size: .84rem !important;
+  font-weight: 950 !important;
+}
+
+/* Label ikut gaya yang sama dan tetap di tengah */
+html body #page-customer-booking .booking-glass-card > label,
+html body #page-customer-booking .booking-glass-card > .booking-field-label {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  color: #163d2b !important;
+  font-size: .74rem !important;
+  font-weight: 950 !important;
+  line-height: 1.2 !important;
+}
+
+/* Tanggal SAMA persis dengan card lain: tanpa label dan tanpa kotak input kedua */
+html body #page-customer-booking .booking-date-card > label,
+html body #page-customer-booking .booking-date-field > label,
+html body #page-customer-booking .booking-date-field .booking-field-label {
+  display: none !important;
+}
+
+html body #page-customer-booking .booking-date-card,
+html body #page-customer-booking .booking-date-field {
+  min-height: 72px !important;
+  height: 72px !important;
+  padding: 10px 16px !important;
+  border-radius: 20px !important;
+}
+
+html body #page-customer-booking .booking-date-card #cust-tanggal,
+html body #page-customer-booking .booking-date-field #cust-tanggal {
+  height: 48px !important;
+  min-height: 48px !important;
+}
+
+/* Jam dan durasi: masing-masing menjadi card sendiri.
+   Wrapper lamanya tidak boleh menggambar frame. */
+html body #page-customer-booking .booking-time-field {
+  display: contents !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html body #page-customer-booking .booking-time-field > .booking-field-label,
+html body #page-customer-booking .booking-time-field > .booking-duration-label {
+  display: none !important;
+}
+
+html body #page-customer-booking .booking-time-field #cust-jam,
+html body #page-customer-booking .booking-time-field #cust-durasi {
+  width: 100% !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.24)) !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+  backdrop-filter: blur(18px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  color: #163d2b !important;
+  font-size: .84rem !important;
+  font-weight: 950 !important;
+}
+
+/* Status hint bukan frame */
+html body #page-customer-booking #customer-status-hint {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  color: #64748b !important;
+  font-size: .58rem !important;
+  font-weight: 800 !important;
+}
+
+/* Semua teks placeholder/value rata tengah */
+html body #page-customer-booking input::placeholder {
+  text-align: center !important;
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 640px) {
+  html body #page-customer-booking form.customer-booking-clean-form { gap: 10px !important; }
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+  html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+  html body #page-customer-booking .booking-time-field #cust-jam,
+  html body #page-customer-booking .booking-time-field #cust-durasi {
+    height: 72px !important;
+    min-height: 72px !important;
+    border-radius: 20px !important;
+  }
 }
 </style>
