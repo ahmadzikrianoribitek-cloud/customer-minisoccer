@@ -6983,8 +6983,36 @@ document.addEventListener('DOMContentLoaded', () => {
             // permintaan sparing "tanpa batas waktu".
             if(!/^\d{4}-\d{2}-\d{2}$/.test(tanggal)) return false;
 
-            // Hapus dari tampilan jika tanggalnya sudah lewat.
+            // Hilangkan jika tanggal sudah lewat.
             if(tanggal < todayKey) return false;
+
+            // Jika tanggalnya hari ini, cek JAM main juga.
+            // Contoh: sekarang 15/08 jam 17:00 dan sparing jam 20:00
+            // masih boleh tampil. Setelah lewat jam 20:00, kartu hilang.
+            if(tanggal === todayKey){
+                const jamText = String(item.jam || '').trim();
+                const jamMatch = jamText.match(/(\d{1,2})(?::(\d{2}))?/);
+
+                if(jamMatch){
+                    const hour = Number(jamMatch[1]);
+                    const minute = Number(jamMatch[2] || 0);
+
+                    if(Number.isFinite(hour) && hour >= 0 && hour <= 23 &&
+                       Number.isFinite(minute) && minute >= 0 && minute <= 59){
+                        const waktuMain = new Date(
+                            now.getFullYear(),
+                            now.getMonth(),
+                            now.getDate(),
+                            hour,
+                            minute,
+                            0,
+                            0
+                        );
+
+                        if(now >= waktuMain) return false;
+                    }
+                }
+            }
 
             return true;
         })
