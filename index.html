@@ -6624,12 +6624,40 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
         }
 
         function getCustomerBookingTotal(tgl, startJam, durasi, status) {
-            const hours = getCustomerBookingHours(startJam, durasi);
-            if(hours.length !== Number(durasi || 1)) return 0;
+            const jumlahJam = Number(durasi || 1);
+            const startIndex = listJam.indexOf(startJam);
 
-            return hours.reduce((total, jam) => {
-                return total + getHargaLapanganCustomer(tgl, jam, status);
-            }, 0);
+            if(!tgl || startIndex < 0 || jumlahJam < 1) return 0;
+            if(startIndex + jumlahJam > listJam.length) return 0;
+
+            let total = 0;
+
+            for(let i = 0; i < jumlahJam; i++) {
+                const jam = listJam[startIndex + i];
+
+                if(!jam || jam === '18:00') return 0;
+
+                let harga = Number(getHargaLapanganCustomer(tgl, jam, status));
+
+                // Fallback ke nominal yang benar-benar tampil di dropdown jam.
+                if(!Number.isFinite(harga) || harga <= 0) {
+                    const selectJam = document.getElementById('cust-jam');
+                    const option = Array.from(selectJam?.options || [])
+                        .find(opt => String(opt.value || '').trim() === jam);
+
+                    if(option) {
+                        const match = String(option.textContent || '').match(/Rp\s*([\d.]+)/i);
+                        if(match) {
+                            harga = Number(match[1].replace(/\./g, ''));
+                        }
+                    }
+                }
+
+                if(!Number.isFinite(harga) || harga <= 0) return 0;
+                total += harga;
+            }
+
+            return total;
         }
 
         function updateCustomerSelectedPrice() {
@@ -6727,7 +6755,7 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
                 const total = getCustomerBookingTotal(tglInput, startJam, i, status);
                 const opt = document.createElement('option');
                 opt.value = String(i);
-                opt.textContent = `Booking ${i} Jam — ${formatRupiahCustomer(total)}`;
+                opt.textContent = `Booking ${i} Jam`;
                 selectDurasi.appendChild(opt);
             }
 
@@ -6930,9 +6958,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const list = document.getElementById('customer-sparring-list');
     if(!list) return;
 
+    /*
+     * Tampilkan hanya permintaan sparing yang:
+     * 1. belum mendapatkan lawan, dan
+     * 2. tanggal mainnya hari ini atau tanggal yang akan datang.
+     *
+     * Tanggal yang sudah lewat hanya disembunyikan dari halaman customer.
+     * Data Firebase tidak dihapus, sehingga riwayat/admin tetap aman.
+     */
+    const now = new Date();
+    const todayKey =
+        now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0');
+
     const entries = Object.entries(globalCache.sparring || {})
         .map(([key,item]) => [key,item || {}])
-        .filter(([key,item]) => item.status !== 'matched' && item.timA)
+        .filter(([key,item]) => {
+            if(item.status === 'matched' || !item.timA) return false;
+
+            const tanggal = String(item.tanggal || '').trim();
+
+            // Data tanpa tanggal tidak ditampilkan agar tidak menjadi
+            // permintaan sparing "tanpa batas waktu".
+            if(!/^\d{4}-\d{2}-\d{2}$/.test(tanggal)) return false;
+
+            // Hapus dari tampilan jika tanggalnya sudah lewat.
+            if(tanggal < todayKey) return false;
+
+            return true;
+        })
         .sort((a,b) =>
             String(a[1].tanggal || '').localeCompare(String(b[1].tanggal || '')) ||
             String(a[1].jam || '').localeCompare(String(b[1].jam || ''))
@@ -13854,4 +13909,317 @@ html body #page-customer-booking .booking-submit-wrap {
 }
 </style>
 
+
+<script id="final-duration-availability-fix">
+/*
+ * FINAL FIX DURASI BOOKING
+ * ------------------------
+ * Jangan mengubah loadJamKosongCustomer() atau aturan ketersediaan.
+ * Fungsi ini hanya membaca option yang BENAR-BENAR tampil di #cust-jam.
+ *
+ * Penting:
+ * - option[value] pada #cust-jam adalah jam yang kosong.
+ * - Durasi dihitung dari jam mulai secara berurutan.
+ * - Maksimal 6 jam.
+ * - 18:00 tetap OFF.
+ *
+ * Contoh:
+ * 07,08,09,10 kosong -> 1,2,3,4 jam.
+ */
+(function () {
+    function finalUpdateCustomerDurationOptions() {
+        const tgl = document.getElementById('cust-tanggal')?.value || '';
+        const jamSelect = document.getElementById('cust-jam');
+        const durasiSelect = document.getElementById('cust-durasi');
+
+        if (!durasiSelect) return;
+
+        const startJam = jamSelect?.value || '';
+        const status = document.getElementById('cust-status')?.value || 'Non-Member';
+        const oldValue = durasiSelect.value || '1';
+
+        durasiSelect.innerHTML = '';
+
+        if (!tgl || !startJam) {
+            const opt = document.createElement('option');
+            opt.value = '1';
+            opt.textContent = 'Booking 1 Jam';
+            durasiSelect.appendChild(opt);
+            return;
+        }
+
+        /*
+         * Bangun daftar jam kosong dari DUA sumber:
+         * 1. value option yang sedang tampil
+         * 2. teks option, sebagai fallback untuk custom/rendered select
+         *
+         * Ini sengaja tidak bergantung pada cache internal.
+         */
+        const kosong = new Set();
+
+        if (jamSelect) {
+            Array.from(jamSelect.options || []).forEach(opt => {
+                const value = String(opt.value || '').trim();
+                const text = String(opt.textContent || opt.text || '').trim();
+
+                if (/^\d{2}:\d{2}$/.test(value)) {
+                    kosong.add(value);
+                }
+
+                const match = text.match(/^(\d{2}:\d{2})\s+WITA/i);
+                if (match) {
+                    kosong.add(match[1]);
+                }
+            });
+        }
+
+        /*
+         * Pastikan jam mulai sendiri dianggap tersedia karena sudah dipilih
+         * dari dropdown jam kosong.
+         */
+        kosong.add(startJam);
+
+        const startIndex = listJam.indexOf(startJam);
+        let maxDurasi = 1;
+
+        if (startIndex >= 0) {
+            for (let d = 2; d <= 6; d++) {
+                const idx = startIndex + d - 1;
+                if (idx >= listJam.length) break;
+
+                let semuaKosong = true;
+
+                for (let j = 0; j < d; j++) {
+                    const jam = listJam[startIndex + j];
+
+                    if (jam === '18:00' || !kosong.has(jam)) {
+                        semuaKosong = false;
+                        break;
+                    }
+                }
+
+                if (!semuaKosong) break;
+                maxDurasi = d;
+            }
+        }
+
+        for (let i = 1; i <= maxDurasi; i++) {
+            let total = 0;
+
+            /*
+             * Jangan biarkan perhitungan harga menghentikan pembuatan
+             * option durasi. Kalau fungsi harga gagal pada satu durasi,
+             * option tetap harus muncul.
+             */
+            try {
+                total = getCustomerBookingTotal(tgl, startJam, i, status);
+            } catch (err) {
+                console.warn('Gagal menghitung total durasi', i, err);
+                total = 0;
+            }
+
+            const opt = document.createElement('option');
+            opt.value = String(i);
+            opt.textContent = `Booking ${i} Jam`;
+            durasiSelect.appendChild(opt);
+        }
+
+        if (Array.from(durasiSelect.options).some(o => o.value === oldValue)) {
+            durasiSelect.value = oldValue;
+        } else {
+            durasiSelect.value = '1';
+        }
+
+        if (typeof updateCustomerSelectedPrice === 'function') {
+            try {
+                updateCustomerSelectedPrice();
+            } catch (err) {
+                console.warn('Gagal update harga pilihan durasi', err);
+            }
+        }
+    }
+
+    /*
+     * Gantikan fungsi yang dipanggil oleh onchange:
+     * onchange="...; updateCustomerDurationOptions()"
+     */
+    window.updateCustomerDurationOptions = finalUpdateCustomerDurationOptions;
+})();
+</script>
+
+
+<script id="duration-robust-final">
+(function () {
+    function refreshDurationFromVisibleJamOptions() {
+        const tanggal = document.getElementById('cust-tanggal');
+        const jamSelect = document.getElementById('cust-jam');
+        const durasiSelect = document.getElementById('cust-durasi');
+        const statusSelect = document.getElementById('cust-status');
+
+        if (!tanggal || !jamSelect || !durasiSelect) return;
+
+        const tgl = tanggal.value || '';
+        const startJam = jamSelect.value || '';
+        const status = statusSelect?.value || 'Non-Member';
+
+        if (!tgl || !startJam) {
+            durasiSelect.innerHTML = '<option value="1">Booking 1 Jam</option>';
+            return;
+        }
+
+        // Ambil semua jam yang BENAR-BENAR ada di dropdown jam.
+        const available = new Set();
+        Array.from(jamSelect.options).forEach(opt => {
+            const value = String(opt.value || '').trim();
+            const text = String(opt.textContent || '').trim();
+
+            if (/^\d{2}:\d{2}$/.test(value)) {
+                available.add(value);
+            } else {
+                const m = text.match(/^(\d{2}:\d{2})\s+WITA/i);
+                if (m) available.add(m[1]);
+            }
+        });
+
+        // Jam yang sedang dipilih pasti tersedia.
+        available.add(startJam);
+
+        // Gunakan daftar jam yang sama dengan jadwal utama.
+        const scheduleHours = [
+            "07:00","08:00","09:00","10:00","11:00","12:00",
+            "13:00","14:00","15:00","16:00","17:00","18:00",
+            "19:00","20:00","21:00","22:00","23:00","24:00"
+        ];
+
+        const start = scheduleHours.indexOf(startJam);
+        let max = 1;
+
+        if (start >= 0) {
+            for (let duration = 2; duration <= 6; duration++) {
+                let contiguous = true;
+
+                for (let offset = 0; offset < duration; offset++) {
+                    const h = scheduleHours[start + offset];
+
+                    if (!h || h === '18:00' || !available.has(h)) {
+                        contiguous = false;
+                        break;
+                    }
+                }
+
+                if (!contiguous) break;
+                max = duration;
+            }
+        }
+
+        // Bangun ulang dropdown durasi.
+        const old = durasiSelect.value;
+        const frag = document.createDocumentFragment();
+
+        for (let duration = 1; duration <= max; duration++) {
+            let total = 0;
+
+            if (typeof getCustomerBookingTotal === 'function') {
+                total = getCustomerBookingTotal(tgl, startJam, duration, status);
+            }
+
+            const option = document.createElement('option');
+            option.value = String(duration);
+            option.textContent =
+                `Booking ${duration} Jam — ` +
+                (typeof formatRupiahCustomer === 'function'
+                    ? formatRupiahCustomer(total)
+                    : 'Rp 0');
+
+            frag.appendChild(option);
+        }
+
+        durasiSelect.replaceChildren(frag);
+
+        if (Array.from(durasiSelect.options).some(o => o.value === old)) {
+            durasiSelect.value = old;
+        } else {
+            durasiSelect.value = '1';
+        }
+
+        if (typeof updateCustomerSelectedPrice === 'function') {
+            updateCustomerSelectedPrice();
+        }
+    }
+
+    // Pastikan fungsi global yang dipanggil inline onchange memakai versi ini.
+    window.updateCustomerDurationOptions = refreshDurationFromVisibleJamOptions;
+
+    function bindDurationRepair() {
+        const jamSelect = document.getElementById('cust-jam');
+        const durasiSelect = document.getElementById('cust-durasi');
+
+        if (!jamSelect || !durasiSelect) return;
+
+        // Tangkap change secara langsung, terpisah dari inline handler.
+        jamSelect.addEventListener('change', refreshDurationFromVisibleJamOptions, true);
+
+        // Jika loadJamKosongCustomer mengisi ulang option setelah async load,
+        // perubahan option tetap akan memicu perhitungan durasi.
+        const observer = new MutationObserver(() => {
+            if (jamSelect.value) {
+                refreshDurationFromVisibleJamOptions();
+            }
+        });
+
+        observer.observe(jamSelect, { childList: true });
+
+        // Beri kesempatan bagi data/cache async selesai mengisi dropdown.
+        setTimeout(refreshDurationFromVisibleJamOptions, 100);
+        setTimeout(refreshDurationFromVisibleJamOptions, 500);
+        setTimeout(refreshDurationFromVisibleJamOptions, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindDurationRepair, { once: true });
+    } else {
+        bindDurationRepair();
+    }
+})();
+</script>
+
+
+<script id="customer-duration-remove-price-final">
+(function () {
+    function removeDurationPrices() {
+        const select = document.getElementById('cust-durasi');
+        if (!select) return;
+
+        Array.from(select.options).forEach(function (option) {
+            const text = String(option.textContent || '');
+            const cleaned = text
+                .replace(/\s*[—-]\s*Rp\s*[\d.,]+\s*$/i, '')
+                .trim();
+
+            if (cleaned) option.textContent = cleaned;
+        });
+    }
+
+    function bind() {
+        const select = document.getElementById('cust-durasi');
+        if (!select) return;
+
+        removeDurationPrices();
+
+        const observer = new MutationObserver(removeDurationPrices);
+        observer.observe(select, { childList: true, subtree: true });
+
+        select.addEventListener('change', removeDurationPrices, true);
+        setTimeout(removeDurationPrices, 100);
+        setTimeout(removeDurationPrices, 500);
+        setTimeout(removeDurationPrices, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind, { once: true });
+    } else {
+        bind();
+    }
+})();
+</script>
 
