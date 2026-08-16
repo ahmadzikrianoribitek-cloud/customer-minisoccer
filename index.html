@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANDAGA MINISOCCER 2</title>
+    <title>BOOKING LAPANGAN</title>
 
     <!-- Penghubung Manifest untuk Android/Chrome -->
     <link rel="manifest" href="manifest.json">
@@ -5562,17 +5562,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 }
 </style>
 
-
-<style id="customer-submenu-clean-no-page-title-v1">
-/* Jadwal, Harga, Booking, Sparing langsung ke isi tanpa keterangan/judul halaman. */
-#page-customer-price > .customer-page-head,
-#page-customer-booking > .customer-page-head,
-#page-customer-sparring > .customer-page-head,
-#page-customer-schedule > .customer-page-head,
-#page-customer-schedule > .flex.justify-between.items-center { display:none !important; }
-#page-customer-price, #page-customer-booking, #page-customer-sparring, #page-customer-schedule { padding-top:.9rem !important; }
-@media(max-width:640px){#page-customer-price,#page-customer-booking,#page-customer-sparring,#page-customer-schedule{padding-top:.65rem !important;}}
-</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -5849,9 +5838,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
         <!-- HALAMAN BOOKING SCHEDULE -->
         <div class="sub-menu-modern glass-panel p-3 sm:p-6 rounded-2xl hidden" id="page-booking-schedule">
 
-<div class="flex justify-between items-center mb-4">
-<h2 class="font-black text-base sm:text-lg text-slate-900 drop-shadow-sm w-full text-center">📅 BOOKING SCHEDULE</h2>
-</div>
 <div class="flex flex-col items-center justify-center mb-4 gap-3">
 <div class="flex items-center justify-center gap-2 p-1.5 rounded-xl border border-white/20 w-full sm:w-auto">
 <select class="p-1.5 rounded-lg text-xs glass-input font-bold text-center" id="filter-periode-jadwal" onchange="renderGridJadwal()">
@@ -6982,16 +6968,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Hilangkan jika tanggal sudah lewat.
             if(tanggal < todayKey) return false;
 
-            // Jika tanggalnya hari ini, hilangkan segera setelah jam main lewat.
+            // Jika tanggalnya hari ini, cek JAM main juga.
+            // Contoh: sekarang 15/08 jam 17:00 dan sparing jam 20:00
+            // masih boleh tampil. Setelah lewat jam 20:00, kartu hilang.
             if(tanggal === todayKey){
                 const jamText = String(item.jam || '').trim();
                 const jamMatch = jamText.match(/(\d{1,2})(?::(\d{2}))?/);
+
                 if(jamMatch){
                     const hour = Number(jamMatch[1]);
                     const minute = Number(jamMatch[2] || 0);
+
                     if(Number.isFinite(hour) && hour >= 0 && hour <= 23 &&
                        Number.isFinite(minute) && minute >= 0 && minute <= 59){
-                        const waktuMain = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
+                        const waktuMain = new Date(
+                            now.getFullYear(),
+                            now.getMonth(),
+                            now.getDate(),
+                            hour,
+                            minute,
+                            0,
+                            0
+                        );
+
                         if(now >= waktuMain) return false;
                     }
                 }
@@ -14194,43 +14193,4 @@ html body #page-customer-booking .booking-submit-wrap {
 })();
 </script>
 
-
-<script id="customer-duration-remove-price-final">
-(function () {
-    function removeDurationPrices() {
-        const select = document.getElementById('cust-durasi');
-        if (!select) return;
-
-        Array.from(select.options).forEach(function (option) {
-            const text = String(option.textContent || '');
-            const cleaned = text
-                .replace(/\s*[—-]\s*Rp\s*[\d.,]+\s*$/i, '')
-                .trim();
-
-            if (cleaned) option.textContent = cleaned;
-        });
-    }
-
-    function bind() {
-        const select = document.getElementById('cust-durasi');
-        if (!select) return;
-
-        removeDurationPrices();
-
-        const observer = new MutationObserver(removeDurationPrices);
-        observer.observe(select, { childList: true, subtree: true });
-
-        select.addEventListener('change', removeDurationPrices, true);
-        setTimeout(removeDurationPrices, 100);
-        setTimeout(removeDurationPrices, 500);
-        setTimeout(removeDurationPrices, 1000);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bind, { once: true });
-    } else {
-        bind();
-    }
-})();
-</script>
 
