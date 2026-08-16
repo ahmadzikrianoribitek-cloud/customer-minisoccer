@@ -5562,6 +5562,165 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 }
 </style>
 
+
+
+<style id="booking-single-glass-final">
+/* =========================================================
+   BOOKING — SINGLE GLASS LAYER FINAL
+   Semua field hanya mempunyai SATU lapis kaca yang terlihat.
+   ========================================================= */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-height: 78px !important;
+    height: 78px !important;
+    box-sizing: border-box !important;
+    padding: 8px 16px !important;
+    margin: 0 !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.22)) !important;
+    background-image: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.22)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 28px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.72) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    overflow: hidden !important;
+}
+
+/* Hilangkan SEMUA frame/background kedua dari input dan select. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .glass-input,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > span {
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: transparent !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: #163d2b !important;
+    font-size: .9rem !important;
+    font-weight: 950 !important;
+    line-height: 62px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+    text-align: center !important;
+}
+
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input:focus,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select:focus,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input:focus {
+    background: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Label lama tidak ikut membuat lapisan/frame tambahan. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > label {
+    display: none !important;
+}
+
+/* Dropdown tetap native dan hanya panahnya yang terlihat. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card .sparring-select {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+    cursor: pointer !important;
+}
+
+/* Tanggal tetap satu kaca; input tanggal transparan di atas card. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-date-card {
+    overflow: hidden !important;
+}
+html body #page-customer-booking .booking-date-card #cust-tanggal {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+}
+html body #page-customer-booking .booking-date-card #customer-date-display {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    line-height: 62px !important;
+}
+
+/* Harga estimasi tetap tidak menciptakan kaca kedua. */
+html body #page-customer-booking .customer-booking-selected-price,
+html body #page-customer-booking .customer-booking-selected-price * {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Sparring: default TIDAK. Saat disentuh, native dropdown baru membuka pilihan. */
+html body #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card {
+    min-height: 78px !important;
+    height: 78px !important;
+    cursor: pointer !important;
+}
+html body #page-customer-booking #cust-minta-sparring {
+    cursor: pointer !important;
+    color: #163d2b !important;
+}
+html body #page-customer-booking #cust-minta-sparring option {
+    background: #ffffff !important;
+    color: #163d2b !important;
+    font-weight: 800 !important;
+}
+
+/* Card pembayaran/detail tidak diberi kaca tambahan. */
+html body #page-customer-booking .booking-payment-card,
+html body #page-customer-booking .booking-payment-card .payment-info-card {
+    box-shadow: none !important;
+}
+
+@media (max-width: 640px) {
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card {
+        min-height: 78px !important;
+        height: 78px !important;
+        padding: 8px 14px !important;
+        border-radius: 20px !important;
+    }
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > input,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > select,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .glass-input,
+    html body #page-customer-booking form.customer-booking-clean-form > .booking-glass-card > span {
+        height: 62px !important;
+        min-height: 62px !important;
+        line-height: 62px !important;
+        font-size: .86rem !important;
+    }
+}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -5720,9 +5879,8 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
     <!-- Cari Lawan Sparing -->
     <div class="booking-glass-card booking-sparing-card">
         <select id="cust-minta-sparring" class="glass-input sparring-select" required aria-label="Cari Lawan Sparing">
-            <option value="" selected disabled>⚽ Cari Lawan Sparing? — Klik di sini</option>
-            <option value="Tidak">Tidak</option>
-            <option value="Ya">Ya, carikan lawan</option>
+            <option value="Tidak" selected>⚽ Cari Lawan Sparing? — Tidak</option>
+            <option value="Ya">⚽ Ya, carikan lawan sparing</option>
         </select>
     </div>
 
@@ -7425,13 +7583,53 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                 let nomorAdmin = "6285124057148"; 
                 let whatsappUrl = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesanWa)}`;
 
-                alert("Booking berhasil disimpan! Anda akan diarahkan ke WhatsApp untuk konfirmasi ke admin.");
-                e.target.reset();
-                setDefaultDates();
-                loadJamKosongCustomer();
+                // Tampilkan popup konfirmasi yang lebih rapi sebelum membuka WhatsApp.
+                // Data booking hanya di-reset setelah pengguna menekan tombol Konfirmasi.
+                window.showBookingSuccessPopup = (whatsappUrl, formEl) => {
+                    const modal = document.getElementById('booking-success-modal');
+                    if (!modal) {
+                        formEl.reset();
+                        setDefaultDates();
+                        loadJamKosongCustomer();
+                        window.location.href = whatsappUrl;
+                        return;
+                    }
 
-                // Buka WhatsApp di tab baru / arahkan langsung
-                window.location.href = whatsappUrl;
+                    modal.dataset.whatsappUrl = whatsappUrl;
+                    modal.dataset.formId = formEl.id || '';
+                    modal.classList.add('is-open');
+                    modal.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('booking-success-open');
+                };
+
+                window.confirmBookingSuccess = () => {
+                    const modal = document.getElementById('booking-success-modal');
+                    const formId = modal?.dataset.formId || '';
+                    const formEl = formId ? document.getElementById(formId) : document.querySelector('#page-customer-booking form');
+                    const whatsappUrl = modal?.dataset.whatsappUrl || '';
+
+                    if (formEl) formEl.reset();
+                    setDefaultDates();
+                    loadJamKosongCustomer();
+
+                    if (modal) {
+                        modal.classList.remove('is-open');
+                        modal.setAttribute('aria-hidden', 'true');
+                    }
+                    document.body.classList.remove('booking-success-open');
+
+                    if (whatsappUrl) window.location.href = whatsappUrl;
+                };
+
+                window.closeBookingSuccessPopup = () => {
+                    const modal = document.getElementById('booking-success-modal');
+                    if (!modal) return;
+                    modal.classList.remove('is-open');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('booking-success-open');
+                };
+
+                showBookingSuccessPopup(whatsappUrl, e.target);
 
             } catch (error) {
                 console.error(error);
@@ -11333,6 +11531,63 @@ html body #page-customer-booking #payment-qris-card {
 })();
 </script>
 
+
+<!-- POPUP BOOKING BERHASIL -->
+<div id="booking-success-modal" class="booking-success-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+    <div class="booking-success-backdrop" onclick="closeBookingSuccessPopup()"></div>
+    <div class="booking-success-box">
+        <div class="booking-success-icon" aria-hidden="true">✓</div>
+        <div id="booking-success-title" class="booking-success-title">Booking Berhasil!</div>
+        <div class="booking-success-desc">Booking kamu sudah berhasil disimpan.</div>
+        <div class="booking-success-hint">Klik <strong>Konfirmasi</strong> untuk melanjutkan ke WhatsApp dan mengonfirmasi booking kepada admin.</div>
+        <button type="button" class="booking-success-confirm" onclick="confirmBookingSuccess()">Konfirmasi</button>
+    </div>
+</div>
+
+<style id="booking-success-popup-style">
+.booking-success-modal{
+    position:fixed; inset:0; z-index:2147483000; display:none; align-items:center; justify-content:center;
+    padding:22px; box-sizing:border-box;
+}
+.booking-success-modal.is-open{display:flex;}
+.booking-success-backdrop{
+    position:absolute; inset:0; background:rgba(15,23,42,.48);
+    backdrop-filter:blur(9px) saturate(115%); -webkit-backdrop-filter:blur(9px) saturate(115%);
+}
+.booking-success-box{
+    position:relative; z-index:1; width:min(390px,100%); box-sizing:border-box;
+    padding:28px 24px 22px; border-radius:28px; text-align:center;
+    background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(241,248,245,.94));
+    border:1px solid rgba(255,255,255,.95);
+    box-shadow:0 28px 80px rgba(15,23,42,.28), inset 0 1px 0 rgba(255,255,255,.95);
+    animation:bookingSuccessPop .22s ease-out;
+}
+.booking-success-icon{
+    width:64px; height:64px; margin:0 auto 14px; border-radius:50%; display:grid; place-items:center;
+    background:linear-gradient(145deg,#22c55e,#16a34a); color:#fff; font-size:32px; font-weight:950;
+    box-shadow:0 12px 28px rgba(22,163,74,.25), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.booking-success-title{color:#163d2b; font-size:1.25rem; line-height:1.2; font-weight:950; letter-spacing:-.02em;}
+.booking-success-desc{margin-top:8px; color:#334155; font-size:.86rem; font-weight:800; line-height:1.45;}
+.booking-success-hint{margin:8px auto 20px; max-width:320px; color:#64748b; font-size:.72rem; line-height:1.55; font-weight:650;}
+.booking-success-hint strong{color:#163d2b;}
+.booking-success-confirm{
+    width:100%; min-height:50px; border:0; border-radius:16px; cursor:pointer;
+    background:linear-gradient(135deg,#16a34a,#059669); color:#fff;
+    font-size:.86rem; font-weight:900; box-shadow:0 12px 25px rgba(5,150,105,.22), inset 0 1px 0 rgba(255,255,255,.28);
+    transition:transform .15s ease, filter .15s ease;
+}
+.booking-success-confirm:hover{filter:brightness(1.04);}
+.booking-success-confirm:active{transform:translateY(1px) scale(.99);}
+body.booking-success-open{overflow:hidden;}
+@keyframes bookingSuccessPop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:420px){
+    .booking-success-modal{padding:16px;}
+    .booking-success-box{padding:25px 19px 19px; border-radius:24px;}
+    .booking-success-icon{width:58px;height:58px;font-size:29px;}
+    .booking-success-title{font-size:1.12rem;}
+}
+</style>
 </body>
 
 <style id="customer-home-desktop-buttons-final">
@@ -14066,4 +14321,216 @@ html body #page-customer-booking .booking-submit-wrap {
 })();
 </script>
 
+<!-- =========================================================
+     BOOKING UX — AUTO SCROLL + DURASI BERURUTAN + GLASS DOCK
+     ========================================================= -->
+<style id="booking-ux-auto-scroll-and-glass-dock">
+/* Card booking tetap terlihat walaupun berada di belakang bottom dock.
+   Dock yang transparan + blur akan menjadi efek kaca di atas card. */
+@media (max-width: 640px) {
+    #page-customer-booking .booking-bottom-nav-covered {
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    #customer-bottom-nav {
+        background: linear-gradient(
+            135deg,
+            rgba(255,255,255,.56),
+            rgba(231,242,255,.34)
+        ) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(145%) !important;
+        backdrop-filter: blur(24px) saturate(145%) !important;
+    }
+
+    /* Beri ruang akhir agar card terakhir tetap bisa dinaikkan penuh di atas dock. */
+    #page-customer-booking form.customer-booking-clean-form {
+        padding-bottom: 96px !important;
+    }
+}
+</style>
+
+<style id="booking-submit-click-through-fix-v2">
+/* Bottom dock tetap di atas secara visual, tetapi area kaca kosongnya
+   tidak boleh memblokir klik card/tombol yang berada di belakangnya. */
+#customer-bottom-nav {
+    pointer-events: none !important;
+}
+#customer-bottom-nav .customer-bottom-nav-item,
+#customer-bottom-nav button,
+#customer-bottom-nav a {
+    pointer-events: auto !important;
+}
+
+#page-customer-booking .booking-submit-wrap,
+#page-customer-booking .booking-submit-btn {
+    pointer-events: auto !important;
+}
+#page-customer-booking .booking-submit-btn {
+    position: relative !important;
+    z-index: 2 !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+}
+</style>
+
+<script id="booking-ux-auto-scroll-and-duration-final">
+(function(){
+    const MAX_BOOKING_HOURS = 6;
+    const SCROLL_GAP = 12;
+
+    function getBookingPage(){
+        return document.getElementById('page-customer-booking');
+    }
+
+    function scrollBookingFieldToTop(target){
+        if(!target) return;
+        const page = getBookingPage();
+        if(!page || page.classList.contains('hidden')) return;
+
+        // Tunggu satu frame supaya perubahan select/date selesai dirender.
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                const rect = target.getBoundingClientRect();
+                const top = Math.max(0, window.scrollY + rect.top - SCROLL_GAP);
+                window.scrollTo({ top, behavior: 'smooth' });
+            }, 60);
+        });
+    }
+
+    function scrollForControl(control){
+        if(!control) return;
+        const card = control.closest('.booking-glass-card, .booking-sparing-card, .booking-date-card');
+        scrollBookingFieldToTop(card || control);
+    }
+
+    function updateDurationOptionsFinal(){
+        const tgl = document.getElementById('cust-tanggal')?.value || '';
+        const jamSelect = document.getElementById('cust-jam');
+        const durasiSelect = document.getElementById('cust-durasi');
+        const status = document.getElementById('cust-status')?.value || 'Non-Member';
+        if(!durasiSelect) return;
+
+        const startJam = jamSelect?.value || '';
+        const previous = durasiSelect.value || '1';
+        durasiSelect.innerHTML = '';
+
+        if(!tgl || !startJam){
+            const opt = document.createElement('option');
+            opt.value = '1';
+            opt.textContent = 'Booking 1 Jam';
+            durasiSelect.appendChild(opt);
+            durasiSelect.value = '1';
+            return;
+        }
+
+        /*
+         * Sumber kebenaran = jam yang benar-benar tampil kosong di #cust-jam.
+         * Jika 07,08,09 kosong dan memilih 07 -> 1,2,3 jam.
+         * Jika 09 terisi -> hanya 1,2 jam.
+         * 18:00 selalu dianggap OFF dan tidak boleh dilewati.
+         */
+        const available = new Set();
+
+        // Gunakan cache yang sudah diisi loadJamKosongCustomer().
+        if(window.__customerAvailableHours instanceof Set){
+            window.__customerAvailableHours.forEach(j => available.add(String(j).trim()));
+        }
+
+        // Fallback: baca langsung option dropdown jam.
+        Array.from(jamSelect?.options || []).forEach(opt => {
+            const value = String(opt.value || '').trim();
+            if(/^\d{2}:\d{2}$/.test(value)) available.add(value);
+        });
+
+        // Jam mulai dipastikan tersedia karena dipilih dari daftar jam kosong.
+        available.add(startJam);
+
+        const list = Array.isArray(window.listJam) ? window.listJam : [
+            '07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00',
+            '15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00'
+        ];
+
+        const startIndex = list.indexOf(startJam);
+        let maxDurasi = 1;
+
+        if(startIndex >= 0){
+            for(let d = 2; d <= MAX_BOOKING_HOURS; d++){
+                let valid = true;
+                for(let offset = 0; offset < d; offset++){
+                    const jam = list[startIndex + offset];
+                    if(!jam || jam === '18:00' || !available.has(jam)){
+                        valid = false;
+                        break;
+                    }
+                }
+                if(!valid) break;
+                maxDurasi = d;
+            }
+        }
+
+        for(let d = 1; d <= maxDurasi; d++){
+            const opt = document.createElement('option');
+            opt.value = String(d);
+            opt.textContent = `Booking ${d} Jam`;
+            durasiSelect.appendChild(opt);
+        }
+
+        durasiSelect.value = Array.from(durasiSelect.options).some(o => o.value === previous)
+            ? previous
+            : '1';
+
+        if(typeof updateCustomerSelectedPrice === 'function'){
+            try { updateCustomerSelectedPrice(); } catch(e) {}
+        }
+    }
+
+    // Override terakhir agar selalu memakai logika berurutan di atas.
+    window.updateCustomerDurationOptions = updateDurationOptionsFinal;
+
+    function initBookingAutoScroll(){
+        const page = getBookingPage();
+        if(!page || page.dataset.autoScrollReady === '1') return;
+        page.dataset.autoScrollReady = '1';
+
+        // Tanggal -> tanggal berada di atas layar.
+        const date = document.getElementById('cust-tanggal');
+        if(date) date.addEventListener('change', () => {
+            scrollForControl(date);
+        });
+
+        // Semua select booking: setelah memilih, field tersebut naik ke atas layar.
+        page.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', () => {
+                // Durasi dihitung dulu agar pilihan 2/3/4 dst langsung tersedia.
+                if(select.id === 'cust-jam') updateDurationOptionsFinal();
+                scrollForControl(select);
+            });
+        });
+
+        // Input teks/nomor: saat mulai diisi, bawa field ke posisi nyaman di atas.
+        page.querySelectorAll('input:not([type="hidden"]):not([type="date"])').forEach(input => {
+            input.addEventListener('focus', () => scrollForControl(input), {passive:true});
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initBookingAutoScroll);
+    window.addEventListener('load', initBookingAutoScroll);
+
+    // showPage() dapat menampilkan halaman booking setelah DOM siap.
+    const oldShowPage = window.showPage;
+    if(typeof oldShowPage === 'function' && !oldShowPage.__bookingUxWrapped){
+        const wrappedShowPage = function(id){
+            const result = oldShowPage.apply(this, arguments);
+            if(id === 'customer-booking'){
+                setTimeout(initBookingAutoScroll, 30);
+            }
+            return result;
+        };
+        wrappedShowPage.__bookingUxWrapped = true;
+        window.showPage = wrappedShowPage;
+    }
+})();
+</script>
 
