@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOKING LAPANGAN</title>
+    <title>SANDAGA MINISOCCER 2</title>
 
     <!-- Penghubung Manifest untuk Android/Chrome -->
     <link rel="manifest" href="manifest.json">
@@ -5562,6 +5562,17 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 }
 </style>
 
+
+<style id="customer-submenu-clean-no-page-title-v1">
+/* Jadwal, Harga, Booking, Sparing langsung ke isi tanpa keterangan/judul halaman. */
+#page-customer-price > .customer-page-head,
+#page-customer-booking > .customer-page-head,
+#page-customer-sparring > .customer-page-head,
+#page-customer-schedule > .customer-page-head,
+#page-customer-schedule > .flex.justify-between.items-center { display:none !important; }
+#page-customer-price, #page-customer-booking, #page-customer-sparring, #page-customer-schedule { padding-top:.9rem !important; }
+@media(max-width:640px){#page-customer-price,#page-customer-booking,#page-customer-sparring,#page-customer-schedule{padding-top:.65rem !important;}}
+</style>
 </head>
 
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
@@ -5614,10 +5625,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 
 <!-- HALAMAN HARGA CUSTOMER -->
 <div id="page-customer-price" class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page">
-    <div class="customer-page-head">
-        <div class="customer-price-page-title"><h2>💰 LIHAT HARGA</h2></div>
-        <button type="button" onclick="showPage('home')"></button>
-    </div>
     <div class="customer-price-card" aria-label="Daftar harga lapangan">
     <div class="customer-price-head">
         <h3 class="customer-price-title">💰 DAFTAR HARGA LAPANGAN</h3>
@@ -5670,10 +5677,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 
         <!-- HALAMAN BOOKING CUSTOMER -->
 <div id="page-customer-booking" class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page customer-booking-page">
-    <div class="customer-page-head">
-        <div class="w-full text-center"><h2>BOOKING LAPANGAN</h2></div>
-        <button type="button" onclick="showPage('home')"></button>
-    </div>
         <form onsubmit="submitCustomerBooking(event)" class="customer-booking-clean-form">
     <input type="hidden" id="cust-tanggal-booking">
 
@@ -5793,10 +5796,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 
         <!-- HALAMAN SPARRING CUSTOMER -->
 <div class="sub-menu-modern glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-sparring">
-    <div class="customer-page-head">
-        <div class="w-full text-center"><h2>⚽ SPARING</h2></div>
-        <button type="button" onclick="showPage('home')"></button>
-    </div>
     <div id="customer-sparring-list" class="space-y-3">
         <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparing...</div>
     </div>
@@ -5805,9 +5804,6 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
         <!-- HALAMAN JADWAL CUSTOMER -->
 <div class="sub-menu-modern glass-panel p-3 sm:p-6 rounded-2xl hidden" id="page-customer-schedule">
 
-<div class="flex justify-between items-center mb-4">
-<h2 class="font-black text-base sm:text-lg text-slate-900 drop-shadow-sm w-full text-center">📅 BOOKING SCHEDULE</h2>
-</div>
 <div class="flex flex-col items-center justify-center mb-4 gap-3">
 <div class="flex items-center justify-center gap-2 p-1.5 rounded-xl border border-white/20 w-full sm:w-auto">
 <select class="p-1.5 rounded-lg text-xs glass-input font-bold text-center" id="customer-filter-periode-jadwal" onchange="renderCustomerGridJadwal()">
@@ -6986,29 +6982,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Hilangkan jika tanggal sudah lewat.
             if(tanggal < todayKey) return false;
 
-            // Jika tanggalnya hari ini, cek JAM main juga.
-            // Contoh: sekarang 15/08 jam 17:00 dan sparing jam 20:00
-            // masih boleh tampil. Setelah lewat jam 20:00, kartu hilang.
+            // Jika tanggalnya hari ini, hilangkan segera setelah jam main lewat.
             if(tanggal === todayKey){
                 const jamText = String(item.jam || '').trim();
                 const jamMatch = jamText.match(/(\d{1,2})(?::(\d{2}))?/);
-
                 if(jamMatch){
                     const hour = Number(jamMatch[1]);
                     const minute = Number(jamMatch[2] || 0);
-
                     if(Number.isFinite(hour) && hour >= 0 && hour <= 23 &&
                        Number.isFinite(minute) && minute >= 0 && minute <= 59){
-                        const waktuMain = new Date(
-                            now.getFullYear(),
-                            now.getMonth(),
-                            now.getDate(),
-                            hour,
-                            minute,
-                            0,
-                            0
-                        );
-
+                        const waktuMain = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
                         if(now >= waktuMain) return false;
                     }
                 }
