@@ -5838,6 +5838,9 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
         <!-- HALAMAN BOOKING SCHEDULE -->
         <div class="sub-menu-modern glass-panel p-3 sm:p-6 rounded-2xl hidden" id="page-booking-schedule">
 
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-black text-base sm:text-lg text-slate-900 drop-shadow-sm w-full text-center">📅 BOOKING SCHEDULE</h2>
+</div>
 <div class="flex flex-col items-center justify-center mb-4 gap-3">
 <div class="flex items-center justify-center gap-2 p-1.5 rounded-xl border border-white/20 w-full sm:w-auto">
 <select class="p-1.5 rounded-lg text-xs glass-input font-bold text-center" id="filter-periode-jadwal" onchange="renderGridJadwal()">
@@ -6498,6 +6501,12 @@ html body #page-customer-booking form.customer-booking-clean-form > #customer-pa
 
         document.addEventListener('DOMContentLoaded', () => {
             initCustomerBrowserHistory();
+        });
+
+        // Saat pertama kali aplikasi dibuka, langsung tampilkan menu Booking Customer.
+        // Dijalankan setelah inisialisasi history agar tombol Back HP tetap normal.
+        document.addEventListener('DOMContentLoaded', () => {
+            window.showPage('customer-booking');
         });
 
         // FUNGSI MODAL ADMIN PASSWORD
@@ -14054,142 +14063,6 @@ html body #page-customer-booking .booking-submit-wrap {
      * onchange="...; updateCustomerDurationOptions()"
      */
     window.updateCustomerDurationOptions = finalUpdateCustomerDurationOptions;
-})();
-</script>
-
-
-<script id="duration-robust-final">
-(function () {
-    function refreshDurationFromVisibleJamOptions() {
-        const tanggal = document.getElementById('cust-tanggal');
-        const jamSelect = document.getElementById('cust-jam');
-        const durasiSelect = document.getElementById('cust-durasi');
-        const statusSelect = document.getElementById('cust-status');
-
-        if (!tanggal || !jamSelect || !durasiSelect) return;
-
-        const tgl = tanggal.value || '';
-        const startJam = jamSelect.value || '';
-        const status = statusSelect?.value || 'Non-Member';
-
-        if (!tgl || !startJam) {
-            durasiSelect.innerHTML = '<option value="1">Booking 1 Jam</option>';
-            return;
-        }
-
-        // Ambil semua jam yang BENAR-BENAR ada di dropdown jam.
-        const available = new Set();
-        Array.from(jamSelect.options).forEach(opt => {
-            const value = String(opt.value || '').trim();
-            const text = String(opt.textContent || '').trim();
-
-            if (/^\d{2}:\d{2}$/.test(value)) {
-                available.add(value);
-            } else {
-                const m = text.match(/^(\d{2}:\d{2})\s+WITA/i);
-                if (m) available.add(m[1]);
-            }
-        });
-
-        // Jam yang sedang dipilih pasti tersedia.
-        available.add(startJam);
-
-        // Gunakan daftar jam yang sama dengan jadwal utama.
-        const scheduleHours = [
-            "07:00","08:00","09:00","10:00","11:00","12:00",
-            "13:00","14:00","15:00","16:00","17:00","18:00",
-            "19:00","20:00","21:00","22:00","23:00","24:00"
-        ];
-
-        const start = scheduleHours.indexOf(startJam);
-        let max = 1;
-
-        if (start >= 0) {
-            for (let duration = 2; duration <= 6; duration++) {
-                let contiguous = true;
-
-                for (let offset = 0; offset < duration; offset++) {
-                    const h = scheduleHours[start + offset];
-
-                    if (!h || h === '18:00' || !available.has(h)) {
-                        contiguous = false;
-                        break;
-                    }
-                }
-
-                if (!contiguous) break;
-                max = duration;
-            }
-        }
-
-        // Bangun ulang dropdown durasi.
-        const old = durasiSelect.value;
-        const frag = document.createDocumentFragment();
-
-        for (let duration = 1; duration <= max; duration++) {
-            let total = 0;
-
-            if (typeof getCustomerBookingTotal === 'function') {
-                total = getCustomerBookingTotal(tgl, startJam, duration, status);
-            }
-
-            const option = document.createElement('option');
-            option.value = String(duration);
-            option.textContent =
-                `Booking ${duration} Jam — ` +
-                (typeof formatRupiahCustomer === 'function'
-                    ? formatRupiahCustomer(total)
-                    : 'Rp 0');
-
-            frag.appendChild(option);
-        }
-
-        durasiSelect.replaceChildren(frag);
-
-        if (Array.from(durasiSelect.options).some(o => o.value === old)) {
-            durasiSelect.value = old;
-        } else {
-            durasiSelect.value = '1';
-        }
-
-        if (typeof updateCustomerSelectedPrice === 'function') {
-            updateCustomerSelectedPrice();
-        }
-    }
-
-    // Pastikan fungsi global yang dipanggil inline onchange memakai versi ini.
-    window.updateCustomerDurationOptions = refreshDurationFromVisibleJamOptions;
-
-    function bindDurationRepair() {
-        const jamSelect = document.getElementById('cust-jam');
-        const durasiSelect = document.getElementById('cust-durasi');
-
-        if (!jamSelect || !durasiSelect) return;
-
-        // Tangkap change secara langsung, terpisah dari inline handler.
-        jamSelect.addEventListener('change', refreshDurationFromVisibleJamOptions, true);
-
-        // Jika loadJamKosongCustomer mengisi ulang option setelah async load,
-        // perubahan option tetap akan memicu perhitungan durasi.
-        const observer = new MutationObserver(() => {
-            if (jamSelect.value) {
-                refreshDurationFromVisibleJamOptions();
-            }
-        });
-
-        observer.observe(jamSelect, { childList: true });
-
-        // Beri kesempatan bagi data/cache async selesai mengisi dropdown.
-        setTimeout(refreshDurationFromVisibleJamOptions, 100);
-        setTimeout(refreshDurationFromVisibleJamOptions, 500);
-        setTimeout(refreshDurationFromVisibleJamOptions, 1000);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindDurationRepair, { once: true });
-    } else {
-        bindDurationRepair();
-    }
 })();
 </script>
 
