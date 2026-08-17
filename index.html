@@ -5475,6 +5475,52 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 }
 </style>
 
+
+<style id="mobile-fixed-background-final">
+/* FIX LATAR HP: gunakan layer fixed terpisah agar Android tidak menggeser
+   latar saat halaman booking di-scroll. Tidak mengubah fungsi/JS. */
+html {
+    min-height: 100%;
+    background: transparent !important;
+}
+
+body {
+    position: relative !important;
+    isolation: isolate !important;
+    background: transparent !important;
+}
+
+body::before {
+    content: "";
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100dvh !important;
+    background-image: url('latar.png') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform !important;
+}
+
+@media (min-width: 641px) {
+    body::before {
+        background-image: url('latardekstop.png') !important;
+    }
+}
+
+@media (max-width: 640px) {
+    body::before {
+        background-image: url('latar.png') !important;
+    }
+}
+</style>
 </head>
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
@@ -5501,29 +5547,11 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 </form>
 </div>
 </div>
-<!-- HALAMAN UTAMA / BERANDA (CUSTOMER BOOKING) -->
-<div class="p-4 sm:p-6 customer-home-dashboard" id="page-home">
-<section class="customer-welcome-screen">
-<div class="customer-welcome-copy">
-<p class="customer-welcome-description">
-                        Booking lapangan jadi lebih mudah, cepat, dan praktis.
-                        Cek jadwal, lihat harga, booking, atau cari lawan sparing dalam satu aplikasi.
-                    </p>
-<div class="customer-welcome-hint">
-<span class="customer-welcome-hint-dot"></span>
-                        Pilih menu di bawah untuk mulai
-                    </div>
-</div>
-</section>
-<!-- Menu gambar lama tidak lagi ditampilkan.
-                 Navigasi utama menggunakan bottom navigation. -->
-</div>
 <!-- HALAMAN HARGA CUSTOMER -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-price">
 <div aria-label="Daftar harga lapangan" class="customer-price-card">
 <div class="customer-price-head">
-<h3 class="customer-price-title">💰 DAFTAR HARGA LAPANGAN</h3>
-<span class="customer-price-badge">PER 1 JAM</span>
+<h3 class="customer-price-title">💰 DAFTAR HARGA SEWA LAPANGAN PERJAM</h3>
 </div>
 <div class="customer-price-grid">
 <div class="customer-price-group">
@@ -5569,7 +5597,7 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 </div>
 </div>
 </div>
-<!-- HALAMAN BOOKING CUSTOMER -->
+<!-- HALAMAN BOOKING CUSTOMER — HALAMAN UTAMA CUSTOMER (BERANDA CUSTOMER DIHAPUS) -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page customer-booking-page" id="page-customer-booking">
 <form class="customer-booking-clean-form" onsubmit="submitCustomerBooking(event)">
 <input id="cust-tanggal-booking" type="hidden"/>
@@ -5702,7 +5730,7 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 <div class="glass-panel p-3 sm:p-6 rounded-2xl hidden" id="page-admin-dashboard">
 <div class="flex justify-between items-center mb-4 border-b border-slate-900/20 pb-3">
 <h2 class="font-black text-base sm:text-lg text-slate-900 drop-shadow-sm">PANEL ADMIN DASHBOARD</h2>
-<button class="bg-white/40 hover:bg-white/60 text-slate-900 px-3 py-1.5 rounded-lg text-xs font-bold backdrop-blur border border-white/50 shadow" onclick="showPage('home')" type="button">Keluar / Beranda</button>
+<button class="bg-white/40 hover:bg-white/60 text-slate-900 px-3 py-1.5 rounded-lg text-xs font-bold backdrop-blur border border-white/50 shadow" onclick="showPage('customer-booking')" type="button">Keluar / Beranda</button>
 </div>
 <div class="flex flex-col gap-3 mb-6">
 <button class="glass-btn p-3 sm:p-4 rounded-xl font-bold shadow-lg transition text-xs sm:text-sm w-full" onclick="showPage('booking')">BOOKING</button>
@@ -6266,7 +6294,6 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
         // dengan tombol kembali custom di halaman customer.
         // =========================================================
         const CUSTOMER_HISTORY_PAGES = new Set([
-            'home',
             'customer-schedule',
             'customer-price',
             'customer-booking',
@@ -6280,11 +6307,11 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
             customerHistoryReady = true;
 
             const currentPage = document.querySelector('main > div:not(.hidden)');
-            const currentId = currentPage ? currentPage.id.replace(/^page-/, '') : 'home';
+            const currentId = currentPage ? currentPage.id.replace(/^page-/, '') : 'customer-booking';
 
-            // Satu state awal agar Back HP bisa kembali dari submenu ke Home.
+            // Satu state awal agar Back HP bisa kembali ke Booking sebagai halaman utama customer.
             history.replaceState(
-                { sandagaCustomer: true, page: CUSTOMER_HISTORY_PAGES.has(currentId) ? currentId : 'home' },
+                { sandagaCustomer: true, page: CUSTOMER_HISTORY_PAGES.has(currentId) ? currentId : 'customer-booking' },
                 '',
                 location.href
             );
@@ -6295,13 +6322,13 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
                     window.showPage(state.page, true);
                 } else {
                     // Jika state tidak berasal dari navigasi customer, tetap
-                    // tampilkan Home agar perilakunya sama seperti tombol kembali.
-                    window.showPage('home', true);
+                    // Tidak ada Home customer lagi; kembali ke Booking sebagai halaman utama.
+                    window.showPage('customer-booking', true);
                 }
             });
         }
 
-        window.kembaliDariJadwal = () => showPage(window.adminSessionActive ? 'admin-dashboard' : 'home');
+        window.kembaliDariJadwal = () => showPage(window.adminSessionActive ? 'admin-dashboard' : 'customer-booking');
 
         window.showPage = (id, fromBrowserBack = false) => {
             const currentPage = document.querySelector('main > div:not(.hidden)');
@@ -6334,7 +6361,7 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
             if(id === 'keluar') cekSaldoSumberCash();
             if(id === 'masuk') updateDropdownTimMasuk();
             if(id === 'monthly-recap') renderMonthlyRecap();
-            if(id === 'home') { window.adminSessionActive = false; setDefaultDates(); }
+            if(id === 'customer-booking') { window.adminSessionActive = false; setDefaultDates(); }
             if(id === 'customer-booking') { setDefaultDates(); loadJamKosongCustomer(); updateCustomerSelectedPrice(); }
             if(id === 'customer-price') { updateCustomerSelectedPrice(); }
             if(id === 'customer-schedule') { initCustomerPeriodeDropdown(); renderCustomerGridJadwal(); }
@@ -9809,7 +9836,7 @@ body:not(:has(#page-home:not(.hidden))):not(:has(#page-customer-schedule:not(.hi
 
     document.addEventListener('DOMContentLoaded', function(){
         const visiblePage = document.querySelector('main > div:not(.hidden)');
-        const id = visiblePage ? visiblePage.id.replace(/^page-/, '') : 'home';
+        const id = visiblePage ? visiblePage.id.replace(/^page-/, '') : 'customer-booking';
         window.updateCustomerBottomNav(customerPages.has(id) ? id : 'home');
     });
 })();
@@ -10574,6 +10601,1182 @@ body.booking-success-open{overflow:hidden;}
   document.addEventListener('DOMContentLoaded',setup); window.addEventListener('load',setup);
 })();
 </script>
+
+<style id="customer-price-final-clean-v1">
+/* FINAL — HARGA CUSTOMER: heading tengah, tanpa badge, tanpa frame luar */
+#page-customer-price {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+#page-customer-price .customer-price-card {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+#page-customer-price .customer-price-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 0 .8rem !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#page-customer-price .customer-price-title {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    color: #315c32 !important;
+    font-weight: 950 !important;
+    letter-spacing: .02em !important;
+}
+
+#page-customer-price .customer-price-badge {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-price .customer-price-title {
+        font-size: .78rem !important;
+        line-height: 1.25 !important;
+        white-space: nowrap !important;
+    }
+}
+</style>
+
+
+<style id="customer-price-remove-outer-frame-final">
+/* FINAL: HILANGKAN TOTAL FRAME/AREA HIJAU BESAR DI LUAR KARTU HARGA */
+#page-customer-price .customer-price-card,
+#page-customer-price .customer-price-head {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+#page-customer-price .customer-price-card {
+    padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Jangan beri frame tambahan pada area pembungkus judul. */
+#page-customer-price .customer-price-head {
+    padding: 0 !important;
+    margin-top: 0 !important;
+}
+</style>
+
+<style id="customer-price-outer-frame-kill-final">
+/* HAPUS TOTAL FRAME LUAR HALAMAN HARGA — KARTU HARGA DI DALAM TETAP */
+#page-customer-price {
+    background: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border-radius: 0 !important;
+}
+
+#page-customer-price::before,
+#page-customer-price::after {
+    display: none !important;
+    content: none !important;
+}
+
+#page-customer-price .customer-price-card {
+    background: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+</style>
+
+<style id="customer-price-single-wrapper-final">
+/* =========================================================
+   HARGA CUSTOMER — SATU FRAME PEMBUNGKUS SAJA
+   Semua frame/kaca lama di dalam area Harga di-reset.
+   Frame baru hanya #page-customer-price.
+   Kartu Senin-Kamis / Jumat / Sabtu-Minggu tetap dipertahankan.
+   ========================================================= */
+
+/* 1. FRAME PEMBUNGKUS UTAMA — SATU-SATUNYA KACA LUAR */
+#page-customer-price {
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background: rgba(236, 250, 232, .48) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255,255,255,.62) !important;
+    border-radius: 28px !important;
+    box-shadow:
+        0 18px 45px rgba(35,110,42,.12),
+        inset 0 1px 0 rgba(255,255,255,.72),
+        inset 0 -1px 0 rgba(255,255,255,.16) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+}
+
+/* Hilangkan kilau/pseudo-frame tambahan */
+#page-customer-price::before,
+#page-customer-price::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* 2. HILANGKAN FRAME KACA LAMA DI DALAM */
+#page-customer-price .customer-price-card {
+    box-sizing: border-box !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#page-customer-price .customer-price-head {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+}
+
+/* Judul tetap rata tengah */
+#page-customer-price .customer-price-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 0 .8rem !important;
+}
+
+#page-customer-price .customer-price-title {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+/* Badge PER 1 JAM tetap hilang */
+#page-customer-price .customer-price-badge {
+    display: none !important;
+}
+
+/* 3. JANGAN BUAT FRAME KEDUA DI GRID */
+#page-customer-price .customer-price-grid {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Kartu 3 hari tetap sebagai kartu individual */
+#page-customer-price .customer-price-group {
+    border-radius: 16px !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-price {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: .72rem !important;
+        border-radius: 24px !important;
+    }
+
+    #page-customer-price .customer-price-title {
+        font-size: .78rem !important;
+        line-height: 1.25 !important;
+        white-space: nowrap !important;
+    }
+}
+</style>
+
+<style id="customer-price-clean-slate-final-v5">
+/* =========================================================
+   HARGA CUSTOMER V5 — CLEAN SLATE
+   SATU FRAME PEMBUNGKUS SAJA.
+   Semua frame/kaca lama di area Harga dinonaktifkan.
+   Kartu 3 hari tetap dipertahankan sebagai kartu isi.
+   ========================================================= */
+
+/* 1) SATU-SATUNYA FRAME: pembungkus halaman Harga */
+#page-customer-price {
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background: rgba(236,250,232,.50) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+    border-radius: 28px !important;
+    box-shadow:
+        0 18px 45px rgba(35,110,42,.12),
+        inset 0 1px 0 rgba(255,255,255,.72),
+        inset 0 -1px 0 rgba(255,255,255,.16) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+    backdrop-filter: blur(20px) saturate(135%) !important;
+}
+
+/* Hilangkan seluruh pseudo-element/kilau lama yang pernah dipakai sebagai frame */
+#page-customer-price::before,
+#page-customer-price::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* 2) RESET TOTAL INNER WRAPPER — tidak boleh menjadi kaca/frame kedua */
+#page-customer-price .customer-price-card,
+#page-customer-price .customer-price-head,
+#page-customer-price .customer-price-grid {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-customer-price .customer-price-card {
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+#page-customer-price .customer-price-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 0 .8rem !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
+#page-customer-price .customer-price-title {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+#page-customer-price .customer-price-badge {
+    display: none !important;
+}
+
+#page-customer-price .customer-price-grid {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* 3) KARTU HARIAN: tetap sebagai kartu isi, bukan frame pembungkus */
+#page-customer-price .customer-price-group {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+/* 4) HP: hanya atur ruang di dalam satu frame */
+@media (max-width: 640px) {
+    #page-customer-price {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: .72rem !important;
+        border-radius: 24px !important;
+    }
+
+    #page-customer-price .customer-price-card {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+</style>
+
+
+
+<style id="customer-price-table-glass-v7">
+/* =========================================================
+   HARGA CUSTOMER V7 — GLASS KHUSUS KARTU TABEL
+   Tidak membuat frame luar baru.
+   Hanya 3 kartu tabel yang diberi kaca lebih pekat + rounded.
+   ========================================================= */
+#page-customer-price .customer-price-group {
+    background: rgba(255,255,255,.84) !important;
+    background-image: linear-gradient(
+        135deg,
+        rgba(255,255,255,.90),
+        rgba(236,248,235,.78)
+    ) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 18px !important;
+    box-shadow:
+        0 10px 28px rgba(35,70,45,.12),
+        inset 0 1px 0 rgba(255,255,255,.92) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
+    backdrop-filter: blur(14px) saturate(125%) !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+}
+
+/* Bagian isi tabel tetap transparan agar kaca kartu bekerja sebagai satu kesatuan. */
+#page-customer-price .customer-price-label,
+#page-customer-price .customer-price-row {
+    background: transparent !important;
+}
+
+/* Header hari tetap hijau, tetapi mengikuti sudut rounded kartu. */
+#page-customer-price .customer-price-group h4 {
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+/* Garis tabel dibuat lebih lembut supaya tidak terlalu ramai. */
+#page-customer-price .customer-price-label {
+    border-bottom-color: rgba(95,130,95,.18) !important;
+}
+#page-customer-price .customer-price-row {
+    border-top-color: rgba(95,130,95,.16) !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-price .customer-price-group {
+        border-radius: 17px !important;
+        box-shadow:
+            0 8px 22px rgba(35,70,45,.10),
+            inset 0 1px 0 rgba(255,255,255,.90) !important;
+    }
+}
+</style>
+
+<style id="customer-price-title-glass-v9">
+/* Judul Harga V9 — satu frame kaca, ukurannya mengikuti area 3 tabel */
+#page-customer-price .customer-price-head{
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    margin: 0 0 .8rem !important;
+    padding: .72rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: rgba(248,253,247,.88) !important;
+    background-image: linear-gradient(145deg,rgba(255,255,255,.93),rgba(228,243,225,.84)) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 7px 18px rgba(35,70,38,.12), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
+    backdrop-filter: blur(14px) saturate(125%) !important;
+}
+
+#page-customer-price .customer-price-head::before,
+#page-customer-price .customer-price-head::after{
+    content: none !important;
+    display: none !important;
+}
+
+#page-customer-price .customer-price-title{
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    color: #315c32 !important;
+}
+
+@media (max-width:640px){
+    /* Di HP lebarnya sama dengan satu tabel yang tampil per baris */
+    #page-customer-price .customer-price-head{
+        width: 100% !important;
+        min-height: 50px !important;
+        padding: .65rem .8rem !important;
+        margin-bottom: .65rem !important;
+        border-radius: 17px !important;
+        background: rgba(248,253,247,.92) !important;
+        background-image: linear-gradient(145deg,rgba(255,255,255,.95),rgba(228,243,225,.89)) !important;
+        box-shadow: 0 7px 17px rgba(35,70,38,.13), inset 0 1px 0 rgba(255,255,255,.84) !important;
+        -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
+        backdrop-filter: blur(12px) saturate(120%) !important;
+    }
+}
+</style>
+
+
+<!-- FINAL PATCH: SPARING TIDAK AUTO SCROLL KE BAWAH -->
+<script id="sparing-no-auto-scroll-final">
+(function(){
+    function resetSparingScroll(){
+        // Jangan biarkan posisi scroll lama dari halaman sebelumnya
+        // terbawa ketika menu Sparing dibuka.
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }
+
+    function wrapSparingNavigation(){
+        const oldShowPage = window.showPage;
+        if(typeof oldShowPage !== 'function' || oldShowPage.__sparingNoAutoScroll) return;
+
+        const wrappedShowPage = function(id){
+            const result = oldShowPage.apply(this, arguments);
+
+            if(id === 'customer-sparring'){
+                // Jalankan setelah DOM halaman Sparing selesai ditampilkan.
+                resetSparingScroll();
+                requestAnimationFrame(() => {
+                    resetSparingScroll();
+                    setTimeout(resetSparingScroll, 40);
+                    setTimeout(resetSparingScroll, 160);
+                });
+            }
+
+            return result;
+        };
+
+        wrappedShowPage.__sparingNoAutoScroll = true;
+        window.showPage = wrappedShowPage;
+    }
+
+    // showPage sudah tersedia pada saat script ini dimuat, tetapi gunakan
+    // DOMContentLoaded juga sebagai pengaman jika urutan script berubah.
+    wrapSparingNavigation();
+    document.addEventListener('DOMContentLoaded', wrapSparingNavigation);
+})();
+</script>
+
+
+<style id="mobile-card-spacing-and-schedule-glass-v14">
+/* V14 — HP ONLY
+   1) Kartu isi submenu diberi ruang kiri/kanan yang lebih lega.
+   2) Lebar kartu disamakan secara visual dengan dock bawah.
+   3) Tabel Jadwal memakai satu bahasa kaca + rounded yang konsisten.
+   Desktop tidak diubah.
+*/
+@media (max-width: 640px) {
+    /* ===== KARTU SUBMENU ===== */
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card {
+        width: calc(100% - 8px) !important;
+        max-width: calc(100% - 8px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Jangan biarkan grid/list memaksa kartu kembali ke tepi. */
+    #page-customer-sparring #customer-sparring-list,
+    #page-customer-price .customer-price-grid,
+    #page-customer-booking form.customer-booking-clean-form {
+        width: 100% !important;
+    }
+
+    /* ===== TABEL JADWAL CUSTOMER ===== */
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap {
+        width: calc(100% - 8px) !important;
+        max-width: calc(100% - 8px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        border-radius: 20px !important;
+        background: rgba(120, 180, 240, .28) !important;
+        border: 1px solid rgba(255,255,255,.72) !important;
+        box-shadow:
+            0 10px 24px rgba(15,23,42,.12),
+            inset 0 1px 0 rgba(255,255,255,.72) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+        backdrop-filter: blur(18px) saturate(135%) !important;
+    }
+
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table {
+        width: 100% !important;
+        margin: 0 !important;
+        border: 0 !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        background: rgba(255,255,255,.90) !important;
+        box-shadow: none !important;
+        -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+        backdrop-filter: blur(10px) saturate(120%) !important;
+    }
+
+    /* Sudut header dan sudut baris terakhir mengikuti radius tabel.
+       Tidak ada lagi sudut biru kedua yang berbeda bentuk. */
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table thead tr:first-child th:first-child {
+        border-top-left-radius: 18px !important;
+    }
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table thead tr:first-child th:last-child {
+        border-top-right-radius: 18px !important;
+    }
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 18px !important;
+    }
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 18px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap {
+        width: calc(100% - 6px) !important;
+        max-width: calc(100% - 6px) !important;
+    }
+}
+</style>
+
+<style id="mobile-card-alignment-v15-final">
+/* V15 — HP ONLY
+   Samakan lebar kartu dengan dock dan pusatkan semuanya.
+   Desktop tidak disentuh.
+*/
+@media (max-width:640px){
+    /* Area submenu memakai lebar yang sama dengan dock:
+       viewport - 24px (12px kiri + 12px kanan). */
+    body:has(#page-home.hidden) main{
+        width:calc(100vw - 24px) !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+    }
+
+    #page-customer-price,
+    #page-customer-booking,
+    #page-customer-schedule,
+    #page-customer-sparring{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Semua kartu utama mengikuti tepat lebar area submenu/dock. */
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Harga: grid tidak boleh membuat kartu bergeser ke kiri/kanan. */
+    #page-customer-price .customer-price-grid,
+    #page-customer-price .customer-price-card{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Booking: form dan semua kelompok card tetap simetris. */
+    #page-customer-booking form.customer-booking-clean-form{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Sparing: list dan card benar-benar satu garis kiri/kanan. */
+    #page-customer-sparring #customer-sparring-list{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Jadwal: tabel jangan terdorong oleh margin internal. */
+    #page-customer-schedule > *,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods{
+        box-sizing:border-box !important;
+    }
+
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        padding:0 !important;
+        overflow:hidden !important;
+        border-radius:20px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+    }
+}
+
+@media (max-width:380px){
+    body:has(#page-home.hidden) main{
+        width:calc(100vw - 18px) !important;
+    }
+}
+</style>
+
+
+<style id="mobile-card-exact-dock-width-v16">
+/* V16 — HP ONLY
+   Lebar semua card dibuat sedikit lebih kecil dari area halaman,
+   sehingga sisi kiri/kanan sejajar dengan dock bar yang secara visual
+   memang memiliki inset lebih besar. Desktop tidak disentuh.
+*/
+@media (max-width:640px){
+    #page-customer-price,
+    #page-customer-booking,
+    #page-customer-schedule,
+    #page-customer-sparring{
+        box-sizing:border-box !important;
+    }
+
+    /* Semua kartu utama: 5px ruang tambahan di kiri dan kanan. */
+    #page-customer-price .customer-price-head,
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        width:calc(100% - 10px) !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Container yang membungkus kartu juga mengikuti ukuran yang sama,
+       tetapi tidak menggeser isi ke kiri. */
+    #page-customer-price .customer-price-card,
+    #page-customer-price .customer-price-grid,
+    #page-customer-booking form.customer-booking-clean-form,
+    #page-customer-sparring #customer-sparring-list,
+    #customer-booking-schedule-periods{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Jadwal: wrapper tabel dipusatkan dan tidak boleh melebar lagi. */
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        padding:0 !important;
+        overflow:hidden !important;
+        border-radius:20px !important;
+    }
+}
+
+@media (max-width:380px){
+    /* V15 sebelumnya membuat main menjadi 100vw - 18px pada layar kecil.
+       Kembalikan ke 24px total inset agar sejajar dengan dock. */
+    body:has(#page-home.hidden) main{
+        width:calc(100vw - 24px) !important;
+    }
+}
+</style>
+
+<style id="mobile-schedule-exact-dock-v18">
+/* V18 — KHUSUS JADWAL HP
+   Harga, Booking, dan Sparing sudah pas.
+   Jadwal saja yang disamakan persis dengan lebar dock bar.
+   Desktop tidak disentuh.
+*/
+@media (max-width:640px){
+    /* Frame pembungkus tabel jadwal mengikuti lebar dock bar. */
+    #page-customer-schedule #booking-schedule-grid-wrap{
+        width:calc(100% - 10px) !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+        overflow:hidden !important;
+        border-radius:20px !important;
+    }
+
+    /* Isi tabel mengikuti frame, bukan melebar sendiri. */
+    #page-customer-schedule #customer-booking-schedule-periods{
+        width:100% !important;
+        max-width:none !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    #page-customer-schedule #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        width:100% !important;
+        max-width:none !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+        border-radius:20px !important;
+    }
+
+    #page-customer-schedule #customer-booking-schedule-periods .customer-booking-single-week-table-wrap > table{
+        width:100% !important;
+        max-width:none !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+    }
+}
+
+@media (max-width:380px){
+    #page-customer-schedule #booking-schedule-grid-wrap{
+        width:calc(100% - 10px) !important;
+    }
+}
+</style>
+
+<!-- V24: SPARING ONLY — keep V19 widths/layout exactly; add sticky header + dark overlap + text fade -->
+<style id="v24-sparing-fade-only">
+@media (max-width:640px){
+    /* Header asli tetap tanpa card/background tambahan. */
+    body.sparing-v24-active > header{
+        position:sticky !important;
+        top:0 !important;
+        z-index:100 !important;
+        background:transparent !important;
+        border:0 !important;
+        box-shadow:none !important;
+        backdrop-filter:none !important;
+        -webkit-backdrop-filter:none !important;
+    }
+
+    /* Jangan mengubah ukuran/posisi card dari V19. */
+    body.sparing-v24-active #page-customer-sparring .customer-sparring-card{
+        overflow:hidden !important;
+        isolation:isolate !important;
+    }
+
+    /* Lapisan gelap hanya dibuat saat card benar-benar masuk area header. */
+    body.sparing-v24-active #page-customer-sparring .customer-sparring-card::after{
+        content:"" !important;
+        position:absolute !important;
+        left:0 !important;
+        right:0 !important;
+        top:0 !important;
+        height:var(--sparing-overlap-height, 0px) !important;
+        background:rgba(5,12,22,var(--sparing-dark-opacity,0)) !important;
+        backdrop-filter:blur(10px) saturate(75%) !important;
+        -webkit-backdrop-filter:blur(10px) saturate(75%) !important;
+        border-radius:inherit !important;
+        pointer-events:none !important;
+        z-index:20 !important;
+        transition:height .08s linear, opacity .08s linear !important;
+    }
+
+    /* Isi card tetap di atas layer, lalu opacity dikurangi berdasarkan overlap. */
+    body.sparing-v24-active #page-customer-sparring .customer-sparring-card > *{
+        position:relative !important;
+        z-index:21 !important;
+        transition:opacity .08s linear, filter .08s linear !important;
+        opacity:var(--sparing-text-opacity,1) !important;
+        filter:blur(var(--sparing-text-blur,0px)) !important;
+    }
+}
+</style>
+
+<script id="v24-sparing-fade-only-script">
+(function(){
+    const MOBILE_MAX = 640;
+    let raf = 0;
+
+    function isMobile(){
+        return window.innerWidth <= MOBILE_MAX;
+    }
+
+    function sparingVisible(){
+        const page = document.getElementById('page-customer-sparring');
+        return !!page && !page.classList.contains('hidden');
+    }
+
+    function updateSparingFade(){
+        raf = 0;
+        const header = document.querySelector('body > header');
+        const page = document.getElementById('page-customer-sparring');
+        if(!isMobile() || !header || !page || page.classList.contains('hidden')){
+            document.body.classList.remove('sparing-v24-active');
+            return;
+        }
+
+        document.body.classList.add('sparing-v24-active');
+
+        const headerRect = header.getBoundingClientRect();
+        const headerBottom = headerRect.bottom;
+        const headerTop = headerRect.top;
+
+        page.querySelectorAll('.customer-sparring-card').forEach(card=>{
+            const r = card.getBoundingClientRect();
+
+            // Hanya aktif ketika bagian atas card masuk ke area header.
+            const overlap = Math.max(0, Math.min(r.bottom, headerBottom) - Math.max(r.top, headerTop));
+
+            if(overlap <= 0 || r.top >= headerBottom){
+                card.style.setProperty('--sparing-overlap-height','0px');
+                card.style.setProperty('--sparing-dark-opacity','0');
+                card.style.setProperty('--sparing-text-opacity','1');
+                card.style.setProperty('--sparing-text-blur','0px');
+                return;
+            }
+
+            const cardHeight = Math.max(1, r.height);
+            const ratio = Math.min(1, overlap / Math.min(cardHeight, headerRect.height || cardHeight));
+
+            // Fade mulai halus, lalu menjadi sangat samar ketika card masuk lebih jauh.
+            const textOpacity = Math.max(0.05, 1 - ratio * 1.18);
+            const darkOpacity = Math.min(0.82, 0.42 + ratio * 0.42);
+            const textBlur = Math.min(2.2, ratio * 2.2);
+
+            card.style.setProperty('--sparing-overlap-height', overlap + 'px');
+            card.style.setProperty('--sparing-dark-opacity', darkOpacity.toFixed(3));
+            card.style.setProperty('--sparing-text-opacity', textOpacity.toFixed(3));
+            card.style.setProperty('--sparing-text-blur', textBlur.toFixed(2) + 'px');
+        });
+    }
+
+    function requestUpdate(){
+        if(!raf) raf=requestAnimationFrame(updateSparingFade);
+    }
+
+    // Bungkus showPage tanpa mengubah fungsi aslinya.
+    function install(){
+        if(typeof window.showPage !== 'function'){
+            setTimeout(install,120);
+            return;
+        }
+        if(window.showPage.__v24SparingFade) return;
+
+        const originalShowPage=window.showPage;
+        function wrappedShowPage(pageId){
+            const result=originalShowPage.apply(this,arguments);
+            setTimeout(requestUpdate,30);
+            setTimeout(requestUpdate,180);
+            return result;
+        }
+        wrappedShowPage.__v24SparingFade=true;
+        window.showPage=wrappedShowPage;
+
+        window.addEventListener('scroll',requestUpdate,{passive:true});
+        window.addEventListener('resize',requestUpdate,{passive:true});
+        window.addEventListener('orientationchange',requestUpdate,{passive:true});
+        requestUpdate();
+    }
+
+    if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',install,{once:true});
+    }else{
+        install();
+    }
+})();
+</script>
+
+
+<style id="v26-sparing-header-clip-only">
+/* V26: HANYA SPARING. Jangan ubah header global/menu lain. */
+@media (max-width: 640px) {
+  /* Header/logo global sengaja TIDAK disentuh. */
+  #page-customer-sparring { position: relative !important; }
+  #page-customer-sparring #customer-sparring-list { position: relative !important; }
+  #page-customer-sparring .customer-sparring-card {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
+  }
+  /* Teks tetap normal di area card. Layer gelap hanya menjadi penutup
+     ketika card berada di bawah header; tidak membuat frame baru. */
+  #page-customer-sparring .customer-sparring-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(8, 12, 20, .82);
+    backdrop-filter: blur(16px) saturate(70%);
+    -webkit-backdrop-filter: blur(16px) saturate(70%);
+    opacity: 0;
+    z-index: 20;
+    transition: opacity .08s linear;
+  }
+  /* JS menambahkan class hanya pada card yang sedang berada di area header. */
+  #page-customer-sparring .customer-sparring-card.v26-under-header::after { opacity: 1; }
+  #page-customer-sparring .customer-sparring-card.v26-under-header > * {
+    opacity: 0;
+    transition: opacity .08s linear;
+  }
+}
+</style>
+<script>
+(function(){
+  function initV26SparingClip(){
+    if(window.__v26SparingClip) return;
+    window.__v26SparingClip=true;
+    const header=document.querySelector('body > header');
+    const page=document.getElementById('page-customer-sparring');
+    if(!header || !page) return;
+    let ticking=false;
+    function update(){
+      ticking=false;
+      if(window.innerWidth>640 || page.classList.contains('hidden')){
+        page.querySelectorAll('.customer-sparring-card.v26-under-header').forEach(c=>c.classList.remove('v26-under-header'));
+        return;
+      }
+      const hr=header.getBoundingClientRect();
+      const cards=page.querySelectorAll('.customer-sparring-card');
+      cards.forEach(card=>{
+        const r=card.getBoundingClientRect();
+        // Hanya card yang benar-benar masuk ke area header yang diberi penutup.
+        const overlaps = r.top < hr.bottom && r.bottom > hr.top;
+        card.classList.toggle('v26-under-header', overlaps);
+      });
+    }
+    function schedule(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule,{passive:true});
+    const mo=new MutationObserver(schedule);
+    mo.observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
+    setTimeout(update,120);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initV26SparingClip); else initV26SparingClip();
+})();
+</script>
+
+
+<style id="booking-secondary-choice-v34">
+/* V34 — empat pilihan Booking memakai POPUP yang sama dengan Pilih Jam/Tanggal.
+   Select asli tetap dipakai untuk logic; hanya tampilan user yang diganti. */
+@media (max-width:640px){
+  #page-customer-booking .secondary-choice-trigger{
+    width:100%!important;height:58px!important;min-height:58px!important;
+    margin:0!important;padding:8px 12px!important;
+    border:0!important;border-radius:0!important;background:transparent!important;
+    box-shadow:none!important;color:#163d2b!important;
+    font:inherit!important;font-size:.82rem!important;font-weight:900!important;
+    line-height:1.15!important;text-align:center!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+    cursor:pointer!important;appearance:none!important;-webkit-appearance:none!important;
+  }
+  #page-customer-booking .secondary-choice-card{overflow:hidden!important;position:relative!important}
+  #page-customer-booking .secondary-choice-card > select.secondary-hidden-select{
+    position:absolute!important;width:1px!important;height:1px!important;
+    opacity:0!important;pointer-events:none!important;clip:rect(0 0 0 0)!important;
+    left:-9999px!important;
+  }
+  #page-customer-booking .secondary-choice-card > label{display:none!important}
+}
+/* Popup-nya benar-benar memakai ukuran/rounded/spacing yang sama dengan popup jam. */
+#booking-choice-modal .booking-choice-dialog{
+  width:min(100%,360px)!important;
+  max-height:min(72vh,520px)!important;
+  padding:16px!important;
+  border-radius:22px!important;
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(255,255,255,.9)!important;
+  box-shadow:0 24px 70px rgba(15,23,42,.28)!important;
+}
+#booking-choice-modal .booking-choice-title{
+  margin:0 4px 12px!important;text-align:center!important;
+  color:#163d2b!important;font-size:1rem!important;font-weight:900!important;
+}
+#booking-choice-modal .booking-choice-list{
+  overflow:auto!important;display:flex!important;flex-direction:column!important;
+  gap:8px!important;max-height:calc(min(72vh,520px) - 70px)!important;
+}
+#booking-choice-modal .booking-choice-option{
+  width:100%!important;min-height:48px!important;height:48px!important;
+  padding:10px 12px!important;border:1px solid rgba(148,163,184,.22)!important;
+  border-radius:14px!important;background:rgba(248,250,252,.92)!important;
+  color:#163d2b!important;font-size:.82rem!important;font-weight:900!important;
+  line-height:1.15!important;text-align:center!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  box-sizing:border-box!important;cursor:pointer!important;
+}
+#booking-choice-modal .booking-choice-option:hover,
+#booking-choice-modal .booking-choice-option:focus{
+  background:rgba(220,252,231,.95)!important;outline:0!important;
+  border-color:rgba(34,197,94,.35)!important;
+}
+</style>
+<script id="booking-secondary-choice-v34-script">
+(function(){
+  const IDS=['cust-status','cust-minta-sparring','cust-dp','cust-metode'];
+  const META={
+    'cust-status':'Pilih Status Pemesan',
+    'cust-minta-sparring':'Cari Lawan Sparing?',
+    'cust-dp':'Pilih Nominal DP',
+    'cust-metode':'Metode Pembayaran'
+  };
+  function setupSecondary(){
+    const page=document.getElementById('page-customer-booking');
+    if(!page) return;
+    IDS.forEach(id=>{
+      const sel=document.getElementById(id);
+      if(!sel || sel.dataset.secondaryReady==='1') return;
+      const card=sel.closest('.booking-glass-card');
+      if(!card) return;
+      sel.dataset.secondaryReady='1';
+      card.classList.add('secondary-choice-card');
+      sel.classList.add('secondary-hidden-select');
+      const btn=document.createElement('button');
+      btn.type='button'; btn.className='secondary-choice-trigger';
+      btn.setAttribute('aria-haspopup','dialog'); btn.setAttribute('aria-expanded','false');
+      const sync=()=>{
+        const opt=sel.options[sel.selectedIndex];
+        let text=opt ? opt.textContent.trim() : '';
+        /* Emoji hanya untuk label visual popup; tombol utama tetap bersih dan tengah. */
+        text=text.replace(/^⚽\s*/,'').replace(/^👤\s*/,'').replace(/^💳\s*/,'').replace(/^💰\s*/,'');
+        btn.textContent=text || 'Pilih';
+      };
+      sync();
+      btn.addEventListener('click',()=>openSecondary(sel,btn));
+      sel.addEventListener('change',sync);
+      card.appendChild(btn);
+    });
+  }
+  function openSecondary(sel,btn){
+    const modal=document.getElementById('booking-choice-modal');
+    if(!modal){ setTimeout(()=>openSecondary(sel,btn),50); return; }
+    const title=modal.querySelector('#booking-choice-title');
+    const list=modal.querySelector('#booking-choice-list');
+    title.textContent=META[sel.id]||'Pilih';
+    list.innerHTML='';
+    Array.from(sel.options).forEach(opt=>{
+      if(!opt.value && sel.id!=='cust-dp') return;
+      const b=document.createElement('button');
+      b.type='button'; b.className='booking-choice-option';
+      b.textContent=opt.textContent.trim();
+      b.addEventListener('click',()=>{
+        sel.value=opt.value;
+        sel.dispatchEvent(new Event('change',{bubbles:true}));
+        btn.setAttribute('aria-expanded','false');
+        modal.classList.remove('is-open');
+      });
+      list.appendChild(b);
+    });
+    if(!list.children.length){
+      const empty=document.createElement('div'); empty.className='booking-choice-option';
+      empty.textContent='Belum ada pilihan yang tersedia'; list.appendChild(empty);
+    }
+    modal.classList.add('is-open'); btn.setAttribute('aria-expanded','true');
+  }
+  document.addEventListener('DOMContentLoaded',()=>{setupSecondary();setTimeout(setupSecondary,150);});
+  window.addEventListener('load',()=>{setupSecondary();setTimeout(setupSecondary,150);});
+})();
+</script>
+
+<style id="booking-secondary-v37-exact-center">
+/* V37 — tombol Non-Member/Lawan Sparing/DP/Metode benar-benar centered di dalam kaca. */
+@media (max-width:640px){
+  #page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger){
+    position:relative !important;
+    display:block !important;
+    height:72px !important;
+    min-height:72px !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+  #page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger) .booking-secondary-final-select{
+    position:absolute !important;
+    left:-9999px !important;
+    top:auto !important;
+  }
+  #page-customer-booking .booking-secondary-final-trigger{
+    position:absolute !important;
+    left:0 !important;
+    top:50% !important;
+    right:0 !important;
+    width:100% !important;
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    margin:0 !important;
+    padding:0 12px !important;
+    transform:translateY(-50%) !important;
+    display:flex !important;
+    flex-flow:row nowrap !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    line-height:48px !important;
+    font-size:.82rem !important;
+    font-weight:900 !important;
+    color:#163d2b !important;
+    box-sizing:border-box !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    border:0 !important;
+    outline:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    align-self:auto !important;
+    flex:none !important;
+  }
+  #page-customer-booking .booking-secondary-final-trigger::before,
+  #page-customer-booking .booking-secondary-final-trigger::after{
+    content:none !important;
+    display:none !important;
+  }
+}
+</style>
 </body>
 <style id="customer-home-desktop-buttons-final">
 /* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
@@ -11233,6 +12436,315 @@ body {
     display: none !important;
 }
 </style>
+
+
+<style id="booking-secondary-popups-v32">
+/* V32 — POPUP BOOKING SEKUNDER: Member/Non-Member, Sparing, DP, Metode Pembayaran */
+@media (max-width: 640px){
+  #page-customer-booking .booking-secondary-select{
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    clip:rect(0 0 0 0) !important;
+    clip-path:inset(50%) !important;
+  }
+  #page-customer-booking .booking-secondary-trigger{
+    width:100% !important;
+    min-height:48px !important;
+    height:48px !important;
+    padding:0 18px !important;
+    border:0 !important;
+    border-radius:16px !important;
+    background:rgba(255,255,255,.72) !important;
+    color:#163d2b !important;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.7) !important;
+    font:inherit !important;
+    font-size:.78rem !important;
+    font-weight:900 !important;
+    text-align:center !important;
+    cursor:pointer !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1.2 !important;
+  }
+  #page-customer-booking .booking-secondary-trigger:active{ transform:scale(.99) !important; }
+}
+.booking-secondary-modal-v32{
+  position:fixed; inset:0; z-index:100003; display:none;
+  align-items:center; justify-content:center; padding:18px;
+  background:rgba(7,18,31,.42);
+  backdrop-filter:blur(9px) saturate(90%);
+  -webkit-backdrop-filter:blur(9px) saturate(90%);
+}
+.booking-secondary-modal-v32.is-open{display:flex;}
+.booking-secondary-dialog-v32{
+  width:min(100%,390px); max-height:min(78vh,590px); overflow:hidden;
+  padding:18px; box-sizing:border-box;
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(240,249,245,.94));
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 28px 80px rgba(15,23,42,.34), inset 0 1px 0 rgba(255,255,255,.9);
+  animation:bookingSecondaryInV32 .18s ease-out;
+}
+.booking-secondary-head-v32{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.booking-secondary-icon-v32{
+  width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;
+  border-radius:15px;
+  background:linear-gradient(145deg,#e7f6ec,#d7eee0);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 8px 18px rgba(22,61,43,.10);
+  font-size:21px;
+}
+.booking-secondary-heading-v32{min-width:0;}
+.booking-secondary-title-v32{margin:0;color:#163d2b;font-size:.98rem;font-weight:950;line-height:1.15;}
+.booking-secondary-subtitle-v32{margin:4px 0 0;color:#64748b;font-size:.62rem;font-weight:700;line-height:1.35;}
+.booking-secondary-list-v32{display:flex;flex-direction:column;gap:9px;overflow:auto;max-height:calc(min(78vh,590px) - 112px);padding:2px 2px 4px;}
+.booking-secondary-option-v32{
+  position:relative;width:100%;min-height:56px;padding:11px 13px;box-sizing:border-box;
+  border:1px solid rgba(148,163,184,.18);border-radius:16px;
+  background:rgba(255,255,255,.78);color:#163d2b;
+  font-size:.74rem;font-weight:900;text-align:left;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  box-shadow:0 5px 14px rgba(15,23,42,.05);
+  transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.booking-secondary-option-v32::after{content:'›';font-size:1.15rem;color:#94a3b8;font-weight:950;}
+.booking-secondary-option-v32:hover,.booking-secondary-option-v32:focus{
+  outline:0;background:rgba(231,246,236,.96);border-color:rgba(34,197,94,.30);
+  box-shadow:0 9px 20px rgba(22,61,43,.09);transform:translateY(-1px);
+}
+.booking-secondary-option-v32.is-selected{
+  background:linear-gradient(145deg,#163d2b,#245d42);color:#fff;border-color:#163d2b;
+  box-shadow:0 10px 24px rgba(22,61,43,.20);
+}
+.booking-secondary-option-v32.is-selected::after{content:'✓';color:#d8f3df;}
+.booking-secondary-close-v32{
+  width:100%;min-height:42px;margin-top:12px;border:0;border-radius:14px;
+  background:rgba(22,61,43,.08);color:#163d2b;font-size:.68rem;font-weight:950;cursor:pointer;
+}
+@keyframes bookingSecondaryInV32{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@media(max-width:640px){
+  .booking-secondary-modal-v32{padding:14px;}
+  .booking-secondary-dialog-v32{border-radius:22px;padding:16px;}
+  .booking-secondary-head-v32{margin-bottom:12px;}
+  .booking-secondary-option-v32{min-height:54px;border-radius:15px;font-size:.72rem;}
+}
+</style>
+
+
+<script id="booking-secondary-popups-v32-script">
+(function(){
+  const IDS=['cust-status','cust-minta-sparring','cust-dp','cust-metode'];
+  const META={
+    'cust-status':{icon:'👤',title:'Pilih Status Pemesan',subtitle:'Pilih apakah booking ini untuk Member atau Non-Member.'},
+    'cust-minta-sparring':{icon:'⚽',title:'Lawan Sparing',subtitle:'Tentukan apakah tim ingin dicarikan lawan sparing.'},
+    'cust-dp':{icon:'💳',title:'Pilih Nominal DP',subtitle:'Pilih nominal uang muka untuk booking ini.'},
+    'cust-metode':{icon:'💰',title:'Metode Pembayaran',subtitle:'Pilih cara pembayaran DP yang akan digunakan.'}
+  };
+  function setup(){
+    const page=document.getElementById('page-customer-booking');
+    if(!page) return;
+    IDS.forEach(id=>{
+      const select=document.getElementById(id);
+      if(!select || select.dataset.v32Ready==='1') return;
+      select.dataset.v32Ready='1';
+      select.classList.add('booking-secondary-select');
+      const trigger=document.createElement('button');
+      trigger.type='button';
+      trigger.className='booking-secondary-trigger';
+      trigger.id=id+'-trigger-v32';
+      trigger.setAttribute('aria-haspopup','dialog');
+      trigger.setAttribute('aria-expanded','false');
+      trigger.textContent=getText(select);
+      select.insertAdjacentElement('afterend',trigger);
+      trigger.addEventListener('click',()=>open(select,trigger));
+      select.addEventListener('change',()=>{trigger.textContent=getText(select);});
+    });
+    if(!document.getElementById('booking-secondary-modal-v32')){
+      const modal=document.createElement('div');
+      modal.id='booking-secondary-modal-v32';
+      modal.className='booking-secondary-modal-v32';
+      modal.innerHTML=`<div class="booking-secondary-dialog-v32" role="dialog" aria-modal="true">
+        <div class="booking-secondary-head-v32">
+          <div class="booking-secondary-icon-v32" id="booking-secondary-icon-v32">✨</div>
+          <div class="booking-secondary-heading-v32"><h3 class="booking-secondary-title-v32" id="booking-secondary-title-v32">Pilih</h3><p class="booking-secondary-subtitle-v32" id="booking-secondary-subtitle-v32"></p></div>
+        </div>
+        <div class="booking-secondary-list-v32" id="booking-secondary-list-v32"></div>
+        <button type="button" class="booking-secondary-close-v32" id="booking-secondary-close-v32">Tutup</button>
+      </div>`;
+      document.body.appendChild(modal);
+      modal.addEventListener('click',e=>{if(e.target===modal) close();});
+      modal.querySelector('#booking-secondary-close-v32').addEventListener('click',close);
+      document.addEventListener('keydown',e=>{if(e.key==='Escape' && modal.classList.contains('is-open')) close();});
+    }
+  }
+  let activeSelect=null,activeTrigger=null;
+  function getText(select){
+    const opt=select.options[select.selectedIndex];
+    return opt?.textContent?.trim() || 'Pilih pilihan';
+  }
+  function open(select,trigger){
+    const modal=document.getElementById('booking-secondary-modal-v32');
+    if(!modal) return;
+    activeSelect=select; activeTrigger=trigger;
+    const meta=META[select.id]||{icon:'✨',title:'Pilih',subtitle:'Pilih salah satu pilihan.'};
+    modal.querySelector('#booking-secondary-icon-v32').textContent=meta.icon;
+    modal.querySelector('#booking-secondary-title-v32').textContent=meta.title;
+    modal.querySelector('#booking-secondary-subtitle-v32').textContent=meta.subtitle;
+    const list=modal.querySelector('#booking-secondary-list-v32'); list.innerHTML='';
+    Array.from(select.options).forEach(opt=>{
+      if(opt.disabled) return;
+      const b=document.createElement('button'); b.type='button'; b.className='booking-secondary-option-v32';
+      if(String(opt.value)===String(select.value)) b.classList.add('is-selected');
+      b.textContent=opt.textContent.trim();
+      b.addEventListener('click',()=>{
+        select.value=opt.value;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+        trigger.textContent=opt.textContent.trim();
+        close();
+      });
+      list.appendChild(b);
+    });
+    if(!list.children.length){const empty=document.createElement('div');empty.className='booking-secondary-option-v32';empty.textContent='Belum ada pilihan yang tersedia';list.appendChild(empty);}
+    modal.classList.add('is-open'); trigger.setAttribute('aria-expanded','true');
+  }
+  function close(){
+    const modal=document.getElementById('booking-secondary-modal-v32');
+    if(modal) modal.classList.remove('is-open');
+    if(activeTrigger) activeTrigger.setAttribute('aria-expanded','false');
+    activeSelect=null;activeTrigger=null;
+  }
+  function boot(){setup();setTimeout(setup,150);setTimeout(setup,500);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
+  window.addEventListener('load',setup);
+})();
+</script>
+
+
+<style id="booking-secondary-v35-final-clean">
+/* V35 — SATU trigger saja. Visual trigger 4 pilihan disamakan PERSIS dengan tombol Pilih Jam/Durasi. */
+@media (max-width:640px){
+  #page-customer-booking .secondary-choice-trigger,
+  #page-customer-booking .booking-secondary-trigger,
+  #page-customer-booking [id$="-trigger-v32"]{
+    display:none !important;
+  }
+}
+#page-customer-booking .booking-secondary-final-trigger{
+  width:100% !important; min-height:48px !important; height:48px !important;
+  margin:0 !important; padding:8px 10px !important;
+  border:0 !important; outline:0 !important; border-radius:0 !important;
+  background:transparent !important; box-shadow:none !important;
+  color:#163d2b !important; font:inherit !important; font-size:.82rem !important;
+  font-weight:900 !important; line-height:1.15 !important; text-align:center !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important;
+  cursor:pointer !important; appearance:none !important; -webkit-appearance:none !important;
+  box-sizing:border-box !important;
+}
+#page-customer-booking .booking-secondary-final-trigger:hover,
+#page-customer-booking .booking-secondary-final-trigger:focus,
+#page-customer-booking .booking-secondary-final-trigger:active{
+  background:transparent !important; box-shadow:none !important; transform:none !important;
+}
+#page-customer-booking .booking-secondary-final-select{
+  position:absolute !important; width:1px !important; height:1px !important;
+  opacity:0 !important; pointer-events:none !important; clip:rect(0 0 0 0) !important;
+  left:-9999px !important;
+}
+@media (max-width:640px){
+  #page-customer-booking .booking-secondary-final-trigger{
+    height:48px !important; min-height:48px !important;
+    font-size:.82rem !important; line-height:1.15 !important;
+    padding:8px 10px !important;
+  }
+}
+</style>
+<script id="booking-secondary-v35-final-script">
+(function(){
+  const IDS=['cust-status','cust-minta-sparring','cust-dp','cust-metode'];
+  const TITLES={
+    'cust-status':'Pilih Status Pemesan',
+    'cust-minta-sparring':'Pilih Lawan Sparing',
+    'cust-dp':'Pilih Nominal DP',
+    'cust-metode':'Metode Pembayaran'
+  };
+  const clean=t=>String(t||'').replace(/^[\s]*(?:👤|⚽|💳|💰)\s*/,'').trim();
+  function setup(){
+    const page=document.getElementById('page-customer-booking');
+    if(!page) return;
+    IDS.forEach(id=>{
+      const sel=document.getElementById(id);
+      if(!sel) return;
+      const card=sel.closest('.booking-glass-card');
+      if(!card) return;
+
+      // Hapus trigger lama agar tidak ada tombol/ikon ganda.
+      card.querySelectorAll('.secondary-choice-trigger,.booking-secondary-trigger,[id$="-trigger-v32"]').forEach(el=>el.remove());
+      sel.classList.add('booking-secondary-final-select');
+
+      let btn=card.querySelector('.booking-secondary-final-trigger');
+      if(!btn){
+        btn=document.createElement('button');
+        btn.type='button';
+        btn.className='booking-secondary-final-trigger';
+        btn.setAttribute('aria-haspopup','dialog');
+        btn.setAttribute('aria-expanded','false');
+        card.appendChild(btn);
+      }
+      const sync=()=>{
+        const opt=sel.options[sel.selectedIndex];
+        btn.textContent=clean(opt ? opt.textContent : '') || 'Pilih';
+      };
+      sync();
+      if(btn.dataset.v35Bound!=='1'){
+        btn.dataset.v35Bound='1';
+        btn.addEventListener('click',()=>open(sel,btn));
+        sel.addEventListener('change',sync);
+      }
+    });
+  }
+  function open(sel,btn){
+    const modal=document.getElementById('booking-choice-modal');
+    if(!modal) return;
+    const title=modal.querySelector('#booking-choice-title');
+    const list=modal.querySelector('#booking-choice-list');
+    title.textContent=TITLES[sel.id]||'Pilih';
+    list.innerHTML='';
+    Array.from(sel.options).forEach(opt=>{
+      if(opt.disabled) return;
+      // Placeholder kosong tidak ditampilkan sebagai pilihan, kecuali memang satu-satunya pilihan.
+      if(!opt.value && sel.options.length>1) return;
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='booking-choice-option';
+      b.textContent=clean(opt.textContent);
+      b.addEventListener('click',()=>{
+        sel.value=opt.value;
+        sel.dispatchEvent(new Event('change',{bubbles:true}));
+        btn.setAttribute('aria-expanded','false');
+        modal.classList.remove('is-open');
+      });
+      list.appendChild(b);
+    });
+    if(!list.children.length){
+      const empty=document.createElement('div');
+      empty.className='booking-choice-option';
+      empty.textContent='Belum ada pilihan yang tersedia';
+      list.appendChild(empty);
+    }
+    modal.classList.add('is-open');
+    btn.setAttribute('aria-expanded','true');
+  }
+  function boot(){ setup(); setTimeout(setup,100); setTimeout(setup,400); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
+  window.addEventListener('load',boot);
+})();
+</script>
 </html><style id="home-mobile-vertical-buttons-v16">
 @media (max-width: 640px){
   /* Hanya halaman awal: desktop tidak tersentuh */
@@ -12658,7 +14170,8 @@ main {
 <script id="booking-ux-auto-scroll-and-duration-final">
 (function(){
     const MAX_BOOKING_HOURS = 6;
-    const SCROLL_GAP = 12;
+    /* Jarak aman antara card aktif dan bagian bawah header sticky. */
+    const SCROLL_GAP = 10;
 
     function getBookingPage(){
         return document.getElementById('page-customer-booking');
@@ -12669,11 +14182,22 @@ main {
         const page = getBookingPage();
         if(!page || page.classList.contains('hidden')) return;
 
-        // Tunggu satu frame supaya perubahan select/date selesai dirender.
+        // Card yang baru dipilih harus berhenti TEPAT DI BAWAH HEADER.
+        // Jadi card aktif tetap terlihat, sementara pilihan sebelumnya boleh
+        // bergerak ke belakang header. Ini mengikuti tinggi header secara real-time.
         requestAnimationFrame(() => {
             setTimeout(() => {
                 const rect = target.getBoundingClientRect();
-                const top = Math.max(0, window.scrollY + rect.top - SCROLL_GAP);
+                const header = document.querySelector('body > header');
+                const headerBottom = header
+                    ? Math.max(0, header.getBoundingClientRect().bottom)
+                    : 0;
+
+                // Posisi tujuan di viewport: sedikit di bawah batas bawah header.
+                const desiredTop = headerBottom + SCROLL_GAP;
+                const delta = rect.top - desiredTop;
+                const top = Math.max(0, window.scrollY + delta);
+
                 window.scrollTo({ top, behavior: 'smooth' });
             }, 60);
         });
@@ -12683,6 +14207,26 @@ main {
         if(!control) return;
         const card = control.closest('.booking-glass-card, .booking-sparing-card, .booking-date-card');
         scrollBookingFieldToTop(card || control);
+    }
+
+    // Pastikan posisi akhir tetap berada di bawah header setelah layout selesai.
+    function settleBookingFieldUnderHeader(target){
+        if(!target) return;
+        const page = getBookingPage();
+        if(!page || page.classList.contains('hidden') || window.innerWidth > 640) return;
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                const header = document.querySelector('body > header');
+                if(!header) return;
+                const r = target.getBoundingClientRect();
+                const hb = Math.max(0, header.getBoundingClientRect().bottom);
+                const tolerance = 4;
+                if(r.top < hb + SCROLL_GAP - tolerance || r.top > hb + SCROLL_GAP + tolerance){
+                    const top = Math.max(0, window.scrollY + r.top - (hb + SCROLL_GAP));
+                    window.scrollTo({top, behavior:'auto'});
+                }
+            }, 180);
+        });
     }
 
     function updateDurationOptionsFinal(){
@@ -12778,6 +14322,7 @@ main {
         const date = document.getElementById('cust-tanggal');
         if(date) date.addEventListener('change', () => {
             scrollForControl(date);
+            settleBookingFieldUnderHeader(date.closest('.booking-glass-card, .booking-sparing-card, .booking-date-card') || date);
         });
 
         // Semua select booking: setelah memilih, field tersebut naik ke atas layar.
@@ -12786,6 +14331,7 @@ main {
                 // Durasi dihitung dulu agar pilihan 2/3/4 dst langsung tersedia.
                 if(select.id === 'cust-jam') updateDurationOptionsFinal();
                 scrollForControl(select);
+                settleBookingFieldUnderHeader(select.closest('.booking-glass-card, .booking-sparing-card, .booking-date-card') || select);
             });
         });
 
@@ -12833,3 +14379,941 @@ main {
     padding: 14px 18px 0 !important;
 }
 </style>
+
+<style id="customer-price-remove-all-frames-v6">
+/* =========================================================
+   HARGA CUSTOMER V6 — BERSIHKAN SEMUA FRAME
+   Tahap ini sengaja TANPA FRAME sama sekali.
+   Semua pembungkus dan kartu harga dibuat transparan/plain.
+   ========================================================= */
+
+#page-customer-price,
+#page-customer-price.customer-content-page,
+#page-customer-price.glass-panel,
+#page-customer-price.customer-page {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    overflow: visible !important;
+}
+
+#page-customer-price::before,
+#page-customer-price::after,
+#page-customer-price .customer-price-card::before,
+#page-customer-price .customer-price-card::after,
+#page-customer-price .customer-price-head::before,
+#page-customer-price .customer-price-head::after,
+#page-customer-price .customer-price-grid::before,
+#page-customer-price .customer-price-grid::after,
+#page-customer-price .customer-price-group::before,
+#page-customer-price .customer-price-group::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#page-customer-price .customer-price-card,
+#page-customer-price .customer-price-head,
+#page-customer-price .customer-price-grid,
+#page-customer-price .customer-price-group {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-customer-price .customer-price-card {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#page-customer-price .customer-price-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 0 .8rem !important;
+}
+
+#page-customer-price .customer-price-title {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+#page-customer-price .customer-price-badge {
+    display: none !important;
+}
+
+#page-customer-price .customer-price-grid {
+    display: grid !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Kartu hari juga tanpa frame untuk tahap pembersihan ini. */
+#page-customer-price .customer-price-group {
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-price {
+        padding: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    #page-customer-price .customer-price-title {
+        font-size: .78rem !important;
+        line-height: 1.25 !important;
+        white-space: nowrap !important;
+    }
+}
+</style>
+
+
+<style id="customer-price-table-glass-v8">
+/* =========================================================
+   HARGA CUSTOMER V8
+   HANY 3 TABEL HARGA YANG MEMILIKI EFEK KACA.
+   FRAME LUAR TETAP TIDAK ADA.
+   ========================================================= */
+#page-customer-price .customer-price-group{
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+
+    /* kaca dibuat lebih pekat */
+    background: rgba(248, 253, 247, 0.90) !important;
+    background-image: linear-gradient(
+        145deg,
+        rgba(255,255,255,.94),
+        rgba(235,247,232,.88)
+    ) !important;
+
+    /* ujung benar-benar rounded */
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 18px !important;
+
+    /* kaca */
+    -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
+    backdrop-filter: blur(14px) saturate(125%) !important;
+
+    box-shadow:
+        0 8px 22px rgba(35,70,38,.14),
+        inset 0 1px 0 rgba(255,255,255,.80) !important;
+}
+
+/* Pastikan tidak ada pseudo-frame tambahan */
+#page-customer-price .customer-price-group::before,
+#page-customer-price .customer-price-group::after{
+    content: none !important;
+    display: none !important;
+}
+
+/* Header tabel tetap menyatu dengan bentuk rounded tabel */
+#page-customer-price .customer-price-group h4{
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+/* Baris dan label tetap cukup solid agar tulisan jelas */
+#page-customer-price .customer-price-label,
+#page-customer-price .customer-price-row{
+    background: rgba(255,255,255,.58) !important;
+}
+
+#page-customer-price .customer-price-label{
+    border-bottom: 1px solid rgba(120,160,115,.18) !important;
+}
+
+#page-customer-price .customer-price-row{
+    border-top: 1px solid rgba(120,160,115,.16) !important;
+}
+
+@media (max-width:640px){
+    #page-customer-price .customer-price-group{
+        border-radius: 17px !important;
+        background: rgba(248,253,247,.93) !important;
+        background-image: linear-gradient(145deg,rgba(255,255,255,.95),rgba(235,247,232,.91)) !important;
+        -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
+        backdrop-filter: blur(12px) saturate(120%) !important;
+    }
+}
+</style>
+
+
+<style id="customer-price-title-glass-v10-final">
+/* FINAL OVERRIDE — frame kaca judul harga, diletakkan paling akhir agar tidak ditimpa CSS lama */
+#page-customer-price .customer-price-head{
+    box-sizing:border-box !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    min-height:52px !important;
+    margin:0 0 .75rem !important;
+    padding:.68rem 1rem !important;
+    background:rgba(248,253,247,.94) !important;
+    background-image:linear-gradient(145deg,rgba(255,255,255,.96),rgba(224,241,220,.92)) !important;
+    border:1px solid rgba(255,255,255,.9) !important;
+    border-radius:18px !important;
+    box-shadow:0 8px 20px rgba(35,70,38,.16), inset 0 1px 0 rgba(255,255,255,.9) !important;
+    -webkit-backdrop-filter:blur(14px) saturate(125%) !important;
+    backdrop-filter:blur(14px) saturate(125%) !important;
+    overflow:hidden !important;
+}
+#page-customer-price .customer-price-head::before,
+#page-customer-price .customer-price-head::after{
+    content:none !important;
+    display:none !important;
+}
+#page-customer-price .customer-price-title{
+    display:block !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    text-align:center !important;
+    color:#315c32 !important;
+    text-shadow:0 1px 1px rgba(255,255,255,.75) !important;
+}
+#page-customer-price .customer-price-badge{display:none !important;}
+
+@media (max-width:640px){
+    /* HP: frame mengikuti lebar satu tabel */
+    #page-customer-price .customer-price-head{
+        width:100% !important;
+        min-height:48px !important;
+        margin:0 0 .65rem !important;
+        padding:.6rem .7rem !important;
+        border-radius:17px !important;
+        background:rgba(248,253,247,.95) !important;
+        background-image:linear-gradient(145deg,rgba(255,255,255,.97),rgba(224,241,220,.93)) !important;
+        box-shadow:0 7px 17px rgba(35,70,38,.16), inset 0 1px 0 rgba(255,255,255,.9) !important;
+        -webkit-backdrop-filter:blur(12px) saturate(120%) !important;
+        backdrop-filter:blur(12px) saturate(120%) !important;
+    }
+    #page-customer-price .customer-price-title{
+        font-size:.72rem !important;
+        line-height:1.25 !important;
+        white-space:nowrap !important;
+    }
+}
+</style>
+
+<style id="iphone-gesture-dock-spacing-v11">
+/* HP/iPhone: naikkan bottom dock agar tidak terlalu dekat dengan gesture bar */
+@media (max-width:640px){
+    #customer-bottom-nav{
+        bottom:calc(22px + env(safe-area-inset-bottom)) !important;
+    }
+}
+@media (max-width:380px){
+    #customer-bottom-nav{
+        bottom:calc(20px + env(safe-area-inset-bottom)) !important;
+    }
+}
+</style>
+
+<style id="mobile-card-exact-dock-center-v17">
+/* V17 — FINAL HP CARD WIDTH
+   Card dipusatkan berdasarkan viewport, bukan parent.
+   Tujuannya benar-benar mengikuti lebar dock yang memakai left/right 12px.
+   Desktop tidak disentuh.
+*/
+@media (max-width:640px){
+    /* Semua elemen utama card ditarik ke tengah viewport. */
+    #page-customer-price .customer-price-head,
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        width:calc(100vw - 24px) !important;
+        max-width:calc(100vw - 24px) !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        position:relative !important;
+        left:50% !important;
+        transform:translateX(-50%) !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Parent tidak ikut menentukan posisi card. */
+    #page-customer-price,
+    #page-customer-booking,
+    #page-customer-schedule,
+    #page-customer-sparring{
+        overflow-x:visible !important;
+    }
+
+    #page-customer-price .customer-price-card,
+    #page-customer-price .customer-price-grid,
+    #page-customer-booking form.customer-booking-clean-form,
+    #page-customer-sparring #customer-sparring-list,
+    #customer-booking-schedule-periods{
+        overflow:visible !important;
+    }
+}
+
+@media (max-width:380px){
+    /* Dock pada layar <=380px memakai left/right 9px. */
+    #page-customer-price .customer-price-head,
+    #page-customer-price .customer-price-group,
+    #page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+    #page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+    #page-customer-booking .customer-payment-info,
+    #page-customer-sparring #customer-sparring-list > *,
+    #page-customer-sparring .customer-sparring-card,
+    #page-customer-schedule .customer-schedule-card,
+    #customer-booking-schedule-periods .customer-booking-single-week-table-wrap{
+        width:calc(100vw - 18px) !important;
+        max-width:calc(100vw - 18px) !important;
+    }
+}
+</style>
+
+
+<style id="v19-remove-schedule-outer-glass">
+/* V19 — HP: hapus kaca pembungkus luar pada menu Jadwal.
+   Tabel jadwal, selector tanggal, dan Keterangan tetap dipertahankan.
+   Desktop tidak disentuh. */
+@media (max-width:640px){
+    #page-customer-schedule{
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        outline: none !important;
+    }
+
+    #page-customer-schedule::before,
+    #page-customer-schedule::after{
+        display:none !important;
+        content:none !important;
+    }
+
+    /* Kaca biru pembungkus tabel juga dihilangkan; tabel putihnya tetap ada. */
+    #page-customer-schedule #booking-schedule-grid-wrap{
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        outline: none !important;
+    }
+}
+</style>
+
+<!-- V27: SPARING EXACT HEADER MASK + JADWAL NO AUTO SCROLL -->
+<style id="v27-sparing-exact-mask-and-schedule-top">
+@media (max-width:640px){
+  /* Hanya lapisan potongan saat Sparing aktif. Bukan card/frame header. */
+  #sparing-header-mask-v27{
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    top:0 !important;
+    height:0 !important;
+    z-index:90 !important;
+    pointer-events:none !important;
+    background:rgba(5,12,22,.84) !important;
+    backdrop-filter:blur(12px) saturate(70%) !important;
+    -webkit-backdrop-filter:blur(12px) saturate(70%) !important;
+    opacity:0 !important;
+    transition:none !important;
+  }
+  body.sparing-v27-active #sparing-header-mask-v27{
+    opacity:1 !important;
+  }
+}
+</style>
+<script id="v27-sparing-exact-mask-and-schedule-top-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  function mobile(){ return window.innerWidth<=MOBILE_MAX; }
+  function scheduleVisible(){
+    const p=document.getElementById('page-customer-schedule');
+    return !!p && !p.classList.contains('hidden');
+  }
+
+  function ensureMask(){
+    let mask=document.getElementById('sparing-header-mask-v27');
+    if(!mask){
+      mask=document.createElement('div');
+      mask.id='sparing-header-mask-v27';
+      document.body.appendChild(mask);
+    }
+    return mask;
+  }
+
+  function updateMask(){
+    raf=0;
+    const page=document.getElementById('page-customer-sparring');
+    const header=document.querySelector('body > header');
+    if(!mobile() || !page || page.classList.contains('hidden') || !header){
+      document.body.classList.remove('sparing-v27-active');
+      const old=document.getElementById('sparing-header-mask-v27');
+      if(old){ old.style.height='0px'; old.style.opacity='0'; }
+      return;
+    }
+
+    const mask=ensureMask();
+    const hr=header.getBoundingClientRect();
+    const top=Math.max(0,hr.top);
+    const height=Math.max(0,hr.height);
+    mask.style.top=top+'px';
+    mask.style.height=height+'px';
+    document.body.classList.add('sparing-v27-active');
+
+    /* V27: tidak lagi mengubah opacity teks per-card.
+       Mask fixed di depan card dan di belakang header membuat bagian yang
+       melewati header benar-benar terpotong secara visual. */
+    page.querySelectorAll('.customer-sparring-card').forEach(card=>{
+      card.style.removeProperty('--sparing-text-opacity');
+      card.style.removeProperty('--sparing-text-blur');
+      card.style.removeProperty('--sparing-overlap-height');
+      card.style.removeProperty('--sparing-dark-opacity');
+    });
+  }
+
+  function requestMask(){
+    if(!raf) raf=requestAnimationFrame(updateMask);
+  }
+
+  function resetScheduleTop(){
+    if(!mobile() || !scheduleVisible()) return;
+    /* Jadwal tidak membawa posisi scroll dari menu sebelumnya. */
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,0);
+      document.documentElement.scrollTop=0;
+      document.body.scrollTop=0;
+    });
+  }
+
+  function install(){
+    const old=window.showPage;
+    if(typeof old!=='function'){
+      setTimeout(install,100);
+      return;
+    }
+    if(old.__v27Installed) return;
+
+    function wrappedShowPage(id){
+      const result=old.apply(this,arguments);
+      if(id==='customer-sparring'){
+        setTimeout(requestMask,0);
+        setTimeout(requestMask,80);
+        setTimeout(requestMask,220);
+      }
+      if(id==='customer-schedule'){
+        setTimeout(resetScheduleTop,0);
+        setTimeout(resetScheduleTop,60);
+        setTimeout(resetScheduleTop,180);
+      }
+      return result;
+    }
+    wrappedShowPage.__v27Installed=true;
+    window.showPage=wrappedShowPage;
+
+    window.addEventListener('scroll',requestMask,{passive:true});
+    window.addEventListener('resize',requestMask,{passive:true});
+    window.addEventListener('orientationchange',requestMask,{passive:true});
+    requestMask();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+
+<style id="v29-sparing-true-overlap-hide">
+@media (max-width:640px){
+  /* V29: header tetap tanpa frame tambahan. Card Sparing yang masuk ke
+     area header benar-benar dipotong dari bagian atas secara responsif. */
+  body.sparing-v29-active > header{
+    position:sticky !important;
+    top:0 !important;
+    z-index:100 !important;
+  }
+  body.sparing-v29-active #page-customer-sparring .customer-sparring-card{
+    position:relative !important;
+    z-index:1 !important;
+    clip-path: inset(var(--sparing-hide-top, 0px) 0 0 0 round 0px) !important;
+    -webkit-clip-path: inset(var(--sparing-hide-top, 0px) 0 0 0 round 0px) !important;
+  }
+}
+</style>
+<script id="v29-sparing-true-overlap-hide-script">
+(function(){
+  const MAX=640;
+  let raf=0;
+  function mobile(){ return window.innerWidth<=MAX; }
+  function update(){
+    raf=0;
+    const body=document.body;
+    const page=document.getElementById('page-customer-sparring');
+    const header=document.querySelector('body > header');
+    if(!mobile() || !page || page.classList.contains('hidden') || !header){
+      body.classList.remove('sparing-v29-active');
+      if(page) page.querySelectorAll('.customer-sparring-card').forEach(c=>{
+        c.style.removeProperty('--sparing-hide-top');
+        c.style.removeProperty('clip-path');
+        c.style.removeProperty('-webkit-clip-path');
+      });
+      return;
+    }
+    body.classList.add('sparing-v29-active');
+    const hr=header.getBoundingClientRect();
+    const headerTop=Math.max(0,hr.top);
+    const headerBottom=Math.max(headerTop,hr.bottom);
+
+    page.querySelectorAll('.customer-sparring-card').forEach(card=>{
+      const r=card.getBoundingClientRect();
+      let hide=0;
+      /* Hanya bagian card yang benar-benar berada di area header yang di-hide.
+         Jadi bila 50% card masuk ke header, tepat 50% bagian atasnya dipotong. */
+      if(r.top < headerBottom && r.bottom > headerTop){
+        hide=Math.max(0, Math.min(r.height, headerBottom-r.top));
+      }
+      card.style.setProperty('--sparing-hide-top', hide.toFixed(2)+'px');
+    });
+  }
+  function request(){ if(!raf) raf=requestAnimationFrame(update); }
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',request,{passive:true});
+  window.addEventListener('orientationchange',request,{passive:true});
+  function install(){
+    const old=window.showPage;
+    if(typeof old!=='function'){ setTimeout(install,100); return; }
+    if(old.__v29TrueOverlapHide) return;
+    const wrapped=function(id){
+      const result=old.apply(this,arguments);
+      if(id==='customer-sparring'){
+        setTimeout(request,0);
+        setTimeout(request,80);
+        setTimeout(request,220);
+      }
+      return result;
+    };
+    wrapped.__v29TrueOverlapHide=true;
+    window.showPage=wrapped;
+    request();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+<style id="v30-booking-true-overlap-hide">
+@media (max-width:640px){
+  /* V30: gunakan mekanisme potong V29 untuk Booking.
+     Header tetap tanpa frame tambahan. Hanya bagian card Booking yang
+     masuk ke area header yang benar-benar di-hide secara responsif. */
+  body.booking-v30-active > header{
+    position:sticky !important;
+    top:0 !important;
+    z-index:100 !important;
+  }
+  body.booking-v30-active #page-customer-booking .booking-glass-card,
+  body.booking-v30-active #page-customer-booking .booking-date-card,
+  body.booking-v30-active #page-customer-booking .booking-sparing-card,
+  body.booking-v30-active #page-customer-booking .customer-payment-info,
+  body.booking-v30-active #page-customer-booking .booking-submit-wrap{
+    position:relative !important;
+    z-index:1 !important;
+    clip-path: inset(var(--booking-hide-top, 0px) 0 0 0 round 0px) !important;
+    -webkit-clip-path: inset(var(--booking-hide-top, 0px) 0 0 0 round 0px) !important;
+  }
+}
+</style>
+<script id="v30-booking-true-overlap-hide-script">
+(function(){
+  const MAX=640;
+  let raf=0;
+  function mobile(){ return window.innerWidth<=MAX; }
+  function getBookingCards(page){
+    return page.querySelectorAll(
+      '.booking-glass-card, .booking-date-card, .booking-sparing-card, .customer-payment-info, .booking-submit-wrap'
+    );
+  }
+  function update(){
+    raf=0;
+    const body=document.body;
+    const page=document.getElementById('page-customer-booking');
+    const header=document.querySelector('body > header');
+    if(!mobile() || !page || page.classList.contains('hidden') || !header){
+      body.classList.remove('booking-v30-active');
+      if(page) getBookingCards(page).forEach(c=>{
+        c.style.removeProperty('--booking-hide-top');
+        c.style.removeProperty('clip-path');
+        c.style.removeProperty('-webkit-clip-path');
+      });
+      return;
+    }
+
+    body.classList.add('booking-v30-active');
+    const hr=header.getBoundingClientRect();
+    const headerTop=Math.max(0,hr.top);
+    const headerBottom=Math.max(headerTop,hr.bottom);
+
+    getBookingCards(page).forEach(card=>{
+      const r=card.getBoundingClientRect();
+      let hide=0;
+      /* Bagian yang melewati batas bawah header langsung dipotong.
+         50% masuk header = 50% bagian atas card di-hide. */
+      if(r.top < headerBottom && r.bottom > headerTop){
+        hide=Math.max(0, Math.min(r.height, headerBottom-r.top));
+      }
+      card.style.setProperty('--booking-hide-top', hide.toFixed(2)+'px');
+    });
+  }
+  function request(){ if(!raf) raf=requestAnimationFrame(update); }
+
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',request,{passive:true});
+  window.addEventListener('orientationchange',request,{passive:true});
+
+  function install(){
+    const old=window.showPage;
+    if(typeof old!=='function'){ setTimeout(install,100); return; }
+    if(old.__v30BookingTrueOverlapHide) return;
+    const wrapped=function(id){
+      const result=old.apply(this,arguments);
+      if(id==='customer-booking'){
+        setTimeout(request,0);
+        setTimeout(request,80);
+        setTimeout(request,220);
+      }
+      return result;
+    };
+    wrapped.__v30BookingTrueOverlapHide=true;
+    window.showPage=wrapped;
+    request();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+<style id="booking-secondary-v33-match-date-time">
+/* V33 — Popup Member/Sparing/DP/Metode benar-benar mengikuti popup Tanggal/Jam.
+   Tombol pemicu TIDAK diubah; tetap centered seperti tombol Booking sebelumnya. */
+#page-customer-booking .booking-secondary-trigger{
+  text-align:center !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Buat popup sekunder identik dengan .booking-choice-modal */
+.booking-secondary-modal-v32{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:100003 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:20px !important;
+  background:rgba(15,23,42,.38) !important;
+  backdrop-filter:blur(8px) !important;
+  -webkit-backdrop-filter:blur(8px) !important;
+}
+.booking-secondary-modal-v32.is-open{display:flex !important;}
+
+.booking-secondary-dialog-v32{
+  width:min(100%,360px) !important;
+  max-height:min(72vh,520px) !important;
+  overflow:hidden !important;
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+  border-radius:22px !important;
+  box-shadow:0 24px 70px rgba(15,23,42,.28) !important;
+  padding:16px !important;
+  box-sizing:border-box !important;
+  animation:bookingChoiceIn .18s ease-out !important;
+}
+
+/* Header popup dibuat seperti popup Pilih Jam: judul rata tengah.
+   Icon/subtitle dari versi lama disembunyikan agar tidak ada desain tambahan. */
+.booking-secondary-head-v32{
+  display:block !important;
+  margin:0 4px 12px !important;
+  text-align:center !important;
+}
+.booking-secondary-icon-v32,
+.booking-secondary-subtitle-v32{
+  display:none !important;
+}
+.booking-secondary-heading-v32{min-width:0 !important;}
+.booking-secondary-title-v32{
+  margin:0 !important;
+  text-align:center !important;
+  color:#163d2b !important;
+  font-size:1rem !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+}
+
+.booking-secondary-list-v32{
+  overflow:auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:8px !important;
+  max-height:calc(min(72vh,520px) - 70px) !important;
+  padding:0 !important;
+}
+
+.booking-secondary-option-v32{
+  width:100% !important;
+  min-height:48px !important;
+  height:auto !important;
+  padding:10px 12px !important;
+  border:1px solid rgba(148,163,184,.22) !important;
+  border-radius:14px !important;
+  background:rgba(248,250,252,.92) !important;
+  color:#163d2b !important;
+  font-weight:800 !important;
+  font-size:inherit !important;
+  line-height:1.2 !important;
+  text-align:center !important;
+  cursor:pointer !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+.booking-secondary-option-v32::after{
+  display:none !important;
+  content:none !important;
+}
+.booking-secondary-option-v32:hover,
+.booking-secondary-option-v32:focus{
+  background:rgba(220,252,231,.95) !important;
+  outline:0 !important;
+  border-color:rgba(34,197,94,.35) !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+.booking-secondary-option-v32.is-selected{
+  background:rgba(220,252,231,.95) !important;
+  color:#163d2b !important;
+  border-color:rgba(34,197,94,.35) !important;
+  box-shadow:none !important;
+}
+.booking-secondary-option-v32.is-selected::after{display:none !important;}
+
+/* Popup Tanggal/Jam tidak punya tombol Tutup — samakan juga di sini. */
+.booking-secondary-close-v32{display:none !important;}
+
+@media(max-width:640px){
+  .booking-secondary-modal-v32{padding:20px !important;}
+  .booking-secondary-dialog-v32{
+    width:min(100%,360px) !important;
+    max-height:min(72vh,520px) !important;
+    border-radius:22px !important;
+    padding:16px !important;
+  }
+  .booking-secondary-title-v32{font-size:1rem !important;}
+  .booking-secondary-option-v32{
+    min-height:48px !important;
+    border-radius:14px !important;
+    font-size:.8rem !important;
+  }
+}
+</style>
+
+<style id="booking-secondary-v36-center-fix">
+/* V36 — Kembalikan teks tombol pilihan ke posisi tengah secara vertikal & horizontal. */
+@media (max-width:640px){
+  #page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger){
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+  }
+
+  #page-customer-booking .booking-secondary-final-trigger{
+    position:relative !important;
+    inset:auto !important;
+    align-self:stretch !important;
+    flex:0 0 48px !important;
+    width:100% !important;
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    margin:0 !important;
+    padding:0 10px !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    line-height:normal !important;
+    font-size:.82rem !important;
+    font-weight:900 !important;
+    box-sizing:border-box !important;
+    transform:none !important;
+  }
+
+  #page-customer-booking .booking-secondary-final-trigger::before,
+  #page-customer-booking .booking-secondary-final-trigger::after{
+    content:none !important;
+    display:none !important;
+  }
+}
+</style>
+
+
+<style id="final-booking-secondary-center-black-v2">
+/* FINAL V2 — hanya posisi teks 4 pilihan + warna teks. */
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger){
+  position:relative !important;
+}
+
+/* Jadikan trigger hanya sebagai wadah teks yang diposisikan tepat di pusat card.
+   Ukuran dan bentuk card tidak diubah. */
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger)
+.booking-secondary-final-trigger{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 12px !important;
+  transform:translate(-50%,-50%) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-direction:row !important;
+  text-align:center !important;
+  line-height:1.2 !important;
+  box-sizing:border-box !important;
+  color:#000000 !important;
+  -webkit-text-fill-color:#000000 !important;
+  font-weight:900 !important;
+  font-size:.82rem !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  border:0 !important;
+  outline:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+#page-customer-booking .booking-secondary-final-trigger:hover,
+#page-customer-booking .booking-secondary-final-trigger:focus,
+#page-customer-booking .booking-secondary-final-trigger:active{
+  color:#000000 !important;
+  -webkit-text-fill-color:#000000 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:translate(-50%,-50%) !important;
+  outline:0 !important;
+}
+
+#page-customer-booking .booking-secondary-final-trigger::before,
+#page-customer-booking .booking-secondary-final-trigger::after{
+  content:none !important;
+  display:none !important;
+}
+
+/* Select asli tetap tersembunyi, fungsi booking tidak disentuh. */
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger)
+.booking-secondary-final-select{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  left:-9999px !important;
+  top:auto !important;
+}
+
+/* Warna teks menu booking menjadi hitam. */
+#page-customer-booking .booking-flat-control,
+#page-customer-booking .booking-glass-card > label,
+#page-customer-booking .booking-field-label{
+  color:#000000 !important;
+  -webkit-text-fill-color:#000000 !important;
+}
+
+#page-customer-booking .booking-flat-control::placeholder{
+  color:#000000 !important;
+  -webkit-text-fill-color:#000000 !important;
+  opacity:1 !important;
+}
+</style>
+
+<style id="final-booking-text-black-only">
+/* HANYA warna teks kontrol booking berikut yang diubah menjadi hitam.
+   Posisi, ukuran card, jarak, dock, dan fungsi tidak diubah. */
+#page-customer-booking #cust-tanggal-trigger,
+#page-customer-booking #cust-jam-trigger,
+#page-customer-booking #cust-durasi-trigger,
+#page-customer-booking #cust-nama,
+#page-customer-booking #cust-hp {
+    color:#000000 !important;
+    -webkit-text-fill-color:#000000 !important;
+}
+
+/* Placeholder nama tim & nomor WhatsApp */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color:#000000 !important;
+    -webkit-text-fill-color:#000000 !important;
+    opacity:1 !important;
+}
+</style>
+
+<style id="final-date-text-vertical-center-only">
+/* HANYA menggeser teks "Pilih tanggal main" sedikit ke bawah
+   agar tampak tepat di tengah secara visual.
+   Ukuran card, area klik, dan elemen lain tidak diubah. */
+#page-customer-booking .booking-date-trigger{
+    transform:translateY(2px) !important;
+}
+
+#page-customer-booking .booking-date-trigger:hover,
+#page-customer-booking .booking-date-trigger:focus,
+#page-customer-booking .booking-date-trigger:active{
+    transform:translateY(2px) !important;
+}
+</style>
+
