@@ -11777,6 +11777,340 @@ body.booking-success-open{overflow:hidden;}
   }
 }
 </style>
+
+<style id="payment-method-clean-modal-v1">
+/* =========================================================
+   METODE PEMBAYARAN — INFO DITAMPILKAN DALAM JENDELA CLEAN
+   Hanya mengubah tampilan informasi pembayaran.
+   ========================================================= */
+#page-home #customer-payment-info{
+    display:none !important;
+}
+
+.payment-clean-modal{
+    position:fixed;
+    inset:0;
+    z-index:100500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(15,23,42,.42);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+.payment-clean-modal.is-open{display:flex;}
+
+.payment-clean-dialog{
+    width:min(100%,420px);
+    max-height:min(88vh,680px);
+    overflow:auto;
+    position:relative;
+    box-sizing:border-box;
+    padding:20px;
+    padding-top:24px;
+    border-radius:24px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    box-shadow:0 28px 70px rgba(15,23,42,.28);
+    color:#0f172a;
+    animation:paymentCleanIn .18s ease-out;
+}
+@keyframes paymentCleanIn{
+    from{opacity:0;transform:translateY(10px) scale(.98)}
+    to{opacity:1;transform:none}
+}
+
+.payment-clean-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+}
+.payment-clean-icon{
+    width:46px;
+    height:46px;
+    flex:0 0 46px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    font-size:22px;
+}
+.payment-clean-title{
+    margin:0;
+    color:#0f172a;
+    font-size:1rem;
+    line-height:1.2;
+    font-weight:950;
+}
+.payment-clean-subtitle{
+    margin:4px 0 0;
+    color:#64748b;
+    font-size:.68rem;
+    line-height:1.45;
+    font-weight:700;
+}
+
+.payment-clean-content{
+    border:1px solid #e2e8f0;
+    border-radius:17px;
+    background:#f8fafc;
+    padding:14px;
+}
+.payment-clean-content .payment-info-card{
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+.payment-clean-content .payment-info-label{
+    color:#334155 !important;
+    font-size:.72rem !important;
+    font-weight:950 !important;
+    line-height:1.35;
+}
+.payment-clean-content .payment-account-owner{
+    margin-top:4px;
+    color:#64748b !important;
+    font-size:.7rem !important;
+    font-weight:750 !important;
+}
+.payment-clean-content .payment-bank-head{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-bottom:12px;
+}
+.payment-clean-content .payment-bank-logo{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+    padding:5px;
+    border-radius:12px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+}
+.payment-clean-content .payment-account{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px;
+    border-radius:13px;
+    background:#fff;
+    border:1px solid #dbeafe;
+}
+.payment-clean-content .payment-account-number{
+    color:#1e3a8a !important;
+    font-size:1.12rem !important;
+    font-weight:950 !important;
+    letter-spacing:.07em;
+}
+.payment-clean-content .payment-small-btn{
+    flex:0 0 auto;
+    min-height:38px;
+    padding:8px 12px;
+    border-radius:10px;
+    background:#2563eb !important;
+    color:#fff !important;
+    font-size:.65rem !important;
+    font-weight:950 !important;
+}
+.payment-clean-content .payment-info-card > div:last-child{
+    margin-top:9px !important;
+    color:#64748b !important;
+    font-size:.62rem !important;
+    line-height:1.45;
+    font-weight:700 !important;
+}
+.payment-clean-content .qris-preview{
+    width:min(280px,100%) !important;
+    margin:10px auto 8px !important;
+    padding:6px;
+    box-sizing:border-box;
+    border-radius:15px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+}
+.payment-clean-content .qris-actions{
+    display:flex;
+    justify-content:center;
+}
+.payment-clean-content .qris-download{
+    min-height:40px;
+    padding:9px 14px;
+    border-radius:11px;
+    background:#059669 !important;
+    color:#fff !important;
+    font-size:.65rem !important;
+    font-weight:950 !important;
+}
+
+.payment-clean-close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:34px;
+    height:34px;
+    min-height:34px;
+    margin:0;
+    padding:0;
+    display:grid;
+    place-items:center;
+    border:0;
+    border-radius:50%;
+    background:#f1f5f9;
+    color:#475569;
+    font-family:Arial,sans-serif;
+    font-size:1.45rem;
+    line-height:1;
+    font-weight:400;
+    cursor:pointer;
+    transition:background .15s ease,color .15s ease,transform .15s ease;
+}
+.payment-clean-close:hover{
+    background:#e2e8f0;
+    color:#0f172a;
+    transform:scale(1.04);
+}
+
+@media(max-width:640px){
+    .payment-clean-modal{padding:12px;}
+    .payment-clean-dialog{
+        width:100%;
+        max-height:88vh;
+        padding:16px;
+        padding-top:22px;
+        border-radius:20px;
+    }
+    .payment-clean-head{margin-bottom:13px;}
+    .payment-clean-icon{
+        width:42px;height:42px;flex-basis:42px;font-size:19px;
+    }
+    .payment-clean-title{font-size:.9rem;}
+    .payment-clean-subtitle{font-size:.62rem;}
+    .payment-clean-content{padding:12px;}
+    .payment-clean-content .payment-account-number{font-size:1rem !important;}
+}
+</style>
+
+<script id="payment-method-clean-modal-v1-script">
+(function(){
+    function ensureModal(){
+        let modal=document.getElementById('payment-clean-modal');
+        if(modal) return modal;
+
+        modal=document.createElement('div');
+        modal.id='payment-clean-modal';
+        modal.className='payment-clean-modal';
+        modal.innerHTML=`
+            <div class="payment-clean-dialog" role="dialog" aria-modal="true"
+                 aria-labelledby="payment-clean-title">
+                <div class="payment-clean-head">
+                    <div class="payment-clean-icon" id="payment-clean-icon">💳</div>
+                    <div>
+                        <h3 class="payment-clean-title" id="payment-clean-title">Informasi Pembayaran</h3>
+                        <p class="payment-clean-subtitle" id="payment-clean-subtitle">
+                            Silakan gunakan metode pembayaran yang dipilih.
+                        </p>
+                    </div>
+                </div>
+                <div class="payment-clean-content" id="payment-clean-content"></div>
+                <button type="button" class="payment-clean-close" id="payment-clean-close"
+                        aria-label="Tutup jendela pembayaran">×</button>
+            </div>`;
+        document.body.appendChild(modal);
+
+        function close(){
+            modal.classList.remove('is-open');
+            document.body.style.overflow='';
+        }
+
+        modal.addEventListener('click',function(e){
+            if(e.target===modal) close();
+        });
+        modal.querySelector('#payment-clean-close').addEventListener('click',close);
+        document.addEventListener('keydown',function(e){
+            if(e.key==='Escape' && modal.classList.contains('is-open')) close();
+        });
+
+        modal._close=close;
+        return modal;
+    }
+
+    function openPaymentModal(metode){
+        const source = metode==='Transfer'
+            ? document.getElementById('payment-transfer-card')
+            : metode==='QRIS'
+                ? document.getElementById('payment-qris-card')
+                : null;
+
+        if(!source) return;
+
+        const modal=ensureModal();
+        const icon=modal.querySelector('#payment-clean-icon');
+        const title=modal.querySelector('#payment-clean-title');
+        const subtitle=modal.querySelector('#payment-clean-subtitle');
+        const content=modal.querySelector('#payment-clean-content');
+
+        const clone=source.cloneNode(true);
+        clone.classList.remove('hidden');
+        clone.style.display='block';
+
+        content.innerHTML='';
+        content.appendChild(clone);
+
+        if(metode==='Transfer'){
+            icon.textContent='🏦';
+            title.textContent='Pembayaran Transfer';
+            subtitle.textContent='Silakan transfer DP ke rekening berikut.';
+        }else{
+            icon.textContent='📱';
+            title.textContent='Pembayaran QRIS';
+            subtitle.textContent='Scan QRIS berikut untuk melakukan pembayaran DP.';
+        }
+
+        modal.classList.add('is-open');
+        document.body.style.overflow='hidden';
+    }
+
+    function bind(){
+        const select=document.getElementById('cust-metode');
+        if(!select || select.dataset.cleanPaymentModalReady==='1') return;
+
+        select.dataset.cleanPaymentModalReady='1';
+
+        select.addEventListener('change',function(){
+            if(this.value==='Transfer' || this.value==='QRIS'){
+                openPaymentModal(this.value);
+            }
+        });
+
+        select.addEventListener('input',function(){
+            if(this.value==='Transfer' || this.value==='QRIS'){
+                openPaymentModal(this.value);
+            }
+        });
+    }
+
+    function boot(){
+        bind();
+        setTimeout(bind,150);
+        setTimeout(bind,500);
+    }
+
+    if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',boot,{once:true});
+    }else{
+        boot();
+    }
+    window.addEventListener('load',bind);
+})();
+</script>
+
 </body>
 <style id="customer-home-desktop-buttons-final">
 /* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
@@ -15317,3 +15651,136 @@ main {
 }
 </style>
 
+
+
+<style id="payment-info-bottom-hidden-final">
+/* Informasi pembayaran hanya tampil di popup, tidak lagi di bawah form */
+#page-home #customer-payment-info,
+#page-customer-booking #customer-payment-info{
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+}
+</style>
+
+
+<style id="booking-buttons-clean-final-v1">
+/* =========================================================
+   FINAL BUTTON CLEANUP
+   1. Tombol KONFIRMASI disamakan ukuran + radius dengan
+      tombol Pilih Metode Pembayaran.
+   2. Garis putih di sekeliling tombol pilihan dihilangkan.
+   Hanya visual, tidak mengubah logic.
+   ========================================================= */
+
+/* Semua trigger pilihan: tanpa outline/border putih */
+#page-customer-booking .booking-secondary-final-trigger,
+#page-customer-booking .booking-secondary-final-trigger:hover,
+#page-customer-booking .booking-secondary-final-trigger:focus,
+#page-customer-booking .booking-secondary-final-trigger:active{
+    border:0 !important;
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+/* Hilangkan garis putih pada card pembungkus tombol pilihan */
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger){
+    border-color:transparent !important;
+    outline:none !important;
+}
+
+/* Konfirmasi booking = ukuran/radius sama dengan tombol metode */
+#page-home .booking-submit-btn{
+    width:100% !important;
+    min-height:48px !important;
+    height:48px !important;
+    box-sizing:border-box !important;
+    padding:8px 10px !important;
+    border-radius:12px !important;
+    border:0 !important;
+    outline:none !important;
+    font-size:.82rem !important;
+    line-height:1.15 !important;
+    font-weight:900 !important;
+}
+
+/* Tidak ada garis putih saat fokus/klik */
+#page-home .booking-submit-btn:hover,
+#page-home .booking-submit-btn:focus,
+#page-home .booking-submit-btn:active{
+    border:0 !important;
+    outline:none !important;
+}
+
+/* Hilangkan garis putih pada tombol-tombol pilihan tanggal/jam/
+   durasi/metode yang menggunakan trigger visual */
+#page-home .booking-secondary-final-trigger,
+#page-home .booking-secondary-final-trigger:hover,
+#page-home .booking-secondary-final-trigger:focus,
+#page-home .booking-secondary-final-trigger:active{
+    border:0 !important;
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+/* Jika garis berasal dari focus ring native browser */
+#page-home button:focus-visible,
+#page-customer-booking button:focus-visible{
+    outline:none !important;
+}
+</style>
+
+
+<style id="booking-choice-remove-white-border-final">
+/* =========================================================
+   HILANGKAN GARIS PUTIH PADA SEMUA TOMBOL PILIHAN BOOKING
+   Border yang dihilangkan adalah border CARD pembungkusnya,
+   bukan hanya outline tombol.
+   ========================================================= */
+
+/* Card pembungkus pilihan: hilangkan garis putih */
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger),
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger)::before,
+#page-customer-booking .booking-glass-card:has(.booking-secondary-final-trigger)::after{
+    border:0 !important;
+    outline:0 !important;
+}
+
+/* Trigger tombol pilihan */
+#page-customer-booking .booking-secondary-final-trigger,
+#page-customer-booking .booking-secondary-final-trigger:hover,
+#page-customer-booking .booking-secondary-final-trigger:focus,
+#page-customer-booking .booking-secondary-final-trigger:active{
+    border:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+}
+
+/* Hilangkan focus ring browser */
+#page-customer-booking .booking-secondary-final-trigger:focus-visible{
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+/* Berlaku juga untuk tombol pilihan yang berada di halaman home */
+#page-home .booking-glass-card:has(.booking-secondary-final-trigger),
+#page-home .booking-glass-card:has(.booking-secondary-final-trigger)::before,
+#page-home .booking-glass-card:has(.booking-secondary-final-trigger)::after{
+    border:0 !important;
+    outline:0 !important;
+}
+
+/* Pastikan tombol konfirmasi tetap tanpa garis */
+#page-home .booking-submit-btn,
+#page-home .booking-submit-btn:hover,
+#page-home .booking-submit-btn:focus,
+#page-home .booking-submit-btn:active{
+    border:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+}
+</style>
