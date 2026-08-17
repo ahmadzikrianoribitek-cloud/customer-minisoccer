@@ -3240,6 +3240,41 @@ body > *, main, #app, .app, .page, .page-content {
 }
 </style>
 
+<style id="daily-report-jpg-vertical-center-fix">
+/* EXPORT DAILY RECAP — semua teks di dalam kartu benar-benar berada di tengah vertikal. */
+#daily-report-jpg-canvas .report-source .grid > div,
+#daily-report-jpg-canvas #ringkasan-minuman-box > *,
+#daily-report-jpg-canvas .report-source [class*="rounded-xl"] {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    text-align:center !important;
+}
+#daily-report-jpg-canvas .report-source .grid > div {
+    min-height:72px !important;
+    padding:10px 9px !important;
+}
+#daily-report-jpg-canvas .report-source .grid > div > p {
+    margin-top:0 !important;
+    margin-bottom:3px !important;
+    line-height:1.25 !important;
+}
+#daily-report-jpg-canvas .report-source .grid > div > p:last-child {
+    margin-bottom:0 !important;
+}
+#daily-report-jpg-canvas .report-source table th,
+#daily-report-jpg-canvas .report-source table td {
+    vertical-align:middle !important;
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+}
+#daily-report-jpg-canvas .report-source table td {
+    line-height:1.35 !important;
+}
+</style>
+
 <style id="daily-report-jpg-top-style">
 .daily-recap-download-area{display:flex;justify-content:flex-end;width:100%;margin:0 0 16px}
 .daily-report-jpg-button{
@@ -7697,6 +7732,682 @@ body > .sticky-back-btn,
 }
 </style>
 
+
+<style id="daily-report-simple-summary-v1">
+/* Hanya memengaruhi hasil JPG Daily Recap, bukan tampilan aplikasi. */
+#daily-report-jpg-canvas { width:820px !important; padding:18px !important; background:#f5f7fa !important; }
+#daily-report-jpg-canvas .report-admin-header { padding:16px 18px !important; margin-bottom:10px !important; border-radius:12px !important; box-shadow:none !important; }
+#daily-report-jpg-canvas .report-admin-header h2 { font-size:28px !important; }
+#daily-report-jpg-canvas .report-admin-header .report-date { font-size:15px !important; margin-top:5px !important; }
+#daily-report-jpg-canvas .report-admin-header .report-made-by { font-size:13px !important; margin-top:5px !important; }
+#daily-report-jpg-canvas .report-section { padding:11px !important; margin-bottom:9px !important; border-radius:12px !important; box-shadow:none !important; }
+#daily-report-jpg-canvas .report-section h3 { margin:0 0 7px !important; font-size:17px !important; }
+#daily-report-jpg-canvas .report-source { font-size:13px !important; line-height:1.25 !important; }
+#daily-report-jpg-canvas .report-source > section { padding:0 !important; border:0 !important; border-radius:0 !important; }
+#daily-report-jpg-canvas .report-source table { font-size:11px !important; }
+#daily-report-jpg-canvas .report-source th, #daily-report-jpg-canvas .report-source td { padding:6px 5px !important; line-height:1.2 !important; }
+#daily-report-jpg-canvas .report-source table thead th { font-size:11px !important; padding:6px 5px !important; }
+#daily-report-jpg-canvas .report-source .text-\[10px\], #daily-report-jpg-canvas .report-source .text-\[11px\], #daily-report-jpg-canvas .report-source .text-xs { font-size:11px !important; line-height:1.2 !important; }
+#daily-report-jpg-canvas .report-source .text-sm { font-size:12px !important; }
+#daily-report-jpg-canvas .report-source .text-base { font-size:13px !important; }
+#daily-report-jpg-canvas .report-source .grid { gap:5px !important; }
+#daily-report-jpg-canvas .report-source .grid > div { min-height:44px !important; padding:6px !important; border-radius:8px !important; }
+#daily-report-jpg-canvas #ringkasan-minuman-box { gap:5px !important; }
+#daily-report-jpg-canvas #ringkasan-minuman-box > * { min-height:42px !important; padding:6px !important; font-size:12px !important; }
+#daily-report-jpg-canvas .report-summary-note { margin:0 0 7px; padding:7px 9px; border:1px solid #dbe5ee; border-radius:8px; background:#f8fafc; color:#475569; font-size:10px; line-height:1.3; font-weight:700; text-align:center; }
+#daily-report-jpg-canvas .report-summary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#daily-report-jpg-canvas .report-summary-card { min-height:48px; box-sizing:border-box; padding:7px 9px; border:1px solid #e2e8f0; border-radius:9px; background:#fff; display:flex; flex-direction:column; justify-content:center; text-align:center; }
+#daily-report-jpg-canvas .report-summary-label { font-size:9.5px; line-height:1.15; font-weight:800; color:#475569; }
+#daily-report-jpg-canvas .report-summary-value { margin-top:3px; font-size:14px; line-height:1.1; font-weight:900; color:#0f172a; }
+#daily-report-jpg-canvas .report-summary-blue { border-color:#bfdbfe; }
+#daily-report-jpg-canvas .report-summary-blue .report-summary-value { color:#1e40af; }
+#daily-report-jpg-canvas .report-summary-sky { border-color:#bae6fd; }
+#daily-report-jpg-canvas .report-summary-sky .report-summary-value { color:#0369a1; }
+#daily-report-jpg-canvas .report-summary-amber { border-color:#fde68a; }
+#daily-report-jpg-canvas .report-summary-amber .report-summary-value { color:#92400e; }
+#daily-report-jpg-canvas .report-summary-teal { border-color:#99f6e4; }
+#daily-report-jpg-canvas .report-summary-teal .report-summary-value { color:#0f766e; }
+#daily-report-jpg-canvas .report-summary-rose { border-color:#fecdd3; }
+#daily-report-jpg-canvas .report-summary-rose .report-summary-value { color:#be123c; }
+#daily-report-jpg-canvas .report-summary-purple { border-color:#ddd6fe; }
+#daily-report-jpg-canvas .report-summary-purple .report-summary-value { color:#6d28d9; }
+#daily-report-jpg-canvas .report-summary-red { border-color:#fecaca; }
+#daily-report-jpg-canvas .report-summary-red .report-summary-value { color:#b91c1c; }
+#daily-report-jpg-canvas .report-summary-indigo { border-color:#c7d2fe; }
+#daily-report-jpg-canvas .report-summary-indigo .report-summary-value { color:#3730a3; }
+#daily-report-jpg-canvas .report-summary-emerald { border-color:#a7f3d0; background:#f0fdf4; }
+#daily-report-jpg-canvas .report-summary-emerald .report-summary-value { color:#047857; }
+#daily-report-jpg-canvas .report-summary-final { margin-top:1px; }
+#daily-report-jpg-canvas .report-summary-total { grid-column:1 / -1; min-height:54px; }
+#daily-report-jpg-canvas .report-summary-total .report-summary-label { font-size:10px; }
+#daily-report-jpg-canvas .report-summary-total .report-summary-value { font-size:17px; }
+#daily-report-jpg-canvas .report-footer { font-size:11px !important; padding:2px !important; }
+</style>
+
+
+<style id="daily-cash-glass-centered-final">
+/* =========================================================
+   DAILY RECAP — KAS HARI INI
+   Semua card nominal dibuat glass seperti "Sisa Cash Minuman"
+   dan seluruh isi card dibuat rata tengah.
+   Visual only — tidak mengubah ID, data, atau fungsi JS.
+   ========================================================= */
+
+#daily-cash-dashboard > section > .grid > div {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    /* Liquid glass */
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.34),
+        rgba(255,255,255,.16)
+    ) !important;
+    border: 1px solid rgba(255,255,255,.62) !important;
+    border-radius: 18px !important;
+
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -1px 0 rgba(255,255,255,.16),
+        0 8px 22px rgba(15,23,42,.10) !important;
+
+    overflow: hidden !important;
+}
+
+/* Kilau kaca */
+#daily-cash-dashboard > section > .grid > div::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.28),
+        rgba(255,255,255,0) 55%
+    ) !important;
+}
+
+/* Pastikan semua isi tetap di atas efek kaca */
+#daily-cash-dashboard > section > .grid > div > * {
+    position: relative !important;
+    z-index: 2 !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* Label */
+#daily-cash-dashboard > section > .grid > div p:first-child {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Nominal */
+#daily-cash-dashboard > section > .grid > div p:last-child {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Hilangkan override background warna solid dari versi sebelumnya */
+#daily-cash-dashboard > section > .grid > div:nth-child(1),
+#daily-cash-dashboard > section > .grid > div:nth-child(2),
+#daily-cash-dashboard > section > .grid > div:nth-child(3),
+#daily-cash-dashboard > section > .grid > div:nth-child(4),
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.34),
+        rgba(255,255,255,.16)
+    ) !important;
+    border-color: rgba(255,255,255,.62) !important;
+}
+
+/* Tetap pertahankan warna teks nominal masing-masing */
+#daily-cash-dashboard > section > .grid > div:nth-child(1) p:last-child { color:#1d4ed8 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(2) p:last-child { color:#047857 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(3) p:last-child { color:#0369a1 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(4) p:last-child { color:#c2410c !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(5) p:last-child { color:#047857 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(6) p:last-child { color:#6d28d9 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(7) p:last-child { color:#047857 !important; }
+
+/* Label juga dibuat konsisten dan tetap terbaca */
+#daily-cash-dashboard > section > .grid > div:nth-child(1) p:first-child { color:#1e3a8a !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(2) p:first-child { color:#065f46 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(3) p:first-child { color:#075985 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(4) p:first-child { color:#9a3412 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(5) p:first-child { color:#047857 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(6) p:first-child { color:#6b21a8 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(7) p:first-child { color:#065f46 !important; }
+
+@media (max-width: 640px) {
+    #daily-cash-dashboard > section > .grid > div {
+        min-height: 82px !important;
+        padding: 11px 8px !important;
+        border-radius: 16px !important;
+    }
+
+    #daily-cash-dashboard > section > .grid > div p:first-child {
+        line-height: 1.15 !important;
+    }
+
+    #daily-cash-dashboard > section > .grid > div p:last-child {
+        line-height: 1.15 !important;
+        margin-top: 5px !important;
+    }
+}
+</style>
+
+
+<style id="daily-recap-final-layout-v46">
+/* =========================================================
+   FINAL DAILY RECAP
+   A. Semua 7 card Kas Hari Ini = liquid glass
+   B. Isi card rata tengah
+   C. Download pindah ke samping "Ganti tanggal"
+   D. Judul Rekap Keuangan Harian tetap tepat di tengah
+   ========================================================= */
+
+/* --- Judul utama benar-benar di tengah --- */
+#page-daily-recap > .flex.justify-between.items-center.mb-4.border-b {
+    position: relative !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+#page-daily-recap > .flex.justify-between.items-center.mb-4.border-b > h2 {
+    width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
+/* --- Area kontrol tanggal --- */
+#daily-cash-dashboard > div:first-child {
+    position: relative !important;
+}
+
+.daily-recap-date-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 12px !important;
+}
+
+.daily-recap-date-picker {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+}
+
+.daily-recap-download-inline {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.daily-recap-download-inline .daily-report-jpg-button {
+    width: 58px !important;
+    min-width: 58px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 10px !important;
+    border-radius: 16px !important;
+}
+
+/* --- Semua card Kas Hari Ini: satu efek kaca yang konsisten --- */
+#daily-cash-dashboard > section > .grid > div {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.34),
+        rgba(255,255,255,.16)
+    ) !important;
+
+    border: 1px solid rgba(255,255,255,.68) !important;
+    border-radius: 18px !important;
+
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.82),
+        inset 0 -1px 0 rgba(255,255,255,.16),
+        0 8px 22px rgba(15,23,42,.10) !important;
+
+    overflow: hidden !important;
+}
+
+/* Menimpa background solid/warna lama pada SEMUA card,
+   termasuk card ke-5, ke-6, dan ke-7. */
+#daily-cash-dashboard > section > .grid > div:nth-child(1),
+#daily-cash-dashboard > section > .grid > div:nth-child(2),
+#daily-cash-dashboard > section > .grid > div:nth-child(3),
+#daily-cash-dashboard > section > .grid > div:nth-child(4),
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.34),
+        rgba(255,255,255,.16)
+    ) !important;
+    border-color: rgba(255,255,255,.68) !important;
+}
+
+/* Kilau kaca */
+#daily-cash-dashboard > section > .grid > div::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.28),
+        rgba(255,255,255,0) 55%
+    ) !important;
+}
+
+/* Isi berada di atas efek kaca */
+#daily-cash-dashboard > section > .grid > div > * {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+#daily-cash-dashboard > section > .grid > div p:first-child,
+#daily-cash-dashboard > section > .grid > div p:last-child {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Warna nominal tetap dipertahankan */
+#daily-cash-dashboard > section > .grid > div:nth-child(1) p:last-child { color:#1d4ed8 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(2) p:last-child { color:#047857 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(3) p:last-child { color:#0369a1 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(4) p:last-child { color:#c2410c !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(5) p:last-child { color:#047857 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(6) p:last-child { color:#6d28d9 !important; }
+#daily-cash-dashboard > section > .grid > div:nth-child(7) p:last-child { color:#047857 !important; }
+
+/* --- HP --- */
+@media (max-width: 640px) {
+    .daily-recap-date-actions {
+        gap: 8px !important;
+    }
+
+    .daily-recap-date-picker {
+        gap: 6px !important;
+    }
+
+    .daily-recap-date-picker label {
+        line-height: 1.05 !important;
+    }
+
+    .daily-recap-download-inline .daily-report-jpg-button {
+        width: 48px !important;
+        min-width: 48px !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        padding: 8px !important;
+        border-radius: 14px !important;
+    }
+
+    #daily-cash-dashboard > section > .grid > div {
+        min-height: 82px !important;
+        padding: 11px 8px !important;
+        border-radius: 16px !important;
+    }
+}
+</style>
+
+
+<style id="daily-recap-final-clean-glass-v47">
+/* =========================================================
+   DAILY RECAP FINAL
+   ========================================================= */
+
+/* 1. KONTROL CEPAT benar-benar disembunyikan */
+#daily-cash-dashboard > section > div:first-child p:first-child {
+    display: none !important;
+}
+
+/* 2. Judul KAS HARI INI rata tengah */
+#daily-cash-dashboard > section > div:first-child {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+    padding: 0 !important;
+}
+
+#daily-cash-dashboard > section > div:first-child p:last-child {
+    width: 100% !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+/* 3. Hilangkan tulisan/frame "Belum dicek" */
+#daily-cash-dashboard > section > div:first-child > *:not(p) {
+    display: none !important;
+}
+
+/* Jika status "Belum dicek" berada di elemen sibling lain */
+#daily-cash-dashboard .daily-check-status,
+#daily-cash-dashboard .check-status,
+#daily-cash-dashboard .status-badge,
+#daily-cash-dashboard [class*="check-status"],
+#daily-cash-dashboard [class*="status-badge"] {
+    display: none !important;
+}
+
+/* 4. SEMUA card nominal memakai glass yang sama.
+      Card 5 = Sisa Cash Lapangan
+      Card 6 = Sisa Cash Minuman
+      Card 7 = Total Sisa Cash */
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.42),
+        rgba(255,255,255,.18)
+    ) !important;
+
+    border: 1px solid rgba(255,255,255,.62) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        0 8px 22px rgba(15,23,42,.08) !important;
+
+    backdrop-filter: blur(16px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+
+/* Pastikan override warna solid lama tidak bisa muncul kembali */
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background-color: transparent !important;
+}
+
+/* Kilau kaca */
+#daily-cash-dashboard > section > .grid > div:nth-child(5)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(6)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(7)::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.28),
+        rgba(255,255,255,0) 55%
+    ) !important;
+}
+
+/* Semua isi card tetap di atas efek kaca dan rata tengah */
+#daily-cash-dashboard > section > .grid > div:nth-child(5) > *,
+#daily-cash-dashboard > section > .grid > div:nth-child(6) > *,
+#daily-cash-dashboard > section > .grid > div:nth-child(7) > * {
+    position: relative !important;
+    z-index: 2 !important;
+    text-align: center !important;
+}
+
+/* Warna teks tetap seperti sebelumnya */
+#daily-cash-dashboard > section > .grid > div:nth-child(5) p:first-child,
+#daily-cash-dashboard > section > .grid > div:nth-child(5) p:last-child {
+    color: #047857 !important;
+}
+
+#daily-cash-dashboard > section > .grid > div:nth-child(6) p:first-child {
+    color: #6b21a8 !important;
+}
+#daily-cash-dashboard > section > .grid > div:nth-child(6) p:last-child {
+    color: #6d28d9 !important;
+}
+
+#daily-cash-dashboard > section > .grid > div:nth-child(7) p:first-child,
+#daily-cash-dashboard > section > .grid > div:nth-child(7) p:last-child {
+    color: #065f46 !important;
+}
+
+/* HP */
+@media (max-width: 640px) {
+    #daily-cash-dashboard > section > div:first-child {
+        margin-bottom: 10px !important;
+    }
+
+    #daily-cash-dashboard > section > div:first-child p:last-child {
+        text-align: center !important;
+    }
+}
+</style>
+
+
+<style id="daily-recap-glass-balance-hard-fix-v48">
+/* HARD FIX:
+   Sisa Cash Lapangan dan Total Sisa Cash sekarang memakai
+   struktur/class glass yang sama dan tidak lagi memiliki
+   inline background-color yang mengalahkan efek kaca. */
+
+#daily-cash-dashboard > section > .grid > .daily-glass-balance-card {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.42),
+        rgba(255,255,255,.18)
+    ) !important;
+
+    background-color: transparent !important;
+    border: 1px solid rgba(255,255,255,.62) !important;
+    border-radius: 18px !important;
+
+    backdrop-filter: blur(16px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -1px 0 rgba(255,255,255,.16),
+        0 8px 22px rgba(15,23,42,.08) !important;
+
+    overflow: hidden !important;
+}
+
+#daily-cash-dashboard > section > .grid > .daily-glass-balance-card::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.30),
+        rgba(255,255,255,0) 58%
+    ) !important;
+}
+
+#daily-cash-dashboard > section > .grid > .daily-glass-balance-card > * {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+#daily-cash-dashboard > section > .grid > .daily-glass-balance-card p:first-child {
+    color: #047857 !important;
+}
+
+#daily-cash-dashboard > section > .grid > .daily-glass-balance-card p:last-child {
+    color: #047857 !important;
+    text-align: center !important;
+}
+</style>
+
+
+<style id="daily-recap-uniform-glass-v49">
+/* =========================================================
+   KAS HARI INI — GLASS SERAGAM
+   Semua card dari Total Pemasukan sampai Total Sisa Cash
+   memakai warna kaca yang sama agar terlihat satu kesatuan.
+   ========================================================= */
+
+#daily-cash-dashboard > section > .grid > div {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.42),
+        rgba(255,255,255,.18)
+    ) !important;
+
+    background-color: transparent !important;
+    border: 1px solid rgba(255,255,255,.62) !important;
+    border-radius: 18px !important;
+
+    backdrop-filter: blur(16px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -1px 0 rgba(255,255,255,.16),
+        0 8px 22px rgba(15,23,42,.08) !important;
+}
+
+/* Hilangkan perbedaan warna background lama pada setiap card */
+#daily-cash-dashboard > section > .grid > div:nth-child(1),
+#daily-cash-dashboard > section > .grid > div:nth-child(2),
+#daily-cash-dashboard > section > .grid > div:nth-child(3),
+#daily-cash-dashboard > section > .grid > div:nth-child(4),
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.42),
+        rgba(255,255,255,.18)
+    ) !important;
+    background-color: transparent !important;
+    border-color: rgba(255,255,255,.62) !important;
+}
+
+/* Kilau kaca dibuat seragam */
+#daily-cash-dashboard > section > .grid > div::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.30),
+        rgba(255,255,255,0) 58%
+    ) !important;
+}
+
+/* Isi tetap di atas kaca dan rata tengah */
+#daily-cash-dashboard > section > .grid > div > * {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+</style>
+
+
+<style id="daily-recap-glass-match-total-sisa-v50">
+/* =========================================================
+   SEMUA CARD KAS HARI INI DISAMAKAN PERSIS DENGAN
+   WARNA KACA CARD "TOTAL SISA CASH".
+   Tidak ada lagi warna kaca berbeda per card.
+   ========================================================= */
+
+/* Satu sumber warna kaca untuk SEMUA card */
+#daily-cash-dashboard > section > .grid > div,
+#daily-cash-dashboard > section > .grid > div:nth-child(1),
+#daily-cash-dashboard > section > .grid > div:nth-child(2),
+#daily-cash-dashboard > section > .grid > div:nth-child(3),
+#daily-cash-dashboard > section > .grid > div:nth-child(4),
+#daily-cash-dashboard > section > .grid > div:nth-child(5),
+#daily-cash-dashboard > section > .grid > div:nth-child(6),
+#daily-cash-dashboard > section > .grid > div:nth-child(7) {
+    background: rgba(255,255,255,.30) !important;
+    background-image: none !important;
+    background-color: rgba(255,255,255,.30) !important;
+
+    border: 1px solid rgba(255,255,255,.62) !important;
+    border-color: rgba(255,255,255,.62) !important;
+
+    backdrop-filter: blur(16px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -1px 0 rgba(255,255,255,.16),
+        0 8px 22px rgba(15,23,42,.08) !important;
+}
+
+/* Hilangkan efek kilau yang bisa membuat sebagian card terlihat
+   berbeda warna */
+#daily-cash-dashboard > section > .grid > div::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(1)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(2)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(3)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(4)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(5)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(6)::before,
+#daily-cash-dashboard > section > .grid > div:nth-child(7)::before {
+    background: none !important;
+    background-image: none !important;
+}
+
+/* Pastikan isi tetap rata tengah */
+#daily-cash-dashboard > section > .grid > div > * {
+    position: relative !important;
+    z-index: 2 !important;
+    text-align: center !important;
+}
+
+/* Mobile tetap sama */
+@media (max-width: 640px) {
+    #daily-cash-dashboard > section > .grid > div {
+        background: rgba(255,255,255,.30) !important;
+        background-image: none !important;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 <!-- Header -->
@@ -7899,14 +8610,6 @@ body > .sticky-back-btn,
 <div class="flex justify-between items-center mb-4 border-b border-slate-900/20 pb-3">
 <h2 class="font-black text-base sm:text-lg text-slate-900 drop-shadow-sm w-full text-center">📊 REKAP KEUANGAN HARIAN</h2>
 
-<div class="daily-recap-download-area">
-  <button type="button" class="daily-report-jpg-button" onclick="downloadDailyRecapJPG()" aria-label="Download laporan JPG" title="Download laporan JPG">
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-</div>
-
 </div>
 <!-- DASHBOARD KAS HARIAN -->
 <div id="daily-cash-dashboard" class="space-y-4 mb-5">
@@ -7915,10 +8618,20 @@ body > .sticky-back-btn,
             <p class="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-500">Tanggal Rekap</p>
             <p id="daily-dashboard-date" class="text-sm sm:text-base font-black text-slate-900">-</p>
         </div>
-        <div class="flex items-center gap-2">
-            <label for="daily-dashboard-date-input" class="text-[10px] sm:text-xs font-black text-slate-600">Ganti tanggal</label>
-            <input id="daily-dashboard-date-input" type="date" class="p-2 rounded-xl text-xs glass-input font-bold text-center"
-                   onchange="syncFilterTanggal(this.value); renderRekapHarian()">
+        <div class="daily-recap-date-actions">
+            <div class="daily-recap-date-picker">
+                <label for="daily-dashboard-date-input" class="text-[10px] sm:text-xs font-black text-slate-600">Ganti tanggal</label>
+                <input id="daily-dashboard-date-input" type="date" class="p-2 rounded-xl text-xs glass-input font-bold text-center"
+                       onchange="syncFilterTanggal(this.value); renderRekapHarian()">
+            </div>
+
+            <div class="daily-recap-download-area daily-recap-download-inline">
+                <button type="button" class="daily-report-jpg-button" onclick="downloadDailyRecapJPG()" aria-label="Download laporan JPG" title="Download laporan JPG">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -7948,7 +8661,7 @@ body > .sticky-back-btn,
                 <p class="text-[10px] font-bold text-slate-500">Pengeluaran</p>
                 <p id="daily-total-keluar" class="text-sm sm:text-lg font-black text-rose-800 mt-1">Rp 0</p>
             </div>
-            <div class="p-3 rounded-xl border-2" style="border-color: rgb(5 150 105 / 0.5) !important; background-color: rgb(236 253 245 / 0.8) !important;">
+            <div class="p-3 rounded-xl border-2 daily-glass-balance-card">
                 <p class="text-[10px] font-bold text-emerald-700">Sisa Cash Lapangan</p>
                 <p id="daily-sisa-cash-lapangan" class="text-sm sm:text-lg font-black text-emerald-900 mt-1">Rp 0</p>
             </div>
@@ -7956,7 +8669,7 @@ body > .sticky-back-btn,
                 <p class="text-[10px] font-bold text-purple-700">Sisa Cash Minuman</p>
                 <p id="daily-sisa-cash-minuman" class="text-sm sm:text-lg font-black text-purple-800 mt-1">Rp 0</p>
             </div>
-            <div class="p-3 rounded-xl border-2 col-span-2 lg:col-span-1" style="border-color: rgb(5 150 105 / 0.5) !important; background-color: rgb(236 253 245 / 0.8) !important;">
+            <div class="p-3 rounded-xl border-2 col-span-2 lg:col-span-1 daily-glass-balance-card">
                 <p class="text-[10px] font-bold text-emerald-700">Total Sisa Cash</p>
                 <p id="daily-cash-seharusnya" class="text-base sm:text-xl font-black text-emerald-900 mt-1">Rp 0</p>
             </div>
@@ -8123,14 +8836,6 @@ Alur pengeluaran: Cash Lapangan dipakai terlebih dahulu → jika kurang, otomati
 <p class="text-xs text-slate-900 font-bold mb-1 text-center">Total Pengeluaran</p>
 <p class="text-base sm:text-lg font-black text-rose-700 text-center" id="rekap-keluar">Rp 0</p>
 </div>
-<div class="p-3 sm:p-4 rounded-xl border border-indigo-600/50 text-center shadow bg-white/30">
-<p class="text-xs text-slate-900 font-bold mb-1 text-center">Sisa Cash Lapangan Setelah Pengeluaran</p>
-<p class="text-base sm:text-lg font-black text-indigo-800 text-center" id="rekap-sisa-cash-lapangan">Rp 0</p>
-</div>
-<div class="p-3 sm:p-4 rounded-xl border border-purple-600/50 text-center shadow bg-white/30">
-<p class="text-xs text-slate-900 font-bold mb-1 text-center">Sisa Cash Minuman Setelah Pengeluaran</p>
-<p class="text-base sm:text-lg font-black text-purple-800 text-center" id="rekap-sisa-cash-minuman">Rp 0</p>
-</div>
 <div class="p-3 sm:p-4 rounded-xl border border-blue-600/50 text-center shadow bg-white/30">
 <p class="text-xs text-slate-900 font-bold mb-1 text-center">Pengeluaran dari Cash Lapangan</p>
 <p class="text-base sm:text-lg font-black text-blue-900 text-center" id="rekap-pengeluaran-dari-lapangan">Rp 0</p>
@@ -8142,6 +8847,14 @@ Alur pengeluaran: Cash Lapangan dipakai terlebih dahulu → jika kurang, otomati
 <div class="p-3 sm:p-4 rounded-xl border border-red-600/50 text-center shadow bg-white/30">
 <p class="text-xs text-slate-900 font-bold mb-1 text-center">Cash Tidak Tercover</p>
 <p class="text-base sm:text-lg font-black text-red-700 text-center" id="rekap-kekurangan-cash">Rp 0</p>
+</div>
+<div class="p-3 sm:p-4 rounded-xl border border-indigo-600/50 text-center shadow bg-white/30">
+<p class="text-xs text-slate-900 font-bold mb-1 text-center">Sisa Cash Lapangan Setelah Pengeluaran</p>
+<p class="text-base sm:text-lg font-black text-indigo-800 text-center" id="rekap-sisa-cash-lapangan">Rp 0</p>
+</div>
+<div class="p-3 sm:p-4 rounded-xl border border-purple-600/50 text-center shadow bg-white/30">
+<p class="text-xs text-slate-900 font-bold mb-1 text-center">Sisa Cash Minuman Setelah Pengeluaran</p>
+<p class="text-base sm:text-lg font-black text-purple-800 text-center" id="rekap-sisa-cash-minuman">Rp 0</p>
 </div>
 <div class="p-3 sm:p-4 rounded-xl border border-emerald-600/50 text-center shadow bg-white/30">
 <p class="text-xs text-slate-900 font-bold mb-1 text-center">Total Cash Tersisa</p>
@@ -15909,28 +16622,69 @@ window.downloadDailyRecapJPG = async function() {
     `;
 
     const sections = [
-        { ids:['sub-page-lapangan','daily-recap-lapangan','rekap-lapangan'], title:'⚽ LAPANGAN' },
-        { ids:['sub-page-minuman','daily-recap-minuman','rekap-minuman'], title:'🥤 MINUMAN' },
-        { ids:['sub-page-pengeluaran','daily-recap-pengeluaran','rekap-pengeluaran'], title:'💸 PENGELUARAN' },
-        { ids:['sub-page-ringkasan','daily-recap-ringkasan','rekap-ringkasan'], title:'📊 RINGKASAN' }
+        { key:'lapangan', ids:['sub-page-lapangan','daily-recap-lapangan','rekap-lapangan'], title:'⚽ LAPANGAN' },
+        { key:'minuman', ids:['sub-page-minuman','daily-recap-minuman','rekap-minuman'], title:'🥤 MINUMAN' },
+        { key:'pengeluaran', ids:['sub-page-pengeluaran','daily-recap-pengeluaran','rekap-pengeluaran'], title:'💸 PENGELUARAN' },
+        { key:'ringkasan', ids:['sub-page-ringkasan','daily-recap-ringkasan','rekap-ringkasan'], title:'📊 RINGKASAN' }
     ];
 
     setProgress(42, 'Menyusun laporan...', 'Menata bagian lapangan, minuman, pengeluaran, dan ringkasan.');
 
-    sections.forEach(item => {
-        let source = null;
-        for (const id of item.ids) {
-            const el = document.getElementById(id);
-            if (el) { source = el; break; }
-        }
-        if (!source) return;
+    function reportValue(id) {
+        return document.getElementById(id)?.textContent?.trim() || 'Rp 0';
+    }
 
+    function addSummaryCard(parent, label, value, tone='blue', extraClass='') {
+        const card = document.createElement('div');
+        card.className = `report-summary-card report-summary-${tone} ${extraClass}`.trim();
+        card.innerHTML = `<div class="report-summary-label">${label}</div><div class="report-summary-value">${value}</div>`;
+        parent.appendChild(card);
+    }
+
+    sections.forEach(item => {
         const section = document.createElement('div');
         section.className = 'report-section';
 
         const heading = document.createElement('h3');
         heading.textContent = item.title;
         section.appendChild(heading);
+
+        // Ringkasan dibuat khusus untuk hasil download agar lebih sederhana.
+        // Urutan: pemasukan -> pengeluaran -> saldo cash paling akhir.
+        if (item.key === 'ringkasan') {
+            const note = document.createElement('div');
+            note.className = 'report-summary-note';
+            note.textContent = 'Alur pengeluaran: Cash Lapangan dipakai terlebih dahulu. Jika tidak mencukupi, sisanya diambil dari Cash Minuman.';
+            section.appendChild(note);
+
+            const grid = document.createElement('div');
+            grid.className = 'report-summary-grid';
+
+            addSummaryCard(grid, 'Total Lapangan Cash', reportValue('rekap-lapangan-cash'), 'blue');
+            addSummaryCard(grid, 'Total Lapangan QRIS/Transfer', reportValue('rekap-lapangan-qrif'), 'sky');
+            addSummaryCard(grid, 'Total Minuman Cash', reportValue('rekap-minuman-cash'), 'amber');
+            addSummaryCard(grid, 'Total Minuman QRIS/Transfer', reportValue('rekap-minuman-qrif'), 'teal');
+            addSummaryCard(grid, 'Total Pengeluaran', reportValue('rekap-keluar'), 'rose');
+            addSummaryCard(grid, 'Pengeluaran dari Cash Lapangan', reportValue('rekap-pengeluaran-dari-lapangan'), 'blue');
+            addSummaryCard(grid, 'Pengeluaran dari Cash Minuman', reportValue('rekap-pengeluaran-dari-minuman'), 'purple');
+            addSummaryCard(grid, 'Cash Tidak Tercover', reportValue('rekap-kekurangan-cash'), 'red');
+
+            // Tiga saldo cash sengaja ditempatkan paling akhir.
+            addSummaryCard(grid, 'Sisa Cash Lapangan Setelah Pengeluaran', reportValue('rekap-sisa-cash-lapangan'), 'indigo', 'report-summary-final');
+            addSummaryCard(grid, 'Sisa Cash Minuman Setelah Pengeluaran', reportValue('rekap-sisa-cash-minuman'), 'purple', 'report-summary-final');
+            addSummaryCard(grid, 'Total Cash Tersisa', reportValue('rekap-total-sisa-cash'), 'emerald', 'report-summary-total');
+
+            section.appendChild(grid);
+            root.appendChild(section);
+            return;
+        }
+
+        let source = null;
+        for (const id of item.ids) {
+            const el = document.getElementById(id);
+            if (el) { source = el; break; }
+        }
+        if (!source) return;
 
         const clone = source.cloneNode(true);
         clone.removeAttribute('id');
@@ -15940,9 +16694,7 @@ window.downloadDailyRecapJPG = async function() {
         clone.querySelectorAll('input, button, select, textarea').forEach(el => el.remove());
         clone.querySelectorAll('[style*="display:none"], [style*="display: none"]').forEach(el => el.remove());
 
-        // Laporan JPG dibuat lebih ringkas:
-        // 1. Hilangkan blok "Pilih Tanggal Rekap" karena tanggal sudah ada di header utama.
-        // 2. Hilangkan tanggal yang muncul lagi di masing-masing sub-menu.
+        // Laporan JPG dibuat ringkas: tanggal dan kontrol admin tidak ikut.
         clone.querySelectorAll('#label-tanggal-lapangan, #label-tanggal-minuman, #label-tanggal-keluar, #label-tanggal-ringkasan').forEach(el => {
             el.remove();
         });
@@ -15951,23 +16703,19 @@ window.downloadDailyRecapJPG = async function() {
             const textValue = (el.textContent || '').replace(/\s+/g, ' ').trim();
             if (textValue === 'Pilih Tanggal Rekap:') {
                 const wrapper = el.closest('.flex.flex-col, .flex');
-                if (wrapper && wrapper !== clone) {
-                    wrapper.remove();
-                } else {
-                    el.remove();
-                }
+                if (wrapper && wrapper !== clone) wrapper.remove();
+                else el.remove();
             }
         });
 
-        // Setelah elemen tanggal dihapus, rapikan ruang kosong yang tersisa.
+        // Hilangkan judul bagian yang terduplikasi di dalam submenu.
+        clone.querySelectorAll('h1, h2, h3').forEach(el => el.remove());
+
         clone.querySelectorAll('.mb-4, .mb-3, .pb-3').forEach(el => {
-            if (!el.textContent.trim() && !el.querySelector('table')) {
-                el.remove();
-            }
+            if (!el.textContent.trim() && !el.querySelector('table')) el.remove();
         });
 
-        // Kolom Aksi hanya untuk kontrol admin di halaman aplikasi.
-        // Tidak perlu ikut masuk ke laporan JPG.
+        // Kolom Aksi hanya untuk kontrol admin di aplikasi.
         clone.querySelectorAll('table').forEach(table => {
             const headerRow = table.querySelector('thead tr');
             if (!headerRow) return;
@@ -24978,7 +25726,7 @@ html, body {
     top: 44px !important;
   }
   #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn {
-    top: 78px !important;
+    top: 79px !important;
   }
 }
 
@@ -25057,6 +25805,149 @@ html, body {
 @media (max-width: 380px) {
   #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-info .today-admin-reminder-timer {
     transform: translateY(2px) !important;
+  }
+}
+</style>
+
+<style id="today-emergency-mobile-final-position">
+/* FINAL HP — tombol DARURAT berada jelas di bawah TOTAL | DP | SISA.
+   Desktop tidak disentuh karena layout desktop sudah pas. */
+@media (max-width:640px){
+  #today-schedule-panel #today-schedule-list.today-schedule-list-modern > .schedule-card,
+  #today-schedule-panel #today-schedule-list.today-schedule-list-modern > div.schedule-card{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    padding-bottom:7px !important;
+  }
+
+  #today-schedule-panel .today-emergency-paid-btn{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    height:30px !important;
+    min-height:30px !important;
+    max-height:30px !important;
+    margin:6px 0 0 !important;
+    padding:0 8px !important;
+    box-sizing:border-box !important;
+    border-radius:9px !important;
+    font-size:8px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    z-index:30 !important;
+  }
+}
+
+@media (max-width:380px){
+  #today-schedule-panel .today-emergency-paid-btn{
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
+    margin-top:5px !important;
+    padding:0 6px !important;
+    font-size:7.5px !important;
+  }
+}
+</style>
+
+<style id="mobile-reminder-align-with-timer-final">
+/* FINAL HP: tombol INGATKAN harus benar-benar satu baris dengan TIMER.
+   Timer berada di dalam .today-schedule-info yang mulai pada top:34px,
+   lalu timer sendiri top:38px => posisi efektif 72px dari main-row.
+   Karena tombol berada langsung di .today-schedule-main-row, tombol juga
+   harus top:72px. Desktop sengaja tidak disentuh. */
+@media (max-width: 640px) {
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn {
+    top: 72px !important;
+    transform: none !important;
+    height: 27px !important;
+    min-height: 27px !important;
+    max-height: 27px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn {
+    top: 68px !important;
+    transform: none !important;
+    height: 25px !important;
+    min-height: 25px !important;
+    max-height: 25px !important;
+  }
+}
+</style>
+
+<style id="mobile-reminder-align-timer-final-v2">
+/* FINAL V2 HP — tombol INGATKAN harus tepat satu baris dengan TIMER.
+   Pada struktur mobile, .today-remind-btn berada di .today-schedule-main-row,
+   sedangkan timer berada lebih dalam di .today-schedule-info. Karena titik
+   acuannya berbeda, posisi tombol perlu dinaikkan agar garis atasnya sama.
+   DESKTOP TIDAK DIUBAH. */
+@media (max-width:640px){
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn{
+    top:47px !important;
+    transform:none !important;
+    margin:0 !important;
+  }
+
+  /* Card sparing/lawan memakai titik acuan yang sama untuk tombolnya. */
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn{
+    top:47px !important;
+    transform:none !important;
+  }
+}
+
+@media (max-width:380px){
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn{
+    top:45px !important;
+  }
+}
+</style>
+
+<style id="mobile-reminder-true-final-v4">
+/* V4: tombol INGATKAN HP diturunkan sedikit lagi agar tepat sejajar
+   dengan timer. Desktop TIDAK disentuh. */
+@media (max-width:640px){
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn{
+    top:76px !important;
+    transform:none !important;
+    margin:0 !important;
+  }
+}
+
+@media (max-width:380px){
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn{
+    top:72px !important;
+  }
+}
+</style>
+
+<style id="mobile-remind-btn-final-1px-fix">
+/* HP: turunkan tombol Ingatkan 1px lagi. Desktop tidak diubah. */
+@media (max-width: 640px) {
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn {
+    top: 79px !important;
+  }
+}
+@media (max-width: 380px) {
+  #today-schedule-panel .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-sparing-name-row) .today-schedule-main-row > .today-remind-btn,
+  #today-schedule-panel .schedule-card:has(.today-schedule-teams) .today-schedule-main-row > .today-remind-btn {
+    top: 79px !important;
   }
 }
 </style>
