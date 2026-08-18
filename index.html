@@ -5163,8 +5163,8 @@ body:has(#page-home:not(.hidden)) > .customer-sticky-back {
 #page-customer-booking #cust-hp.booking-flat-control{cursor:text !important;}
 #page-customer-booking #cust-nama.booking-flat-control::placeholder,
 #page-customer-booking #cust-hp.booking-flat-control::placeholder{
-  color:#64748b !important;
-  -webkit-text-fill-color:#64748b !important;
+  color:#000 !important;
+  -webkit-text-fill-color:#000 !important;
   opacity:1 !important;
   text-align:center !important;
 }
@@ -5521,6 +5521,62 @@ body::before {
     }
 }
 </style>
+
+<style id="booking-navy-card-final">
+/* FINAL: semua card kaca pada halaman booking mengikuti navy header */
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2),
+#page-customer-booking .customer-payment-info,
+#page-customer-booking .payment-info-card,
+#page-customer-booking .customer-booking-selected-price {
+    background: linear-gradient(145deg, rgba(11,29,73,.96) 0%, rgba(23,59,143,.94) 58%, rgba(24,70,164,.92) 100%) !important;
+    border-color: rgba(255,255,255,.20) !important;
+    box-shadow: 0 12px 30px rgba(11,29,73,.24), inset 0 1px 0 rgba(255,255,255,.10) !important;
+    color: #fff !important;
+    backdrop-filter: blur(14px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(120%) !important;
+}
+
+#page-customer-booking form > div.grid::before,
+#page-customer-booking form > div:not(.grid):not(.pt-2)::before {
+    color: #fff !important;
+}
+
+#page-customer-booking .customer-page-head span,
+#page-customer-booking .customer-page-head h2,
+#page-customer-booking label,
+#page-customer-booking .payment-method-label label,
+#page-customer-booking .payment-method-hint,
+#page-customer-booking .payment-info-title,
+#page-customer-booking .payment-info-label,
+#page-customer-booking .customer-booking-selected-price-label {
+    color: rgba(255,255,255,.88) !important;
+}
+
+#page-customer-booking .payment-select-badge {
+    background: rgba(255,255,255,.12) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.22) !important;
+}
+
+#page-customer-booking .customer-booking-selected-price strong,
+#page-customer-booking .payment-account-number {
+    color: #fff !important;
+}
+
+#page-customer-booking form > .pt-2 button {
+    background: linear-gradient(105deg,#0b1d49 0%,#173b8f 48%,#1846a4 100%) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.20) !important;
+    box-shadow: 0 14px 28px rgba(11,29,73,.30), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+#page-customer-booking form > .pt-2 button:hover {
+    background: linear-gradient(105deg,#0a193f 0%,#15347e 48%,#173f98 100%) !important;
+    box-shadow: 0 17px 32px rgba(11,29,73,.36), inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+</style>
+
 </head>
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
@@ -12111,6 +12167,227 @@ body.booking-success-open{overflow:hidden;}
 })();
 </script>
 
+
+<style id="booking-navy-final-override">
+/* FINAL — BOOKING NAVY, override seluruh style lama */
+#page-customer-booking form.customer-booking-clean-form > .booking-glass-card,
+#page-customer-booking form.customer-booking-clean-form > .booking-date-card,
+#page-customer-booking form.customer-booking-clean-form > .booking-sparing-card,
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2){
+  background:linear-gradient(135deg,rgba(11,29,73,.96) 0%,rgba(23,59,143,.94) 58%,rgba(24,70,164,.92) 100%) !important;
+  background-color:#0b1d49 !important;
+  border:1px solid rgba(255,255,255,.20) !important;
+  box-shadow:0 12px 30px rgba(7,20,55,.24),inset 0 1px 0 rgba(255,255,255,.12) !important;
+  color:#fff !important;
+  backdrop-filter:blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%) !important;
+}
+#page-customer-booking form.customer-booking-clean-form > .booking-glass-card > .booking-flat-control,
+#page-customer-booking form.customer-booking-clean-form > .booking-date-card > .booking-flat-control,
+#page-customer-booking form.customer-booking-clean-form > .booking-sparing-card > .booking-flat-control,
+#page-customer-booking .glass-input{
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+}
+#page-customer-booking .booking-flat-control::placeholder,
+#page-customer-booking .glass-input::placeholder{color:rgba(255,255,255,.70) !important;}
+#page-customer-booking .booking-flat-control option{background:#0b1d49 !important;color:#fff !important;}
+#page-customer-booking label,
+#page-customer-booking .booking-field-label,
+#page-customer-booking .booking-duration-label,
+#page-customer-booking .payment-method-label,
+#page-customer-booking .payment-info-title,
+#page-customer-booking .payment-info-label{color:#fff !important;}
+#page-customer-booking .customer-payment-info,
+#page-customer-booking .payment-info-card,
+#page-customer-booking .customer-booking-selected-price{
+  background:linear-gradient(135deg,rgba(11,29,73,.94),rgba(23,59,143,.90)) !important;
+  border-color:rgba(255,255,255,.20) !important;
+  color:#fff !important;
+  box-shadow:0 10px 26px rgba(7,20,55,.20) !important;
+}
+#page-customer-booking .payment-account-number,
+#page-customer-booking .customer-booking-selected-price strong,
+#page-customer-booking .customer-booking-selected-price-label{color:#fff !important;}
+#page-customer-booking .booking-submit-btn,
+#page-customer-booking form > .pt-2 button{
+  background:linear-gradient(135deg,#0b1d49 0%,#173b8f 58%,#1846a4 100%) !important;
+  background-color:#0b1d49 !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  color:#fff !important;
+  box-shadow:0 13px 28px rgba(7,20,55,.30),inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+#page-customer-booking .booking-submit-btn:hover,
+#page-customer-booking form > .pt-2 button:hover{
+  background:linear-gradient(135deg,#071638 0%,#102f78 58%,#173b8f 100%) !important;
+  filter:none !important;
+}
+</style>
+
+<style id="booking-font-size-and-submit-size-final">
+/* FINAL: samakan ukuran font utama seluruh kontrol Booking */
+#page-customer-booking .booking-flat-control,
+#page-customer-booking .glass-input,
+#page-customer-booking #cust-tanggal,
+#page-customer-booking #cust-jam,
+#page-customer-booking #cust-durasi,
+#page-customer-booking #cust-nama,
+#page-customer-booking #cust-hp,
+#page-customer-booking #cust-minta-sparring,
+#page-customer-booking #cust-status,
+#page-customer-booking #cust-dp,
+#page-customer-booking #cust-metode,
+#page-customer-booking #cust-tanggal-trigger,
+#page-customer-booking #cust-jam-trigger,
+#page-customer-booking #cust-durasi-trigger {
+    font-size: .82rem !important;
+}
+
+/* Placeholder Nama Tim & WhatsApp tetap hitam */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    font-size: .82rem !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+}
+
+/* Konfirmasi Booking dibuat sama tinggi, radius, dan proporsinya
+   dengan card Booking lainnya (72px x radius 20px). */
+#page-customer-booking .booking-submit-wrap {
+    width: 100% !important;
+    min-height: 72px !important;
+    height: 72px !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#page-customer-booking .booking-submit-btn {
+    width: 100% !important;
+    min-height: 72px !important;
+    height: 72px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+    border-radius: 20px !important;
+    font-size: .82rem !important;
+    line-height: 1.2 !important;
+    font-weight: 900 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+</style>
+
+
+<style id="booking-sparing-card-match-date-final">
+/* FINAL: Card Sparing disamakan dengan Card Pilih Tanggal Main */
+#page-customer-booking #cust-minta-sparring,
+#page-customer-booking #cust-status {
+    background: linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.25)) !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    box-shadow: 0 12px 28px rgba(30,64,175,.09), inset 0 1px 0 rgba(255,255,255,.82) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+    color: #163d2b !important;
+}
+</style>
+
+
+<style id="booking-confirm-button-highlight-final">
+/* FINAL: KONFIRMASI BOOKING dibuat sama lebar dengan card Metode Pembayaran
+   dan dibuat sangat jelas sebagai tombol aksi utama. */
+@media (max-width:640px){
+    #page-customer-booking .booking-submit-wrap{
+        width:calc(100vw - 24px) !important;
+        max-width:calc(100vw - 24px) !important;
+        height:72px !important;
+        min-height:72px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        position:relative !important;
+        left:50% !important;
+        transform:translateX(-50%) !important;
+        box-sizing:border-box !important;
+    }
+
+    #page-customer-booking .booking-submit-btn{
+        width:100% !important;
+        max-width:100% !important;
+        height:72px !important;
+        min-height:72px !important;
+        padding:8px 14px !important;
+        border-radius:20px !important;
+        box-sizing:border-box !important;
+
+        /* Warna aksen mengikuti kuning logo */
+        background:linear-gradient(135deg,#f5ff32 0%,#e2ef01 52%,#cbd900 100%) !important;
+        background-color:#e2ef01 !important;
+        color:#0b1d49 !important;
+        border:2px solid rgba(255,255,255,.78) !important;
+
+        /* Glow agar langsung terbaca sebagai tombol utama */
+        box-shadow:
+            0 0 0 2px rgba(226,239,1,.20),
+            0 0 18px rgba(226,239,1,.62),
+            0 12px 30px rgba(7,20,55,.34),
+            inset 0 2px 0 rgba(255,255,255,.55) !important;
+
+        font-size:.82rem !important;
+        font-weight:950 !important;
+        line-height:1.15 !important;
+        letter-spacing:.01em !important;
+        text-transform:uppercase !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        text-align:center !important;
+        transition:transform .16s ease, box-shadow .16s ease, filter .16s ease !important;
+    }
+
+    /* Ikon aksi tanpa mengubah HTML/logic tombol */
+    #page-customer-booking .booking-submit-btn::before{
+        content:"✓" !important;
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        width:30px !important;
+        height:30px !important;
+        margin-right:9px !important;
+        flex:0 0 30px !important;
+        border-radius:9px !important;
+        background:#0b1d49 !important;
+        color:#e2ef01 !important;
+        font-size:18px !important;
+        font-weight:950 !important;
+        line-height:1 !important;
+        box-shadow:0 2px 7px rgba(7,20,55,.20) !important;
+    }
+
+    #page-customer-booking .booking-submit-btn:hover,
+    #page-customer-booking .booking-submit-btn:focus{
+        background:linear-gradient(135deg,#f8ff55 0%,#e2ef01 52%,#cbd900 100%) !important;
+        color:#0b1d49 !important;
+        box-shadow:
+            0 0 0 3px rgba(226,239,1,.24),
+            0 0 24px rgba(226,239,1,.78),
+            0 14px 34px rgba(7,20,55,.38),
+            inset 0 2px 0 rgba(255,255,255,.62) !important;
+        filter:none !important;
+    }
+
+    #page-customer-booking .booking-submit-btn:active{
+        transform:translateY(1px) !important;
+    }
+}
+</style>
+
 </body>
 <style id="customer-home-desktop-buttons-final">
 /* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
@@ -15784,3 +16061,135 @@ main {
     box-shadow:none !important;
 }
 </style>
+
+<style id="booking-navy-final">
+/* NAVY GLASS — transparan, blur, highlight dan depth */
+#page-customer-booking form > div.grid,
+#page-customer-booking form > div:not(.grid):not(.pt-2),
+#page-customer-booking .customer-payment-info,
+#page-customer-booking .payment-info-card,
+#page-customer-booking .customer-booking-selected-price {
+  position:relative !important;
+  overflow:hidden !important;
+  background:linear-gradient(135deg,rgba(23,59,143,.52) 0%,rgba(11,29,73,.42) 48%,rgba(24,70,164,.48) 100%) !important;
+  background-color:rgba(11,29,73,.45) !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  box-shadow:0 18px 38px rgba(3,15,48,.25),inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.08) !important;
+  backdrop-filter:blur(22px) saturate(145%) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(145%) !important;
+  color:#fff !important;
+}
+#page-customer-booking form > div.grid::after,
+#page-customer-booking form > div:not(.grid):not(.pt-2)::after {
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  pointer-events:none !important;
+  background:linear-gradient(125deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.05) 24%,transparent 45%,transparent 72%,rgba(255,255,255,.06) 100%) !important;
+  border-radius:inherit !important;
+}
+#page-customer-booking form > div.grid::before,
+#page-customer-booking form > div:not(.grid):not(.pt-2)::before {
+  color:#fff !important;
+}
+#page-customer-booking label,
+#page-customer-booking .payment-method-label label,
+#page-customer-booking .payment-method-hint,
+#page-customer-booking #customer-status-hint,
+#page-customer-booking .payment-info-title,
+#page-customer-booking .payment-info-label,
+#page-customer-booking .customer-booking-selected-price-label { color:#fff !important; }
+#page-customer-booking .glass-input,
+#page-customer-booking #cust-metode {
+  background:rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.30) !important;
+  color:#fff !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+#page-customer-booking .glass-input::placeholder { color:rgba(255,255,255,.68) !important; }
+#page-customer-booking .glass-input:focus {
+  background:rgba(255,255,255,.15) !important;
+  border-color:rgba(255,255,255,.65) !important;
+  box-shadow:0 0 0 4px rgba(255,255,255,.10),inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+#page-customer-booking #cust-metode option { background:#0b1d49 !important; color:#fff !important; }
+#page-customer-booking .payment-choice {
+  background:rgba(255,255,255,.09) !important;
+  border-color:rgba(255,255,255,.24) !important;
+  color:#fff !important;
+}
+</style>
+
+
+<style id="booking-confirm-button-logo-gold-final">
+/* KONFIRMASI BOOKING — gold mengikuti warna tulisan SANDAGA pada logo */
+#page-customer-booking .booking-submit-btn,
+#page-customer-booking .booking-submit-btn:hover,
+#page-customer-booking .booking-submit-btn:focus,
+#page-customer-booking .booking-submit-btn:active {
+    background: linear-gradient(
+        180deg,
+        #f2b51a 0%,
+        #d99508 42%,
+        #bd7600 72%,
+        #a96300 100%
+    ) !important;
+    background-color: #bd7600 !important;
+    background-image: linear-gradient(
+        180deg,
+        #f2b51a 0%,
+        #d99508 42%,
+        #bd7600 72%,
+        #a96300 100%
+    ) !important;
+    color: #0b1d49 !important;
+    border: 2px solid rgba(255, 226, 139, .90) !important;
+    box-shadow:
+        0 0 0 2px rgba(191, 126, 0, .18),
+        0 0 15px rgba(191, 126, 0, .40),
+        0 10px 26px rgba(7, 20, 55, .30),
+        inset 0 2px 0 rgba(255, 245, 196, .48),
+        inset 0 -2px 0 rgba(120, 65, 0, .22) !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+#page-customer-booking .booking-submit-btn::before {
+    background: #0b1d49 !important;
+    color: #e4a20b !important;
+}
+</style>
+
+
+<style id="booking-confirm-button-mobile-match-cards-final">
+/* HP: tombol konfirmasi harus mengikuti LEBAR CARD, bukan lebar viewport.
+   Override ini menghapus pelebaran calc(100vw - 24px) dari versi sebelumnya. */
+@media (max-width:640px){
+    #page-customer-booking .booking-submit-wrap{
+        width:100% !important;
+        max-width:100% !important;
+        height:72px !important;
+        min-height:72px !important;
+        margin:0 !important;
+        padding:0 !important;
+        position:static !important;
+        left:auto !important;
+        transform:none !important;
+        box-sizing:border-box !important;
+        display:block !important;
+    }
+
+    #page-customer-booking .booking-submit-btn{
+        /* Card lain di mobile memiliki ruang samping 6px dari form */
+        width:calc(100% - 12px) !important;
+        max-width:calc(100% - 12px) !important;
+        min-width:0 !important;
+        height:72px !important;
+        min-height:72px !important;
+        margin:0 auto !important;
+        padding:8px 14px !important;
+        box-sizing:border-box !important;
+        border-radius:20px !important;
+    }
+}
+</style>
+
