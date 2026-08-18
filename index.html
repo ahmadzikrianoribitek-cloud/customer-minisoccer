@@ -16193,3 +16193,189 @@ main {
 }
 </style>
 
+<style id="booking-main-labels-white-final">
+#page-customer-booking #cust-tanggal,
+#page-customer-booking #cust-jam,
+#page-customer-booking #cust-durasi,
+#page-customer-booking #cust-nama,
+#page-customer-booking #cust-hp,
+#page-customer-booking #cust-minta-sparring,
+#page-customer-booking #cust-status,
+#page-customer-booking #cust-dp,
+#page-customer-booking #cust-metode,
+#page-customer-booking #cust-tanggal-trigger,
+#page-customer-booking #cust-jam-trigger,
+#page-customer-booking #cust-durasi-trigger {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+}
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color:#000 !important;
+    -webkit-text-fill-color:#000 !important;
+    opacity:1 !important;
+}
+</style>
+
+<style id="booking-all-main-text-white-final">
+/* FINAL: teks utama card Booking dari Status Pemesan sampai Metode Pembayaran putih */
+#page-customer-booking .booking-glass-card label,
+#page-customer-booking .booking-glass-card .booking-flat-control,
+#page-customer-booking .booking-glass-card .booking-choice-trigger {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+/* Select native options */
+#page-customer-booking .booking-glass-card select option {
+    color: #fff !important;
+    background: #173b8f !important;
+}
+
+/* Placeholder Nama Tim & WhatsApp tetap hitam */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<style id="booking-card-text-white-direct-final">
+/* FINAL: paksa teks utama card Booking menjadi putih.
+   Placeholder nama tim & WA sengaja tetap hitam. */
+#page-customer-booking .booking-flat-control,
+#page-customer-booking .booking-flat-control *,
+#page-customer-booking .glass-input,
+#page-customer-booking .glass-input *,
+#page-customer-booking .booking-select,
+#page-customer-booking .booking-select *,
+#page-customer-booking .booking-field,
+#page-customer-booking .booking-field *,
+#page-customer-booking .booking-card,
+#page-customer-booking .booking-card * {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+/* Elemen teks/label yang biasanya memakai warna hitam langsung */
+#page-customer-booking label,
+#page-customer-booking .label,
+#page-customer-booking .field-label,
+#page-customer-booking .control-label,
+#page-customer-booking .select-trigger,
+#page-customer-booking .select-value,
+#page-customer-booking .placeholder,
+#page-customer-booking button,
+#page-customer-booking select {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+/* Placeholder nama tim & nomor WA tetap hitam sesuai permintaan sebelumnya */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+}
+
+/* Jangan mengubah tombol Konfirmasi Booking yang sudah gold */
+#page-customer-booking .booking-submit-btn {
+    color: #0b1d49 !important;
+    -webkit-text-fill-color: #0b1d49 !important;
+}
+</style>
+
+
+<style id="booking-all-visible-text-white-v5-final">
+/* V5 FINAL:
+   Semua tulisan yang terlihat pada card Booking dari Non-Member
+   sampai Metode Pembayaran dibuat PUTIH.
+   Ini sengaja diletakkan paling akhir agar mengalahkan rule hitam
+   yang masih tersisa dari revisi sebelumnya. */
+
+/* Non-Member, Sparing, DP, Metode Pembayaran — trigger visual */
+#page-customer-booking .booking-secondary-final-trigger,
+#page-customer-booking .booking-secondary-final-trigger *,
+#page-customer-booking .booking-secondary-final-trigger:hover,
+#page-customer-booking .booking-secondary-final-trigger:focus,
+#page-customer-booking .booking-secondary-final-trigger:active {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+}
+
+/* Nama tim dan WhatsApp — teks yang tampil di dalam input */
+#page-customer-booking #cust-nama,
+#page-customer-booking #cust-hp,
+#page-customer-booking #cust-nama:hover,
+#page-customer-booking #cust-hp:hover,
+#page-customer-booking #cust-nama:focus,
+#page-customer-booking #cust-hp:focus {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+}
+
+/* Placeholder juga putih agar yang terlihat di HP/desktop benar-benar putih */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+    opacity:1 !important;
+}
+
+/* Paksa elemen label/teks di card yang relevan */
+#page-customer-booking .booking-glass-card:has(#cust-status) *,
+#page-customer-booking .booking-glass-card:has(#cust-minta-sparring) *,
+#page-customer-booking .booking-glass-card:has(#cust-dp) *,
+#page-customer-booking .booking-glass-card:has(#cust-metode) *,
+#page-customer-booking .booking-glass-card:has(#cust-nama) *,
+#page-customer-booking .booking-glass-card:has(#cust-hp) * {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+}
+
+/* Placeholder tetap putih setelah rule wildcard di atas */
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+    opacity:1 !important;
+}
+
+/* Tombol konfirmasi tetap gold dengan teks navy — jangan tersentuh */
+#page-customer-booking .booking-submit-btn,
+#page-customer-booking .booking-submit-btn * {
+    color:#0b1d49 !important;
+    -webkit-text-fill-color:#0b1d49 !important;
+}
+#page-customer-booking .booking-submit-btn::before {
+    color:#e4a20b !important;
+}
+</style>
+
+
+<style id="booking-name-wa-placeholder-white-v6-final">
+/* V6 FINAL — dua placeholder yang masih hitam:
+   "Masukkan nama tim / pemesan" dan "Masukkan nomor WhatsApp". */
+#page-customer-booking input#cust-nama.booking-flat-control::placeholder,
+#page-customer-booking input#cust-hp.booking-flat-control::placeholder,
+#page-customer-booking #cust-nama::placeholder,
+#page-customer-booking #cust-hp::placeholder {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    opacity: 1 !important;
+}
+
+/* Paksa warna teks input juga putih ketika ada/ketika fokus. */
+#page-customer-booking input#cust-nama.booking-flat-control,
+#page-customer-booking input#cust-hp.booking-flat-control,
+#page-customer-booking input#cust-nama.booking-flat-control:focus,
+#page-customer-booking input#cust-hp.booking-flat-control:focus {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    caret-color: #fff !important;
+}
+</style>
+
