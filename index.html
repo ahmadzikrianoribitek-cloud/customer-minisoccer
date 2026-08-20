@@ -5577,6 +5577,107 @@ body::before {
 }
 </style>
 
+
+<style id="customer-member-page">
+#page-customer-member{
+  background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;
+}
+.customer-member-page-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;padding:20px 22px;
+  border-radius:24px;background:linear-gradient(105deg,#0b1d49 0%,#173b8f 52%,#0d8ec8 100%);
+  color:#fff;box-shadow:0 16px 34px rgba(23,59,143,.22);
+}
+.customer-member-eyebrow{font-size:.62rem;font-weight:950;letter-spacing:.12em;opacity:.72;margin-bottom:5px}
+.customer-member-page-head h2{margin:0;font-size:clamp(1.05rem,3vw,1.45rem);font-weight:950;letter-spacing:.05em}
+.customer-member-page-head p{margin:5px 0 0;font-size:.7rem;font-weight:650;color:rgba(255,255,255,.76)}
+.customer-member-count{flex:0 0 auto;padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);font-size:.62rem;font-weight:950}
+.customer-member-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.customer-member-card{min-width:0;padding:20px 14px 18px;border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(239,246,255,.82));border:1px solid rgba(255,255,255,.95);box-shadow:0 14px 32px rgba(15,23,42,.10),inset 0 1px 0 #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:transform .18s ease,box-shadow .18s ease}
+.customer-member-card:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(37,99,235,.14),inset 0 1px 0 #fff}
+.customer-member-logo{width:108px;height:108px;border-radius:28px;background:#fff;border:1px solid #dbeafe;box-shadow:0 10px 22px rgba(15,23,42,.09);display:grid;place-items:center;overflow:hidden;padding:10px;box-sizing:border-box}
+.customer-member-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.customer-member-logo-fallback{width:100%;height:100%;display:grid;place-items:center;border-radius:20px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;font-size:1.55rem;font-weight:950;letter-spacing:.04em}
+.customer-member-name{text-align:center;color:#13224f;font-size:.86rem;font-weight:950;line-height:1.25;word-break:break-word}
+.customer-member-empty{grid-column:1/-1;padding:28px 18px;border-radius:20px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);color:#64748b;text-align:center;font-size:.75rem;font-weight:800}
+@media(max-width:800px){.customer-member-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.customer-member-logo{width:92px;height:92px}.customer-member-page-head{padding:16px}.customer-member-page-head p{font-size:.62rem}}
+@media(max-width:640px){.customer-member-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.customer-member-card{padding:15px 9px;border-radius:17px;gap:9px}.customer-member-logo{width:78px;height:78px;border-radius:20px;padding:7px}.customer-member-logo-fallback{font-size:1.1rem;border-radius:14px}.customer-member-name{font-size:.72rem}.customer-member-page-head{margin:0 5px 10px;padding:14px 15px;border-radius:18px}.customer-member-page-head h2{font-size:.95rem}.customer-member-count{font-size:.55rem;padding:7px 9px}}
+</style>
+
+<style id="customer-member-logo-final">
+/* Logo member: tanpa frame, tidak terpotong */
+.customer-member-logo{
+  width:132px!important;
+  height:112px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.customer-member-logo img{
+  width:100%!important;
+  height:100%!important;
+  max-width:132px!important;
+  max-height:112px!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  display:block!important;
+}
+.customer-member-logo-fallback{
+  width:82px!important;
+  height:82px!important;
+  border-radius:50%!important;
+  box-shadow:none!important;
+}
+.customer-member-card{
+  min-height:190px;
+}
+@media(max-width:800px){
+  .customer-member-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .customer-member-logo{
+    width:105px!important;
+    height:92px!important;
+  }
+  .customer-member-logo img{
+    max-width:105px!important;
+    max-height:92px!important;
+  }
+  .customer-member-card{
+    min-height:155px;
+  }
+}
+@media(min-width:801px){
+  .customer-member-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:640px){
+  .customer-member-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+  .customer-member-card{
+    min-height:145px;
+    padding:12px 7px!important;
+  }
+  .customer-member-logo{
+    width:92px!important;
+    height:78px!important;
+  }
+  .customer-member-logo img{
+    max-width:92px!important;
+    max-height:78px!important;
+  }
+}
+</style>
+
 </head>
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
@@ -5652,6 +5753,20 @@ body::before {
 <strong id="customer-selected-price-value">Rp 0</strong>
 </div>
 </div>
+</div>
+<!-- HALAMAN MEMBER CUSTOMER -->
+<div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-member">
+  <div class="customer-member-page-head">
+    <div>
+      <div class="customer-member-eyebrow">⚽ SANDAGA MINISOCCER</div>
+      <h2>DAFTAR MEMBER</h2>
+      <p>Daftar tim member yang terdaftar di Sandaga Minisoccer.</p>
+    </div>
+    <div class="customer-member-count" id="customer-member-count">0 TIM</div>
+  </div>
+  <div class="customer-member-grid" id="customer-member-list">
+    <div class="customer-member-empty">Memuat daftar member...</div>
+  </div>
 </div>
 <!-- HALAMAN BOOKING CUSTOMER — HALAMAN UTAMA CUSTOMER (BERANDA CUSTOMER DIHAPUS) -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page customer-booking-page" id="page-customer-booking">
@@ -6353,7 +6468,8 @@ body::before {
             'customer-schedule',
             'customer-price',
             'customer-booking',
-            'customer-sparring'
+            'customer-sparring',
+            'customer-member'
         ]);
 
         let customerHistoryReady = false;
@@ -6422,6 +6538,7 @@ body::before {
             if(id === 'customer-price') { updateCustomerSelectedPrice(); }
             if(id === 'customer-schedule') { initCustomerPeriodeDropdown(); renderCustomerGridJadwal(); }
             if(id === 'customer-sparring') { renderCustomerSparring(); }
+            if(id === 'customer-member') { renderCustomerMember(); }
             if(id === 'booking-schedule') { renderGridJadwal(); }
 
             // Bottom navigation customer selalu mengikuti halaman yang aktif.
@@ -6469,7 +6586,7 @@ body::before {
         // admin: MEMBER aktif/libur + BOOKING aktual. Slot 18:00 tetap OFF.
         const listJam = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"];
         const listHariKey = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-        let globalCache = { member: {}, booking: {}, sparring: {}, pemasukan: {}, minuman: {}, pengeluaran: {} };
+        let globalCache = { member: {}, booking: {}, sparring: {}, pemasukan: {}, minuman: {}, pengeluaran: {}, teamLogos: {} };
 
         function getNamaHari(dateStr) {
             let days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
@@ -7703,6 +7820,87 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
             }
         }
 
+        window.renderCustomerMember = () => {
+            const list = document.getElementById('customer-member-list');
+            const countEl = document.getElementById('customer-member-count');
+            if(!list) return;
+
+            const unique = new Map();
+            Object.values(globalCache.member || {}).forEach(byHari => {
+                Object.values(byHari || {}).forEach(item => {
+                    if(!item || item.type === 'off') return;
+                    const nama = String(item.nama || '').trim();
+                    if(!nama || nama.toUpperCase() === 'OFF') return;
+                    const key = nama.toLowerCase();
+                    if(!unique.has(key)) unique.set(key, item);
+                });
+            });
+
+            const teams = Array.from(unique.values()).sort((a,b) =>
+                String(a.nama || '').localeCompare(String(b.nama || ''), 'id', {sensitivity:'base'})
+            );
+
+            if(countEl) countEl.textContent = `${teams.length} TIM`;
+            if(!teams.length){
+                list.innerHTML = '<div class="customer-member-empty">Belum ada tim member yang terdaftar.</div>';
+                return;
+            }
+
+            const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[ch]));
+            const initials = (name) => String(name || 'TM').trim().split(/\s+/).slice(0,2).map(x => x[0]).join('').toUpperCase() || 'TM';
+
+            // Gunakan aturan pencocokan yang SAMA dengan web admin.
+            // Logo admin disimpan di Firebase: teamLogos/<encoded normalized nama>
+            // dengan field { nama, normalizedNama, logo, updatedAt }.
+            const normalizeTeamLogoNameCustomer = (value) => {
+                let normalized = String(value || '');
+                try { normalized = normalized.normalize('NFKC'); } catch(e) {}
+                return normalized.trim().replace(/\s+/g, ' ').toLowerCase();
+            };
+            const getTeamLogoKeyCustomer = (name) =>
+                encodeURIComponent(normalizeTeamLogoNameCustomer(name)).replace(/\./g, '%2E');
+            const logoToDataUrlCustomer = (value) => {
+                const raw = String(value || '').trim();
+                if(!raw) return '';
+                if(/^data:image\/[a-zA-Z0-9.+-]+;base64,/i.test(raw)) return raw;
+                // Antisipasi data lama yang hanya menyimpan Base64 tanpa prefix.
+                if(/^[A-Za-z0-9+/=\r\n]+$/.test(raw.replace(/\s/g,''))) {
+                    return 'data:image/png;base64,' + raw.replace(/\s/g,'');
+                }
+                return raw;
+            };
+            const getCustomerTeamLogo = (teamName) => {
+                const normalizedName = normalizeTeamLogoNameCustomer(teamName);
+                if(!normalizedName) return '';
+
+                const cache = globalCache.teamLogos || {};
+                const direct = cache[getTeamLogoKeyCustomer(normalizedName)];
+                const directLogo = logoToDataUrlCustomer(direct?.logo);
+                if(directLogo) return directLogo;
+
+                // Fallback untuk logo lama / key yang pernah dibuat berbeda.
+                const matched = Object.values(cache).find(entry => {
+                    const entryName = normalizeTeamLogoNameCustomer(entry?.normalizedNama || entry?.nama || '');
+                    return entryName === normalizedName && String(entry?.logo || '').trim();
+                });
+                return logoToDataUrlCustomer(matched?.logo);
+            };
+
+            list.innerHTML = teams.map(item => {
+                const nama = escapeHtml(item.nama);
+                const logo = getCustomerTeamLogo(item.nama) || logoToDataUrlCustomer(item.logo || item.logoTim || item.logoUrl || item.fotoLogo);
+                const safeLogo = escapeHtml(logo);
+                const fallback = escapeHtml(initials(item.nama));
+                const logoHtml = logo
+                    ? `<img src="${safeLogo}" alt="Logo ${nama}" loading="lazy" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='grid';"><span class="customer-member-logo-fallback" style="display:none">${fallback}</span>`
+                    : `<span class="customer-member-logo-fallback">${fallback}</span>`;
+                return `<article class="customer-member-card">
+                    <div class="customer-member-logo">${logoHtml}</div>
+                    <div class="customer-member-name">${nama}</div>
+                </article>`;
+            }).join('');
+        };
+
         function renderAll() {
             renderGridJadwal();
             renderCustomerGridJadwal();
@@ -7721,10 +7919,16 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                     const key = child.key;
                     const isOff = String(m.nama || '').toUpperCase() === 'OFF';
                     if(!globalCache.member[m.jam]) globalCache.member[m.jam] = {};
-                    globalCache.member[m.jam][m.hari] = { nama:m.nama || '', hari:m.hari || '', jam:m.jam || '', type:isOff?'off':'member', mulai:m.mulai || '', berhenti:m.berhenti || '', liburTanggal:m.liburTanggal || {}, key };
+                    globalCache.member[m.jam][m.hari] = { ...m, nama:m.nama || '', hari:m.hari || '', jam:m.jam || '', type:isOff?'off':'member', mulai:m.mulai || '', berhenti:m.berhenti || '', liburTanggal:m.liburTanggal || {}, key };
                 });
             }
             renderAll();
+            renderCustomerMember();
+        });
+
+        onValue(ref(db, 'teamLogos'), (snapshot) => {
+            globalCache.teamLogos = snapshot.val() || {};
+            renderCustomerMember();
         });
 
         onValue(ref(db, 'booking'), (snapshot) => {
@@ -9614,29 +9818,9 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
 </style>
 <!-- =========================================================
      MOBILE CUSTOMER BOTTOM NAV — LIQUID GLASS
-     4 menu tetap terlihat saat submenu dibuka.
+     5 menu tetap terlihat saat submenu dibuka.
      ========================================================= -->
 <nav aria-label="Navigasi utama" class="customer-bottom-nav" id="customer-bottom-nav">
-<button aria-label="Jadwal" class="customer-bottom-nav-item" data-page="customer-schedule" onclick="showPage('customer-schedule')" type="button">
-<span aria-hidden="true" class="customer-bottom-nav-icon">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
-<rect height="16" rx="3" width="18" x="3" y="4.5"></rect>
-<path d="M16 2.8v3.4M8 2.8v3.4M3 9h18"></path>
-<path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"></path>
-</svg>
-</span>
-<span class="customer-bottom-nav-label">Jadwal</span>
-</button>
-<button aria-label="Harga" class="customer-bottom-nav-item" data-page="customer-price" onclick="showPage('customer-price')" type="button">
-<span aria-hidden="true" class="customer-bottom-nav-icon">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
-<path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"></path>
-<path d="M8 7.5h8M8 11h8M8 14.5h4"></path>
-<path d="M15.5 17.2h.01"></path>
-</svg>
-</span>
-<span class="customer-bottom-nav-label">Harga</span>
-</button>
 <button aria-label="Booking" class="customer-bottom-nav-item" data-page="customer-booking" onclick="showPage('customer-booking')" type="button">
 <span aria-hidden="true" class="customer-bottom-nav-icon">
 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
@@ -9658,6 +9842,35 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
 </span>
 <span class="customer-bottom-nav-label">Sparing</span>
 </button>
+<button aria-label="Member" class="customer-bottom-nav-item" data-page="customer-member" onclick="showPage('customer-member')" type="button">
+<span aria-hidden="true" class="customer-bottom-nav-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<circle cx="9" cy="8" r="3"></circle><circle cx="16.5" cy="9" r="2.5"></circle>
+<path d="M3.5 20c.7-3.4 2.5-5.2 5.5-5.2s4.8 1.8 5.5 5.2M14 15.2c2.5.2 4.2 1.8 4.8 4.8"></path>
+</svg>
+</span>
+<span class="customer-bottom-nav-label">Member</span>
+</button>
+<button aria-label="Jadwal" class="customer-bottom-nav-item" data-page="customer-schedule" onclick="showPage('customer-schedule')" type="button">
+<span aria-hidden="true" class="customer-bottom-nav-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<rect height="16" rx="3" width="18" x="3" y="4.5"></rect>
+<path d="M16 2.8v3.4M8 2.8v3.4M3 9h18"></path>
+<path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"></path>
+</svg>
+</span>
+<span class="customer-bottom-nav-label">Jadwal</span>
+</button>
+<button aria-label="Harga" class="customer-bottom-nav-item" data-page="customer-price" onclick="showPage('customer-price')" type="button">
+<span aria-hidden="true" class="customer-bottom-nav-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"></path>
+<path d="M8 7.5h8M8 11h8M8 14.5h4"></path>
+<path d="M15.5 17.2h.01"></path>
+</svg>
+</span>
+<span class="customer-bottom-nav-label">Harga</span>
+</button>
 </nav>
 <style id="customer-bottom-nav-liquid-glass-v2">
 /* =========================================================
@@ -9675,7 +9888,7 @@ body:has(#page-customer-sparring:not(.hidden)) > .customer-sticky-back[data-back
     min-height: 72px !important;
     padding: 8px !important;
     display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     align-items: stretch !important;
     gap: 5px !important;
 
@@ -9789,7 +10002,7 @@ body:has(#page-customer-sparring:not(.hidden)) main {
 }
 
 /* Sembunyikan nav di area admin/halaman lain */
-body:not(:has(#page-home:not(.hidden))):not(:has(#page-customer-schedule:not(.hidden))):not(:has(#page-customer-price:not(.hidden))):not(:has(#page-customer-booking:not(.hidden))):not(:has(#page-customer-sparring:not(.hidden))) #customer-bottom-nav {
+body:not(:has(#page-home:not(.hidden))):not(:has(#page-customer-schedule:not(.hidden))):not(:has(#page-customer-price:not(.hidden))):not(:has(#page-customer-booking:not(.hidden))):not(:has(#page-customer-sparring:not(.hidden))):not(:has(#page-customer-member:not(.hidden))) #customer-bottom-nav {
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
@@ -9873,7 +10086,8 @@ body:not(:has(#page-home:not(.hidden))):not(:has(#page-customer-schedule:not(.hi
         'customer-schedule',
         'customer-price',
         'customer-booking',
-        'customer-sparring'
+        'customer-sparring',
+        'customer-member'
     ]);
 
     window.updateCustomerBottomNav = function(id) {
@@ -12388,6 +12602,17 @@ body.booking-success-open{overflow:hidden;}
 }
 </style>
 
+
+<style id="customer-member-final-nav-v1">
+/* FINAL MEMBER MENU — override semua revisi layout nav sebelumnya */
+#customer-bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+body:has(#page-customer-member:not(.hidden)) main{padding-bottom:110px!important}
+body:has(#page-customer-member:not(.hidden)) #customer-bottom-nav{visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+@media(max-width:640px){
+  #customer-bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+  #customer-bottom-nav .customer-bottom-nav-label{font-size:9px!important}
+}
+</style>
 </body>
 <style id="customer-home-desktop-buttons-final">
 /* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
@@ -16376,6 +16601,478 @@ main {
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
     caret-color: #fff !important;
+}
+</style>
+
+
+<!-- FINAL PATCH: MEMBER TANPA KACA PEMBUNGKUS + DOCK SELALU TETAP TERLIHAT -->
+<style id="final-member-no-wrapper-and-dock">
+/* Hilangkan KACA PEMBUNGKUS yang membungkus seluruh halaman Member.
+   Card masing-masing tim tetap dipertahankan. */
+#page-customer-member,
+#page-customer-member.glass-panel,
+#page-customer-member.customer-content-page {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+}
+
+#page-customer-member::before,
+#page-customer-member::after,
+#page-customer-member .customer-member-grid::before,
+#page-customer-member .customer-member-grid::after {
+    content: none !important;
+    display: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#page-customer-member .customer-member-grid {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+/* Saat Member dibuka, dock bawah tetap muncul dan tetap bisa diklik. */
+body:has(#page-customer-member:not(.hidden)) #customer-bottom-nav {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: grid !important;
+}
+
+/* Sisakan ruang agar isi Member tidak tertutup dock. */
+body:has(#page-customer-member:not(.hidden)) main {
+    padding-bottom: 110px !important;
+}
+</style>
+
+
+<!-- ================================================================
+     TEMA NAVY TERPADU — SEMUA MENU CUSTOMER
+     Diletakkan paling akhir agar mengalahkan tema warna lama
+     (hijau di Harga, ungu di Sparing) tanpa mengubah id, class,
+     struktur HTML, onclick, atau logic JS apa pun.
+     Booking, Member, dan Jadwal sudah navy — blok ini hanya
+     menyamakan Harga dan Sparing ke palet navy yang sama.
+     ================================================================ -->
+<style id="customer-unified-navy-theme-master-final">
+
+/* ================= HARGA (PRICE) — dari hijau ke navy ================= */
+#page-customer-price .customer-price-head{
+    background:rgba(248,250,252,.94) !important;
+    background-image:linear-gradient(145deg,rgba(255,255,255,.97),rgba(219,234,254,.90)) !important;
+    border-color:rgba(255,255,255,.92) !important;
+    box-shadow:0 8px 20px rgba(15,23,42,.16), inset 0 1px 0 rgba(255,255,255,.92) !important;
+}
+#page-customer-price .customer-price-title{
+    color:#13224f !important;
+    text-shadow:0 1px 1px rgba(255,255,255,.75) !important;
+}
+#page-customer-price .customer-price-badge{
+    background:#dbeafe !important;
+    color:#1e3a8a !important;
+    border:1px solid #93c5fd !important;
+}
+#page-customer-price .customer-price-group{
+    background:rgba(248,250,252,.90) !important;
+    background-image:linear-gradient(145deg,rgba(255,255,255,.95),rgba(219,234,254,.86)) !important;
+    border:1px solid rgba(255,255,255,.85) !important;
+    box-shadow:0 8px 22px rgba(15,23,42,.14), inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+#page-customer-price .customer-price-group h4{
+    background:linear-gradient(135deg,#1d4ed8,#172554) !important;
+    color:#fff !important;
+}
+#page-customer-price .customer-price-label{
+    background:rgba(239,246,255,.65) !important;
+    color:#475569 !important;
+    border-bottom-color:rgba(148,163,184,.30) !important;
+}
+#page-customer-price .customer-price-row{
+    background:rgba(255,255,255,.55) !important;
+    color:#334155 !important;
+    border-top-color:rgba(148,163,184,.22) !important;
+}
+#page-customer-price .customer-price-row .member-price{
+    color:#1d4ed8 !important;
+}
+#page-customer-price .customer-selected-price{
+    background:#eff6ff !important;
+    border-color:#93c5fd !important;
+    color:#1e3a8a !important;
+}
+#page-customer-price .customer-selected-price strong{
+    color:#1d4ed8 !important;
+}
+#page-customer-price .customer-price-note{
+    color:#64748b !important;
+}
+
+/* ================= SPARING — dari ungu/hijau ke navy ================= */
+#page-customer-sparring .customer-page-head h2{
+    color:#172554 !important;
+    text-shadow:0 1px 1px rgba(255,255,255,.6) !important;
+}
+#page-customer-sparring #customer-sparring-list > *,
+#page-customer-sparring .customer-sparring-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.52) 0%,
+            rgba(255,255,255,.30) 48%,
+            rgba(191,219,254,.32) 100%
+        ) !important;
+    border:1px solid rgba(255,255,255,.78) !important;
+    box-shadow:
+        0 18px 42px rgba(15,23,42,.12),
+        inset 0 1px 0 rgba(255,255,255,.85),
+        inset 0 -1px 0 rgba(255,255,255,.20) !important;
+    color:#172554 !important;
+}
+#page-customer-sparring .customer-sparring-meta,
+#page-customer-sparring .customer-sparring-meta > span{
+    color:#1e3a8a !important;
+    background:rgba(255,255,255,.72) !important;
+    border-color:rgba(37,99,235,.20) !important;
+    text-shadow:none !important;
+}
+/* Status "mencari lawan" tetap kuning — indikator status, bukan tema */
+#page-customer-sparring .customer-sparring-meta .customer-sparring-status{
+    color:#6b4a00 !important;
+    background:rgba(255,239,170,.88) !important;
+    border-color:rgba(180,130,20,.30) !important;
+}
+#page-customer-sparring .customer-sparring-team{
+    color:#172554 !important;
+    text-shadow:0 1px 1px rgba(255,255,255,.55) !important;
+}
+#page-customer-sparring .customer-sparring-vs{
+    color:#1d4ed8 !important;
+}
+#page-customer-sparring .customer-sparring-vs span{
+    color:#334155 !important;
+}
+#page-customer-sparring button[onclick*="pilihSparringCustomer"],
+#page-customer-sparring .choose-sparing-btn,
+#page-customer-sparring .pilih-sparring-btn{
+    background:linear-gradient(135deg,#0b1d49 0%,#173b8f 58%,#1846a4 100%) !important;
+    color:#fff !important;
+    border:1px solid rgba(255,255,255,.30) !important;
+    box-shadow:0 8px 22px rgba(7,20,55,.24), inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+#page-customer-sparring button[onclick*="pilihSparringCustomer"]:hover,
+#page-customer-sparring .choose-sparing-btn:hover,
+#page-customer-sparring .pilih-sparring-btn:hover{
+    background:linear-gradient(135deg,#071638 0%,#102f78 58%,#173b8f 100%) !important;
+    transform:translateY(-1px) !important;
+}
+#page-customer-sparring input,
+#page-customer-sparring select{
+    border-color:rgba(37,99,235,.30) !important;
+    color:#172554 !important;
+}
+
+</style>
+
+
+<!-- ================================================================
+     JADWAL — SAMAKAN SEMUA SUDUT MELENGKUNG TABEL
+     Perbaikan bug tampilan umum di HP: tabel dengan border di setiap
+     sel (border-collapse) membuat sudut pojok tabel terlihat persegi
+     walau pembungkusnya sudah rounded + overflow:hidden.
+     Blok ini membulatkan langsung sel pojok tabel (kiri-atas,
+     kanan-atas, kiri-bawah, kanan-bawah) agar semua sudut senada
+     dengan bingkai luarnya. Tidak mengubah id, class, atau JS.
+     ================================================================ -->
+<style id="jadwal-table-corners-consistent-final">
+#page-customer-schedule #booking-schedule-grid-wrap,
+#page-customer-schedule .customer-booking-single-week-table-wrap{
+    border-radius:16px !important;
+    overflow:hidden !important;
+    clip-path:inset(0 round 16px) !important;
+    -webkit-clip-path:inset(0 round 16px) !important;
+}
+#page-customer-schedule .customer-booking-single-week-table-wrap table{
+    border-radius:16px !important;
+    overflow:hidden !important;
+}
+#page-customer-schedule .customer-booking-single-week-table-wrap thead tr:first-child th:first-child{
+    border-top-left-radius:16px !important;
+}
+#page-customer-schedule .customer-booking-single-week-table-wrap thead tr:first-child th:last-child{
+    border-top-right-radius:16px !important;
+}
+#page-customer-schedule .customer-booking-single-week-table-wrap tbody tr:last-child td:first-child{
+    border-bottom-left-radius:16px !important;
+}
+#page-customer-schedule .customer-booking-single-week-table-wrap tbody tr:last-child td:last-child{
+    border-bottom-right-radius:16px !important;
+}
+
+@media (max-width:640px){
+    /* Tabel Jadwal — disamakan dengan radius pill Tanggal & Keterangan */
+    #page-customer-schedule #booking-schedule-grid-wrap,
+    #page-customer-schedule .customer-booking-single-week-table-wrap,
+    #page-customer-schedule .customer-booking-single-week-table-wrap table{
+        border-radius:16px !important;
+        overflow:hidden !important;
+    }
+    /* Pemotong sudut yang pasti — mengatasi bug bawaan browser saat
+       tabel (border-collapse) dibungkus overflow:hidden + border-radius
+       tidak memotong sudut BAWAH dengan benar. */
+    #page-customer-schedule #booking-schedule-grid-wrap,
+    #page-customer-schedule .customer-booking-single-week-table-wrap{
+        clip-path:inset(0 round 16px) !important;
+        -webkit-clip-path:inset(0 round 16px) !important;
+    }
+    #page-customer-schedule .customer-booking-single-week-table-wrap thead tr:first-child th:first-child{
+        border-top-left-radius:16px !important;
+    }
+    #page-customer-schedule .customer-booking-single-week-table-wrap thead tr:first-child th:last-child{
+        border-top-right-radius:16px !important;
+    }
+    #page-customer-schedule .customer-booking-single-week-table-wrap tbody tr:last-child td:first-child{
+        border-bottom-left-radius:16px !important;
+    }
+    #page-customer-schedule .customer-booking-single-week-table-wrap tbody tr:last-child td:last-child{
+        border-bottom-right-radius:16px !important;
+    }
+
+    /* Pill Tanggal — disamakan ke radius yang sama */
+    #page-customer-schedule div:has(> #customer-filter-periode-jadwal){
+        border-radius:16px !important;
+        overflow:hidden !important;
+    }
+    #page-customer-schedule #customer-filter-periode-jadwal{
+        border-radius:16px !important;
+    }
+
+    /* Keterangan — dipastikan tetap di radius yang sama (acuan) */
+    #page-customer-schedule .schedule-legend{
+        border-radius:16px !important;
+    }
+}
+</style>
+
+
+<style id="schedule-period-custom-picker-v50">
+/* V50 — PERIODE TANGGAL JADWAL
+   Select periode asli tetap dipakai untuk logic render,
+   tetapi kontrol yang terlihat diganti menjadi trigger custom. */
+#page-booking-schedule .schedule-period-custom-trigger,
+#page-customer-schedule .schedule-period-custom-trigger{
+  width:100% !important;
+  min-height:42px !important;
+  height:42px !important;
+  padding:8px 12px !important;
+  border:0 !important;
+  outline:0 !important;
+  border-radius:12px !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#163d2b !important;
+  font-size:.72rem !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  cursor:pointer !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+#page-booking-schedule .schedule-period-custom-trigger:hover,
+#page-booking-schedule .schedule-period-custom-trigger:focus,
+#page-customer-schedule .schedule-period-custom-trigger:hover,
+#page-customer-schedule .schedule-period-custom-trigger:focus{
+  background:transparent !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+#page-booking-schedule #filter-periode-jadwal.schedule-period-hidden-select,
+#page-customer-schedule #customer-filter-periode-jadwal.schedule-period-hidden-select{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  clip:rect(0 0 0 0) !important;
+  left:-9999px !important;
+}
+</style>
+
+<script id="schedule-period-custom-picker-v50-script">
+(function(){
+  'use strict';
+
+  const IDS = [
+    {
+      id:'filter-periode-jadwal',
+      title:'Pilih Periode Jadwal'
+    },
+    {
+      id:'customer-filter-periode-jadwal',
+      title:'Pilih Periode Jadwal'
+    }
+  ];
+
+  function cleanText(text){
+    return String(text || '').replace(/\s+/g,' ').trim();
+  }
+
+  function getModal(){
+    let modal=document.getElementById('booking-choice-modal');
+
+    // Modal booking V49 biasanya sudah tersedia.
+    // Jika belum tersedia saat script ini berjalan, buat versi yang sama.
+    if(!modal){
+      modal=document.createElement('div');
+      modal.id='booking-choice-modal';
+      modal.className='booking-choice-modal';
+      modal.innerHTML='<div class="booking-choice-dialog" role="dialog" aria-modal="true">' +
+        '<h3 class="booking-choice-title" id="booking-choice-title">Pilih</h3>' +
+        '<div class="booking-choice-list" id="booking-choice-list"></div></div>';
+      document.body.appendChild(modal);
+    }
+    return modal;
+  }
+
+  function setupOne(config){
+    const sel=document.getElementById(config.id);
+    if(!sel || sel.dataset.periodCustomReady==='1') return;
+
+    const wrapper=sel.parentElement;
+    if(!wrapper) return;
+
+    sel.dataset.periodCustomReady='1';
+    sel.classList.add('schedule-period-hidden-select');
+
+    let btn=wrapper.querySelector('.schedule-period-custom-trigger');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.type='button';
+      btn.className='schedule-period-custom-trigger';
+      btn.setAttribute('aria-haspopup','dialog');
+      btn.setAttribute('aria-expanded','false');
+
+      // Trigger ditempatkan sebelum select tersembunyi.
+      wrapper.insertBefore(btn,sel);
+    }
+
+    function sync(){
+      const opt=sel.options[sel.selectedIndex];
+      btn.textContent=cleanText(opt ? opt.textContent : '') || 'Pilih periode';
+    }
+
+    function open(){
+      const modal=getModal();
+      const title=modal.querySelector('#booking-choice-title');
+      const list=modal.querySelector('#booking-choice-list');
+
+      title.textContent=config.title;
+      list.innerHTML='';
+
+      Array.from(sel.options).forEach(function(opt){
+        if(opt.disabled) return;
+
+        const item=document.createElement('button');
+        item.type='button';
+        item.className='booking-choice-option';
+        item.textContent=cleanText(opt.textContent);
+
+        if(opt.value===sel.value){
+          item.classList.add('schedule-period-current');
+        }
+
+        item.addEventListener('click',function(){
+          sel.value=opt.value;
+
+          // Pertahankan event asli V49:
+          // admin -> renderGridJadwal()
+          // customer -> renderCustomerGridJadwal()
+          sel.dispatchEvent(new Event('change',{bubbles:true}));
+
+          sync();
+          modal.classList.remove('is-open');
+          btn.setAttribute('aria-expanded','false');
+        });
+
+        list.appendChild(item);
+      });
+
+      if(!list.children.length){
+        const empty=document.createElement('div');
+        empty.className='booking-choice-option';
+        empty.textContent='Belum ada periode tersedia';
+        list.appendChild(empty);
+      }
+
+      modal.classList.add('is-open');
+      btn.setAttribute('aria-expanded','true');
+    }
+
+    btn.addEventListener('click',open);
+    btn.addEventListener('keydown',function(e){
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        open();
+      }
+    });
+
+    sel.addEventListener('change',sync);
+    sync();
+  }
+
+  function setup(){
+    IDS.forEach(setupOne);
+  }
+
+  function boot(){
+    setup();
+    // initPeriodeDropdown() dijalankan saat halaman siap,
+    // sehingga beri kesempatan option selesai dibuat dahulu.
+    setTimeout(setup,100);
+    setTimeout(setup,400);
+    setTimeout(setup,800);
+  }
+
+  document.addEventListener('DOMContentLoaded',boot,{once:true});
+  window.addEventListener('load',setup);
+
+  // Jika render/navigasi mengisi ulang select, pasang kembali trigger.
+  const observer=new MutationObserver(function(){
+    setup();
+  });
+
+  function observe(){
+    if(document.body){
+      observer.observe(document.body,{childList:true,subtree:true});
+    }
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',observe,{once:true});
+  }else{
+    observe();
+  }
+})();
+</script>
+
+<style id="schedule-period-custom-picker-v50-final">
+/* Opsi periode mengikuti popup Pilih Jam Kosong */
+#booking-choice-modal .schedule-period-current{
+  background:rgba(220,252,231,.95) !important;
+  border-color:rgba(34,197,94,.35) !important;
+  box-shadow:inset 0 0 0 1px rgba(34,197,94,.18) !important;
 }
 </style>
 
