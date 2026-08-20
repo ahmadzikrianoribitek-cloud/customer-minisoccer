@@ -5678,7 +5678,145 @@ body::before {
 }
 </style>
 
+
+<style id="member-header-logo-in-card-final">
+/* MEMBER MOBILE — hilangkan header global, logo dipindah ke card judul Member. */
+body:has(#page-customer-member:not(.hidden)) > header{
+  display:none !important;
+  visibility:hidden !important;
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+#page-customer-member .customer-member-page-head{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  min-height:96px !important;
+  margin:0 0 10px !important;
+  padding:13px 14px 13px 16px !important;
+  border-radius:20px !important;
+  box-sizing:border-box !important;
+}
+
+#page-customer-member .customer-member-head-copy{
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+
+#page-customer-member .customer-member-eyebrow{
+  margin:0 0 3px !important;
+  font-size:.55rem !important;
+  letter-spacing:.11em !important;
+}
+
+#page-customer-member .customer-member-page-head h2{
+  margin:0 !important;
+  font-size:clamp(.88rem,3.4vw,1.15rem) !important;
+  line-height:1.12 !important;
+  letter-spacing:.045em !important;
+  font-weight:950 !important;
+}
+
+#page-customer-member .customer-member-page-head h2 span{
+  font-size:.88em !important;
+}
+
+#page-customer-member .customer-member-page-head p{
+  margin:4px 0 5px !important;
+  font-size:.56rem !important;
+  line-height:1.25 !important;
+  max-width:245px !important;
+}
+
+#page-customer-member .customer-member-count{
+  display:inline-flex !important;
+  align-items:center !important;
+  width:max-content !important;
+  padding:4px 8px !important;
+  border-radius:999px !important;
+  font-size:.5rem !important;
+  line-height:1 !important;
+}
+
+#page-customer-member .customer-member-head-logo{
+  flex:0 0 76px !important;
+  width:76px !important;
+  height:76px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+}
+
+#page-customer-member .customer-member-head-logo img{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  display:block !important;
+}
+
+@media(max-width:380px){
+  #page-customer-member .customer-member-page-head{
+    min-height:88px !important;
+    padding:11px 12px 11px 13px !important;
+  }
+  #page-customer-member .customer-member-head-logo{
+    flex-basis:68px !important;
+    width:68px !important;
+    height:68px !important;
+  }
+  #page-customer-member .customer-member-page-head p{
+    display:none !important;
+  }
+}
+</style>
+
+<style id="sandaga-startup-loader-style">
+#sandaga-startup-loader{
+  position:fixed!important;inset:0!important;z-index:1000000!important;
+  display:flex;align-items:center;justify-content:center;padding:22px;
+  background:linear-gradient(135deg,rgba(8,61,122,.92),rgba(15,23,42,.96));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .38s ease,visibility .38s ease;
+}
+#sandaga-startup-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+#sandaga-startup-card{
+  width:min(390px,92vw);box-sizing:border-box;text-align:center;
+  padding:30px 26px 26px;border-radius:28px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 24px 70px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);
+}
+#sandaga-startup-logo{width:112px;height:112px;object-fit:contain;display:block;margin:0 auto 16px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.22))}
+#sandaga-startup-title{margin:0;color:#fff;font-size:clamp(1rem,4.8vw,1.35rem);font-weight:950;letter-spacing:.045em;line-height:1.2}
+#sandaga-startup-subtitle{margin:7px 0 22px;color:rgba(255,255,255,.76);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+#sandaga-startup-progress{height:10px;width:100%;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 3px rgba(0,0,0,.18)}
+#sandaga-startup-progress-bar{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#fff,#93c5fd);box-shadow:0 0 18px rgba(147,197,253,.55);transition:width .16s ease}
+#sandaga-startup-percent{margin-top:9px;color:rgba(255,255,255,.82);font-size:.68rem;font-weight:800;letter-spacing:.04em}
+</style>
 </head>
+<!-- LOADING AWAL APLIKASI -->
+<div id="sandaga-startup-loader" aria-label="Memuat Sandaga Minisoccer 2">
+  <div id="sandaga-startup-card">
+    <img id="sandaga-startup-logo" src="logo.png" alt="Sandaga Minisoccer 2" />
+    <h2 id="sandaga-startup-title">SANDAGA MINISOCCER 2</h2>
+    <p id="sandaga-startup-subtitle">Menyiapkan aplikasi...</p>
+    <div id="sandaga-startup-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="sandaga-startup-progress-bar"></div>
+    </div>
+    <div id="sandaga-startup-percent">0%</div>
+  </div>
+</div>
+
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 <!-- Header -->
@@ -5757,12 +5895,12 @@ body::before {
 <!-- HALAMAN MEMBER CUSTOMER -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-member">
   <div class="customer-member-page-head">
-    <div>
-      <div class="customer-member-eyebrow">⚽ SANDAGA MINISOCCER</div>
-      <h2>DAFTAR MEMBER</h2>
-      <p>Daftar tim member yang terdaftar di Sandaga Minisoccer.</p>
+    <div class="customer-member-head-logo" aria-hidden="true">
+      <img src="logo.png" alt="">
     </div>
-    <div class="customer-member-count" id="customer-member-count">0 TIM</div>
+    <div class="customer-member-head-copy">
+      <h2><span>LIST MEMBER</span><span>SANDAGA MINISOCCER 2</span></h2>
+    </div>
   </div>
   <div class="customer-member-grid" id="customer-member-list">
     <div class="customer-member-empty">Memuat daftar member...</div>
@@ -5770,6 +5908,14 @@ body::before {
 </div>
 <!-- HALAMAN BOOKING CUSTOMER — HALAMAN UTAMA CUSTOMER (BERANDA CUSTOMER DIHAPUS) -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page customer-booking-page" id="page-customer-booking">
+  <div class="customer-booking-page-head">
+    <div class="customer-booking-head-logo" aria-hidden="true">
+      <img src="logo.png" alt="">
+    </div>
+    <div class="customer-booking-head-copy">
+      <h2><span>BOOKING</span><span>SANDAGA MINISOCCER 2</span></h2>
+    </div>
+  </div>
 <form class="customer-booking-clean-form" onsubmit="submitCustomerBooking(event)">
 <input id="cust-tanggal-booking" type="hidden"/>
 <!-- Tanggal Main -->
@@ -6545,6 +6691,16 @@ body::before {
             if (typeof window.updateCustomerBottomNav === 'function') {
                 window.updateCustomerBottomNav(id);
             }
+
+            // Setiap berpindah menu, selalu mulai dari posisi paling atas.
+            // Berlaku untuk scroll window maupun container utama yang memiliki overflow.
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                const main = document.querySelector('main');
+                if (main && main.scrollHeight > main.clientHeight) main.scrollTop = 0;
+            });
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -11730,7 +11886,7 @@ body.booking-success-open{overflow:hidden;}
         document.body.classList.add('sparing-v24-active');
 
         const headerRect = header.getBoundingClientRect();
-        const headerBottom = headerRect.bottom;
+        const headerTop = headerRect.top;
         const headerTop = headerRect.top;
 
         page.querySelectorAll('.customer-sparring-card').forEach(card=>{
@@ -12613,6 +12769,136 @@ body:has(#page-customer-member:not(.hidden)) #customer-bottom-nav{visibility:vis
   #customer-bottom-nav .customer-bottom-nav-label{font-size:9px!important}
 }
 </style>
+
+<!-- V51 FINAL: JADWAL MOBILE = TAMPILAN DESKTOP + AUTO PERIODE HARI INI -->
+<script id="schedule-auto-current-period-v51">
+(function(){
+  'use strict';
+
+  function localDateKey(date){
+    const d = date || new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return y+'-'+m+'-'+day;
+  }
+
+  function mondayOfToday(){
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(today);
+    monday.setDate(diff);
+    return localDateKey(monday);
+  }
+
+  function selectCurrentAdminPeriod(){
+    const sel = document.getElementById('filter-periode-jadwal');
+    if(!sel || !sel.options.length) return false;
+
+    const target = mondayOfToday();
+    let found = Array.from(sel.options).find(opt => opt.value === target);
+
+    if(!found){
+      const today = localDateKey();
+      found = Array.from(sel.options).find(opt => {
+        const start = opt.value || '';
+        const end = opt.dataset && opt.dataset.periodEnd;
+        return start && end && today >= start && today <= end;
+      });
+    }
+
+    if(found && sel.value !== found.value){
+      sel.value = found.value;
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    return !!found;
+  }
+
+  function selectCurrentCustomerPeriod(){
+    const sel = document.getElementById('customer-filter-periode-jadwal');
+    if(!sel || !sel.options.length) return false;
+
+    const today = localDateKey();
+    const found = Array.from(sel.options).find(opt => {
+      const start = (opt.dataset && opt.dataset.periodStart) || opt.value || '';
+      const end = (opt.dataset && opt.dataset.periodEnd) || start;
+      return start && end && today >= start && today <= end;
+    });
+
+    if(found && sel.value !== found.value){
+      sel.value = found.value;
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    return !!found;
+  }
+
+  function syncVisibleTrigger(selectId){
+    const sel = document.getElementById(selectId);
+    if(!sel) return;
+    const trigger = sel.parentElement && sel.parentElement.querySelector('.schedule-period-custom-trigger');
+    const opt = sel.options[sel.selectedIndex];
+    if(trigger && opt) trigger.textContent = String(opt.textContent || '').replace(/\s+/g,' ').trim() || 'Pilih periode';
+  }
+
+  function applyCurrentPeriod(){
+    selectCurrentAdminPeriod();
+    selectCurrentCustomerPeriod();
+    syncVisibleTrigger('filter-periode-jadwal');
+    syncVisibleTrigger('customer-filter-periode-jadwal');
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(applyCurrentPeriod, 0);
+    setTimeout(applyCurrentPeriod, 150);
+    setTimeout(applyCurrentPeriod, 500);
+  });
+
+  window.addEventListener('load', function(){
+    setTimeout(applyCurrentPeriod, 100);
+  });
+})();
+</script>
+<script id="sandaga-startup-loader-script">
+(function(){
+  if(window.__sandagaStartupLoaderInstalled) return;
+  window.__sandagaStartupLoaderInstalled=true;
+  const loader=document.getElementById('sandaga-startup-loader');
+  const bar=document.getElementById('sandaga-startup-progress-bar');
+  const pct=document.getElementById('sandaga-startup-percent');
+  if(!loader||!bar||!pct) return;
+  let value=0, finished=false;
+  function setProgress(n){
+    value=Math.max(value,Math.min(100,n));
+    bar.style.width=value+'%';
+    pct.textContent=Math.round(value)+'%';
+    bar.parentElement.setAttribute('aria-valuenow',Math.round(value));
+  }
+  // Bergerak halus sampai resource utama selesai dimuat.
+  const timer=setInterval(function(){
+    if(value<88) setProgress(value + (value<55?3:1));
+  },70);
+  function finish(){
+    if(finished) return;
+    finished=true;
+    clearInterval(timer);
+    setProgress(100);
+    setTimeout(function(){
+      loader.classList.add('is-hidden');
+      // Setelah loading selesai, selalu masuk ke Booking Customer.
+      if(typeof window.showPage==='function') window.showPage('customer-booking');
+      document.body.classList.add('sandaga-app-ready');
+      setTimeout(function(){ loader.remove(); },450);
+    },260);
+  }
+  if(document.readyState==='complete') finish();
+  else window.addEventListener('load',finish,{once:true});
+  // Pengaman jika ada resource eksternal yang gagal/terlalu lama.
+  setTimeout(finish,7000);
+})();
+</script>
+
 </body>
 <style id="customer-home-desktop-buttons-final">
 /* DESKTOP: tombol menu utama dibuat lebih besar dan lebih mudah diklik.
@@ -17076,3 +17362,1980 @@ body:has(#page-customer-member:not(.hidden)) main {
 }
 </style>
 
+
+<!-- FINAL PATCH: MEMBER MOBILE — SEJAJAR DOCK + BERSIH DI ATAS DOCK -->
+<style id="member-mobile-dock-width-clean-final">
+@media (max-width:640px){
+    /*
+      Lebar area Member dibuat sama dengan dock:
+      dock memakai left/right 12px, sehingga area Member = viewport - 24px.
+      Desktop tidak disentuh.
+    */
+    body:has(#page-customer-member:not(.hidden)) main{
+        width:calc(100vw - 24px) !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+        overflow:visible !important;
+    }
+
+    #page-customer-member{
+        width:100% !important;
+        max-width:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Header Member dan grid mengikuti lebar area dock. */
+    #page-customer-member .customer-member-page-head,
+    #page-customer-member .customer-member-grid{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        box-sizing:border-box !important;
+    }
+
+    #page-customer-member .customer-member-page-head{
+        margin-bottom:10px !important;
+    }
+
+    /*
+      Card tidak lagi terlalu mepet ke sisi layar.
+      Grid menggunakan seluruh area Member yang sudah sejajar dengan dock.
+    */
+    #page-customer-member .customer-member-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:9px !important;
+    }
+
+    #page-customer-member .customer-member-card{
+        width:100% !important;
+        max-width:none !important;
+        box-sizing:border-box !important;
+        margin:0 !important;
+    }
+
+    /*
+      Area di bawah dock dibuat bersih.
+      Mask berada tepat di atas dock dan di bawah dock, sehingga card
+      yang masuk ke area tersebut tidak terlihat.
+    */
+    /* Tidak membuat bar/lapisan putih di belakang dock. */
+
+    @media (max-width:380px){
+        body:has(#page-customer-member:not(.hidden)) main{
+            width:calc(100vw - 18px) !important;
+        }
+    }
+}
+
+/* Mask dibuat melalui JS hanya ketika halaman Member aktif. */
+.member-mobile-bottom-mask{
+    display:none !important;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:0;
+    z-index:-1;
+    pointer-events:none;
+    background:transparent !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+}
+</style>
+
+<script id="member-mobile-bottom-clean-script">
+(function(){
+    const MOBILE_MAX = 640;
+
+    function syncMemberCleanMask(){
+        let mask = document.querySelector('.member-mobile-bottom-mask');
+        const member = document.getElementById('page-customer-member');
+        const active = member && !member.classList.contains('hidden') && window.innerWidth <= MOBILE_MAX;
+
+        if(active){
+            if(!mask){
+                mask = document.createElement('div');
+                mask.className = 'member-mobile-bottom-mask';
+                document.body.appendChild(mask);
+            }
+            mask.style.display = 'none';
+        }else if(mask){
+            mask.style.display = 'none';
+        }
+    }
+
+    function install(){
+        const old = window.showPage;
+        if(typeof old !== 'function'){
+            setTimeout(install,100);
+            return;
+        }
+        if(old.__memberMobileCleanFinal) return;
+
+        function wrappedShowPage(id){
+            const result = old.apply(this, arguments);
+            setTimeout(syncMemberCleanMask,0);
+            setTimeout(syncMemberCleanMask,80);
+            setTimeout(syncMemberCleanMask,220);
+            return result;
+        }
+
+        wrappedShowPage.__memberMobileCleanFinal = true;
+        window.showPage = wrappedShowPage;
+
+        syncMemberCleanMask();
+        window.addEventListener('resize', syncMemberCleanMask, {passive:true});
+        window.addEventListener('orientationchange', syncMemberCleanMask, {passive:true});
+        window.addEventListener('scroll', syncMemberCleanMask, {passive:true});
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', install, {once:true});
+    }else{
+        install();
+    }
+})();
+</script>
+
+<!-- FINAL PATCH: MEMBER CARD TERPOTONG PROPORSIONAL SAAT MASUK AREA DOCK -->
+<style id="member-card-partial-hide-under-dock-final">
+@media (max-width:640px){
+    /*
+       Batas potong sekarang berada tepat di BAWAH dock.
+       Card boleh berada di belakang kaca dock; yang dipotong hanya
+       bagian card yang sudah melewati sisi bawah dock.
+       Sudut bawah area potong dibuat rounded agar mengikuti bentuk dock.
+    */
+    #page-customer-member .customer-member-card.member-partially-under-dock{
+        clip-path:inset(0 0 var(--member-dock-clip-bottom, 0px) 0 round 0 0 var(--member-dock-bottom-radius, 0px) var(--member-dock-bottom-radius, 0px));
+        -webkit-clip-path:inset(0 0 var(--member-dock-clip-bottom, 0px) 0 round 0 0 var(--member-dock-bottom-radius, 0px) var(--member-dock-bottom-radius, 0px));
+        opacity:1 !important;
+        visibility:visible !important;
+    }
+
+    /* Jika seluruh card sudah berada di bawah dock, jangan tampilkan. */
+    #page-customer-member .customer-member-card.member-fully-under-dock{
+        clip-path:inset(0 0 100% 0);
+        -webkit-clip-path:inset(0 0 100% 0);
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+    }
+}
+</style>
+<script id="member-card-partial-hide-under-dock-final-script">
+(function(){
+    const MOBILE_MAX = 640;
+    let rafId = 0;
+
+    function syncMemberCards(){
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function(){
+            const member = document.getElementById('page-customer-member');
+            const nav = document.getElementById('customer-bottom-nav');
+            if(!member || !nav) return;
+
+            const mobile = window.matchMedia('(max-width: '+MOBILE_MAX+'px)').matches;
+            const active = !member.classList.contains('hidden');
+            const cards = member.querySelectorAll('.customer-member-card');
+
+            if(!mobile || !active){
+                cards.forEach(card => {
+                    card.classList.remove('member-partially-under-dock','member-fully-under-dock');
+                    card.style.removeProperty('--member-dock-clip-bottom');
+                    card.style.removeProperty('--member-dock-bottom-radius');
+                });
+                return;
+            }
+
+            const navRect = nav.getBoundingClientRect();
+            if(navRect.height <= 0 || navRect.top >= window.innerHeight || navRect.bottom <= 0){
+                cards.forEach(card => {
+                    card.classList.remove('member-partially-under-dock','member-fully-under-dock');
+                    card.style.removeProperty('--member-dock-clip-bottom');
+                });
+                return;
+            }
+
+            const navBottom = navRect.bottom;
+            const navStyle = getComputedStyle(nav);
+            const radiusCandidates = [
+                parseFloat(navStyle.borderBottomLeftRadius) || 0,
+                parseFloat(navStyle.borderBottomRightRadius) || 0
+            ];
+            const navRadius = Math.max(0, Math.min(40, Math.max.apply(null, radiusCandidates)));
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardHeight = rect.height;
+
+                /*
+                   Tidak menyentuh dock -> tampil utuh.
+                */
+                if(rect.bottom <= navBottom || cardHeight <= 0){
+                    card.classList.remove('member-partially-under-dock','member-fully-under-dock');
+                    card.style.removeProperty('--member-dock-clip-bottom');
+                    card.style.removeProperty('--member-dock-bottom-radius');
+                    return;
+                }
+
+                /*
+                   Batas potong sekarang mengikuti BAGIAN BAWAH dock,
+                   bukan bagian atasnya. Card boleh berada di belakang
+                   kaca dock, lalu baru dipotong ketika melewati bawah dock.
+                */
+                const overlap = Math.min(cardHeight, Math.max(0, rect.bottom - navBottom));
+                const ratio = overlap / cardHeight;
+
+                if(ratio >= 0.999){
+                    /* Seluruh card berada di bawah dock. */
+                    card.classList.remove('member-partially-under-dock');
+                    card.classList.add('member-fully-under-dock');
+                    card.style.removeProperty('--member-dock-clip-bottom');
+                    card.style.removeProperty('--member-dock-bottom-radius');
+                }else{
+                    /*
+                       Hanya bagian yang sudah melewati bawah dock yang dipotong.
+                       1/4 melewati bawah -> 1/4 hilang, dst.
+                    */
+                    card.classList.remove('member-fully-under-dock');
+                    card.classList.add('member-partially-under-dock');
+                    card.style.setProperty('--member-dock-clip-bottom', overlap.toFixed(2)+'px');
+                    card.style.setProperty('--member-dock-bottom-radius', navRadius.toFixed(2)+'px');
+                }
+            });
+        });
+    }
+
+    function install(){
+        if(window.__memberCardPartialHideUnderDockInstalled) return;
+        window.__memberCardPartialHideUnderDockInstalled = true;
+
+        const oldShowPage = window.showPage;
+        if(typeof oldShowPage === 'function'){
+            const wrappedShowPage = function(id){
+                const result = oldShowPage.apply(this, arguments);
+                requestAnimationFrame(syncMemberCards);
+                setTimeout(syncMemberCards, 60);
+                setTimeout(syncMemberCards, 220);
+                return result;
+            };
+            wrappedShowPage.__memberCardPartialHideUnderDock = true;
+            window.showPage = wrappedShowPage;
+        }
+
+        window.addEventListener('scroll', syncMemberCards, {passive:true});
+        window.addEventListener('resize', syncMemberCards, {passive:true});
+        window.addEventListener('orientationchange', syncMemberCards, {passive:true});
+        syncMemberCards();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', install, {once:true});
+    }else{
+        install();
+    }
+})();
+</script>
+
+<!-- FINAL PATCH: MEMBER HEADER — LIQUID GLASS + STICKY -->
+<style id="member-list-header-liquid-glass-sticky-final">
+@media (max-width:640px){
+    /*
+       Card "LIST MEMBER SANDAGA MINISOCCER 2" dibuat seperti dock:
+       transparan, blur, highlight halus, dan tetap menempel saat scroll.
+    */
+    #page-customer-member .customer-member-page-head{
+        position:sticky !important;
+        top:16px !important;
+        z-index:9990 !important;
+        isolation:isolate !important;
+
+        background:linear-gradient(
+            135deg,
+            rgba(255,255,255,.68),
+            rgba(231,242,255,.48)
+        ) !important;
+        background-image:linear-gradient(
+            135deg,
+            rgba(255,255,255,.68),
+            rgba(231,242,255,.48)
+        ) !important;
+        border:1px solid rgba(255,255,255,.86) !important;
+        border-radius:22px !important;
+        box-shadow:
+            0 18px 48px rgba(2,6,23,.20),
+            inset 0 1px 0 rgba(255,255,255,.92),
+            inset 0 -1px 0 rgba(255,255,255,.28) !important;
+        -webkit-backdrop-filter:blur(28px) saturate(155%) !important;
+        backdrop-filter:blur(28px) saturate(155%) !important;
+
+        margin:0 0 10px !important;
+    }
+
+    /* Highlight kaca seperti lapisan tipis pada dock. */
+    #page-customer-member .customer-member-page-head::before{
+        content:"" !important;
+        position:absolute !important;
+        inset:0 !important;
+        border-radius:inherit !important;
+        pointer-events:none !important;
+        z-index:-1 !important;
+        background:
+            linear-gradient(180deg,rgba(255,255,255,.34),transparent 52%),
+            linear-gradient(90deg,rgba(255,255,255,.10),transparent 50%,rgba(255,255,255,.12)) !important;
+    }
+
+    #page-customer-member .customer-member-head-copy,
+    #page-customer-member .customer-member-head-logo{
+        position:relative !important;
+        z-index:1 !important;
+    }
+}
+
+@media (max-width:380px){
+    #page-customer-member .customer-member-page-head{
+        top:6px !important;
+    }
+}
+</style>
+
+<!-- FINAL PATCH: MEMBER CARD — POTONGAN PAS DI GARIS CARD HEADER -->
+<style id="member-card-partial-hide-under-member-header-final">
+@media (max-width:640px){
+    /*
+       Card member tetap berada di belakang header sticky.
+       Batas potong dibuat tepat pada GARIS ATAS card header.
+       Sudut potong mengikuti rounded ATAS header, bukan rounded bawah.
+       Potongan bawah dock tetap memakai mekanisme yang sudah ada.
+    */
+    #page-customer-member .customer-member-card.member-partially-under-header{
+        clip-path:inset(
+            var(--member-header-clip-top, 0px)
+            0
+            var(--member-dock-clip-bottom, 0px)
+            0
+            round
+            var(--member-header-top-left-radius, 0px)
+            var(--member-header-top-right-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+        ) !important;
+        -webkit-clip-path:inset(
+            var(--member-header-clip-top, 0px)
+            0
+            var(--member-dock-clip-bottom, 0px)
+            0
+            round
+            var(--member-header-top-left-radius, 0px)
+            var(--member-header-top-right-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+        ) !important;
+        opacity:1 !important;
+        visibility:visible !important;
+    }
+}
+</style>
+<script id="member-card-partial-hide-under-member-header-final-script">
+(function(){
+    const MOBILE_MAX = 640;
+    let rafId = 0;
+
+    function syncMemberCardsWithHeader(){
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function(){
+            const member = document.getElementById('page-customer-member');
+            const nav = document.getElementById('customer-bottom-nav');
+            if(!member) return;
+
+            const mobile = window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+            const active = !member.classList.contains('hidden');
+            const cards = member.querySelectorAll('.customer-member-card');
+
+            if(!mobile || !active){
+                cards.forEach(card=>{
+                    card.classList.remove('member-partially-under-header');
+                    card.style.removeProperty('--member-header-clip-top');
+                    card.style.removeProperty('--member-header-top-left-radius');
+                    card.style.removeProperty('--member-header-top-right-radius');
+                });
+                return;
+            }
+
+            const header = member.querySelector('.customer-member-page-head');
+            if(!header) return;
+
+            const headerRect = header.getBoundingClientRect();
+            const headerStyle = getComputedStyle(header);
+
+            const headerTopLeftRadius = Math.max(
+                0, Math.min(40, parseFloat(headerStyle.borderTopLeftRadius) || 0)
+            );
+            const headerTopRightRadius = Math.max(
+                0, Math.min(40, parseFloat(headerStyle.borderTopRightRadius) || 0)
+            );
+
+            /* GARIS POTONG = garis paling atas card header. */
+            const headerTop = headerRect.top;
+
+            let navBottom = -Infinity;
+            if(nav){
+                const navRect = nav.getBoundingClientRect();
+                if(navRect.height > 0 && navRect.top < window.innerHeight && navRect.bottom > 0){
+                    navBottom = navRect.bottom;
+                }
+            }
+
+            cards.forEach(card=>{
+                const rect = card.getBoundingClientRect();
+                const h = rect.height;
+                if(h <= 0) return;
+
+                /*
+                   Card yang sudah melewati garis ATAS header dipotong.
+                   Ini membuat batas perpotongan selalu berhenti tepat di
+                   garis atas header, bukan di garis bawahnya.
+                */
+                const topClip = Math.min(h, Math.max(0, headerTop - rect.top));
+
+                if(topClip > 0 && topClip < h){
+                    card.classList.add('member-partially-under-header');
+                    card.style.setProperty('--member-header-clip-top', topClip.toFixed(2)+'px');
+                    card.style.setProperty('--member-header-top-left-radius', headerTopLeftRadius.toFixed(2)+'px');
+                    card.style.setProperty('--member-header-top-right-radius', headerTopRightRadius.toFixed(2)+'px');
+                }else if(topClip >= h){
+                    /* Card sudah sepenuhnya berada di atas garis header. */
+                    card.classList.remove('member-partially-under-header');
+                    card.style.setProperty('--member-header-clip-top', h.toFixed(2)+'px');
+                    card.style.setProperty('--member-header-top-left-radius', headerTopLeftRadius.toFixed(2)+'px');
+                    card.style.setProperty('--member-header-top-right-radius', headerTopRightRadius.toFixed(2)+'px');
+                }else{
+                    card.classList.remove('member-partially-under-header');
+                    card.style.removeProperty('--member-header-clip-top');
+                    card.style.removeProperty('--member-header-top-left-radius');
+                    card.style.removeProperty('--member-header-top-right-radius');
+                }
+            });
+        });
+    }
+
+    function install(){
+        if(window.__memberCardHeaderPartialCutInstalled) return;
+        window.__memberCardHeaderPartialCutInstalled = true;
+
+        window.addEventListener('scroll', syncMemberCardsWithHeader, {passive:true});
+        window.addEventListener('resize', syncMemberCardsWithHeader, {passive:true});
+        window.addEventListener('orientationchange', syncMemberCardsWithHeader, {passive:true});
+
+        const oldShowPage = window.showPage;
+        if(typeof oldShowPage === 'function'){
+            const wrapped = function(id){
+                const result = oldShowPage.apply(this, arguments);
+                requestAnimationFrame(syncMemberCardsWithHeader);
+                setTimeout(syncMemberCardsWithHeader,60);
+                setTimeout(syncMemberCardsWithHeader,220);
+                return result;
+            };
+            wrapped.__memberCardHeaderPartialCut = true;
+            window.showPage = wrapped;
+        }
+
+        syncMemberCardsWithHeader();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', install, {once:true});
+    }else{
+        install();
+    }
+})();
+</script>
+
+<style id="member-list-header-text-only-final">
+@media (max-width:640px){
+  #page-customer-member .customer-member-page-head{
+    color:#13224f !important;
+  }
+  #page-customer-member .customer-member-page-head h2{
+    color:#13224f !important;
+    font-size:clamp(.86rem,3.5vw,1.08rem) !important;
+    line-height:1.2 !important;
+    letter-spacing:.045em !important;
+    font-weight:950 !important;
+    margin:0 !important;
+    white-space:nowrap !important;
+  }
+  #page-customer-member .customer-member-eyebrow,
+  #page-customer-member .customer-member-page-head p,
+  #page-customer-member .customer-member-count{
+    display:none !important;
+  }
+}
+</style>
+
+<!-- FINAL PATCH: MEMBER HEADER MOBILE — LOGO KIRI + JUDUL 2 BARIS -->
+<style id="member-header-mobile-two-lines-left-logo-final">
+@media (max-width:640px){
+    #page-customer-member .customer-member-page-head{
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:center !important;
+        justify-content:flex-start !important;
+        gap:11px !important;
+        min-height:82px !important;
+        padding:10px 13px !important;
+    }
+
+    #page-customer-member .customer-member-head-logo{
+        order:1 !important;
+        flex:0 0 58px !important;
+        width:58px !important;
+        height:58px !important;
+        margin:0 !important;
+    }
+
+    #page-customer-member .customer-member-head-copy{
+        order:2 !important;
+        min-width:0 !important;
+        flex:1 1 auto !important;
+        text-align:left !important;
+    }
+
+    #page-customer-member .customer-member-page-head h2{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        justify-content:center !important;
+        gap:2px !important;
+        margin:0 !important;
+        color:#132a5e !important;
+        font-size:clamp(.82rem,3.6vw,1.08rem) !important;
+        line-height:1.15 !important;
+        letter-spacing:.035em !important;
+        white-space:normal !important;
+    }
+
+    #page-customer-member .customer-member-page-head h2 span{
+        display:block !important;
+        font-size:1em !important;
+        color:#132a5e !important;
+    }
+}
+
+@media (max-width:380px){
+    #page-customer-member .customer-member-page-head{
+        min-height:76px !important;
+        gap:9px !important;
+        padding:9px 11px !important;
+    }
+    #page-customer-member .customer-member-head-logo{
+        flex-basis:52px !important;
+        width:52px !important;
+        height:52px !important;
+    }
+    #page-customer-member .customer-member-page-head h2{
+        font-size:.78rem !important;
+    }
+}
+</style>
+
+
+<!-- FINAL OVERRIDE: POTONGAN CARD MEMBER DI BAWAH CARD LIST MEMBER -->
+<style id="member-card-clean-cut-under-list-header">
+@media (max-width:640px){
+    /*
+       Card member dipotong tepat pada sisi BAWAH card "LIST MEMBER".
+       Radius potongan mengikuti radius bawah kiri/kanan header secara otomatis.
+       Logika potongan bawah dock tetap dipertahankan.
+    */
+    #page-customer-member .customer-member-card.member-clean-cut-header{
+        clip-path:inset(
+            var(--member-clean-top-clip, 0px)
+            0
+            var(--member-dock-clip-bottom, 0px)
+            0
+            round
+            var(--member-clean-header-radius-left, 0px)
+            var(--member-clean-header-radius-right, 0px)
+            var(--member-dock-bottom-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+        ) !important;
+        -webkit-clip-path:inset(
+            var(--member-clean-top-clip, 0px)
+            0
+            var(--member-dock-clip-bottom, 0px)
+            0
+            round
+            var(--member-clean-header-radius-left, 0px)
+            var(--member-clean-header-radius-right, 0px)
+            var(--member-dock-bottom-radius, 0px)
+            var(--member-dock-bottom-radius, 0px)
+        ) !important;
+    }
+}
+</style>
+<script id="member-card-clean-cut-under-list-header-script">
+(function(){
+    const MOBILE_MAX = 640;
+    let rafId = 0;
+
+    function syncMemberCleanCut(){
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function(){
+            const member = document.getElementById('page-customer-member');
+            if(!member) return;
+
+            const mobile = window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+            const active = !member.classList.contains('hidden');
+            const cards = member.querySelectorAll('.customer-member-card');
+            const header = member.querySelector('.customer-member-page-head');
+
+            if(!mobile || !active || !header){
+                cards.forEach(card=>{
+                    card.classList.remove('member-clean-cut-header');
+                    card.style.removeProperty('--member-clean-top-clip');
+                    card.style.removeProperty('--member-clean-header-radius-left');
+                    card.style.removeProperty('--member-clean-header-radius-right');
+                });
+                return;
+            }
+
+            const headerRect = header.getBoundingClientRect();
+            const headerStyle = getComputedStyle(header);
+            const radiusLeft = Math.max(0, Math.min(60,
+                parseFloat(headerStyle.borderBottomLeftRadius) || 0));
+            const radiusRight = Math.max(0, Math.min(60,
+                parseFloat(headerStyle.borderBottomRightRadius) || 0));
+            const headerTop = headerRect.top;
+
+            cards.forEach(card=>{
+                const rect = card.getBoundingClientRect();
+                const h = rect.height;
+                if(h <= 0) return;
+
+                /*
+                   Tepat seperti prinsip potongan dock:
+                   selama card belum masuk ke area header, jangan dipotong.
+                   Begitu bagian atas card melewati bawah header, potong bagian
+                   yang masuk ke belakang header sampai garis bawah header.
+                */
+                const topClip = Math.min(h, Math.max(0, headerBottom - rect.top));
+
+                card.style.setProperty('--member-clean-header-radius-left', radiusLeft.toFixed(2)+'px');
+                card.style.setProperty('--member-clean-header-radius-right', radiusRight.toFixed(2)+'px');
+
+                if(topClip > 0){
+                    card.classList.add('member-clean-cut-header');
+                    card.style.setProperty('--member-clean-top-clip', topClip.toFixed(2)+'px');
+                }else{
+                    card.classList.remove('member-clean-cut-header');
+                    card.style.removeProperty('--member-clean-top-clip');
+                }
+            });
+        });
+    }
+
+    function install(){
+        if(window.__memberCardCleanCutInstalled) return;
+        window.__memberCardCleanCutInstalled = true;
+
+        window.addEventListener('scroll', syncMemberCleanCut, {passive:true});
+        window.addEventListener('resize', syncMemberCleanCut, {passive:true});
+        window.addEventListener('orientationchange', syncMemberCleanCut, {passive:true});
+
+        const oldShowPage = window.showPage;
+        if(typeof oldShowPage === 'function' && !oldShowPage.__memberCardCleanCutWrapped){
+            const wrapped = function(id){
+                const result = oldShowPage.apply(this, arguments);
+                requestAnimationFrame(syncMemberCleanCut);
+                setTimeout(syncMemberCleanCut,60);
+                setTimeout(syncMemberCleanCut,220);
+                return result;
+            };
+            wrapped.__memberCardCleanCutWrapped = true;
+            window.showPage = wrapped;
+        }
+
+        syncMemberCleanCut();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', install, {once:true});
+    }else{
+        install();
+    }
+})();
+</script>
+
+
+<!-- FINAL PATCH: BOOKING — HEADER CARD SAMA SEPERTI MEMBER + POTONGAN ATAS/DOWN DOCK -->
+<style id="booking-header-card-member-style-final">
+@media (max-width:640px){
+    /* Header global lama tidak dipakai di menu Booking. */
+    body:has(#page-customer-booking:not(.hidden)) > header{
+        display:none !important;
+        visibility:hidden !important;
+        height:0 !important;
+        min-height:0 !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow:hidden !important;
+    }
+
+    /* Satu sumber scroll seperti menu Member: halaman Booking tidak membuat
+       scroll container sendiri. Header tetap pada posisi natural body saat awal,
+       sehingga tidak ada "scroll pertama" khusus untuk mengunci header. */
+    #page-customer-booking,
+    #page-customer-booking.customer-booking-page,
+    #page-customer-booking .customer-booking-clean-form{
+        overflow:visible !important;
+        overflow-y:visible !important;
+        overscroll-behavior-y:auto !important;
+    }
+
+    #page-customer-booking.customer-booking-page{
+        background:transparent !important;
+        border:0 !important;
+        box-shadow:none !important;
+        padding:0 !important;
+        overflow:visible !important;
+    }
+
+    /* Card header Booking dibuat 1:1 mengikuti card header Member. */
+    #page-customer-booking .customer-booking-page-head{
+        position:sticky !important;
+        top:16px !important;
+        z-index:9990 !important;
+        isolation:isolate !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:flex-start !important;
+        gap:11px !important;
+        min-height:82px !important;
+        margin:0 0 10px !important;
+        padding:10px 13px !important;
+        background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+        background-image:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+        border:1px solid rgba(255,255,255,.86) !important;
+        border-radius:22px !important;
+        box-shadow:0 18px 48px rgba(2,6,23,.20),inset 0 1px 0 rgba(255,255,255,.92),inset 0 -1px 0 rgba(255,255,255,.28) !important;
+        -webkit-backdrop-filter:blur(28px) saturate(155%) !important;
+        backdrop-filter:blur(28px) saturate(155%) !important;
+    }
+
+    #page-customer-booking .customer-booking-page-head::before{
+        content:"" !important;
+        position:absolute !important;
+        inset:0 !important;
+        border-radius:inherit !important;
+        pointer-events:none !important;
+        z-index:-1 !important;
+        background:linear-gradient(180deg,rgba(255,255,255,.34),transparent 52%),linear-gradient(90deg,rgba(255,255,255,.10),transparent 50%,rgba(255,255,255,.12)) !important;
+    }
+
+    #page-customer-booking .customer-booking-head-logo{
+        order:1 !important;
+        flex:0 0 58px !important;
+        width:58px !important;
+        height:58px !important;
+        margin:0 !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        position:relative !important;
+        z-index:1 !important;
+    }
+    #page-customer-booking .customer-booking-head-logo img{
+        width:100% !important;
+        height:100% !important;
+        object-fit:contain !important;
+        display:block !important;
+    }
+    #page-customer-booking .customer-booking-head-copy{
+        order:2 !important;
+        min-width:0 !important;
+        flex:1 1 auto !important;
+        text-align:left !important;
+        position:relative !important;
+        z-index:1 !important;
+    }
+    #page-customer-booking .customer-booking-page-head h2{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        justify-content:center !important;
+        gap:2px !important;
+        margin:0 !important;
+        color:#132a5e !important;
+        font-size:clamp(.82rem,3.6vw,1.08rem) !important;
+        line-height:1.15 !important;
+        letter-spacing:.035em !important;
+        font-weight:950 !important;
+        white-space:normal !important;
+    }
+    #page-customer-booking .customer-booking-page-head h2 span{
+        display:block !important;
+        font-size:1em !important;
+        color:#132a5e !important;
+    }
+
+    /* Semua card Booking mengikuti garis ATAS header + potongan dock yang sama. */
+    #page-customer-booking .booking-card-header-cut-final{
+        clip-path:inset(
+            var(--booking-header-clip-top,0px)
+            0
+            var(--booking-dock-clip-bottom,0px)
+            0
+            round
+            var(--booking-header-top-left-radius,0px)
+            var(--booking-header-top-right-radius,0px)
+            var(--booking-dock-bottom-radius,0px)
+            var(--booking-dock-bottom-radius,0px)
+        ) !important;
+        -webkit-clip-path:inset(
+            var(--booking-header-clip-top,0px)
+            0
+            var(--booking-dock-clip-bottom,0px)
+            0
+            round
+            var(--booking-header-top-left-radius,0px)
+            var(--booking-header-top-right-radius,0px)
+            var(--booking-dock-bottom-radius,0px)
+            var(--booking-dock-bottom-radius,0px)
+        ) !important;
+    }
+}
+@media (max-width:380px){
+    #page-customer-booking .customer-booking-page-head{
+        top:6px !important;
+        min-height:76px !important;
+        gap:9px !important;
+        padding:9px 11px !important;
+    }
+    #page-customer-booking .customer-booking-head-logo{
+        flex-basis:52px !important;
+        width:52px !important;
+        height:52px !important;
+    }
+    #page-customer-booking .customer-booking-page-head h2{font-size:.78rem !important;}
+}
+</style>
+<script id="booking-header-card-clip-sync-final">
+(function(){
+    const MOBILE_MAX=640;
+    let rafId=0;
+    function syncBookingHeaderCut(){
+        cancelAnimationFrame(rafId);
+        rafId=requestAnimationFrame(function(){
+            const page=document.getElementById('page-customer-booking');
+            const nav=document.getElementById('customer-bottom-nav');
+            if(!page) return;
+            const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+            const active=!page.classList.contains('hidden');
+            const cards=page.querySelectorAll('.booking-glass-card,.customer-payment-info,.booking-submit-wrap');
+            if(!mobile || !active){
+                cards.forEach(card=>{
+                    card.classList.remove('booking-card-header-cut-final');
+                    ['--booking-header-clip-top','--booking-header-top-left-radius','--booking-header-top-right-radius','--booking-dock-clip-bottom','--booking-dock-bottom-radius'].forEach(v=>card.style.removeProperty(v));
+                });
+                return;
+            }
+            const header=page.querySelector('.customer-booking-page-head');
+            if(!header) return;
+            const hr=header.getBoundingClientRect();
+            const hs=getComputedStyle(header);
+            const tl=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+            const tr=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+            const headerTop=hr.top;
+            let navTop=Infinity, navRadius=0;
+            if(nav){
+                const nr=nav.getBoundingClientRect();
+                if(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0){
+                    navTop=nr.top;
+                    const ns=getComputedStyle(nav);
+                    navRadius=Math.max(0,Math.min(40,Math.max(parseFloat(ns.borderBottomLeftRadius)||0,parseFloat(ns.borderBottomRightRadius)||0)));
+                }
+            }
+            cards.forEach(card=>{
+                const r=card.getBoundingClientRect();
+                if(r.height<=0) return;
+                const topClip=Math.min(r.height,Math.max(0,headerTop-r.top));
+                const bottomClip=navTop===Infinity?0:Math.min(r.height,Math.max(0,r.bottom-navTop));
+                const activeCut=(topClip>0 && topClip<r.height) || (bottomClip>0 && bottomClip<r.height);
+                if(activeCut){
+                    card.classList.add('booking-card-header-cut-final');
+                    card.style.setProperty('--booking-header-clip-top',topClip.toFixed(2)+'px');
+                    card.style.setProperty('--booking-header-top-left-radius',tl.toFixed(2)+'px');
+                    card.style.setProperty('--booking-header-top-right-radius',tr.toFixed(2)+'px');
+                    card.style.setProperty('--booking-dock-clip-bottom',bottomClip.toFixed(2)+'px');
+                    card.style.setProperty('--booking-dock-bottom-radius',navRadius.toFixed(2)+'px');
+                }else{
+                    card.classList.remove('booking-card-header-cut-final');
+                    card.style.setProperty('--booking-header-clip-top',topClip.toFixed(2)+'px');
+                    card.style.setProperty('--booking-header-top-left-radius',tl.toFixed(2)+'px');
+                    card.style.setProperty('--booking-header-top-right-radius',tr.toFixed(2)+'px');
+                    card.style.setProperty('--booking-dock-clip-bottom',bottomClip.toFixed(2)+'px');
+                    card.style.setProperty('--booking-dock-bottom-radius',navRadius.toFixed(2)+'px');
+                }
+            });
+        });
+    }
+    function install(){
+        if(window.__bookingHeaderCardClipFinal) return;
+        window.__bookingHeaderCardClipFinal=true;
+        ['scroll','resize','orientationchange'].forEach(e=>window.addEventListener(e,syncBookingHeaderCut,{passive:true}));
+        const old=window.showPage;
+        if(typeof old==='function' && !old.__bookingHeaderCardClipWrapped){
+            const wrapped=function(id){
+                const result=old.apply(this,arguments);
+                if(id==='customer-booking'){
+                    requestAnimationFrame(syncBookingHeaderCut);
+                    setTimeout(syncBookingHeaderCut,60);
+                    setTimeout(syncBookingHeaderCut,220);
+                }
+                return result;
+            };
+            wrapped.__bookingHeaderCardClipWrapped=true;
+            window.showPage=wrapped;
+        }
+        syncBookingHeaderCut();
+    }
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+    else install();
+})();
+</script>
+
+<!-- FINAL OVERRIDE V3: BOOKING HEADER TIDAK BOLEH BERGESER PADA SCROLL PERTAMA -->
+<style id="booking-single-scroll-no-first-header-movement-v3">
+@media (max-width:640px){
+  /*
+     Booking memakai satu scroll viewport. Header dibuat fixed sejak awal,
+     sehingga tidak pernah mengalami transisi dari posisi normal -> sticky.
+     Ini menghilangkan gerakan kecil pada scroll pertama.
+  */
+  body:has(#page-customer-booking:not(.hidden)) #page-customer-booking .customer-booking-page-head{
+    position:fixed !important;
+    top:16px !important;
+    left:12px !important;
+    right:12px !important;
+    width:auto !important;
+    margin:0 !important;
+    z-index:9990 !important;
+  }
+
+  /* Isi dimulai tepat di bawah header fixed, tetapi tetap menjadi
+     bagian dari scroll body yang sama. */
+  body:has(#page-customer-booking:not(.hidden)) #page-customer-booking{
+    padding-top:92px !important;
+    overflow:visible !important;
+    position:relative !important;
+  }
+
+  @media (max-width:380px){
+    body:has(#page-customer-booking:not(.hidden)) #page-customer-booking .customer-booking-page-head{
+      top:6px !important;
+      left:9px !important;
+      right:9px !important;
+    }
+    body:has(#page-customer-booking:not(.hidden)) #page-customer-booking{
+      padding-top:82px !important;
+    }
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH V4: BOOKING — POTONGAN HEADER & DOCK SAMA PERSIS DENGAN MEMBER -->
+<style id="booking-cut-exact-member-v4">
+@media (max-width:640px){
+  #page-customer-booking .booking-card-cut-member-exact{
+    clip-path:inset(
+      var(--booking-exact-header-clip,0px)
+      0
+      var(--booking-exact-dock-clip,0px)
+      0
+      round
+      var(--booking-exact-header-radius-left,0px)
+      var(--booking-exact-header-radius-right,0px)
+      var(--booking-exact-dock-radius,0px)
+      var(--booking-exact-dock-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--booking-exact-header-clip,0px)
+      0
+      var(--booking-exact-dock-clip,0px)
+      0
+      round
+      var(--booking-exact-header-radius-left,0px)
+      var(--booking-exact-header-radius-right,0px)
+      var(--booking-exact-dock-radius,0px)
+      var(--booking-exact-dock-radius,0px)
+    ) !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+}
+</style>
+<script id="booking-cut-exact-member-v4-script">
+(function(){
+  const MOBILE_MAX=640;
+  let rafId=0;
+  function sync(){
+    cancelAnimationFrame(rafId);
+    rafId=requestAnimationFrame(function(){
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      const cards=page.querySelectorAll(
+        '.booking-glass-card, .booking-date-card, .booking-sparing-card, .customer-payment-info, .booking-submit-wrap'
+      );
+      if(!mobile || !active){
+        cards.forEach(card=>{
+          card.classList.remove('booking-card-cut-member-exact');
+          ['--booking-exact-header-clip','--booking-exact-header-radius-left','--booking-exact-header-radius-right','--booking-exact-dock-clip','--booking-exact-dock-radius'].forEach(v=>card.style.removeProperty(v));
+        });
+        return;
+      }
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header) return;
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+      const leftRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const rightRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+      const headerTop=hr.top;
+      let navTop=Infinity, navRadius=0;
+      if(nav){
+        const nr=nav.getBoundingClientRect();
+        if(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0){
+          navTop=nr.top;
+          const ns=getComputedStyle(nav);
+          navRadius=Math.max(0,Math.min(40,Math.max(parseFloat(ns.borderBottomLeftRadius)||0,parseFloat(ns.borderBottomRightRadius)||0)));
+        }
+      }
+      cards.forEach(card=>{
+        const r=card.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0) return;
+        /* Sama persis dengan Member: garis potong = garis ATAS header. */
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+        /* Sama persis dengan Member: garis potong bawah = sisi bawah dock. */
+        const bottomClip=navTop===Infinity ? 0 : Math.min(h,Math.max(0,r.bottom-navTop));
+        if(topClip>0 || bottomClip>0){
+          card.classList.add('booking-card-cut-member-exact');
+          card.style.setProperty('--booking-exact-header-clip',topClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-exact-header-radius-left',leftRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-exact-header-radius-right',rightRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-exact-dock-clip',bottomClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-exact-dock-radius',navRadius.toFixed(2)+'px');
+        }else{
+          card.classList.remove('booking-card-cut-member-exact');
+          card.style.removeProperty('--booking-exact-header-clip');
+          card.style.removeProperty('--booking-exact-dock-clip');
+        }
+      });
+    });
+  }
+  function install(){
+    if(window.__bookingCutExactMemberV4) return;
+    window.__bookingCutExactMemberV4=true;
+    ['scroll','resize','orientationchange'].forEach(e=>window.addEventListener(e,sync,{passive:true}));
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__bookingCutExactMemberWrapped){
+      const wrapped=function(id){
+        const result=oldShow.apply(this,arguments);
+        if(id==='customer-booking'){
+          requestAnimationFrame(sync);
+          setTimeout(sync,60);
+          setTimeout(sync,220);
+        }
+        return result;
+      };
+      wrapped.__bookingCutExactMemberWrapped=true;
+      window.showPage=wrapped;
+    }
+    sync();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+
+<!-- FINAL PATCH V6: BOOKING CUT — MEMBER REFERENCE, MEMBER CODE UNTOUCHED -->
+<style id="booking-cut-member-reference-v6">
+@media (max-width:640px){
+  #page-customer-booking .booking-cut-member-reference-v6{
+    clip-path:inset(
+      var(--booking-v6-top-clip,0px)
+      0
+      var(--booking-v6-bottom-clip,0px)
+      0
+      round
+      var(--booking-v6-top-left-radius,0px)
+      var(--booking-v6-top-right-radius,0px)
+      var(--booking-v6-bottom-radius,0px)
+      var(--booking-v6-bottom-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--booking-v6-top-clip,0px)
+      0
+      var(--booking-v6-bottom-clip,0px)
+      0
+      round
+      var(--booking-v6-top-left-radius,0px)
+      var(--booking-v6-top-right-radius,0px)
+      var(--booking-v6-bottom-radius,0px)
+      var(--booking-v6-bottom-radius,0px)
+    ) !important;
+  }
+}
+</style>
+<script id="booking-cut-member-reference-v6-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+  function clear(cards){
+    cards.forEach(card=>{
+      card.classList.remove('booking-cut-member-reference-v6','booking-card-cut-member-exact','booking-card-header-cut-final');
+      [
+        '--booking-v6-top-clip','--booking-v6-bottom-clip',
+        '--booking-v6-top-left-radius','--booking-v6-top-right-radius','--booking-v6-bottom-radius'
+      ].forEach(v=>card.style.removeProperty(v));
+    });
+  }
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+      const cards=page.querySelectorAll(
+        'form.customer-booking-clean-form > .booking-glass-card,\n         form.customer-booking-clean-form > .booking-sparing-card,\n         form.customer-booking-clean-form > .customer-payment-info,\n         form.customer-booking-clean-form > .booking-submit-wrap'
+      );
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      if(!mobile || !active){ clear(cards); return; }
+
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header){ clear(cards); return; }
+
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+      const leftRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const rightRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+      const headerTop=hr.top;
+
+      /* PENTING: sama seperti Member, batas bawah memakai navBottom,
+         yaitu garis BAWAH dock, bukan garis atas dock. */
+      let navBottom=Infinity;
+      let navRadius=0;
+      if(nav){
+        const nr=nav.getBoundingClientRect();
+        if(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0){
+          navBottom=nr.bottom;
+          const ns=getComputedStyle(nav);
+          navRadius=Math.max(0,Math.min(40,
+            Math.max(
+              parseFloat(ns.borderBottomLeftRadius)||0,
+              parseFloat(ns.borderBottomRightRadius)||0
+            )
+          ));
+        }
+      }
+
+      cards.forEach(card=>{
+        const r=card.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0) return;
+
+        /* Potongan atas: tepat ketika card melewati GARIS ATAS header. */
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+
+        /* Potongan bawah: tepat ketika card melewati GARIS BAWAH dock. */
+        const bottomClip=(navBottom===Infinity)
+          ? 0
+          : Math.min(h,Math.max(0,r.bottom-navBottom));
+
+        if(topClip>0 || bottomClip>0){
+          card.classList.add('booking-cut-member-reference-v6');
+          card.style.setProperty('--booking-v6-top-clip',topClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-v6-bottom-clip',bottomClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-v6-top-left-radius',leftRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-v6-top-right-radius',rightRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-v6-bottom-radius',navRadius.toFixed(2)+'px');
+        }else{
+          card.classList.remove('booking-cut-member-reference-v6');
+          ['--booking-v6-top-clip','--booking-v6-bottom-clip','--booking-v6-top-left-radius','--booking-v6-top-right-radius','--booking-v6-bottom-radius'].forEach(v=>card.style.removeProperty(v));
+        }
+      });
+    });
+  }
+  function install(){
+    if(window.__bookingCutMemberReferenceV6) return;
+    window.__bookingCutMemberReferenceV6=true;
+    ['scroll','resize','orientationchange'].forEach(e=>window.addEventListener(e,sync,{passive:true}));
+    const old=window.showPage;
+    if(typeof old==='function' && !old.__bookingCutMemberReferenceV6){
+      const wrapped=function(id){
+        const result=old.apply(this,arguments);
+        if(id==='customer-booking'){
+          requestAnimationFrame(sync);
+          setTimeout(sync,60);
+          setTimeout(sync,220);
+        }
+        return result;
+      };
+      wrapped.__bookingCutMemberReferenceV6=true;
+      window.showPage=wrapped;
+    }
+    sync();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+<!-- FINAL PATCH: MEMBER HEADER -> CARD SPACING -->
+<style id="member-header-card-spacing-final">
+@media (max-width:640px){
+    /* Jarak header -> kartu pertama dibuat SAMA PERSIS dengan gap antar-card. */
+    #page-customer-member .customer-member-page-head{
+        margin-bottom:0 !important;
+    }
+    #page-customer-member .customer-member-grid{
+        margin-top:9px !important;
+        row-gap:9px !important;
+    }
+}
+</style>
+
+
+<!-- FINAL OVERRIDE: MEMBER HEADER-CARD GAP EXACT MATCH -->
+<style id="member-header-card-gap-hard-final">
+@media (max-width:640px){
+  /* Paksa ruang kosong nyata di antara header dan card pertama.
+     Nilainya sama dengan gap antar-card member: 9px. */
+  #page-customer-member .customer-member-grid{
+    padding-top:9px !important;
+    margin-top:0 !important;
+    row-gap:9px !important;
+    box-sizing:border-box !important;
+  }
+  #page-customer-member .customer-member-page-head{
+    margin-bottom:0 !important;
+  }
+}
+</style>
+
+<!-- FINAL FIX: MEMBER HEADER -> FIRST ROW GAP EXACTLY 9PX -->
+<style id="member-header-first-row-gap-final">
+@media (max-width:640px){
+  /* Beri jarak langsung pada dua card di baris pertama.
+     Ini sengaja tidak memakai margin header/grid agar tidak tertimpa sticky/JS. */
+  #page-customer-member .customer-member-grid > .customer-member-card:nth-child(1),
+  #page-customer-member .customer-member-grid > .customer-member-card:nth-child(2){
+    margin-top:9px !important;
+  }
+  #page-customer-member .customer-member-grid{
+    row-gap:9px !important;
+  }
+}
+</style>
+
+<!-- FINAL PATCH V7: BOOKING — POTONGAN IDENTIK DENGAN MEMBER -->
+<style id="booking-cut-identical-to-member-v7">
+@media (max-width:640px){
+  #page-customer-booking .booking-cut-identical-to-member-v7{
+    clip-path:inset(
+      var(--booking-v7-top-clip,0px)
+      0
+      var(--booking-v7-bottom-clip,0px)
+      0
+      round
+      var(--booking-v7-header-left-radius,0px)
+      var(--booking-v7-header-right-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--booking-v7-top-clip,0px)
+      0
+      var(--booking-v7-bottom-clip,0px)
+      0
+      round
+      var(--booking-v7-header-left-radius,0px)
+      var(--booking-v7-header-right-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+    ) !important;
+  }
+}
+</style>
+<script id="booking-cut-identical-to-member-v7-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  function clear(cards){
+    cards.forEach(card=>{
+      card.classList.remove('booking-cut-identical-to-member-v7');
+      [
+        '--booking-v7-top-clip',
+        '--booking-v7-bottom-clip',
+        '--booking-v7-header-left-radius',
+        '--booking-v7-header-right-radius',
+        '--booking-v7-dock-radius'
+      ].forEach(v=>card.style.removeProperty(v));
+    });
+  }
+
+  function syncBookingLikeMember(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      const cards=page.querySelectorAll(
+        'form.customer-booking-clean-form > .booking-glass-card,'+
+        'form.customer-booking-clean-form > .booking-date-card,'+
+        'form.customer-booking-clean-form > .booking-sparing-card,'+
+        'form.customer-booking-clean-form > .customer-payment-info,'+
+        'form.customer-booking-clean-form > .booking-submit-wrap'
+      );
+
+      if(!mobile || !active){ clear(cards); return; }
+
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header){ clear(cards); return; }
+
+      const headerRect=header.getBoundingClientRect();
+      const headerStyle=getComputedStyle(header);
+      const leftRadius=Math.max(0,Math.min(40,parseFloat(headerStyle.borderTopLeftRadius)||0));
+      const rightRadius=Math.max(0,Math.min(40,parseFloat(headerStyle.borderTopRightRadius)||0));
+      const headerTop=headerRect.top;
+
+      /* IDENTIK MEMBER: batas bawah memakai GARIS BAWAH dock. */
+      let navBottom=-Infinity;
+      let dockRadius=0;
+      if(nav){
+        const navRect=nav.getBoundingClientRect();
+        if(navRect.height>0 && navRect.top<window.innerHeight && navRect.bottom>0){
+          navBottom=navRect.bottom;
+          const navStyle=getComputedStyle(nav);
+          dockRadius=Math.max(
+            0,
+            Math.min(40,
+              Math.max(
+                parseFloat(navStyle.borderBottomLeftRadius)||0,
+                parseFloat(navStyle.borderBottomRightRadius)||0
+              )
+            )
+          );
+        }
+      }
+
+      cards.forEach(card=>{
+        const rect=card.getBoundingClientRect();
+        const h=rect.height;
+        if(h<=0) return;
+
+        /* IDENTIK MEMBER: potong tepat di GARIS ATAS header. */
+        const topClip=Math.min(h,Math.max(0,headerTop-rect.top));
+
+        /* IDENTIK MEMBER: potong tepat di GARIS BAWAH dock. */
+        const bottomClip=(navBottom===-Infinity)
+          ? 0
+          : Math.min(h,Math.max(0,rect.bottom-navBottom));
+
+        if(topClip>0 || bottomClip>0){
+          card.classList.add('booking-cut-identical-to-member-v7');
+          card.style.setProperty('--booking-v7-top-clip',topClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-v7-bottom-clip',bottomClip.toFixed(2)+'px');
+          card.style.setProperty('--booking-v7-header-left-radius',leftRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-v7-header-right-radius',rightRadius.toFixed(2)+'px');
+          card.style.setProperty('--booking-v7-dock-radius',dockRadius.toFixed(2)+'px');
+        }else{
+          card.classList.remove('booking-cut-identical-to-member-v7');
+          card.style.removeProperty('--booking-v7-top-clip');
+          card.style.removeProperty('--booking-v7-bottom-clip');
+          card.style.removeProperty('--booking-v7-header-left-radius');
+          card.style.removeProperty('--booking-v7-header-right-radius');
+          card.style.removeProperty('--booking-v7-dock-radius');
+        }
+      });
+    });
+  }
+
+  function install(){
+    if(window.__bookingCutIdenticalToMemberV7) return;
+    window.__bookingCutIdenticalToMemberV7=true;
+
+    ['scroll','resize','orientationchange'].forEach(e=>
+      window.addEventListener(e,syncBookingLikeMember,{passive:true})
+    );
+
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__bookingCutIdenticalToMemberV7){
+      const wrapped=function(id){
+        const result=oldShow.apply(this,arguments);
+        if(id==='customer-booking'){
+          requestAnimationFrame(syncBookingLikeMember);
+          setTimeout(syncBookingLikeMember,60);
+          setTimeout(syncBookingLikeMember,220);
+        }
+        return result;
+      };
+      wrapped.__bookingCutIdenticalToMemberV7=true;
+      window.showPage=wrapped;
+    }
+
+    syncBookingLikeMember();
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',install,{once:true});
+  }else{
+    install();
+  }
+})();
+</script>
+
+
+<!-- FINAL PATCH V7: BOOKING — POTONGAN TEPAT DI BAWAH HEADER & DI BAWAH DOCK -->
+<style id="booking-cut-exact-member-v7">
+@media (max-width:640px){
+  #page-customer-booking .booking-cut-exact-member-v7{
+    clip-path:inset(
+      var(--booking-v7-top-clip,0px)
+      0
+      var(--booking-v7-bottom-clip,0px)
+      0
+      round
+      var(--booking-v7-header-radius-left,0px)
+      var(--booking-v7-header-radius-right,0px)
+      var(--booking-v7-dock-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--booking-v7-top-clip,0px)
+      0
+      var(--booking-v7-bottom-clip,0px)
+      0
+      round
+      var(--booking-v7-header-radius-left,0px)
+      var(--booking-v7-header-radius-right,0px)
+      var(--booking-v7-dock-radius,0px)
+      var(--booking-v7-dock-radius,0px)
+    ) !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+
+  #page-customer-booking .booking-cut-exact-member-v7.booking-fully-hidden-v7{
+    clip-path:inset(100% 0 0 0) !important;
+    -webkit-clip-path:inset(100% 0 0 0) !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+}
+</style>
+<script id="booking-cut-exact-member-v7-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  function clear(cards){
+    cards.forEach(card=>{
+      card.classList.remove('booking-cut-exact-member-v7','booking-fully-hidden-v7');
+      [
+        '--booking-v7-top-clip',
+        '--booking-v7-bottom-clip',
+        '--booking-v7-header-radius-left',
+        '--booking-v7-header-radius-right',
+        '--booking-v7-dock-radius'
+      ].forEach(v=>card.style.removeProperty(v));
+    });
+  }
+
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+
+      const cards=page.querySelectorAll(
+        'form.customer-booking-clean-form > .booking-glass-card,'+
+        'form.customer-booking-clean-form > .booking-date-card,'+
+        'form.customer-booking-clean-form > .booking-sparing-card,'+
+        'form.customer-booking-clean-form > .customer-payment-info,'+
+        'form.customer-booking-clean-form > .booking-submit-wrap'
+      );
+
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      if(!mobile || !active){ clear(cards); return; }
+
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header){ clear(cards); return; }
+
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+      const headerBottom=hr.bottom;
+      const headerRadiusLeft=Math.max(0,Math.min(60,parseFloat(hs.borderBottomLeftRadius)||0));
+      const headerRadiusRight=Math.max(0,Math.min(60,parseFloat(hs.borderBottomRightRadius)||0));
+
+      let navBottom=Infinity;
+      let dockRadius=0;
+      if(nav){
+        const nr=nav.getBoundingClientRect();
+        if(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0){
+          navBottom=nr.bottom;
+          const ns=getComputedStyle(nav);
+          dockRadius=Math.max(0,Math.min(60,
+            Math.max(
+              parseFloat(ns.borderBottomLeftRadius)||0,
+              parseFloat(ns.borderBottomRightRadius)||0
+            )
+          ));
+        }
+      }
+
+      cards.forEach(card=>{
+        const r=card.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0) return;
+
+        // POTONGAN ATAS = tepat di GARIS BAWAH card header.
+        const topClip=Math.min(h,Math.max(0,headerBottom-r.top));
+
+        // POTONGAN BAWAH = tepat di GARIS BAWAH dock bar.
+        const bottomClip=navBottom===Infinity
+          ? 0
+          : Math.min(h,Math.max(0,r.bottom-navBottom));
+
+        card.style.setProperty('--booking-v7-header-radius-left',headerRadiusLeft.toFixed(2)+'px');
+        card.style.setProperty('--booking-v7-header-radius-right',headerRadiusRight.toFixed(2)+'px');
+        card.style.setProperty('--booking-v7-dock-radius',dockRadius.toFixed(2)+'px');
+        card.style.setProperty('--booking-v7-top-clip',topClip.toFixed(2)+'px');
+        card.style.setProperty('--booking-v7-bottom-clip',bottomClip.toFixed(2)+'px');
+
+        if(topClip>=h || bottomClip>=h){
+          card.classList.add('booking-cut-exact-member-v7','booking-fully-hidden-v7');
+        }else if(topClip>0 || bottomClip>0){
+          card.classList.add('booking-cut-exact-member-v7');
+          card.classList.remove('booking-fully-hidden-v7');
+        }else{
+          card.classList.remove('booking-cut-exact-member-v7','booking-fully-hidden-v7');
+        }
+      });
+    });
+  }
+
+  function install(){
+    if(window.__bookingCutExactMemberV7) return;
+    window.__bookingCutExactMemberV7=true;
+    ['scroll','resize','orientationchange'].forEach(e=>window.addEventListener(e,sync,{passive:true}));
+
+    const old=window.showPage;
+    if(typeof old==='function' && !old.__bookingCutExactMemberV7){
+      const wrapped=function(id){
+        const result=old.apply(this,arguments);
+        if(id==='customer-booking'){
+          requestAnimationFrame(sync);
+          setTimeout(sync,60);
+          setTimeout(sync,220);
+        }
+        return result;
+      };
+      wrapped.__bookingCutExactMemberV7=true;
+      window.showPage=wrapped;
+    }
+    sync();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
+<!-- FINAL PATCH V8: BOOKING — SAMA PERSIS DENGAN MEKANISME MEMBER -->
+<style id="booking-cut-exact-member-v8">
+@media (max-width:640px){
+  /*
+    Sama seperti MEMBER:
+    - batas atas = GARIS ATAS card header
+    - batas bawah = GARIS BAWAH dock bar
+    Card yang melewati batas benar-benar di-clip, bukan sekadar ditimpa z-index.
+  */
+  #page-customer-booking .booking-cut-exact-member-v8{
+    clip-path:inset(
+      var(--booking-v8-top-clip,0px)
+      0
+      var(--booking-v8-bottom-clip,0px)
+      0
+      round
+      var(--booking-v8-header-top-left-radius,0px)
+      var(--booking-v8-header-top-right-radius,0px)
+      var(--booking-v8-dock-bottom-radius,0px)
+      var(--booking-v8-dock-bottom-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--booking-v8-top-clip,0px)
+      0
+      var(--booking-v8-bottom-clip,0px)
+      0
+      round
+      var(--booking-v8-header-top-left-radius,0px)
+      var(--booking-v8-header-top-right-radius,0px)
+      var(--booking-v8-dock-bottom-radius,0px)
+      var(--booking-v8-dock-bottom-radius,0px)
+    ) !important;
+  }
+  #page-customer-booking .booking-cut-exact-member-v8.booking-fully-hidden-v8{
+    clip-path:inset(100% 0 0 0) !important;
+    -webkit-clip-path:inset(100% 0 0 0) !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+}
+</style>
+<script id="booking-cut-exact-member-v8-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+
+      const cards=page.querySelectorAll(
+        'form.customer-booking-clean-form > .booking-glass-card,'+
+        'form.customer-booking-clean-form > .booking-date-card,'+
+        'form.customer-booking-clean-form > .booking-sparing-card,'+
+        'form.customer-booking-clean-form > .customer-payment-info,'+
+        'form.customer-booking-clean-form > .booking-submit-wrap'
+      );
+
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+
+      if(!mobile || !active){
+        cards.forEach(function(card){
+          card.classList.remove('booking-cut-exact-member-v8','booking-fully-hidden-v8');
+          [
+            '--booking-v8-top-clip',
+            '--booking-v8-bottom-clip',
+            '--booking-v8-header-top-left-radius',
+            '--booking-v8-header-top-right-radius',
+            '--booking-v8-dock-bottom-radius'
+          ].forEach(function(v){card.style.removeProperty(v);});
+        });
+        return;
+      }
+
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header) return;
+
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+
+      /* PERSIS MEMBER: garis potong atas = GARIS ATAS header. */
+      const headerTop=hr.top;
+      const headerTopLeftRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const headerTopRightRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+
+      /* PERSIS MEMBER: garis potong bawah = GARIS BAWAH dock. */
+      let navBottom=Infinity;
+      let dockBottomRadius=0;
+      if(nav){
+        const nr=nav.getBoundingClientRect();
+        if(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0){
+          navBottom=nr.bottom;
+          const ns=getComputedStyle(nav);
+          dockBottomRadius=Math.max(
+            0,
+            Math.min(40,
+              Math.max(
+                parseFloat(ns.borderBottomLeftRadius)||0,
+                parseFloat(ns.borderBottomRightRadius)||0
+              )
+            )
+          );
+        }
+      }
+
+      cards.forEach(function(card){
+        const r=card.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0) return;
+
+        /*
+          Card berjalan di belakang header.
+          Begitu bagian atas card melewati GARIS ATAS header,
+          bagian yang melewati garis tersebut dipotong.
+        */
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+
+        /* Card yang masuk ke dock dipotong tepat di GARIS BAWAH dock. */
+        const bottomClip=(navBottom===Infinity)
+          ? 0
+          : Math.min(h,Math.max(0,r.bottom-navBottom));
+
+        card.style.setProperty('--booking-v8-top-clip',topClip.toFixed(2)+'px');
+        card.style.setProperty('--booking-v8-bottom-clip',bottomClip.toFixed(2)+'px');
+        card.style.setProperty('--booking-v8-header-top-left-radius',headerTopLeftRadius.toFixed(2)+'px');
+        card.style.setProperty('--booking-v8-header-top-right-radius',headerTopRightRadius.toFixed(2)+'px');
+        card.style.setProperty('--booking-v8-dock-bottom-radius',dockBottomRadius.toFixed(2)+'px');
+
+        if(topClip>=h || bottomClip>=h){
+          card.classList.add('booking-cut-exact-member-v8','booking-fully-hidden-v8');
+        }else if(topClip>0 || bottomClip>0){
+          card.classList.add('booking-cut-exact-member-v8');
+          card.classList.remove('booking-fully-hidden-v8');
+        }else{
+          card.classList.remove('booking-cut-exact-member-v8','booking-fully-hidden-v8');
+        }
+      });
+    });
+  }
+
+  function install(){
+    if(window.__bookingCutExactMemberV8) return;
+    window.__bookingCutExactMemberV8=true;
+    ['scroll','resize','orientationchange'].forEach(function(e){
+      window.addEventListener(e,sync,{passive:true});
+    });
+
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__bookingCutExactMemberV8){
+      const wrapped=function(id){
+        const result=oldShow.apply(this,arguments);
+        if(id==='customer-booking'){
+          requestAnimationFrame(sync);
+          setTimeout(sync,60);
+          setTimeout(sync,220);
+        }
+        return result;
+      };
+      wrapped.__bookingCutExactMemberV8=true;
+      window.showPage=wrapped;
+    }
+
+    sync();
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',install,{once:true});
+  }else{
+    install();
+  }
+})();
+</script>
+<!-- FINAL PATCH V9: BOOKING — DOCK CUT TEPAT DI GARIS BAWAH DOCK -->
+<style id="booking-dock-cut-exact-v9">
+@media (max-width:640px){
+  #page-customer-booking .booking-dock-cut-exact-v9{overflow:hidden !important;}
+}
+</style>
+<script id="booking-dock-cut-exact-v9-script">
+(function(){
+  const MOBILE_MAX=640; let raf=0;
+  function clearCard(card){
+    card.classList.remove('booking-dock-cut-exact-v9');
+    card.style.removeProperty('clip-path');
+    card.style.removeProperty('-webkit-clip-path');
+  }
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+      const cards=page.querySelectorAll('form.customer-booking-clean-form > .booking-glass-card,form.customer-booking-clean-form > .booking-date-card,form.customer-booking-clean-form > .booking-sparing-card,form.customer-booking-clean-form > .customer-payment-info,form.customer-booking-clean-form > .booking-submit-wrap');
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      if(!mobile || !active || !nav){cards.forEach(clearCard);return;}
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header){cards.forEach(clearCard);return;}
+      const hr=header.getBoundingClientRect(), hs=getComputedStyle(header);
+      const headerTop=hr.top;
+      const tl=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const tr=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+      const nr=nav.getBoundingClientRect();
+      if(!(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0)){cards.forEach(clearCard);return;}
+      const dockBottom=nr.bottom;
+      const ns=getComputedStyle(nav);
+      const br=Math.max(0,Math.min(40,Math.max(parseFloat(ns.borderBottomLeftRadius)||0,parseFloat(ns.borderBottomRightRadius)||0)));
+      cards.forEach(function(card){
+        const r=card.getBoundingClientRect(), h=r.height;
+        if(h<=0){clearCard(card);return;}
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+        const bottomClip=Math.min(h,Math.max(0,r.bottom-dockBottom));
+        if(topClip<=0 && bottomClip<=0){clearCard(card);return;}
+        if(topClip>=h || bottomClip>=h){
+          card.classList.add('booking-dock-cut-exact-v9');
+          card.style.setProperty('clip-path','inset(100% 0 0 0)','important');
+          card.style.setProperty('-webkit-clip-path','inset(100% 0 0 0)','important');
+          return;
+        }
+        const clip='inset('+topClip.toFixed(2)+'px 0 '+bottomClip.toFixed(2)+'px 0 round '+tl.toFixed(2)+'px '+tr.toFixed(2)+'px '+br.toFixed(2)+'px '+br.toFixed(2)+'px)';
+        card.classList.add('booking-dock-cut-exact-v9');
+        card.style.setProperty('clip-path',clip,'important');
+        card.style.setProperty('-webkit-clip-path',clip,'important');
+      });
+    });
+  }
+  function install(){
+    if(window.__bookingDockCutExactV9) return;
+    window.__bookingDockCutExactV9=true;
+    ['scroll','resize','orientationchange'].forEach(e=>window.addEventListener(e,sync,{passive:true}));
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__bookingDockCutExactV9){
+      const wrapped=function(id){const result=oldShow.apply(this,arguments);requestAnimationFrame(sync);setTimeout(sync,60);setTimeout(sync,220);return result;};
+      wrapped.__bookingDockCutExactV9=true; window.showPage=wrapped;
+    }
+    sync();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true}); else install();
+})();
+</script>
+
+<!-- FINAL PATCH V10: BOOKING CONFIRM BUTTON — IKUT TERPOTONG DOCK BAR -->
+<style id="booking-confirm-button-dock-cut-v10">
+@media (max-width:640px){
+  #page-customer-booking .booking-submit-btn.booking-confirm-dock-cut-v10{
+    overflow:hidden !important;
+  }
+}
+</style>
+<script id="booking-confirm-button-dock-cut-v10-script">
+(function(){
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  function clearButton(btn){
+    btn.classList.remove('booking-confirm-dock-cut-v10');
+    btn.style.removeProperty('clip-path');
+    btn.style.removeProperty('-webkit-clip-path');
+  }
+
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){
+      const page=document.getElementById('page-customer-booking');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+
+      const buttons=page.querySelectorAll('.booking-submit-btn');
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+      const active=!page.classList.contains('hidden');
+      if(!mobile || !active || !nav){
+        buttons.forEach(clearButton);
+        return;
+      }
+
+      const header=page.querySelector('.customer-booking-page-head');
+      if(!header){buttons.forEach(clearButton);return;}
+
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+      const headerTop=hr.top;
+      const tl=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const tr=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+
+      const nr=nav.getBoundingClientRect();
+      if(!(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0)){
+        buttons.forEach(clearButton);
+        return;
+      }
+
+      /* Sama seperti Member: batas bawah = GARIS BAWAH dock bar. */
+      const dockBottom=nr.bottom;
+      const ns=getComputedStyle(nav);
+      const br=Math.max(0,Math.min(40,Math.max(
+        parseFloat(ns.borderBottomLeftRadius)||0,
+        parseFloat(ns.borderBottomRightRadius)||0
+      )));
+
+      buttons.forEach(function(btn){
+        const r=btn.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0){clearButton(btn);return;}
+
+        /* Batas atas tetap mengikuti garis atas header, sama dengan form. */
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+        const bottomClip=Math.min(h,Math.max(0,r.bottom-dockBottom));
+
+        if(topClip<=0 && bottomClip<=0){
+          clearButton(btn);
+          return;
+        }
+
+        if(topClip>=h || bottomClip>=h){
+          btn.classList.add('booking-confirm-dock-cut-v10');
+          btn.style.setProperty('clip-path','inset(100% 0 0 0)','important');
+          btn.style.setProperty('-webkit-clip-path','inset(100% 0 0 0)','important');
+          return;
+        }
+
+        const clip='inset('+topClip.toFixed(2)+'px 0 '+bottomClip.toFixed(2)+'px 0 round '
+          +tl.toFixed(2)+'px '+tr.toFixed(2)+'px '
+          +br.toFixed(2)+'px '+br.toFixed(2)+'px)';
+
+        btn.classList.add('booking-confirm-dock-cut-v10');
+        btn.style.setProperty('clip-path',clip,'important');
+        btn.style.setProperty('-webkit-clip-path',clip,'important');
+      });
+    });
+  }
+
+  function install(){
+    if(window.__bookingConfirmButtonDockCutV10) return;
+    window.__bookingConfirmButtonDockCutV10=true;
+
+    ['scroll','resize','orientationchange'].forEach(function(e){
+      window.addEventListener(e,sync,{passive:true});
+    });
+
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__bookingConfirmButtonDockCutV10){
+      const wrapped=function(id){
+        const result=oldShow.apply(this,arguments);
+        requestAnimationFrame(sync);
+        setTimeout(sync,60);
+        setTimeout(sync,220);
+        return result;
+      };
+      wrapped.__bookingConfirmButtonDockCutV10=true;
+      window.showPage=wrapped;
+    }
+
+    sync();
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',install,{once:true});
+  }else{
+    install();
+  }
+})();
+</script>
+
+<!-- FINAL PATCH V12: JADWAL HP — PAKSA SENIN-MINGGU TERLIHAT DALAM SATU LAYAR -->
