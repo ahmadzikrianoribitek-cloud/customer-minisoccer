@@ -1474,7 +1474,7 @@ main{
 }
 #page-home label{
   display:block !important;
-  margin-bottom:8px !important;
+  margin-bottom:6px !important;
   color:#172554 !important;
   font-size:.78rem !important;
   font-weight:900 !important;
@@ -5803,6 +5803,274 @@ body:has(#page-customer-member:not(.hidden)) > header{
 #sandaga-startup-progress-bar{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#fff,#93c5fd);box-shadow:0 0 18px rgba(147,197,253,.55);transition:width .16s ease}
 #sandaga-startup-percent{margin-top:9px;color:rgba(255,255,255,.82);font-size:.68rem;font-weight:800;letter-spacing:.04em}
 </style>
+
+<style id="customer-price-header-match-member-final">
+/* Header Daftar Harga dibuat mengikuti header Member. */
+#page-customer-price .customer-price-member-style-head{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  margin:0 0 10px !important;
+  padding:14px 15px !important;
+  min-height:88px !important;
+  border-radius:20px !important;
+  box-sizing:border-box !important;
+  background:linear-gradient(105deg,#0b1d49 0%,#173b8f 52%,#0d8ec8 100%) !important;
+  color:#fff !important;
+  box-shadow:0 16px 34px rgba(23,59,143,.22) !important;
+  position:relative !important;
+}
+#page-customer-price .customer-price-member-style-head .customer-member-head-copy{
+  min-width:0 !important; flex:1 1 auto !important;
+}
+#page-customer-price .customer-price-member-style-head .customer-member-eyebrow{
+  margin:0 0 3px !important; font-size:.55rem !important; letter-spacing:.11em !important;
+  font-weight:950 !important; opacity:.72 !important;
+}
+#page-customer-price .customer-price-member-style-head h2{
+  margin:0 !important; color:#fff !important; font-size:clamp(.88rem,3.4vw,1.15rem) !important;
+  line-height:1.12 !important; letter-spacing:.045em !important; font-weight:950 !important;
+}
+#page-customer-price .customer-price-member-style-head h2 span{display:block !important; font-size:.88em !important;}
+#page-customer-price .customer-price-member-style-head p{
+  margin:4px 0 0 !important; color:rgba(255,255,255,.76) !important;
+  font-size:.56rem !important; line-height:1.25 !important; font-weight:650 !important; max-width:245px !important;
+}
+#page-customer-price .customer-price-member-style-head .customer-member-head-logo{
+  flex:0 0 76px !important; width:76px !important; height:76px !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  box-sizing:border-box !important; overflow:visible !important;
+}
+#page-customer-price .customer-price-member-style-head .customer-member-head-logo img{
+  width:100% !important; height:100% !important; max-width:76px !important; max-height:76px !important;
+  object-fit:contain !important; object-position:center !important; display:block !important;
+}
+@media(max-width:380px){
+  #page-customer-price .customer-price-member-style-head{min-height:88px !important; padding:11px 12px 11px 13px !important;}
+  #page-customer-price .customer-price-member-style-head .customer-member-head-logo{flex-basis:68px !important;width:68px !important;height:68px !important;}
+  #page-customer-price .customer-price-member-style-head .customer-member-head-logo img{max-width:68px !important;max-height:68px !important;}
+  #page-customer-price .customer-price-member-style-head p{display:none !important;}
+}
+</style>
+
+<style id="price-header-same-as-booking-final">
+/* DAFTAR HARGA — satu header saja, struktur dan tampilan mengikuti BOOKING. */
+#page-customer-price .customer-price-head,
+#page-customer-price .customer-price-page-title,
+#page-customer-price > .customer-page-head,
+#page-customer-price .customer-page-head{
+  display:none !important;
+}
+
+#page-customer-price .customer-price-booking-header{
+  position:relative !important;
+  z-index:10 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:11px !important;
+  min-height:82px !important;
+  margin:0 0 10px !important;
+  padding:10px 13px !important;
+  box-sizing:border-box !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+  border:1px solid rgba(255,255,255,.86) !important;
+  border-radius:22px !important;
+  box-shadow:0 18px 48px rgba(2,6,23,.20),inset 0 1px 0 rgba(255,255,255,.92),inset 0 -1px 0 rgba(255,255,255,.28) !important;
+  -webkit-backdrop-filter:blur(28px) saturate(155%) !important;
+  backdrop-filter:blur(28px) saturate(155%) !important;
+}
+#page-customer-price .customer-price-booking-header::before{
+  content:"" !important; position:absolute !important; inset:0 !important;
+  border-radius:inherit !important; pointer-events:none !important; z-index:0 !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.34),transparent 52%),linear-gradient(90deg,rgba(255,255,255,.10),transparent 50%,rgba(255,255,255,.12)) !important;
+}
+#page-customer-price .customer-price-booking-header .customer-booking-head-logo{
+  flex:0 0 58px !important; width:58px !important; height:58px !important;
+  margin:0 !important; display:flex !important; align-items:center !important; justify-content:center !important;
+  position:relative !important; z-index:1 !important;
+}
+#page-customer-price .customer-price-booking-header .customer-booking-head-logo img{
+  width:100% !important; height:100% !important; object-fit:contain !important; display:block !important;
+}
+#page-customer-price .customer-price-booking-header .customer-booking-head-copy{
+  min-width:0 !important; flex:1 1 auto !important; text-align:left !important; position:relative !important; z-index:1 !important;
+}
+#page-customer-price .customer-price-booking-header h2{
+  display:flex !important; flex-direction:column !important; align-items:flex-start !important; justify-content:center !important; gap:2px !important;
+  margin:0 !important; color:#132a5e !important; font-size:clamp(.82rem,3.6vw,1.08rem) !important;
+  line-height:1.15 !important; letter-spacing:.035em !important; font-weight:950 !important; white-space:normal !important;
+}
+#page-customer-price .customer-price-booking-header h2 span{display:block !important;font-size:1em !important;}
+@media(max-width:380px){
+  #page-customer-price .customer-price-booking-header{min-height:76px !important;gap:9px !important;padding:9px 11px !important;}
+  #page-customer-price .customer-price-booking-header .customer-booking-head-logo{flex-basis:52px !important;width:52px !important;height:52px !important;}
+  #page-customer-price .customer-price-booking-header h2{font-size:.78rem !important;}
+}
+</style>
+
+
+<style id="schedule-header-exact-member-final">
+/* JADWAL — header baru 1:1 mengikuti struktur header MEMBER.
+   Tidak mengubah tabel/jadwal di bawahnya. */
+body:has(#page-customer-schedule:not(.hidden)) > header{
+  display:none !important;
+  visibility:hidden !important;
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  min-height:96px !important;
+  margin:0 0 10px !important;
+  padding:13px 14px 13px 16px !important;
+  border-radius:20px !important;
+  box-sizing:border-box !important;
+  background:linear-gradient(105deg,#0b1d49 0%,#173b8f 52%,#0d8ec8 100%) !important;
+  color:#fff !important;
+  box-shadow:0 16px 34px rgba(23,59,143,.22) !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head .customer-member-head-copy{
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head h2{
+  margin:0 !important;
+  color:#fff !important;
+  font-size:clamp(.88rem,3.4vw,1.15rem) !important;
+  line-height:1.12 !important;
+  letter-spacing:.045em !important;
+  font-weight:950 !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head h2 span{
+  display:block !important;
+  font-size:.88em !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo{
+  flex:0 0 76px !important;
+  width:76px !important;
+  height:76px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+}
+#page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo img{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  display:block !important;
+}
+
+/* Selector periode dipisahkan dari header agar header benar-benar sama dengan Member. */
+#page-customer-schedule .customer-schedule-period-control{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:10px !important;
+  margin:0 0 12px !important;
+  padding:8px 10px !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.55) !important;
+  border:1px solid rgba(255,255,255,.72) !important;
+  box-sizing:border-box !important;
+}
+#page-customer-schedule .customer-schedule-period-control label{
+  color:#132a5e !important;
+  font-size:.58rem !important;
+  font-weight:950 !important;
+  letter-spacing:.04em !important;
+}
+#page-customer-schedule .customer-schedule-period-control select{
+  min-width:125px !important;
+  min-height:36px !important;
+  padding:7px 10px !important;
+  border-radius:10px !important;
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(148,163,184,.35) !important;
+  color:#13224f !important;
+  box-shadow:none !important;
+}
+@media(max-width:640px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin:0 5px 10px !important;
+    padding:14px 15px !important;
+    border-radius:18px !important;
+    gap:9px !important;
+  }
+  #page-customer-schedule .customer-schedule-period-control{
+    margin:0 5px 12px !important;
+    padding:7px 9px !important;
+  }
+  #page-customer-schedule .customer-schedule-period-control select{
+    min-width:105px !important;
+    min-height:34px !important;
+    padding:6px 7px !important;
+    font-size:.52rem !important;
+  }
+}
+@media(max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    min-height:88px !important;
+    padding:11px 12px 11px 13px !important;
+  }
+  #page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo{
+    flex-basis:68px !important;
+    width:68px !important;
+    height:68px !important;
+  }
+  #page-customer-schedule .customer-schedule-period-control select{
+    min-width:82px !important;
+    font-size:.48rem !important;
+  }
+}
+</style>
+
+
+<style id="schedule-period-short-final">
+/* JADWAL — beri jarak lebih lega antara header dan periode. */
+#page-customer-schedule .customer-schedule-member-style-head{
+  margin-bottom:18px !important;
+}
+/* Pilihan periode dibuat satu baris ringkas: Periode 17 s.d 23 Agustus 2026 */
+#page-customer-schedule .customer-schedule-period-control{
+  margin:0 5px 12px !important;
+  justify-content:center !important;
+  padding:7px 10px !important;
+}
+#page-customer-schedule .customer-schedule-period-control label{
+  display:none !important;
+}
+#page-customer-schedule .customer-schedule-period-control select{
+  width:100% !important;
+  min-width:0 !important;
+  text-align:center !important;
+  font-size:.62rem !important;
+  font-weight:950 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#132a5e !important;
+}
+@media(max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-bottom:18px !important;
+  }
+  #page-customer-schedule .customer-schedule-period-control select{
+    font-size:.56rem !important;
+  }
+}
+</style>
 </head>
 <!-- LOADING AWAL APLIKASI -->
 <div id="sandaga-startup-loader" aria-label="Memuat Sandaga Minisoccer 2">
@@ -5845,8 +6113,13 @@ body:has(#page-customer-member:not(.hidden)) > header{
 <!-- HALAMAN HARGA CUSTOMER -->
 <div class="glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-price">
 <div aria-label="Daftar harga lapangan" class="customer-price-card">
-<div class="customer-price-head">
-<h3 class="customer-price-title">💰 DAFTAR HARGA SEWA LAPANGAN PERJAM</h3>
+<div class="customer-booking-page-head customer-price-booking-header">
+  <div class="customer-booking-head-logo" aria-hidden="true">
+    <img src="logo.png" alt="">
+  </div>
+  <div class="customer-booking-head-copy">
+    <h2><span>DAFTAR HARGA</span><span>SANDAGA MINISOCCER 2</span></h2>
+  </div>
 </div>
 <div class="customer-price-grid">
 <div class="customer-price-group">
@@ -6026,13 +6299,87 @@ body:has(#page-customer-member:not(.hidden)) > header{
 <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparing...</div>
 </div>
 </div>
+
+<style id="customer-schedule-header-member-style">
+/* HEADER JADWAL — disamakan dengan header MEMBER, tanpa mengubah isi tabel */
+#page-customer-schedule .customer-schedule-member-style-head{
+  position:relative !important;
+  margin:0 0 16px !important;
+}
+#page-customer-schedule .customer-schedule-head-filter{
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:6px !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.12) !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+}
+#page-customer-schedule .customer-schedule-head-filter select{
+  min-width:125px !important;
+  min-height:38px !important;
+  padding:8px 10px !important;
+  border-radius:10px !important;
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(255,255,255,.35) !important;
+  color:#13224f !important;
+  box-shadow:none !important;
+}
+@media(max-width:800px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    padding:16px !important;
+  }
+  #page-customer-schedule .customer-schedule-head-filter select{
+    min-width:105px !important;
+  }
+}
+@media(max-width:640px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin:0 5px 10px !important;
+    padding:14px 15px !important;
+    border-radius:18px !important;
+    gap:9px !important;
+  }
+  #page-customer-schedule .customer-schedule-head-filter{
+    padding:4px !important;
+    border-radius:11px !important;
+  }
+  #page-customer-schedule .customer-schedule-head-filter select{
+    min-width:92px !important;
+    min-height:34px !important;
+    padding:6px 7px !important;
+    font-size:.52rem !important;
+  }
+}
+@media(max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    min-height:88px !important;
+    padding:11px 12px 11px 13px !important;
+  }
+  #page-customer-schedule .customer-schedule-member-style-head p{
+    display:none !important;
+  }
+  #page-customer-schedule .customer-schedule-head-filter select{
+    min-width:82px !important;
+    font-size:.48rem !important;
+  }
+}
+</style>
 <!-- HALAMAN JADWAL CUSTOMER -->
 <div class="sub-menu-modern glass-panel p-3 sm:p-6 rounded-2xl hidden" id="page-customer-schedule">
-<div class="flex flex-col items-center justify-center mb-4 gap-3">
-<div class="flex items-center justify-center gap-2 p-1.5 rounded-xl border border-white/20 w-full sm:w-auto">
-<select class="p-1.5 rounded-lg text-xs glass-input font-bold text-center" id="customer-filter-periode-jadwal" onchange="renderCustomerGridJadwal()">
-</select>
+<div class="customer-member-page-head customer-schedule-member-style-head">
+  <div class="customer-member-head-logo" aria-hidden="true">
+    <img src="logo.png" alt="">
+  </div>
+  <div class="customer-member-head-copy">
+    <h2><span>JADWAL LAPANGAN</span><span>SANDAGA MINISOCCER 2</span></h2>
+  </div>
 </div>
+<div class="customer-schedule-period-control">
+  <label for="customer-filter-periode-jadwal">Periode Jadwal</label>
+  <select class="p-1.5 rounded-lg text-xs glass-input font-bold text-center" id="customer-filter-periode-jadwal" onchange="renderCustomerGridJadwal()">
+  </select>
 </div>
 <div class="shadow-2xl rounded-xl border border-white/30 mb-4 overflow-hidden relative" id="booking-schedule-grid-wrap">
 <div class="customer-booking-schedule-periods" id="customer-booking-schedule-periods"></div>
@@ -8199,7 +8546,7 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
                 opt.dataset.periodStart = period.start;
                 opt.dataset.periodEnd = period.end;
                 opt.dataset.monthKey = period.monthKey;
-                opt.textContent = formatPeriod(period);
+                opt.textContent = `Periode ${formatPeriod(period).replace(' s.d. ', ' s.d ')}`;
                 selectEl.appendChild(opt);
             });
 
@@ -18332,7 +18679,7 @@ body:has(#page-customer-member:not(.hidden)) main {
   /* Isi dimulai tepat di bawah header fixed, tetapi tetap menjadi
      bagian dari scroll body yang sama. */
   body:has(#page-customer-booking:not(.hidden)) #page-customer-booking{
-    padding-top:92px !important;
+    padding-top:87px !important;
     overflow:visible !important;
     position:relative !important;
   }
@@ -19339,3 +19686,491 @@ body:has(#page-customer-member:not(.hidden)) main {
 </script>
 
 <!-- FINAL PATCH V12: JADWAL HP — PAKSA SENIN-MINGGU TERLIHAT DALAM SATU LAYAR -->
+
+<style id="price-hide-global-header-final-v2">
+/* DAFTAR HARGA: sembunyikan header global lama saat halaman Harga aktif.
+   Header di dalam halaman (#customer-price-booking-header) tetap dipakai. */
+@media (max-width: 640px){
+  body:has(#page-customer-price:not(.hidden)) > header{
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+  }
+  body:has(#page-customer-price:not(.hidden)) #page-customer-price{
+    padding-top:0 !important;
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH V2: JADWAL HEADER 1:1 DENGAN HEADER MEMBER -->
+<style id="schedule-header-exact-member-v2">
+@media (max-width:640px){
+  /* Header Jadwal dibuat benar-benar sama dengan header Member. */
+  #page-customer-schedule .customer-schedule-member-style-head{
+    position:sticky !important;
+    top:16px !important;
+    z-index:9990 !important;
+    isolation:isolate !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:11px !important;
+    min-height:82px !important;
+    margin:0 0 10px !important;
+    padding:10px 13px !important;
+    box-sizing:border-box !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+    background-image:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+    border:1px solid rgba(255,255,255,.86) !important;
+    border-radius:22px !important;
+    box-shadow:0 18px 48px rgba(2,6,23,.20),inset 0 1px 0 rgba(255,255,255,.92),inset 0 -1px 0 rgba(255,255,255,.28) !important;
+    -webkit-backdrop-filter:blur(28px) saturate(155%) !important;
+    backdrop-filter:blur(28px) saturate(155%) !important;
+    color:#132a5e !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    border-radius:inherit !important;
+    pointer-events:none !important;
+    z-index:-1 !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.34),transparent 52%),linear-gradient(90deg,rgba(255,255,255,.10),transparent 50%,rgba(255,255,255,.12)) !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo{
+    order:1 !important;
+    flex:0 0 58px !important;
+    width:58px !important;
+    height:58px !important;
+    margin:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    z-index:1 !important;
+    box-sizing:border-box !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo img{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    display:block !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head .customer-member-head-copy{
+    order:2 !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    text-align:left !important;
+    position:relative !important;
+    z-index:1 !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head h2{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    gap:2px !important;
+    margin:0 !important;
+    color:#132a5e !important;
+    font-size:clamp(.82rem,3.6vw,1.08rem) !important;
+    line-height:1.15 !important;
+    letter-spacing:.035em !important;
+    font-weight:950 !important;
+    white-space:normal !important;
+  }
+
+  #page-customer-schedule .customer-schedule-member-style-head h2 span{
+    display:block !important;
+    font-size:1em !important;
+    color:#132a5e !important;
+  }
+}
+
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    top:6px !important;
+    min-height:76px !important;
+    gap:9px !important;
+    padding:9px 11px !important;
+  }
+  #page-customer-schedule .customer-schedule-member-style-head .customer-member-head-logo{
+    flex-basis:52px !important;
+    width:52px !important;
+    height:52px !important;
+  }
+  #page-customer-schedule .customer-schedule-member-style-head h2{
+    font-size:.78rem !important;
+  }
+}
+</style>
+
+<style id="schedule-period-gap-final-v94">
+/* FINAL V94 — beri jarak nyata antara header Jadwal dan pilihan periode.
+   Hanya mengatur jarak; header, tabel, dan posisi Jadwal lainnya tidak disentuh. */
+@media (max-width:640px){
+  #page-customer-schedule .customer-schedule-period-control{
+    margin-top:16px !important;
+    margin-left:5px !important;
+    margin-right:5px !important;
+    margin-bottom:12px !important;
+  }
+}
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-period-control{
+    margin-top:16px !important;
+    margin-left:5px !important;
+    margin-right:5px !important;
+    margin-bottom:12px !important;
+  }
+}
+</style>
+
+<style id="jadwal-header-periode-gap-final">
+/* JADWAL: beri ruang visual yang jelas antara header dan periode.
+   Tidak mengubah tabel, grid, dock, atau posisi elemen jadwal lainnya. */
+@media (max-width:640px){
+  body:has(#page-customer-booking:not(.hidden)) #page-customer-booking .customer-booking-schedule-periods,
+  body:has(#page-customer-booking:not(.hidden)) #customer-booking-schedule-periods{
+    margin-top:26px !important;
+  }
+}
+@media (max-width:380px){
+  body:has(#page-customer-booking:not(.hidden)) #page-customer-booking .customer-booking-schedule-periods,
+  body:has(#page-customer-booking:not(.hidden)) #customer-booking-schedule-periods{
+    margin-top:22px !important;
+  }
+}
+</style>
+
+<style id="schedule-header-period-gap-final-v96">
+/* V96 — hanya beri jarak nyata 12px antara header Jadwal dan box periode.
+   Tidak mengubah tabel/grid, ukuran card, dock, atau posisi elemen lain. */
+@media (max-width:640px){
+  #page-customer-schedule .customer-schedule-period-control{
+    margin-top:12px !important;
+    margin-right:5px !important;
+    margin-bottom:12px !important;
+    margin-left:5px !important;
+  }
+}
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-period-control{
+    margin-top:12px !important;
+    margin-right:5px !important;
+    margin-bottom:12px !important;
+    margin-left:5px !important;
+  }
+}
+</style>
+
+<style id="jadwal-period-gap-real-v97">
+/* V97 — FIX JARAK VISUAL HEADER JADWAL -> PERIODE.
+   Hanya memindahkan box periode secara visual dan memberi ruang yang sama
+   agar tabel tidak bertabrakan. Header, tabel, isi jadwal, dan dock tidak diubah. */
+@media (max-width:640px){
+  #page-customer-schedule .customer-schedule-period-control{
+    position:relative !important;
+    top:0 !important;
+    margin-top:12px !important;
+    margin-bottom:12px !important;
+  }
+}
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-period-control{
+    top:0 !important;
+    margin-top:12px !important;
+    margin-bottom:12px !important;
+  }
+}
+</style>
+
+<style id="jadwal-period-gap-real-v98">
+/* V98 — tambah 2px lagi pada jarak header Jadwal -> periode.
+   Hanya box periode yang disesuaikan; layout tabel dan elemen lain tetap. */
+@media (max-width:640px){
+  #page-customer-schedule .customer-schedule-period-control{
+    top:17px !important;
+    margin-bottom:26px !important;
+  }
+}
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-period-control{
+    top:17px !important;
+    margin-bottom:26px !important;
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH V103: HARGA + JADWAL — SAMAKAN POSISI HEADER DENGAN BOOKING/MEMBER -->
+<style id="customer-price-schedule-header-geometry-exact-v103">
+@media (max-width:640px){
+  /*
+     Booking dan Member yang sudah benar memakai area main yang sama dengan dock.
+     Harga dan Jadwal dipaksa memakai area yang sama, sehingga header tidak
+     mendapat inset tambahan dari wrapper p-3/p-4 atau margin 5px.
+  */
+  body:has(#page-customer-price:not(.hidden)) main,
+  body:has(#page-customer-schedule:not(.hidden)) main{
+    width:calc(100vw - 24px) !important;
+    max-width:none !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+  }
+
+  #page-customer-price,
+  #page-customer-schedule{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Jadwal memakai wrapper p-3, sedangkan header Member/Booking tidak. */
+  #page-customer-schedule{
+    padding:0 !important;
+  }
+
+  /* Harga: hilangkan inset wrapper yang membuat header bergeser. */
+  #page-customer-price .customer-price-card{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Kedua header memakai ukuran geometris yang sama dengan Member/Booking. */
+  #page-customer-price .customer-price-booking-header,
+  #page-customer-schedule .customer-schedule-member-style-head{
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Jadwal sebelumnya memiliki margin 5px yang membuatnya lebih sempit. */
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-top:0 !important;
+    margin-bottom:18px !important;
+  }
+}
+
+@media (max-width:380px){
+  body:has(#page-customer-price:not(.hidden)) main,
+  body:has(#page-customer-schedule:not(.hidden)) main{
+    width:calc(100vw - 18px) !important;
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH V105: HARGA — HEADER SEJAJAR PERSIS DENGAN BOOKING / MEMBER / JADWAL -->
+<style id="price-header-position-exact-v105">
+@media (max-width:640px){
+  /*
+    Harga memakai header internal sendiri. Paksa titik awal dan lebar header
+    sama persis dengan area header Booking/Member/Jadwal:
+    - main = viewport - 24px
+    - page Harga = 100% tanpa padding/inset
+    - card harga = 100% tanpa margin
+    - header = 100% tanpa margin horizontal
+  */
+  body:has(#page-customer-price:not(.hidden)) main{
+    width:calc(100vw - 24px) !important;
+    max-width:none !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+  }
+
+  #page-customer-price{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+  }
+
+  #page-customer-price .customer-price-card{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  #page-customer-price .customer-price-booking-header{
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media (max-width:380px){
+  body:has(#page-customer-price:not(.hidden)) main{
+    width:calc(100vw - 18px) !important;
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH V106: HARGA — TURUNKAN HEADER KE GARIS TOP BOOKING / MEMBER / JADWAL -->
+<style id="price-header-top-exact-v106">
+@media (max-width:640px){
+  /*
+    Booking, Member dan Jadwal memakai posisi header mobile dengan top:16px.
+    Header Harga sebelumnya masih berada di top:0 sehingga terlihat sedikit lebih ke atas.
+    Samakan titik vertikalnya tanpa mengubah isi atau ukuran header.
+  */
+  #page-customer-price .customer-price-booking-header{
+    position:sticky !important;
+    top:16px !important;
+    z-index:9990 !important;
+  }
+}
+
+@media (max-width:380px){
+  /* Sama dengan Booking/Jadwal pada layar sangat kecil. */
+  #page-customer-price .customer-price-booking-header{
+    top:6px !important;
+  }
+}
+</style>
+
+<style id="final-price-header-table-gap-20px">
+/* FINAL FIX — beri jarak tepat 20px antara header Daftar Harga dan tabel harga */
+#page-customer-price .customer-price-booking-header{
+    margin-bottom:23px !important;
+}
+</style>
+
+<style id="final-member-header-card-gap-3px">
+/* FINAL FIX — jarak header Member ke card Member ditambah 3px */
+@media (max-width:640px){
+  #page-customer-member .customer-member-page-head{
+    margin-bottom:11px !important;
+  }
+}
+</style>
+
+<style id="final-schedule-three-gaps-equal">
+/* FINAL — samakan 3 jarak yang ditandai merah menjadi 12px */
+@media (max-width:640px){
+  /* 1. Header Jadwal → Periode */
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-bottom:0 !important;
+  }
+
+  #page-customer-schedule .customer-schedule-period-control{
+    position:relative !important;
+    top:12px !important;
+    margin-top:0 !important;
+    margin-bottom:24px !important;
+  }
+
+  /* 2. Periode → Tabel */
+  #page-customer-schedule #booking-schedule-grid-wrap{
+    margin-bottom:0 !important;
+  }
+
+  /* 3. Tabel → Keterangan */
+  #page-customer-schedule .schedule-legend{
+    margin-top:12px !important;
+  }
+}
+
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-bottom:0 !important;
+  }
+
+  #page-customer-schedule .customer-schedule-period-control{
+    top:12px !important;
+    margin-bottom:24px !important;
+  }
+
+  #page-customer-schedule #booking-schedule-grid-wrap{
+    margin-bottom:0 !important;
+  }
+
+  #page-customer-schedule .schedule-legend{
+    margin-top:12px !important;
+  }
+}
+</style>
+
+<style id="final-schedule-header-period-reference-fix">
+/* FINAL — ambil acuan jarak dari versi yang tidak mepet.
+   Versi acuan terasa agak terlalu jauh, jadi dipadatkan menjadi 13px.
+   Tidak memakai top/position agar jarak benar-benar mengikuti layout. */
+@media (max-width:640px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-bottom:24px !important;
+  }
+
+  #page-customer-schedule .customer-schedule-period-control{
+    position:static !important;
+    top:auto !important;
+    margin-top:0 !important;
+    margin-bottom:12px !important;
+  }
+}
+
+@media (max-width:380px){
+  #page-customer-schedule .customer-schedule-member-style-head{
+    margin-bottom:24px !important;
+  }
+
+  #page-customer-schedule .customer-schedule-period-control{
+    position:static !important;
+    top:auto !important;
+    margin-top:0 !important;
+    margin-bottom:12px !important;
+  }
+}
+</style>
+
+<style id="final-member-header-card-gap-v119">
+/* MEMBER — kurangi jarak header ke card paling atas 3px */
+@media (max-width:640px){
+  #page-customer-member .customer-member-page-head{
+    margin-bottom:6px !important;
+  }
+}
+@media (max-width:380px){
+  #page-customer-member .customer-member-page-head{
+    margin-bottom:8px !important;
+  }
+}
+</style>
+
+<style id="final-booking-header-card-gap-v121">
+/* BOOKING — kurangi jarak header ke card paling atas 2px */
+@media (max-width:640px){
+  body:has(#page-customer-booking:not(.hidden)) #page-customer-booking{
+    padding-top:85px !important;
+  }
+}
+</style>
