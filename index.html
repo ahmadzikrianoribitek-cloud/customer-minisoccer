@@ -7905,7 +7905,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder="Contoh: Sandaga FC">
                 <div class="customer-sparring-modal-actions">
                     <button type="button" id="customer-sparring-modal-cancel" class="customer-sparring-modal-cancel">Batal</button>
-                    <button type="button" id="customer-sparring-modal-save" class="customer-sparring-modal-save">Simpan & Buka WhatsApp</button>
+                    <button type="button" id="customer-sparring-modal-save" class="customer-sparring-modal-save">Konfirmasi ke Tim</button>
                 </div>
             </div>`;
         document.body.appendChild(modal);
@@ -7916,10 +7916,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if(input) input.value = '';
         };
 
-        modal.querySelector('.customer-sparring-modal-backdrop').addEventListener('click', closeModal);
-        document.getElementById('customer-sparring-modal-cancel').addEventListener('click', closeModal);
+        modal.querySelector('.customer-sparring-modal-backdrop').addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            closeModal();
+            window.renderCustomerSparring();
+        });
 
-        document.getElementById('customer-sparring-modal-save').addEventListener('click', async () => {
+        document.getElementById('customer-sparring-modal-cancel').addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            closeModal();
+            // Tetap di halaman/daftar SPARING — jangan pernah membuka WhatsApp saat Batal.
+            window.renderCustomerSparring();
+        });
+
+        document.getElementById('customer-sparring-modal-save').addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
             const currentKey = modal.dataset.key || '';
             const currentPhone = modal.dataset.phone || '';
             const currentItem = (globalCache.sparring || {})[currentKey];
@@ -7977,7 +7991,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const saveButton = document.getElementById('customer-sparring-modal-save');
             if(saveButton){
                 saveButton.disabled = true;
-                saveButton.textContent = 'Menyimpan...';
+                saveButton.textContent = 'Mengonfirmasi...';
             }
 
             try {
@@ -8000,13 +8014,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeModal();
                 window.renderCustomerSparring();
 
-                // Setelah tersimpan, langsung arahkan ke WhatsApp tim A.
+                // WhatsApp HANYA dibuka setelah nama tim diisi dan konfirmasi berhasil disimpan.
                 window.location.href = waUrl;
             } catch(error) {
                 console.error('Gagal menyimpan pasangan sparring:', error);
                 if(saveButton){
                     saveButton.disabled = false;
-                    saveButton.textContent = 'Simpan & Buka WhatsApp';
+                    saveButton.textContent = 'Konfirmasi ke Tim';
                 }
                 alert('Gagal menyimpan pilihan tim. Silakan coba lagi.');
             }
@@ -20662,3 +20676,496 @@ body:has(#page-customer-member:not(.hidden)) main {
   }
 }
 </style>
+
+
+
+<style id="sparing-card-clean-cut-header-dock-final">
+@media (max-width:640px){
+    /*
+       SPARING — potong card tepat pada:
+       1. garis bawah header SPARING
+       2. garis atas dock/bottom navigation
+       Pola mengikuti mekanisme potongan card Member.
+    */
+    #page-customer-sparring .customer-sparring-card.sparing-clean-cut{
+        clip-path: inset(
+            var(--sparing-header-clip-top, 0px)
+            0
+            var(--sparing-dock-clip-bottom, 0px)
+            0
+            round
+            var(--sparing-header-radius-left, 0px)
+            var(--sparing-header-radius-right, 0px)
+            var(--sparing-dock-radius, 0px)
+            var(--sparing-dock-radius, 0px)
+        );
+    }
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+
+    if(window.__sparingCardHeaderDockCutInstalled) return;
+    window.__sparingCardHeaderDockCutInstalled = true;
+
+    let rafId = 0;
+
+    function syncSparingCardsWithHeaderDock(){
+        cancelAnimationFrame(rafId);
+
+        rafId = requestAnimationFrame(function(){
+            const page = document.getElementById('page-customer-sparring');
+            const nav = document.getElementById('customer-bottom-nav');
+            if(!page) return;
+
+            const mobile = window.matchMedia('(max-width:640px)').matches;
+            const active = !page.classList.contains('hidden');
+            const cards = page.querySelectorAll('.customer-sparring-card');
+
+            if(!mobile || !active){
+                cards.forEach(card=>{
+                    card.classList.remove('sparing-clean-cut');
+                    card.style.removeProperty('--sparing-header-clip-top');
+                    card.style.removeProperty('--sparing-dock-clip-bottom');
+                    card.style.removeProperty('--sparing-header-radius-left');
+                    card.style.removeProperty('--sparing-header-radius-right');
+                    card.style.removeProperty('--sparing-dock-radius');
+                });
+                return;
+            }
+
+            const header =
+                page.querySelector('.customer-page-head') ||
+                page.querySelector('.customer-sparring-page-head');
+
+            if(!header) return;
+
+            const headerRect = header.getBoundingClientRect();
+            const headerStyle = getComputedStyle(header);
+
+            const headerBottom = headerRect.bottom;
+
+            const headerRadiusLeft = Math.max(
+                0, Math.min(40, parseFloat(headerStyle.borderBottomLeftRadius) || 0)
+            );
+            const headerRadiusRight = Math.max(
+                0, Math.min(40, parseFloat(headerStyle.borderBottomRightRadius) || 0)
+            );
+
+            let dockTop = window.innerHeight;
+
+            if(nav){
+                const navRect = nav.getBoundingClientRect();
+                if(navRect.height > 0 &&
+                   navRect.top < window.innerHeight &&
+                   navRect.bottom > 0){
+                    dockTop = navRect.top;
+                }
+            }
+
+            let dockRadius = 0;
+            if(nav){
+                const navStyle = getComputedStyle(nav);
+                dockRadius = Math.max(
+                    0,
+                    Math.min(40, parseFloat(navStyle.borderTopLeftRadius) || 0)
+                );
+            }
+
+            cards.forEach(card=>{
+                const rect = card.getBoundingClientRect();
+                const h = rect.height;
+
+                if(h <= 0) return;
+
+                /*
+                   Potongan ATAS:
+                   hanya bagian card yang berada di bawah garis bawah header
+                   yang tetap terlihat.
+                */
+                const topClip = Math.min(
+                    h,
+                    Math.max(0, headerBottom - rect.top)
+                );
+
+                /*
+                   Potongan BAWAH:
+                   card dipotong tepat saat menyentuh garis atas dock bar.
+                */
+                const bottomClip = Math.min(
+                    h,
+                    Math.max(0, rect.bottom - dockTop)
+                );
+
+                if(topClip > 0 || bottomClip > 0){
+                    card.classList.add('sparing-clean-cut');
+
+                    card.style.setProperty(
+                        '--sparing-header-clip-top',
+                        topClip.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-dock-clip-bottom',
+                        bottomClip.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-header-radius-left',
+                        headerRadiusLeft.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-header-radius-right',
+                        headerRadiusRight.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-dock-radius',
+                        dockRadius.toFixed(2) + 'px'
+                    );
+                }else{
+                    card.classList.remove('sparing-clean-cut');
+                    card.style.removeProperty('--sparing-header-clip-top');
+                    card.style.removeProperty('--sparing-dock-clip-bottom');
+                    card.style.removeProperty('--sparing-header-radius-left');
+                    card.style.removeProperty('--sparing-header-radius-right');
+                    card.style.removeProperty('--sparing-dock-radius');
+                }
+            });
+        });
+    }
+
+    function installSparingCut(){
+        window.addEventListener(
+            'scroll',
+            syncSparingCardsWithHeaderDock,
+            {passive:true}
+        );
+
+        window.addEventListener(
+            'resize',
+            syncSparingCardsWithHeaderDock
+        );
+
+        window.addEventListener(
+            'orientationchange',
+            syncSparingCardsWithHeaderDock
+        );
+
+        const oldRender = window.renderCustomerSparring;
+        if(typeof oldRender === 'function' && !oldRender.__sparingCutWrapped){
+            const wrappedRender = function(){
+                const result = oldRender.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingCardsWithHeaderDock);
+                setTimeout(syncSparingCardsWithHeaderDock, 60);
+                setTimeout(syncSparingCardsWithHeaderDock, 220);
+
+                return result;
+            };
+
+            wrappedRender.__sparingCutWrapped = true;
+            window.renderCustomerSparring = wrappedRender;
+        }
+
+        const oldShowPage = window.showPage;
+        if(typeof oldShowPage === 'function' && !oldShowPage.__sparingCutWrapped){
+            const wrappedShowPage = function(){
+                const result = oldShowPage.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingCardsWithHeaderDock);
+                setTimeout(syncSparingCardsWithHeaderDock, 60);
+                setTimeout(syncSparingCardsWithHeaderDock, 220);
+
+                return result;
+            };
+
+            wrappedShowPage.__sparingCutWrapped = true;
+            window.showPage = wrappedShowPage;
+        }
+
+        syncSparingCardsWithHeaderDock();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', installSparingCut, {once:true});
+    }else{
+        installSparingCut();
+    }
+})();
+</script>
+
+
+
+<style id="sparing-card-clean-cut-exact-header-dock-final">
+@media (max-width:640px){
+    /*
+      SPARING — garis potong harus mengikuti:
+      ATAS  = sisi PALING ATAS header (headerTop)
+      BAWAH = sisi PALING BAWAH dock bar (navBottom)
+    */
+    #page-customer-sparring .customer-sparring-card.sparing-clean-cut{
+        clip-path: inset(
+            var(--sparing-header-clip-top, 0px)
+            0
+            var(--sparing-dock-clip-bottom, 0px)
+            0
+            round
+            var(--sparing-header-radius-left, 0px)
+            var(--sparing-header-radius-right, 0px)
+            var(--sparing-dock-radius, 0px)
+            var(--sparing-dock-radius, 0px)
+        ) !important;
+        -webkit-clip-path: inset(
+            var(--sparing-header-clip-top, 0px)
+            0
+            var(--sparing-dock-clip-bottom, 0px)
+            0
+            round
+            var(--sparing-header-radius-left, 0px)
+            var(--sparing-header-radius-right, 0px)
+            var(--sparing-dock-radius, 0px)
+            var(--sparing-dock-radius, 0px)
+        ) !important;
+    }
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+
+    if(window.__sparingExactHeaderDockCutInstalled) return;
+    window.__sparingExactHeaderDockCutInstalled = true;
+
+    let rafId = 0;
+
+    function syncSparingExactCut(){
+        cancelAnimationFrame(rafId);
+
+        rafId = requestAnimationFrame(function(){
+            const page = document.getElementById('page-customer-sparring');
+            const nav = document.getElementById('customer-bottom-nav');
+
+            if(!page) return;
+
+            const mobile = window.matchMedia('(max-width:640px)').matches;
+            const active = !page.classList.contains('hidden');
+            const cards = page.querySelectorAll('.customer-sparring-card');
+
+            if(!mobile || !active || !nav){
+                cards.forEach(card=>{
+                    card.classList.remove('sparing-clean-cut');
+                    card.style.removeProperty('--sparing-header-clip-top');
+                    card.style.removeProperty('--sparing-dock-clip-bottom');
+                    card.style.removeProperty('--sparing-header-radius-left');
+                    card.style.removeProperty('--sparing-header-radius-right');
+                    card.style.removeProperty('--sparing-dock-radius');
+                });
+                return;
+            }
+
+            /*
+              Header yang dipakai adalah header utama di atas halaman,
+              sehingga garis potong = sisi PALING ATAS header.
+            */
+            const header =
+                document.querySelector('body > header') ||
+                page.querySelector('.customer-page-head');
+
+            if(!header) return;
+
+            const headerRect = header.getBoundingClientRect();
+            const headerStyle = getComputedStyle(header);
+
+            // INI YANG DIMAKSUD: tepat di bagian ATAS garis header.
+            const headerTop = headerRect.top;
+
+            const headerRadiusLeft = Math.max(
+                0,
+                Math.min(
+                    40,
+                    parseFloat(headerStyle.borderTopLeftRadius) || 0
+                )
+            );
+
+            const headerRadiusRight = Math.max(
+                0,
+                Math.min(
+                    40,
+                    parseFloat(headerStyle.borderTopRightRadius) || 0
+                )
+            );
+
+            const navRect = nav.getBoundingClientRect();
+
+            if(
+                navRect.height <= 0 ||
+                navRect.top >= window.innerHeight ||
+                navRect.bottom <= 0
+            ){
+                cards.forEach(card=>{
+                    card.classList.remove('sparing-clean-cut');
+                    card.style.removeProperty('--sparing-header-clip-top');
+                    card.style.removeProperty('--sparing-dock-clip-bottom');
+                    card.style.removeProperty('--sparing-header-radius-left');
+                    card.style.removeProperty('--sparing-header-radius-right');
+                    card.style.removeProperty('--sparing-dock-radius');
+                });
+                return;
+            }
+
+            /*
+              INI YANG DIMAKSUD:
+              tepat di bagian BAWAH dock bar = navRect.bottom,
+              bukan navRect.top.
+            */
+            const navBottom = navRect.bottom;
+            const navStyle = getComputedStyle(nav);
+
+            const navRadius = Math.max(
+                0,
+                Math.min(
+                    40,
+                    Math.max(
+                        parseFloat(navStyle.borderBottomLeftRadius) || 0,
+                        parseFloat(navStyle.borderBottomRightRadius) || 0
+                    )
+                )
+            );
+
+            cards.forEach(card=>{
+                const rect = card.getBoundingClientRect();
+                const h = rect.height;
+
+                if(h <= 0) return;
+
+                /*
+                  Potong bagian card yang berada DI ATAS garis paling atas header.
+                */
+                const topClip = Math.min(
+                    h,
+                    Math.max(0, headerTop - rect.top)
+                );
+
+                /*
+                  Potong bagian card yang berada DI BAWAH garis paling bawah dock.
+                */
+                const bottomClip = Math.min(
+                    h,
+                    Math.max(0, rect.bottom - navBottom)
+                );
+
+                if(topClip > 0 || bottomClip > 0){
+                    card.classList.add('sparing-clean-cut');
+
+                    card.style.setProperty(
+                        '--sparing-header-clip-top',
+                        topClip.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-dock-clip-bottom',
+                        bottomClip.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-header-radius-left',
+                        headerRadiusLeft.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-header-radius-right',
+                        headerRadiusRight.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-dock-radius',
+                        navRadius.toFixed(2) + 'px'
+                    );
+                }else{
+                    card.classList.remove('sparing-clean-cut');
+                    card.style.removeProperty('--sparing-header-clip-top');
+                    card.style.removeProperty('--sparing-dock-clip-bottom');
+                    card.style.removeProperty('--sparing-header-radius-left');
+                    card.style.removeProperty('--sparing-header-radius-right');
+                    card.style.removeProperty('--sparing-dock-radius');
+                }
+            });
+        });
+    }
+
+    function installSparingExactCut(){
+        window.addEventListener(
+            'scroll',
+            syncSparingExactCut,
+            {passive:true}
+        );
+
+        window.addEventListener(
+            'resize',
+            syncSparingExactCut,
+            {passive:true}
+        );
+
+        window.addEventListener(
+            'orientationchange',
+            syncSparingExactCut,
+            {passive:true}
+        );
+
+        const oldShowPage = window.showPage;
+        if(
+            typeof oldShowPage === 'function' &&
+            !oldShowPage.__sparingExactCutWrapped
+        ){
+            const wrappedShowPage = function(){
+                const result = oldShowPage.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingExactCut);
+                setTimeout(syncSparingExactCut, 60);
+                setTimeout(syncSparingExactCut, 220);
+
+                return result;
+            };
+
+            wrappedShowPage.__sparingExactCutWrapped = true;
+            window.showPage = wrappedShowPage;
+        }
+
+        const oldRender = window.renderCustomerSparring;
+        if(
+            typeof oldRender === 'function' &&
+            !oldRender.__sparingExactCutWrapped
+        ){
+            const wrappedRender = function(){
+                const result = oldRender.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingExactCut);
+                setTimeout(syncSparingExactCut, 60);
+                setTimeout(syncSparingExactCut, 220);
+
+                return result;
+            };
+
+            wrappedRender.__sparingExactCutWrapped = true;
+            window.renderCustomerSparring = wrappedRender;
+        }
+
+        syncSparingExactCut();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener(
+            'DOMContentLoaded',
+            installSparingExactCut,
+            {once:true}
+        );
+    }else{
+        installSparingExactCut();
+    }
+})();
+</script>
