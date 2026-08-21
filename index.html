@@ -21169,3 +21169,686 @@ body:has(#page-customer-member:not(.hidden)) main {
     }
 })();
 </script>
+
+
+
+<style id="sparing-member-identical-cut-final">
+@media (max-width:640px){
+    #page-customer-sparring .customer-sparring-card.sparing-member-partially-cut{
+        clip-path:inset(
+            var(--sparing-member-header-clip-top,0px)
+            0
+            var(--sparing-member-dock-clip-bottom,0px)
+            0
+            round
+            var(--sparing-member-header-radius-left,0px)
+            var(--sparing-member-header-radius-right,0px)
+            var(--sparing-member-dock-radius,0px)
+            var(--sparing-member-dock-radius,0px)
+        ) !important;
+        -webkit-clip-path:inset(
+            var(--sparing-member-header-clip-top,0px)
+            0
+            var(--sparing-member-dock-clip-bottom,0px)
+            0
+            round
+            var(--sparing-member-header-radius-left,0px)
+            var(--sparing-member-header-radius-right,0px)
+            var(--sparing-member-dock-radius,0px)
+            var(--sparing-member-dock-radius,0px)
+        ) !important;
+    }
+
+    #page-customer-sparring .customer-sparring-card.sparing-member-fully-cut{
+        visibility:hidden !important;
+        pointer-events:none !important;
+    }
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+
+    if(window.__sparingMemberIdenticalCutInstalled) return;
+    window.__sparingMemberIdenticalCutInstalled = true;
+
+    let raf = 0;
+
+    function isMobile(){
+        return window.matchMedia('(max-width:640px)').matches;
+    }
+
+    function syncSparingLikeMember(){
+        if(raf) cancelAnimationFrame(raf);
+
+        raf = requestAnimationFrame(function(){
+            const page = document.getElementById('page-customer-sparring');
+            const nav = document.getElementById('customer-bottom-nav');
+
+            if(!page) return;
+
+            const cards = page.querySelectorAll('.customer-sparring-card');
+            const active = !page.classList.contains('hidden');
+
+            if(!isMobile() || !active || !nav){
+                cards.forEach(card=>{
+                    card.classList.remove(
+                        'sparing-member-partially-cut',
+                        'sparing-member-fully-cut'
+                    );
+
+                    [
+                        '--sparing-member-header-clip-top',
+                        '--sparing-member-dock-clip-bottom',
+                        '--sparing-member-header-radius-left',
+                        '--sparing-member-header-radius-right',
+                        '--sparing-member-dock-radius'
+                    ].forEach(v=>card.style.removeProperty(v));
+                });
+                return;
+            }
+
+            /*
+             * SAMA SEPERTI MEMBER:
+             * header yang dijadikan batas adalah customer page header.
+             */
+            const header =
+                page.querySelector('.customer-sparring-page-head') ||
+                page.querySelector('.customer-page-head') ||
+                page.querySelector('.customer-member-page-head') ||
+                document.querySelector('body > header');
+
+            if(!header) return;
+
+            const headerRect = header.getBoundingClientRect();
+            const headerStyle = getComputedStyle(header);
+
+            /*
+             * PENTING:
+             * Sama dengan Member:
+             * const headerTop = headerRect.top;
+             */
+            const headerTop = headerRect.top;
+
+            const headerRadiusLeft = Math.max(
+                0,
+                Math.min(
+                    40,
+                    parseFloat(headerStyle.borderTopLeftRadius) || 0
+                )
+            );
+
+            const headerRadiusRight = Math.max(
+                0,
+                Math.min(
+                    40,
+                    parseFloat(headerStyle.borderTopRightRadius) || 0
+                )
+            );
+
+            const navRect = nav.getBoundingClientRect();
+
+            if(
+                navRect.height <= 0 ||
+                navRect.top >= window.innerHeight ||
+                navRect.bottom <= 0
+            ){
+                cards.forEach(card=>{
+                    card.classList.remove(
+                        'sparing-member-partially-cut',
+                        'sparing-member-fully-cut'
+                    );
+                });
+                return;
+            }
+
+            /*
+             * SAMA SEPERTI MEMBER:
+             * batas bawah = navBottom, yaitu bagian BAWAH dock.
+             */
+            const navBottom = navRect.bottom;
+            const navStyle = getComputedStyle(nav);
+
+            const radiusCandidates = [
+                parseFloat(navStyle.borderBottomLeftRadius) || 0,
+                parseFloat(navStyle.borderBottomRightRadius) || 0
+            ];
+
+            const navRadius = Math.max(
+                0,
+                Math.min(40, Math.max.apply(null, radiusCandidates))
+            );
+
+            cards.forEach(card=>{
+                const rect = card.getBoundingClientRect();
+                const cardHeight = rect.height;
+
+                if(cardHeight <= 0) return;
+
+                /*
+                 * ===== POTONGAN ATAS — IDENTIK MEMBER =====
+                 *
+                 * Card yang melewati garis atas header dipotong.
+                 */
+                const topClip = Math.min(
+                    cardHeight,
+                    Math.max(0, headerTop - rect.top)
+                );
+
+                /*
+                 * ===== POTONGAN BAWAH — IDENTIK MEMBER =====
+                 *
+                 * Hanya bagian card yang melewati bagian BAWAH dock
+                 * yang dipotong.
+                 */
+                const bottomOverlap = Math.min(
+                    cardHeight,
+                    Math.max(0, rect.bottom - navBottom)
+                );
+
+                const bottomRatio = bottomOverlap / cardHeight;
+
+                if(
+                    topClip >= cardHeight &&
+                    bottomRatio >= 0.999
+                ){
+                    card.classList.remove('sparing-member-partially-cut');
+                    card.classList.add('sparing-member-fully-cut');
+                    return;
+                }
+
+                if(topClip > 0 || bottomOverlap > 0){
+                    card.classList.remove('sparing-member-fully-cut');
+                    card.classList.add('sparing-member-partially-cut');
+
+                    card.style.setProperty(
+                        '--sparing-member-header-clip-top',
+                        topClip.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-member-dock-clip-bottom',
+                        bottomOverlap.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-member-header-radius-left',
+                        headerRadiusLeft.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-member-header-radius-right',
+                        headerRadiusRight.toFixed(2) + 'px'
+                    );
+
+                    card.style.setProperty(
+                        '--sparing-member-dock-radius',
+                        navRadius.toFixed(2) + 'px'
+                    );
+                }else{
+                    card.classList.remove(
+                        'sparing-member-partially-cut',
+                        'sparing-member-fully-cut'
+                    );
+
+                    [
+                        '--sparing-member-header-clip-top',
+                        '--sparing-member-dock-clip-bottom',
+                        '--sparing-member-header-radius-left',
+                        '--sparing-member-header-radius-right',
+                        '--sparing-member-dock-radius'
+                    ].forEach(v=>card.style.removeProperty(v));
+                }
+            });
+        });
+    }
+
+    function install(){
+        window.addEventListener(
+            'scroll',
+            syncSparingLikeMember,
+            {passive:true}
+        );
+
+        window.addEventListener(
+            'resize',
+            syncSparingLikeMember,
+            {passive:true}
+        );
+
+        window.addEventListener(
+            'orientationchange',
+            syncSparingLikeMember,
+            {passive:true}
+        );
+
+        const oldShowPage = window.showPage;
+
+        if(
+            typeof oldShowPage === 'function' &&
+            !oldShowPage.__sparingMemberCutWrapped
+        ){
+            const wrappedShowPage = function(){
+                const result = oldShowPage.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingLikeMember);
+                setTimeout(syncSparingLikeMember,60);
+                setTimeout(syncSparingLikeMember,220);
+
+                return result;
+            };
+
+            wrappedShowPage.__sparingMemberCutWrapped = true;
+            window.showPage = wrappedShowPage;
+        }
+
+        const oldRender = window.renderCustomerSparring;
+
+        if(
+            typeof oldRender === 'function' &&
+            !oldRender.__sparingMemberCutWrapped
+        ){
+            const wrappedRender = function(){
+                const result = oldRender.apply(this, arguments);
+
+                requestAnimationFrame(syncSparingLikeMember);
+                setTimeout(syncSparingLikeMember,60);
+                setTimeout(syncSparingLikeMember,220);
+
+                return result;
+            };
+
+            wrappedRender.__sparingMemberCutWrapped = true;
+            window.renderCustomerSparring = wrappedRender;
+        }
+
+        syncSparingLikeMember();
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener(
+            'DOMContentLoaded',
+            install,
+            {once:true}
+        );
+    }else{
+        install();
+    }
+})();
+</script>
+
+
+<!-- FINAL PATCH V30: SPARING — POTONGAN 1:1 DENGAN MEMBER -->
+<style id="final-sparing-exact-member-intersection-v30">
+@media (max-width:640px){
+  /*
+   * Card Sparing dipotong benar-benar pada 2 garis:
+   * 1. GARIS ATAS header Sparing  -> bagian yang masuk ke atas dipotong.
+   * 2. GARIS BAWAH dock bar       -> bagian yang melewati bawah dock dipotong.
+   *
+   * Clip dilakukan secara proporsional: 1/4 masuk = 1/4 hilang,
+   * 1/3 masuk = 1/3 hilang, dst.
+   */
+  #page-customer-sparring .customer-sparring-card.sparing-v30-exact-cut{
+    clip-path:inset(
+      var(--sparing-v30-top-clip,0px)
+      0
+      var(--sparing-v30-bottom-clip,0px)
+      0
+      round
+      var(--sparing-v30-top-left-radius,0px)
+      var(--sparing-v30-top-right-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+    ) !important;
+    -webkit-clip-path:inset(
+      var(--sparing-v30-top-clip,0px)
+      0
+      var(--sparing-v30-bottom-clip,0px)
+      0
+      round
+      var(--sparing-v30-top-left-radius,0px)
+      var(--sparing-v30-top-right-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+    ) !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+
+  #page-customer-sparring .customer-sparring-card.sparing-v30-fully-cut{
+    clip-path:inset(100% 0 0 0) !important;
+    -webkit-clip-path:inset(100% 0 0 0) !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+}
+</style>
+<script id="final-sparing-exact-member-intersection-v30-script">
+(function(){
+  'use strict';
+
+  if(window.__sparingExactMemberIntersectionV30) return;
+  window.__sparingExactMemberIntersectionV30=true;
+
+  const MOBILE_MAX=640;
+  let raf=0;
+
+  const VARS=[
+    '--sparing-v30-top-clip',
+    '--sparing-v30-bottom-clip',
+    '--sparing-v30-top-left-radius',
+    '--sparing-v30-top-right-radius',
+    '--sparing-v30-bottom-radius',
+    '--sparing-hide-top'
+  ];
+
+  function clearCard(card){
+    card.classList.remove('sparing-v30-exact-cut','sparing-v30-fully-cut');
+    VARS.forEach(v=>card.style.removeProperty(v));
+    card.style.removeProperty('clip-path');
+    card.style.removeProperty('-webkit-clip-path');
+  }
+
+  function sync(){
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){
+      const page=document.getElementById('page-customer-sparring');
+      const nav=document.getElementById('customer-bottom-nav');
+      if(!page) return;
+
+      const cards=page.querySelectorAll('.customer-sparring-card');
+      const active=!page.classList.contains('hidden');
+      const mobile=window.matchMedia('(max-width:'+MOBILE_MAX+'px)').matches;
+
+      if(!mobile || !active || !nav){
+        cards.forEach(clearCard);
+        return;
+      }
+
+      /* Header internal Sparing adalah acuan yang sama seperti Member. */
+      const header=
+        page.querySelector('.customer-sparring-page-head') ||
+        page.querySelector('.customer-page-head') ||
+        page.querySelector('.customer-member-page-head');
+
+      if(!header){
+        cards.forEach(clearCard);
+        return;
+      }
+
+      const hr=header.getBoundingClientRect();
+      const hs=getComputedStyle(header);
+      const headerTop=hr.top;
+
+      const topLeftRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopLeftRadius)||0));
+      const topRightRadius=Math.max(0,Math.min(40,parseFloat(hs.borderTopRightRadius)||0));
+
+      const nr=nav.getBoundingClientRect();
+      if(!(nr.height>0 && nr.top<window.innerHeight && nr.bottom>0)){
+        cards.forEach(clearCard);
+        return;
+      }
+
+      /* SAMA DENGAN MEMBER: garis bawah = GARIS BAWAH dock bar. */
+      const dockBottom=nr.bottom;
+      const ns=getComputedStyle(nav);
+      const bottomRadius=Math.max(
+        0,
+        Math.min(40,Math.max(
+          parseFloat(ns.borderBottomLeftRadius)||0,
+          parseFloat(ns.borderBottomRightRadius)||0
+        ))
+      );
+
+      cards.forEach(function(card){
+        const r=card.getBoundingClientRect();
+        const h=r.height;
+        if(h<=0){ clearCard(card); return; }
+
+        /*
+         * GARIS ATAS HEADER:
+         * jika card masuk melewati garis atas header,
+         * tepat sebesar bagian yang melewati garis tersebut yang dipotong.
+         */
+        const topClip=Math.min(h,Math.max(0,headerTop-r.top));
+
+        /*
+         * GARIS BAWAH DOCK:
+         * hanya bagian card yang sudah melewati garis bawah dock
+         * yang dipotong. Ini membuat 1/4, 1/3, dst benar-benar proporsional.
+         */
+        const bottomClip=Math.min(h,Math.max(0,r.bottom-dockBottom));
+
+        /* Tidak ada bagian yang masuk ke kedua batas. */
+        if(topClip<=0 && bottomClip<=0){
+          clearCard(card);
+          return;
+        }
+
+        /* Bila seluruh tinggi card tertutup oleh dua potongan, sembunyikan. */
+        if(topClip+bottomClip>=h-0.5){
+          card.classList.remove('sparing-v30-exact-cut');
+          card.classList.add('sparing-v30-fully-cut');
+          VARS.forEach(v=>card.style.removeProperty(v));
+          card.style.setProperty('clip-path','inset(100% 0 0 0)','important');
+          card.style.setProperty('-webkit-clip-path','inset(100% 0 0 0)','important');
+          return;
+        }
+
+        card.classList.remove('sparing-v30-fully-cut');
+        card.classList.add('sparing-v30-exact-cut');
+
+        card.style.setProperty('--sparing-v30-top-clip',topClip.toFixed(2)+'px');
+        card.style.setProperty('--sparing-v30-bottom-clip',bottomClip.toFixed(2)+'px');
+        card.style.setProperty('--sparing-v30-top-left-radius',topLeftRadius.toFixed(2)+'px');
+        card.style.setProperty('--sparing-v30-top-right-radius',topRightRadius.toFixed(2)+'px');
+        card.style.setProperty('--sparing-v30-bottom-radius',bottomRadius.toFixed(2)+'px');
+
+        /* Putuskan pengaruh patch Sparing lama yang hanya memotong bagian atas. */
+        card.style.removeProperty('--sparing-hide-top');
+        card.style.setProperty(
+          'clip-path',
+          'inset('+topClip.toFixed(2)+'px 0 '+bottomClip.toFixed(2)+'px 0 round '+
+            topLeftRadius.toFixed(2)+'px '+topRightRadius.toFixed(2)+'px '+
+            bottomRadius.toFixed(2)+'px '+bottomRadius.toFixed(2)+'px)',
+          'important'
+        );
+        card.style.setProperty(
+          '-webkit-clip-path',
+          'inset('+topClip.toFixed(2)+'px 0 '+bottomClip.toFixed(2)+'px 0 round '+
+            topLeftRadius.toFixed(2)+'px '+topRightRadius.toFixed(2)+'px '+
+            bottomRadius.toFixed(2)+'px '+bottomRadius.toFixed(2)+'px)',
+          'important'
+        );
+      });
+    });
+  }
+
+  function install(){
+    ['scroll','resize','orientationchange'].forEach(e=>
+      window.addEventListener(e,sync,{passive:true})
+    );
+
+    const oldShow=window.showPage;
+    if(typeof oldShow==='function' && !oldShow.__sparingExactMemberV30){
+      const wrapped=function(){
+        const result=oldShow.apply(this,arguments);
+        requestAnimationFrame(sync);
+        setTimeout(sync,60);
+        setTimeout(sync,220);
+        return result;
+      };
+      wrapped.__sparingExactMemberV30=true;
+      window.showPage=wrapped;
+    }
+
+    const oldRender=window.renderCustomerSparring;
+    if(typeof oldRender==='function' && !oldRender.__sparingExactMemberV30){
+      const wrappedRender=function(){
+        const result=oldRender.apply(this,arguments);
+        requestAnimationFrame(sync);
+        setTimeout(sync,60);
+        setTimeout(sync,220);
+        return result;
+      };
+      wrappedRender.__sparingExactMemberV30=true;
+      window.renderCustomerSparring=wrappedRender;
+    }
+
+    sync();
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',install,{once:true});
+  }else{
+    install();
+  }
+})();
+</script>
+
+<!-- FINAL PATCH V131: SPARING — HILANGKAN MASK HITAM DI AREA HEADER -->
+<style id="sparing-remove-black-header-mask-v131">
+@media (max-width:640px){
+    /*
+       Mask V27 sebelumnya memberi lapisan gelap/blur di area header.
+       Potongan sekarang sudah ditangani langsung oleh clip-path card,
+       jadi mask tersebut harus benar-benar tidak terlihat.
+    */
+    #sparing-header-mask-v27{
+        display:none !important;
+        opacity:0 !important;
+        visibility:hidden !important;
+        background:transparent !important;
+        backdrop-filter:none !important;
+        -webkit-backdrop-filter:none !important;
+        pointer-events:none !important;
+    }
+
+    body.sparing-v27-active #sparing-header-mask-v27{
+        display:none !important;
+        opacity:0 !important;
+        visibility:hidden !important;
+    }
+}
+</style>
+
+<!-- FINAL PATCH V31: SPARING — HILANGKAN EFEK HITAM PADA POTONGAN ATAS -->
+<style id="final-sparing-no-black-overlap-v31">
+@media (max-width:640px){
+  /* Semua layer hitam/gelap dari patch Sparing lama dimatikan. */
+  #sparing-header-mask-v27{
+    display:none !important;
+    opacity:0 !important;
+    background:transparent !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+
+  body.sparing-v24-active #page-customer-sparring .customer-sparring-card::after,
+  #page-customer-sparring .customer-sparring-card.v26-under-header::after{
+    opacity:0 !important;
+    background:transparent !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    filter:none !important;
+  }
+
+  body.sparing-v24-active #page-customer-sparring .customer-sparring-card > *,
+  #page-customer-sparring .customer-sparring-card.v26-under-header > *{
+    opacity:1 !important;
+    filter:none !important;
+  }
+
+  /* V29 tidak boleh mengambil alih clip-path final. */
+  body.sparing-v29-active #page-customer-sparring .customer-sparring-card.sparing-v30-exact-cut,
+  body.sparing-v29-active #page-customer-sparring .customer-sparring-card.sparing-member-partially-cut,
+  body.sparing-v29-active #page-customer-sparring .customer-sparring-card.sparing-clean-cut{
+    clip-path: inset(
+      var(--sparing-v30-top-clip,0px)
+      0
+      var(--sparing-v30-bottom-clip,0px)
+      0
+      round
+      var(--sparing-v30-top-left-radius,0px)
+      var(--sparing-v30-top-right-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+    ) !important;
+    -webkit-clip-path: inset(
+      var(--sparing-v30-top-clip,0px)
+      0
+      var(--sparing-v30-bottom-clip,0px)
+      0
+      round
+      var(--sparing-v30-top-left-radius,0px)
+      var(--sparing-v30-top-right-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+      var(--sparing-v30-bottom-radius,0px)
+    ) !important;
+  }
+}
+</style>
+<script id="final-sparing-no-black-overlap-v31-script">
+(function(){
+  'use strict';
+  if(window.__sparingNoBlackOverlapV31) return;
+  window.__sparingNoBlackOverlapV31=true;
+
+  const MAX=640;
+  let raf=0;
+
+  function clearOldEffects(){
+    if(window.innerWidth>MAX) return;
+    const page=document.getElementById('page-customer-sparring');
+    if(!page || page.classList.contains('hidden')) return;
+
+    const mask=document.getElementById('sparing-header-mask-v27');
+    if(mask){
+      mask.style.setProperty('display','none','important');
+      mask.style.setProperty('opacity','0','important');
+    }
+
+    page.querySelectorAll('.customer-sparring-card').forEach(card=>{
+      card.classList.remove('v26-under-header');
+      card.style.setProperty('--sparing-dark-opacity','0');
+      card.style.setProperty('--sparing-text-opacity','1');
+      card.style.setProperty('--sparing-text-blur','0px');
+      card.style.setProperty('--sparing-overlap-height','0px');
+    });
+  }
+
+  function request(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(clearOldEffects);
+  }
+
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',request,{passive:true});
+  window.addEventListener('orientationchange',request,{passive:true});
+
+  const oldShow=window.showPage;
+  if(typeof oldShow==='function' && !oldShow.__sparingNoBlackOverlapV31){
+    const wrapped=function(id){
+      const result=oldShow.apply(this,arguments);
+      if(id==='customer-sparring'){
+        setTimeout(request,0);
+        setTimeout(request,60);
+        setTimeout(request,180);
+        setTimeout(request,350);
+      }
+      return result;
+    };
+    wrapped.__sparingNoBlackOverlapV31=true;
+    window.showPage=wrapped;
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',request,{once:true});
+  }else{
+    request();
+  }
+})();
+</script>
