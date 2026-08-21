@@ -4353,6 +4353,123 @@ body > header h1 {
 .payment-account-owner{color:#0f172a !important;font-size:.72rem !important;font-weight:950 !important;opacity:1 !important;text-shadow:none !important;}
 #page-customer-booking .payment-account-owner{color:#172554 !important;}
 </style>
+<style id="sparing-header-match-booking-final">
+/* SPARING — header baru disamakan 1:1 dengan header internal BOOKING.
+   Header/global lama tetap dipakai hanya di area lain; pada Sparing diganti
+   dengan header internal ini agar struktur, logo, tipografi, dan frame sama. */
+@media (max-width:640px){
+  body:has(#page-customer-sparring:not(.hidden)) > header{
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+  }
+
+  #page-customer-sparring{
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    padding:0 !important;
+    overflow:visible !important;
+  }
+
+  #page-customer-sparring .customer-sparring-page-head{
+    position:sticky !important;
+    top:16px !important;
+    z-index:9990 !important;
+    isolation:isolate !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:11px !important;
+    min-height:82px !important;
+    margin:0 0 10px !important;
+    padding:10px 13px !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+    background-image:linear-gradient(135deg,rgba(255,255,255,.68),rgba(231,242,255,.48)) !important;
+    border:1px solid rgba(255,255,255,.86) !important;
+    border-radius:22px !important;
+    box-shadow:0 18px 48px rgba(2,6,23,.20),inset 0 1px 0 rgba(255,255,255,.92),inset 0 -1px 0 rgba(255,255,255,.28) !important;
+    -webkit-backdrop-filter:blur(28px) saturate(155%) !important;
+    backdrop-filter:blur(28px) saturate(155%) !important;
+  }
+
+  #page-customer-sparring .customer-sparring-page-head::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    border-radius:inherit !important;
+    pointer-events:none !important;
+    z-index:-1 !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.34),transparent 52%),linear-gradient(90deg,rgba(255,255,255,.10),transparent 50%,rgba(255,255,255,.12)) !important;
+  }
+
+  #page-customer-sparring .customer-booking-head-logo{
+    order:1 !important;
+    flex:0 0 58px !important;
+    width:58px !important;
+    height:58px !important;
+    margin:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    z-index:1 !important;
+  }
+  #page-customer-sparring .customer-booking-head-logo img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    display:block !important;
+  }
+  #page-customer-sparring .customer-booking-head-copy{
+    order:2 !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    text-align:left !important;
+    position:relative !important;
+    z-index:1 !important;
+  }
+  #page-customer-sparring .customer-sparring-page-head h2{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    gap:2px !important;
+    margin:0 !important;
+    color:#132a5e !important;
+    font-size:clamp(.82rem,3.6vw,1.08rem) !important;
+    line-height:1.15 !important;
+    letter-spacing:.035em !important;
+    font-weight:950 !important;
+    white-space:normal !important;
+    text-shadow:none !important;
+  }
+  #page-customer-sparring .customer-sparring-page-head h2 span{
+    display:block !important;
+    font-size:1em !important;
+    color:#132a5e !important;
+  }
+}
+
+@media (max-width:380px){
+  #page-customer-sparring .customer-sparring-page-head{
+    top:6px !important;
+    min-height:76px !important;
+    gap:9px !important;
+    padding:9px 11px !important;
+  }
+  #page-customer-sparring .customer-booking-head-logo{
+    flex-basis:52px !important;
+    width:52px !important;
+    height:52px !important;
+  }
+  #page-customer-sparring .customer-sparring-page-head h2{font-size:.78rem !important;}
+}
+</style>
 <style id="remove-arrowed-inner-frames-v2">
 /* =========================================================
    HILANGKAN FRAME YANG DITUNJUK PANAH
@@ -5779,6 +5896,31 @@ body:has(#page-customer-member:not(.hidden)) > header{
 }
 </style>
 
+<style id="sparing-data-loader-style">
+#sparing-data-loader{
+  position:fixed!important;inset:0!important;z-index:1000001!important;
+  display:flex;align-items:center;justify-content:center;padding:22px;
+  background:linear-gradient(135deg,rgba(8,61,122,.92),rgba(15,23,42,.96));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .28s ease,visibility .28s ease;
+}
+#sparing-data-loader.is-visible{opacity:1;visibility:visible;pointer-events:auto}
+#sparing-data-loader-card{
+  width:min(390px,92vw);box-sizing:border-box;text-align:center;
+  padding:30px 26px 26px;border-radius:28px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 24px 70px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);
+}
+#sparing-data-loader-logo{width:112px;height:112px;object-fit:contain;display:block;margin:0 auto 16px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.22))}
+#sparing-data-loader-title{margin:0;color:#fff;font-size:clamp(1rem,4.8vw,1.35rem);font-weight:950;letter-spacing:.045em;line-height:1.2}
+#sparing-data-loader-subtitle{margin:7px 0 22px;color:rgba(255,255,255,.76);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+#sparing-data-loader-progress{height:10px;width:100%;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 3px rgba(0,0,0,.18)}
+#sparing-data-loader-progress-bar{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#fff,#93c5fd);box-shadow:0 0 18px rgba(147,197,253,.55);transition:width .16s ease}
+#sparing-data-loader-percent{margin-top:9px;color:rgba(255,255,255,.82);font-size:.68rem;font-weight:800;letter-spacing:.04em}
+</style>
+
 <style id="sandaga-startup-loader-style">
 #sandaga-startup-loader{
   position:fixed!important;inset:0!important;z-index:1000000!important;
@@ -6085,6 +6227,19 @@ body:has(#page-customer-schedule:not(.hidden)) > header{
   </div>
 </div>
 
+<!-- LOADING DATA SPARING -->
+<div id="sparing-data-loader" aria-label="Memuat data sparing">
+  <div id="sparing-data-loader-card">
+    <img id="sparing-data-loader-logo" src="logo.png" alt="Sandaga Minisoccer 2" />
+    <h2 id="sparing-data-loader-title">SPARING</h2>
+    <p id="sparing-data-loader-subtitle">Mengambil data sparing...</p>
+    <div id="sparing-data-loader-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="sparing-data-loader-progress-bar"></div>
+    </div>
+    <div id="sparing-data-loader-percent">0%</div>
+  </div>
+</div>
+
 <!-- TOMBOL KEMBALI CUSTOMER - mengikuti tombol kembali WEB ADMIN -->
 <body class="min-h-screen p-2 sm:p-4 pt-4 sm:pt-6 flex flex-col items-center text-slate-900 font-medium">
 <!-- Header -->
@@ -6295,6 +6450,14 @@ body:has(#page-customer-schedule:not(.hidden)) > header{
 </div>
 <!-- HALAMAN SPARRING CUSTOMER -->
 <div class="sub-menu-modern glass-panel p-4 sm:p-6 rounded-2xl hidden customer-content-page" id="page-customer-sparring">
+<div class="customer-booking-page-head customer-sparring-page-head">
+  <div class="customer-booking-head-logo" aria-hidden="true">
+    <img src="logo.png" alt="">
+  </div>
+  <div class="customer-booking-head-copy">
+    <h2><span>SPARING</span><span>SANDAGA MINISOCCER 2</span></h2>
+  </div>
+</div>
 <div class="space-y-3" id="customer-sparring-list">
 <div class="text-center text-sm font-bold text-slate-500 py-6">Memuat daftar sparing...</div>
 </div>
@@ -6995,6 +7158,42 @@ body:has(#page-customer-schedule:not(.hidden)) > header{
 
         window.kembaliDariJadwal = () => showPage(window.adminSessionActive ? 'admin-dashboard' : 'customer-booking');
 
+        // Status data SPARING: loader hanya muncul jika data Firebase belum siap saat menu dibuka.
+        let customerSparringDataReady = false;
+        let customerSparringLoaderTimer = null;
+        let customerSparringLoaderValue = 0;
+
+        function showCustomerSparringLoader(){
+            const loader=document.getElementById('sparing-data-loader');
+            const bar=document.getElementById('sparing-data-loader-progress-bar');
+            const pct=document.getElementById('sparing-data-loader-percent');
+            if(!loader||!bar||!pct) return;
+            clearInterval(customerSparringLoaderTimer);
+            customerSparringLoaderValue=0;
+            bar.style.width='0%'; pct.textContent='0%';
+            loader.classList.add('is-visible');
+            customerSparringLoaderTimer=setInterval(()=>{
+                if(customerSparringLoaderValue<88){
+                    customerSparringLoaderValue=Math.min(88, customerSparringLoaderValue+(customerSparringLoaderValue<55?3:1));
+                    bar.style.width=customerSparringLoaderValue+'%';
+                    pct.textContent=Math.round(customerSparringLoaderValue)+'%';
+                    bar.parentElement.setAttribute('aria-valuenow',Math.round(customerSparringLoaderValue));
+                }
+            },70);
+        }
+
+        function hideCustomerSparringLoader(){
+            const loader=document.getElementById('sparing-data-loader');
+            const bar=document.getElementById('sparing-data-loader-progress-bar');
+            const pct=document.getElementById('sparing-data-loader-percent');
+            if(!loader||!bar||!pct) return;
+            clearInterval(customerSparringLoaderTimer);
+            customerSparringLoaderTimer=null;
+            bar.style.width='100%'; pct.textContent='100%';
+            bar.parentElement.setAttribute('aria-valuenow','100');
+            setTimeout(()=>loader.classList.remove('is-visible'),220);
+        }
+
         window.showPage = (id, fromBrowserBack = false) => {
             const currentPage = document.querySelector('main > div:not(.hidden)');
             const currentId = currentPage ? currentPage.id.replace(/^page-/, '') : '';
@@ -7030,7 +7229,11 @@ body:has(#page-customer-schedule:not(.hidden)) > header{
             if(id === 'customer-booking') { setDefaultDates(); loadJamKosongCustomer(); updateCustomerSelectedPrice(); }
             if(id === 'customer-price') { updateCustomerSelectedPrice(); }
             if(id === 'customer-schedule') { initCustomerPeriodeDropdown(); renderCustomerGridJadwal(); }
-            if(id === 'customer-sparring') { renderCustomerSparring(); }
+            if(id === 'customer-sparring') {
+                if(!customerSparringDataReady) showCustomerSparringLoader();
+                renderCustomerSparring();
+                if(customerSparringDataReady) hideCustomerSparringLoader();
+            }
             if(id === 'customer-member') { renderCustomerMember(); }
             if(id === 'booking-schedule') { renderGridJadwal(); }
 
@@ -8441,7 +8644,9 @@ Kalau sudah sesuai, mohon dibantu konfirmasi ya min. Terima kasih 🙏`;
 
         onValue(ref(db, 'sparring'), (snapshot) => {
             globalCache.sparring = snapshot.val() || {};
+            customerSparringDataReady = true;
             renderCustomerSparring();
+            hideCustomerSparringLoader();
         });
 
         onValue(ref(db, 'pemasukan'), (snapshot) => { globalCache.pemasukan = snapshot.val() || {}; renderRekapHarian(); renderMonthlyRecap(); });
@@ -20171,6 +20376,289 @@ body:has(#page-customer-member:not(.hidden)) main {
 @media (max-width:640px){
   body:has(#page-customer-booking:not(.hidden)) #page-customer-booking{
     padding-top:85px !important;
+  }
+}
+</style>
+
+
+<!-- FINAL PATCH: HEADER SPARING 1:1 DENGAN BOOKING / MEMBER / HARGA -->
+<style id="final-sparing-header-geometry-exact">
+/* Hanya menyamakan posisi dan ukuran HEADER SPARING.
+   Isi/card Sparing tidak diubah. */
+#page-customer-sparring .customer-sparring-page-head {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 10px !important;
+    padding: 10px 13px !important;
+    min-height: 82px !important;
+    gap: 11px !important;
+}
+
+#page-customer-sparring .customer-booking-head-logo {
+    flex: 0 0 58px !important;
+    width: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+}
+
+#page-customer-sparring .customer-booking-head-copy {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+}
+
+@media (max-width: 640px) {
+    #page-customer-sparring .customer-sparring-page-head {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 0 10px !important;
+        padding: 10px 13px !important;
+        min-height: 82px !important;
+        gap: 11px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    #page-customer-sparring .customer-sparring-page-head {
+        width: 100% !important;
+        min-height: 76px !important;
+        margin: 0 0 10px !important;
+        padding: 9px 11px !important;
+        gap: 9px !important;
+    }
+
+    #page-customer-sparring .customer-booking-head-logo {
+        flex: 0 0 52px !important;
+        width: 52px !important;
+        height: 52px !important;
+    }
+}
+</style>
+
+<style id="final-sparing-mobile-position-match-booking">
+/* SPARING MOBILE — posisi header dibuat benar-benar sama dengan BOOKING.
+   Bukan hanya ukuran card: posisi horizontal, posisi atas, dan ruang isi
+   di bawah header mengikuti aturan fixed milik Booking. */
+@media (max-width:640px){
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring .customer-sparring-page-head{
+    position:fixed !important;
+    top:16px !important;
+    left:12px !important;
+    right:12px !important;
+    width:auto !important;
+    max-width:none !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+    z-index:9990 !important;
+  }
+
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring{
+    padding-top:87px !important;
+    position:relative !important;
+    overflow:visible !important;
+  }
+}
+
+@media (max-width:380px){
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring .customer-sparring-page-head{
+    top:6px !important;
+    left:9px !important;
+    right:9px !important;
+    width:auto !important;
+    margin:0 !important;
+  }
+
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring{
+    padding-top:85px !important;
+  }
+}
+</style>
+
+<style id="final-sparing-desktop-single-header-v2">
+/* SPARING DESKTOP — hanya SATU header.
+   Header global di paling atas disembunyikan ketika halaman Sparing aktif,
+   sehingga yang terlihat hanya header internal Sparing yang sama dengan HP.
+   Tidak mengubah isi/card/fungsi Sparing. */
+@media (min-width:641px){
+  body:has(#page-customer-sparring:not(.hidden)) > header{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    height:0 !important;
+    min-height:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    overflow:hidden !important;
+    pointer-events:none !important;
+  }
+
+  body:has(#page-customer-sparring:not(.hidden)) main{
+    margin-top:0 !important;
+    padding-top:0 !important;
+  }
+
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring{
+    padding-top:0 !important;
+    margin-top:0 !important;
+  }
+
+  /* Header internal Sparing menjadi satu-satunya header yang tampil. */
+  body:has(#page-customer-sparring:not(.hidden)) #page-customer-sparring .customer-sparring-page-head{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    margin:0 0 10px !important;
+    box-sizing:border-box !important;
+  }
+}
+</style>
+
+<style id="final-desktop-all-customer-headers-match-member">
+/* DESKTOP FINAL — BOOKING / HARGA / SPARING dibuat 1:1 mengikuti HEADER MEMBER.
+   Member dijadikan satu-satunya acuan desktop karena tampilannya sudah pas.
+   Tidak mengubah layout mobile. */
+@media (min-width:641px){
+  /* Hilangkan header global lama pada halaman yang sudah memiliki header internal. */
+  body:has(#page-customer-booking:not(.hidden)) > header,
+  body:has(#page-customer-price:not(.hidden)) > header,
+  body:has(#page-customer-sparring:not(.hidden)) > header{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    width:0 !important;
+    height:0 !important;
+    min-height:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    overflow:hidden !important;
+    pointer-events:none !important;
+  }
+
+  /* Jangan sisakan ruang dari header global lama. */
+  body:has(#page-customer-booking:not(.hidden)) main,
+  body:has(#page-customer-price:not(.hidden)) main,
+  body:has(#page-customer-sparring:not(.hidden)) main{
+    margin-top:0 !important;
+    padding-top:0 !important;
+  }
+
+  #page-customer-booking,
+  #page-customer-price,
+  #page-customer-sparring{
+    margin-top:0 !important;
+  }
+
+  /* GEOMETRI PERSIS HEADER MEMBER DESKTOP */
+  #page-customer-booking .customer-booking-page-head,
+  #page-customer-price .customer-price-booking-header,
+  #page-customer-sparring .customer-sparring-page-head{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    z-index:20 !important;
+    isolation:isolate !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+    width:100% !important;
+    max-width:none !important;
+    min-height:96px !important;
+    height:96px !important;
+    margin:0 0 10px !important;
+    padding:13px 14px 13px 16px !important;
+    box-sizing:border-box !important;
+    border-radius:20px !important;
+    background:linear-gradient(105deg,#0b1d49 0%,#173b8f 52%,#0d8ec8 100%) !important;
+    background-image:linear-gradient(105deg,#0b1d49 0%,#173b8f 52%,#0d8ec8 100%) !important;
+    border:1px solid rgba(255,255,255,.20) !important;
+    color:#fff !important;
+    box-shadow:0 16px 34px rgba(23,59,143,.22) !important;
+    overflow:hidden !important;
+  }
+
+  /* Hilangkan frame/strip lama dan buat frame header Sparing benar-benar ada. */
+  #page-customer-booking .customer-booking-page-head::before,
+  #page-customer-price .customer-price-booking-header::before,
+  #page-customer-sparring .customer-sparring-page-head::before{
+    display:none !important;
+  }
+
+  #page-customer-booking .customer-booking-head-logo,
+  #page-customer-price .customer-price-booking-header .customer-booking-head-logo,
+  #page-customer-sparring .customer-booking-head-logo{
+    order:1 !important;
+    flex:0 0 76px !important;
+    width:76px !important;
+    height:76px !important;
+    margin:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    z-index:1 !important;
+    box-sizing:border-box !important;
+  }
+
+  #page-customer-booking .customer-booking-head-logo img,
+  #page-customer-price .customer-price-booking-header .customer-booking-head-logo img,
+  #page-customer-sparring .customer-booking-head-logo img{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    display:block !important;
+  }
+
+  #page-customer-booking .customer-booking-head-copy,
+  #page-customer-price .customer-price-booking-header .customer-booking-head-copy,
+  #page-customer-sparring .customer-booking-head-copy{
+    order:2 !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    text-align:left !important;
+    position:relative !important;
+    z-index:1 !important;
+  }
+
+  #page-customer-booking .customer-booking-page-head h2,
+  #page-customer-price .customer-price-booking-header h2,
+  #page-customer-sparring .customer-sparring-page-head h2{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    gap:2px !important;
+    margin:0 !important;
+    color:#fff !important;
+    font-size:clamp(.88rem,3.4vw,1.15rem) !important;
+    line-height:1.12 !important;
+    letter-spacing:.045em !important;
+    font-weight:950 !important;
+    white-space:normal !important;
+    text-shadow:none !important;
+  }
+
+  #page-customer-booking .customer-booking-page-head h2 span,
+  #page-customer-price .customer-price-booking-header h2 span,
+  #page-customer-sparring .customer-sparring-page-head h2 span{
+    display:block !important;
+    font-size:.88em !important;
+    color:#fff !important;
   }
 }
 </style>
